@@ -1,8 +1,10 @@
 package org.fedoracommons.akubra;
 
+import java.net.URI;
+
 public interface BlobStoreConnection {
     
-  Content getBlob(String blobId);
+  Content getBlob(URI blobId);
    
   /**
    * Stores a blob with the given id.
@@ -14,11 +16,11 @@ public interface BlobStoreConnection {
    * @param content the content to store.
    * @return the blob locator-id.
    */
-  String putBlob(String blobId, Content content);
+  URI putBlob(URI blobId, Content content);
 
-  String removeBlob(String blobId);
+  URI removeBlob(URI blobId);
     
-  String getBlobLocator(String blobId);
+  URI getBlobLocator(URI blobId);
 
   void close();
     

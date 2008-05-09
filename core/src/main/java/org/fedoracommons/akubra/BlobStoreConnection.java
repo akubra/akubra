@@ -23,6 +23,13 @@ package org.fedoracommons.akubra;
 
 import java.net.URI;
 
+/**
+ * Interface to abstract the idea of a connection to a transaction based blob store
+ *
+ * @author Chris Wilper
+ * @author Pradeep Krishnan
+ * @author Ronald Tschalär
+ */
 public interface BlobStoreConnection {
   /**
    * Return the blob associated with the id

@@ -25,6 +25,13 @@ import java.util.List;
 
 import javax.transaction.TransactionManager;
 
+/**
+ * Interface to abstract the idea of a general transaction based blob store
+ *
+ * @author Chris Wilper
+ * @author Pradeep Krishnan
+ * @author Ronald Tschalär
+ */
 public interface BlobStore {
   /**
    * Return the list of stores underlying this store

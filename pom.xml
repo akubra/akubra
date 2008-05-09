@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  $HeadURL::                                                                                      $
+  $Id$
+
+  Copyright (c) 2007-2008 by Fedora Commons Inc.
+  http://www.fedoracommons.org/
+
+  In collaboration with Topaz Inc.
+  http://www.topazproject.org/
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.fedoracommons</groupId>
+  <artifactId>akubra</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Akubra</name>
+  <description>Transaction compliant blob store</description>
+  <url>http://www.topazproject.org/akubra</url>
+
+  <organization>
+    <name>Fedora Commons</name>
+    <url>http://www.fedoracommons.org/</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>Licensed under the Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+      <comments>Copyright (c) 2007-2008 by Fedora Commons Inc.</comments>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <issueManagement>
+    <system>trac</system>
+    <url>http://www.topazproject.org/akubra/trac</url>
+  </issueManagement>
+
+  <ciManagement>
+    <system>continuum</system>
+    <url>http://www.topazproject.org/akubra/continuum</url>
+  </ciManagement>
+
+  <mailingLists>
+    <mailingList>
+      <name>Akubra project general users mailing list</name>
+      <subscribe>akubra-general-subscribe@topazproject.org</subscribe>
+      <unsubscribe>akubra-general-unsubscribe@topazproject.org</unsubscribe>
+      <post>akubra-general@topazproject.org</post>
+      <archive>http://lists.topazproject.org/pipermail/akubra-general/</archive>
+    </mailingList>
+    <mailingList>
+      <name>Akubra project developer mailing list</name>
+      <subscribe>akubra-dev-subscribe@topazproject.org</subscribe>
+      <unsubscribe>akubra-dev-unsubscribe@topazproject.org</unsubscribe>
+      <post>akubra-dev@topazproject.org</post>
+      <archive>http://lists.topazproject.org/pipermail/akubra-dev/</archive>
+    </mailingList>
+  </mailingLists>
+
+  <repositories>
+    <repository>
+      <id>topaz</id>
+      <name>Maven 2 Repository for Topaz</name>
+      <url>http://maven.topazproject.org/maven2/</url>
+    </repository>
+    <repository>
+      <id>central</id>
+      <name>Maven Repository Switchboard</name>
+      <layout>default</layout>
+      <url>http://repo1.maven.org/maven2</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>java.net</id>
+      <url>http://download.java.net/maven/1</url>
+      <layout>legacy</layout>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>topaz</id>
+      <name>Maven 2 Repository for Topaz</name>
+      <url>http://maven.topazproject.org/maven2/</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <scm>
+    <developerConnection>scm:svn:http://svn.topazproject.org/akubra/svn</developerConnection>
+    <connection>scm:svn:http://svn.topazproject.org/akubra/svn</connection>
+    <url>http://svn.topazproject.org/akubra/svn/</url>
+  </scm>
+
+  <modules>
+    <module>akubra-core</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.1</version>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.transaction</groupId>
+        <artifactId>jta</artifactId>
+        <version>1.0.1B</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <aggregate>true</aggregate>
+        </configuration>
+      </plugin>
+
+      <finalName>akubra-${project.version}</finalName>
+
+    </plugins>
+  </build>
+
+  <!-- Generate one javadoc for everything -->
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <aggregate>true</aggregate>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
+</project>

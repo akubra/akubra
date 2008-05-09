@@ -106,9 +106,9 @@
   </pluginRepositories>
 
   <scm>
-    <developerConnection>scm:svn:http://svn.topazproject.org/akubra/svn</developerConnection>
-    <connection>scm:svn:http://svn.topazproject.org/akubra/svn</connection>
-    <url>http://svn.topazproject.org/akubra/svn/</url>
+    <developerConnection>scm:svn:http://svn.topazproject.org/akubra/svn/trunk</developerConnection>
+    <connection>scm:svn:http://svn.topazproject.org/akubra/svn/trunk</connection>
+    <url>http://www.topazproject.org/akubra/trac/browser</url>
   </scm>
 
   <modules>

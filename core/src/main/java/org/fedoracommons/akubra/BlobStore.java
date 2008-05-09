@@ -1,12 +1,16 @@
 package org.fedoracommons.akubra;
 
+import java.util.List;
+
+import javax.transaction.TransactionManager;
+
 public interface BlobStore {
     
-  BlobStore getBackingStore();
+  List<BlobStore> getBackingStores();
   
-  void setBackingStore(BlobStore store)
+  void setBackingStores(List<BlobStore> stores)
           throws UnsupportedOperationException, IllegalStateException;
   
-  BlobStoreConnection openConnection();
+  BlobStoreConnection openConnection(TransactionManager txmgr);
 
 }

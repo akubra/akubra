@@ -71,4 +71,19 @@ public interface BlobStore {
    * @return the connection to the blob store
    */
   BlobStoreConnection openConnection(TransactionManager txmgr);
+
+  /**
+   * Get capabilities of this blob store instance only
+   *
+   * @return array of Capability
+   */
+  Capability[] getDeclaredCapabilities();
+
+  /**
+   * Return capabilities of this store plus underlying blob stores, that is of the blob stack
+   * starting at this level.
+   *
+   * @return array of Capability
+   */
+  Capability[] getCapabilities();
 }

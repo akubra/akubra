@@ -21,6 +21,7 @@
  */
 package org.fedoracommons.akubra;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.transaction.TransactionManager;
@@ -33,6 +34,20 @@ import javax.transaction.TransactionManager;
  * @author Ronald Tschalär
  */
 public interface BlobStore {
+  /**
+   * Return the identifier associated with the store
+   *
+   * @return the URI identifying the blob store
+   */
+  URI getId();
+
+  /**
+   * Set the identifier for the store
+   *
+   * @param id the URI identifying the blob store
+   */
+  void setId(URI id);
+
   /**
    * Return the list of stores underlying this store
    *

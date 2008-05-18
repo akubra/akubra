@@ -141,10 +141,9 @@
           <target>1.5</target>
         </configuration>
       </plugin>
-
-      <finalName>akubra-${project.version}</finalName>
-
     </plugins>
+
+    <defaultGoal>install</defaultGoal>
   </build>
 
   <!-- Generate one javadoc for everything -->

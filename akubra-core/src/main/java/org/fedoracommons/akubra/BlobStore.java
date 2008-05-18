@@ -24,7 +24,7 @@ package org.fedoracommons.akubra;
 import java.net.URI;
 import java.util.List;
 
-import javax.transaction.TransactionManager;
+import javax.transaction.Transaction;
 
 /**
  * Interface to abstract the idea of a general transaction based blob store
@@ -64,13 +64,14 @@ public interface BlobStore {
     throws UnsupportedOperationException, IllegalStateException;
 
   /**
-   * Open connection to the blob store
+   * Open a connection to the blob store. The connection is valid for exactly one transaction, at
+   * the end of which it will get {@link BlobStoreConnection#close close()}'d. Implementations are
+   * expected to do any desired pooling of underlying connections themselves.
    *
-   * @param txmgr the transaction manager that will manage the transactions
-   *
+   * @param tx the transaction associated with this connection
    * @return the connection to the blob store
    */
-  BlobStoreConnection openConnection(TransactionManager txmgr);
+  BlobStoreConnection openConnection(Transaction tx);
 
   /**
    * Get capabilities of this blob store instance only

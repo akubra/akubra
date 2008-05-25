@@ -37,20 +37,27 @@ public interface BlobStoreConnection {
    * @param blobId URI identifying the blob
    *
    * @return the blob
+   *
+   * @exception MissingBlobException if the blob associated with the blob-id is not found
    */
-  Blob getBlob(URI blobId);
+  Blob getBlob(URI blobId) throws MissingBlobException;
 
   /**
-   * Stores a blob with the given id.
+   * Stores a blob in the store.
    * 
-   * If a blob-id is specified and such a blob already exists in the underlying store, it will be
-   * replaced.
+   * If the blob does not have a blob-id, then the store will generate and attach one associated
+   * with the blob.
    * 
-   * @param blob the blob to store.
+   * @param blob      the blob to store.
+   * @param overwrite set to true to indicate to the store to overwrite blob with same blob-id
+   *                  already in store
    *
    * @return the blob locator-id.
+   *
+   * @exception DuplicateBlobException if a blob with same blob-id already exists and overwrite is
+   *                                   set to false.
    */
-  URI putBlob(Blob blob);
+  URI putBlob(Blob blob, boolean overwrite) throws DuplicateBlobException;
 
   /**
    * Remove the blob from the store
@@ -58,8 +65,10 @@ public interface BlobStoreConnection {
    * @param blobId URI identifying the blob
    *
    * @return URI locatator-id of the deleted blob
+   *
+   * @exception MissingBlobException if the blob associated with the blob-id is not found
    */
-  URI removeBlob(URI blobId);
+  URI removeBlob(URI blobId) throws MissingBlobException;
 
   /**
    * Get the locator-id associated with the blob
@@ -67,8 +76,10 @@ public interface BlobStoreConnection {
    * @param blobId URI identifying the blob
    *
    * @return URI identifying the location
+   *
+   * @exception MissingBlobException if the blob associated with the blob-id is not found
    */
-  URI getBlobLocator(URI blobId);
+  URI getBlobLocator(URI blobId) throws MissingBlobException;
 
   /**
    * Close the connection to the blob store

@@ -36,21 +36,22 @@ public interface BlobStoreConnection {
    *
    * @param blobId URI identifying the blob
    *
-   * @return the content
+   * @return the blob
    */
-  Content getBlob(URI blobId);
+  Blob getBlob(URI blobId);
 
   /**
    * Stores a blob with the given id.
    * 
-   * If a blob id is specified, but such a blob already exists, its content will be replaced.
+   * If a blob id is specified and such a blob already exists in the underlying store, it will be
+   * replaced.
    * 
    * @param blobId the blob id, or null.
-   * @param content the content to store.
+   * @param blob the blob to store.
    *
    * @return the blob locator-id.
    */
-  URI putBlob(URI blobId, Content content);
+  URI putBlob(URI blobId, Blob blob);
 
   /**
    * Remove the blob from the store

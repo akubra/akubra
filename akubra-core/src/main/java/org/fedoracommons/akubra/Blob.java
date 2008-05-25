@@ -24,22 +24,22 @@ package org.fedoracommons.akubra;
 import java.io.InputStream;
 
 /**
- * Interface to abstract the idea of a content in the blob store.
+ * Interface to abstract the idea of a blob in the blob store.
  *
  * @author Chris Wilper
  * @author Pradeep Krishnan
  * @author Ronald Tschalär
  */
-public interface Content {
+public interface Blob {
   /**
-   * Gets an input stream for reading the content.
+   * Gets an input stream for reading the blob.
    *
    * @return the input stream.
    */
   InputStream getInputStream();
 
   /**
-   * Gets the size of the content, in bytes.
+   * Gets the size of the blob, in bytes.
    *
    * @return the size in bytes, or -1 if unknown.
    */

@@ -21,6 +21,7 @@
  */
 package org.fedoracommons.akubra;
 
+import java.net.URI;
 import java.io.InputStream;
 
 /**
@@ -31,6 +32,20 @@ import java.io.InputStream;
  * @author Ronald Tschalär
  */
 public interface Blob {
+  /**
+   * Return the blob-id of the blob
+   *
+   * @return the blob-id
+   */
+  URI getId();
+
+  /**
+   * Set the blob-id of the blob
+   *
+   * @param blobId the blob-id
+   */
+  void setId(URI blobId);
+
   /**
    * Gets an input stream for reading the blob.
    *

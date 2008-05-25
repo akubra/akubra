@@ -32,7 +32,7 @@ import java.net.URI;
  */
 public interface BlobStoreConnection {
   /**
-   * Return the blob associated with the id
+   * Return the blob associated with the blob-id
    *
    * @param blobId URI identifying the blob
    *
@@ -43,27 +43,26 @@ public interface BlobStoreConnection {
   /**
    * Stores a blob with the given id.
    * 
-   * If a blob id is specified and such a blob already exists in the underlying store, it will be
+   * If a blob-id is specified and such a blob already exists in the underlying store, it will be
    * replaced.
    * 
-   * @param blobId the blob id, or null.
    * @param blob the blob to store.
    *
    * @return the blob locator-id.
    */
-  URI putBlob(URI blobId, Blob blob);
+  URI putBlob(Blob blob);
 
   /**
    * Remove the blob from the store
    *
    * @param blobId URI identifying the blob
    *
-   * @return URI identifying the deleted blob
+   * @return URI locatator-id of the deleted blob
    */
   URI removeBlob(URI blobId);
 
   /**
-   * Get the locator associated with the id
+   * Get the locator-id associated with the blob
    *
    * @param blobId URI identifying the blob
    *

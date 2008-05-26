@@ -36,50 +36,41 @@ public interface BlobStoreConnection {
    *
    * @param blobId URI identifying the blob
    *
-   * @return the blob
-   *
-   * @exception MissingBlobException if the blob associated with the blob-id is not found
+   * @return the blob or null in case of no blob with the blob-id
    */
-  Blob getBlob(URI blobId) throws MissingBlobException;
+  Blob getBlob(URI blobId);
 
   /**
    * Stores a blob in the store.
    * 
    * If the blob does not have a blob-id, then the store will generate and attach one associated
-   * with the blob.
+   * with the blob. If a blob already exists with the blob-id, then the blob will be overwritten.
+   * Compliant stores will expect applications to not modify the passed blob till the transaction is
+   * completed (commit or rollback).
    * 
    * @param blob      the blob to store.
-   * @param overwrite set to true to indicate to the store to overwrite blob with same blob-id
-   *                  already in store
    *
    * @return the blob locator-id.
-   *
-   * @exception DuplicateBlobException if a blob with same blob-id already exists and overwrite is
-   *                                   set to false.
    */
-  URI putBlob(Blob blob, boolean overwrite) throws DuplicateBlobException;
+  URI putBlob(Blob blob);
 
   /**
    * Remove the blob from the store
    *
    * @param blobId URI identifying the blob
    *
-   * @return URI locatator-id of the deleted blob
-   *
-   * @exception MissingBlobException if the blob associated with the blob-id is not found
+   * @return URI locatator-id of the deleted blob or null in case of no blob found
    */
-  URI removeBlob(URI blobId) throws MissingBlobException;
+  URI removeBlob(URI blobId);
 
   /**
    * Get the locator-id associated with the blob
    *
    * @param blobId URI identifying the blob
    *
-   * @return URI identifying the location
-   *
-   * @exception MissingBlobException if the blob associated with the blob-id is not found
+   * @return URI identifying the location or null in case of no such blob
    */
-  URI getBlobLocator(URI blobId) throws MissingBlobException;
+  URI getBlobLocator(URI blobId);
 
   /**
    * Close the connection to the blob store

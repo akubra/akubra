@@ -43,16 +43,17 @@ public interface BlobStoreConnection {
   /**
    * Stores a blob in the store.
    * 
-   * If the blob does not have a blob-id, then the store will generate and attach one associated
-   * with the blob. If a blob already exists with the blob-id, then the blob will be overwritten.
-   * Compliant stores will expect applications to not modify the passed blob till the transaction is
-   * completed (commit or rollback).
+   * If a blob already exists with the blob-id, then the blob will be overwritten.  Compliant stores
+   * expect applications to not modify the passed blob till the transaction is completed (commit or
+   * rollback).
    * 
+   * @param blobId    the blob-id for the blob. If the blob-id is null then the store is required to
+   *                  assign one to the blob.
    * @param blob      the blob to store.
    *
-   * @return the blob locator-id.
+   * @return the blob blob-id.
    */
-  URI putBlob(Blob blob);
+  URI putBlob(URI blobId, Blob blob);
 
   /**
    * Remove the blob from the store
@@ -64,7 +65,8 @@ public interface BlobStoreConnection {
   URI removeBlob(URI blobId);
 
   /**
-   * Get the locator-id associated with the blob
+   * Get the locator-id associated with the blob in this store. Applications can make use of this to
+   * ascertain existence of a blob.
    *
    * @param blobId URI identifying the blob
    *

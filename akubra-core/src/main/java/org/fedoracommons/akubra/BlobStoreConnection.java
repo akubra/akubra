@@ -22,6 +22,7 @@
 package org.fedoracommons.akubra;
 
 import java.net.URI;
+import java.util.Map;
 
 /**
  * Interface to abstract the idea of a connection to a transaction based blob store
@@ -35,10 +36,12 @@ public interface BlobStoreConnection {
    * Return the blob associated with the blob-id
    *
    * @param blobId URI identifying the blob
+   * @param hints A set of hints to allow the implementation to optimize the operation (can be
+   *              null)
    *
    * @return the blob or null in case of no blob with the blob-id
    */
-  Blob getBlob(URI blobId);
+  Blob getBlob(URI blobId, Map<String, String> hints);
 
   /**
    * Stores a blob in the store.
@@ -50,29 +53,35 @@ public interface BlobStoreConnection {
    * @param blobId    the blob-id for the blob. If the blob-id is null then the store is required to
    *                  assign one to the blob.
    * @param blob      the blob to store.
+   * @param hints A set of hints to allow the implementation to optimize the operation (can be
+   *              null)
    *
    * @return the blob blob-id.
    */
-  URI putBlob(URI blobId, Blob blob);
+  URI putBlob(URI blobId, Blob blob, Map<String, String> hints);
 
   /**
    * Remove the blob from the store
    *
    * @param blobId URI identifying the blob
+   * @param hints A set of hints to allow the implementation to optimize the operation (can be
+   *              null)
    *
    * @return URI locatator-id of the deleted blob or null in case of no blob found
    */
-  URI removeBlob(URI blobId);
+  URI removeBlob(URI blobId, Map<String, String> hints);
 
   /**
    * Get the locator-id associated with the blob in this store. Applications can make use of this to
    * ascertain existence of a blob.
    *
    * @param blobId URI identifying the blob
+   * @param hints A set of hints to allow the implementation to optimize the operation (can be
+   *              null)
    *
    * @return URI identifying the location or null in case of no such blob
    */
-  URI getBlobLocator(URI blobId);
+  URI getBlobLocator(URI blobId, Map<String, String> hints);
 
   /**
    * Close the connection to the blob store

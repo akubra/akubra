@@ -112,7 +112,7 @@
 
   <modules>
     <module>akubra-core</module>
-    <module>akubra-reference</module>
+    <module>akubra-fs</module>
   </modules>
 
   <dependencyManagement>

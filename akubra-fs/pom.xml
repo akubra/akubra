@@ -10,10 +10,10 @@
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>akubra-reference</artifactId>
+  <artifactId>akubra-fs</artifactId>
   <packaging>jar</packaging>
   <version>0.1-SNAPSHOT</version>
-  <name>Akubra Reference Implementation</name>
+  <name>Akubra Filesystem Implementation</name>
 
   <dependencies>
     <dependency>
@@ -21,6 +21,12 @@
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fedoracommons</groupId>
+      <artifactId>akubra-core</artifactId>
+      <version>0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
 

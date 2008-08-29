@@ -36,16 +36,16 @@ import java.util.Date;
  * @author Chris Wilper
  */
 public class DefaultPathAllocator implements PathAllocator {
-    
+
   private final FilenameAllocator m_fAlloc;
-  
+
   /**
    * Creates an instance that uses the DefaultFilenameAllocator.
    */
   public DefaultPathAllocator() {
       m_fAlloc = new DefaultFilenameAllocator();
   }
- 
+
   /**
    * Creates an instance that uses the given FilenameAllocator.
    * 
@@ -54,14 +54,14 @@ public class DefaultPathAllocator implements PathAllocator {
   public DefaultPathAllocator(FilenameAllocator fAlloc) {
       m_fAlloc = fAlloc;
   }
-   
+
   /**
    * {@inheritDoc}
    */
   public String allocate(URI blobId) {
     return getDir() + m_fAlloc.allocate(blobId);
   }
- 
+
   /**
    * {@inheritDoc}
    */
@@ -72,10 +72,9 @@ public class DefaultPathAllocator implements PathAllocator {
     }
     return m_fAlloc.getBlobId(path.substring(i + 1));
   }
-  
+
   private static String getDir() {
     SimpleDateFormat format = new SimpleDateFormat("yyyy/MMdd/HHmm/");
     return format.format(new Date());
   }
-  
 }

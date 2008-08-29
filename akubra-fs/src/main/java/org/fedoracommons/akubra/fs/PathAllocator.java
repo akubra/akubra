@@ -29,7 +29,7 @@ import java.net.URI;
  * @author Chris Wilper
  */
 public interface PathAllocator {
-   
+
   /**
    * Allocates a new path.
    *
@@ -42,7 +42,7 @@ public interface PathAllocator {
    * @return the path.
    */
   String allocate(URI blobId);
- 
+
   /**
    * Gets the blobId from the given path, if possible.
    * 
@@ -51,6 +51,5 @@ public interface PathAllocator {
    * @return the blobId if it can be determined from the path,
    *         null otherwise.
    */
-  URI getBlobId(String path); 
-  
+  URI getBlobId(String path);
 }

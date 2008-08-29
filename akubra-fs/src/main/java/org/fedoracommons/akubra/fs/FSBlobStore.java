@@ -22,7 +22,9 @@
 package org.fedoracommons.akubra.fs;
 
 import java.io.File;
+
 import java.net.URI;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,11 +40,11 @@ import org.fedoracommons.akubra.Capability;
  * @author Chris Wilper
  */
 public class FSBlobStore implements BlobStore {
-    
+
   private final File m_baseDir;
-  
+
   private final PathAllocator m_pAlloc;
-    
+
   private URI m_id;
 
   /**
@@ -55,7 +57,7 @@ public class FSBlobStore implements BlobStore {
     m_baseDir = baseDir;
     m_pAlloc = new DefaultPathAllocator();
   }
-                     
+
   /**
    * Creates an instance with the given id, base storage directory,
    * and path allocator.
@@ -68,7 +70,7 @@ public class FSBlobStore implements BlobStore {
     m_baseDir = baseDir;
     m_pAlloc = pAlloc;
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -123,5 +125,4 @@ public class FSBlobStore implements BlobStore {
     // Q: ditto
     return new Capability[0];
   }
-  
 }

@@ -29,7 +29,7 @@ import java.net.URI;
  * @author Chris Wilper
  */
 public interface FilenameAllocator {
-   
+
   /**
    * Allocates a new filename.
    *
@@ -42,7 +42,7 @@ public interface FilenameAllocator {
    * @return the filename.
    */
   String allocate(URI blobId);
- 
+
   /**
    * Gets the blobId from the given filename, if possible.
    * 
@@ -51,6 +51,5 @@ public interface FilenameAllocator {
    * @return the blobId if it can be determined from the filename,
    *         null otherwise.
    */
-  URI getBlobId(String filename); 
-  
+  URI getBlobId(String filename);
 }

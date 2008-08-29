@@ -36,16 +36,16 @@ import org.fedoracommons.akubra.BlobStoreConnection;
  * @author Chris Wilper
  */
 public class FSBlobStoreConnection implements BlobStoreConnection {
-    
+
   private final File m_baseDir;
-  
+
   private final PathAllocator m_pAlloc;
-    
+
   public FSBlobStoreConnection(File baseDir, PathAllocator pAlloc) {
     m_baseDir = baseDir;
     m_pAlloc = pAlloc;
   }
-   
+
   /**
    * {@inheritDoc}
    */
@@ -66,7 +66,7 @@ public class FSBlobStoreConnection implements BlobStoreConnection {
   public URI removeBlob(URI blobId, Map<String, String> hints) {
     return null;
   }
-  
+
 
   /**
    * {@inheritDoc}
@@ -80,5 +80,4 @@ public class FSBlobStoreConnection implements BlobStoreConnection {
    */
   public void close() {
   }
-  
 }

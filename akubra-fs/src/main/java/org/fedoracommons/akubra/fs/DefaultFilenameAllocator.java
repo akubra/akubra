@@ -42,12 +42,12 @@ import java.net.URLEncoder;
  * @author Chris Wilper
  */
 public class DefaultFilenameAllocator implements FilenameAllocator {
-    
+
   private int m_fileNumber;
-  
+
   public DefaultFilenameAllocator() {
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -61,7 +61,7 @@ public class DefaultFilenameAllocator implements FilenameAllocator {
       }
       return filename.toString();
   }
- 
+
   /**
    * {@inheritDoc}
    */
@@ -79,7 +79,7 @@ public class DefaultFilenameAllocator implements FilenameAllocator {
       return toURI(decodeLegacyBlobId(filename));
     }
   }
-  
+
   private synchronized int getNextFileNumber() {
     try {
       return m_fileNumber;
@@ -127,7 +127,7 @@ public class DefaultFilenameAllocator implements FilenameAllocator {
     }
     return encoded;
   }
-  
+
   private static String decodeBlobId(String encoded) {
     String toDecode = encoded;
     if (toDecode.endsWith("%")) {
@@ -161,7 +161,7 @@ public class DefaultFilenameAllocator implements FilenameAllocator {
       throw new RuntimeException(wontHappen);
     }
   }
-  
+
   private static URI toURI(String s) {
     try {
       return new URI(s);
@@ -169,5 +169,4 @@ public class DefaultFilenameAllocator implements FilenameAllocator {
       return null;
     }
   }
-  
 }

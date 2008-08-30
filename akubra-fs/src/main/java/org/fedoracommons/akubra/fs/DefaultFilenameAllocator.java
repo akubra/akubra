@@ -1,5 +1,5 @@
-/* $HeadURL:: http://gandalf.topazproject.org/svn/head/topaz/core/src/main/java/org/topa#$
- * $Id: ClassMetadata.java 5434 2008-04-12 11:41:51Z ronald $
+/* $HeadURL::                                                                            $
+ * $Id$
  *
  * Copyright (c) 2007-2008 by Fedora Commons Inc.
  * http://www.fedoracommons.org

@@ -37,13 +37,13 @@ import org.fedoracommons.akubra.BlobStoreConnection;
  */
 public class FSBlobStoreConnection implements BlobStoreConnection {
 
-  private final File m_baseDir;
+  private final File baseDir;
 
-  private final PathAllocator m_pAlloc;
+  private final PathAllocator pAlloc;
 
   public FSBlobStoreConnection(File baseDir, PathAllocator pAlloc) {
-    m_baseDir = baseDir;
-    m_pAlloc = pAlloc;
+    this.baseDir = baseDir;
+    this.pAlloc = pAlloc;
   }
 
   /**

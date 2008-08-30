@@ -43,7 +43,7 @@ import java.net.URLEncoder;
  */
 public class DefaultFilenameAllocator implements FilenameAllocator {
 
-  private int m_fileNumber;
+  private int fileNumber;
 
   public DefaultFilenameAllocator() {
   }
@@ -82,12 +82,12 @@ public class DefaultFilenameAllocator implements FilenameAllocator {
 
   private synchronized int getNextFileNumber() {
     try {
-      return m_fileNumber;
+      return fileNumber;
     } finally {
-      if (m_fileNumber == Integer.MAX_VALUE) {
-        m_fileNumber = 0;
+      if (fileNumber == Integer.MAX_VALUE) {
+        fileNumber = 0;
       } else {
-        m_fileNumber++;
+        fileNumber++;
       }
     }
   }

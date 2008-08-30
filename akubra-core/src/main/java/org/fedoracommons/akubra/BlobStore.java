@@ -42,13 +42,6 @@ public interface BlobStore {
   URI getId();
 
   /**
-   * Set the identifier for the store
-   *
-   * @param id the URI identifying the blob store
-   */
-  void setId(URI id);
-
-  /**
    * Return the list of stores underlying this store
    *
    * @return list of underlying blob stores

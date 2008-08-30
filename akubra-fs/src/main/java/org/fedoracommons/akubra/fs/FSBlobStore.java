@@ -41,21 +41,23 @@ import org.fedoracommons.akubra.Capability;
  */
 public class FSBlobStore implements BlobStore {
 
-  private final File m_baseDir;
+  private final File baseDir;
 
-  private final PathAllocator m_pAlloc;
+  private final PathAllocator pAlloc;
 
-  private URI m_id;
+  private URI id;
 
   /**
    * Creates an instance with the given id and base storage directory,
    * using the DefaultPathAllocator and the DefaultFilenameAllocator.
    * 
+   * @param id the unique identifier of this blobstore.
    * @param baseDir the base storage directory.
    */
-  public FSBlobStore(File baseDir) {
-    m_baseDir = baseDir;
-    m_pAlloc = new DefaultPathAllocator();
+  public FSBlobStore(URI id, File baseDir) {
+    this.id = id;
+    this.baseDir = baseDir;
+    pAlloc = new DefaultPathAllocator();
   }
 
   /**
@@ -66,25 +68,17 @@ public class FSBlobStore implements BlobStore {
    * @param baseDir the base storage directory.
    * @param pAlloc the PathAllocator to use.
    */
-  public FSBlobStore(File baseDir, PathAllocator pAlloc) {
-    m_baseDir = baseDir;
-    m_pAlloc = pAlloc;
+  public FSBlobStore(URI id, File baseDir, PathAllocator pAlloc) {
+    this.id = id;
+    this.baseDir = baseDir;
+    this.pAlloc = pAlloc;
   }
 
   /**
    * {@inheritDoc}
    */
   public URI getId() {
-    // Q: what's this for?
-    return m_id;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void setId(URI id) {
-    // Q: are implementations supposed to persist this?
-    m_id = id;
+    return id;
   }
 
   /**
@@ -107,7 +101,7 @@ public class FSBlobStore implements BlobStore {
    * {@inheritDoc}
    */
   public BlobStoreConnection openConnection(Transaction tx) {
-     return new FSBlobStoreConnection(m_baseDir, m_pAlloc);
+     return new FSBlobStoreConnection(baseDir, pAlloc);
   }
 
   /**

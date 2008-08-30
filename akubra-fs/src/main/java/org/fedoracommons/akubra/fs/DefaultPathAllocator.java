@@ -37,13 +37,13 @@ import java.util.Date;
  */
 public class DefaultPathAllocator implements PathAllocator {
 
-  private final FilenameAllocator m_fAlloc;
+  private final FilenameAllocator fAlloc;
 
   /**
    * Creates an instance that uses the DefaultFilenameAllocator.
    */
   public DefaultPathAllocator() {
-      m_fAlloc = new DefaultFilenameAllocator();
+      this.fAlloc = new DefaultFilenameAllocator();
   }
 
   /**
@@ -52,14 +52,14 @@ public class DefaultPathAllocator implements PathAllocator {
    * @param fAlloc the filename allocator to use.
    */
   public DefaultPathAllocator(FilenameAllocator fAlloc) {
-      m_fAlloc = fAlloc;
+      this.fAlloc = fAlloc;
   }
 
   /**
    * {@inheritDoc}
    */
   public String allocate(URI blobId) {
-    return getDir() + m_fAlloc.allocate(blobId);
+    return getDir() + fAlloc.allocate(blobId);
   }
 
   /**
@@ -70,7 +70,7 @@ public class DefaultPathAllocator implements PathAllocator {
     if (i == -1 || i == path.length() - 1) {
         return null;
     }
-    return m_fAlloc.getBlobId(path.substring(i + 1));
+    return fAlloc.getBlobId(path.substring(i + 1));
   }
 
   private static String getDir() {

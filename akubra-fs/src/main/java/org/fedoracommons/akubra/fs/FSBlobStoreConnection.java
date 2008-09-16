@@ -34,6 +34,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 
+import java.util.Iterator;
 import java.util.Map;
 
 import org.fedoracommons.akubra.Blob;
@@ -131,6 +132,14 @@ public class FSBlobStoreConnection implements BlobStoreConnection {
       return null;
     }
     return blobId;
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public Iterator<URI> listBlobIds(String prefix) {
+    // TODO: implement iterator
+    return null;
   }
 
   /**

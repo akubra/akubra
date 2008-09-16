@@ -22,8 +22,17 @@
 package org.fedoracommons.akubra.fs;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
 
 import java.util.Map;
 
@@ -32,39 +41,83 @@ import org.fedoracommons.akubra.BlobStoreConnection;
 
 /**
  * Filesystem-backed BlobStoreConnection implementation.
+ * <p>
+ * For new blobs, this implementation generates new blobIds as unique 
+ * file:/// URIs beginning with the base directory provided to the
+ * constructor. It does not make use of hints.
  * 
  * @author Chris Wilper
  */
 public class FSBlobStoreConnection implements BlobStoreConnection {
 
   private final File baseDir;
-
+  
   private final PathAllocator pAlloc;
+  
+  private final String blobIdPrefix;
 
   public FSBlobStoreConnection(File baseDir, PathAllocator pAlloc) {
     this.baseDir = baseDir;
     this.pAlloc = pAlloc;
+    this.blobIdPrefix = "file:///" + getEncodedPath(baseDir);
   }
 
   /**
    * {@inheritDoc}
    */
   public Blob getBlob(URI blobId, Map<String, String> hints) {
-    return null;
+    final File file = getFile(blobId);
+    if (file == null) {
+      return null;
+    }
+    return new Blob() {
+      public InputStream getInputStream() {
+        try {
+          return new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+          throw new RuntimeException("File has been deleted: " + file.getPath(), e);
+        }
+      }
+      public long getSize() {
+        return file.length();
+      }
+    };
   }
 
   /**
    * {@inheritDoc}
    */
   public URI putBlob(URI blobId, Blob blob, Map<String, String> hints) {
-    return null;
+    File file = getFile(blobId);
+    if (file == null) {
+      // create
+      String path = pAlloc.allocate(blobId);
+      file = new File(baseDir, path);
+      writeFile(blob.getInputStream(), file);
+      try {
+        return new URI(blobIdPrefix + path);
+      } catch (URISyntaxException wontHappen) {
+        throw new RuntimeException(wontHappen);
+      }
+    } else {
+      // update
+      writeFile(blob.getInputStream(), file);
+      return blobId;
+    }
   }
 
   /**
    * {@inheritDoc}
    */
   public URI removeBlob(URI blobId, Map<String, String> hints) {
-    return null;
+    File file = getFile(blobId);
+    if (file == null) {
+      return null;
+    }
+    if (!file.delete()) {
+      throw new RuntimeException("Unable to delete file: " + file.getPath());
+    }
+    return blobId;
   }
 
 
@@ -72,12 +125,85 @@ public class FSBlobStoreConnection implements BlobStoreConnection {
    * {@inheritDoc}
    */
   public URI getBlobLocator(URI blobId, Map<String, String> hints) {
-    return null;
+    // just make sure it exists within baseDir
+    File file = getFile(blobId);
+    if (file == null) {
+      return null;
+    }
+    return blobId;
   }
 
   /**
    * {@inheritDoc}
    */
   public void close() {
+    // nothing to do
   }
+
+  private File getFile(URI blobId) {
+    if (blobId == null) {
+      return null;
+    }
+    if (blobId.toString().startsWith(blobIdPrefix)) {
+      File file = new File(blobId.getRawPath());
+      if (file.exists())
+        return file;
+    }
+    return null;
+  }
+ 
+  private static void writeFile(InputStream in, File file) {
+    makeParentDirs(file);
+    try {
+      writeStream(in, new FileOutputStream(file));
+    } catch (IOException e) {
+      throw new RuntimeException("Error writing file", e);
+    }
+  }
+  
+  private static void writeStream(InputStream in, OutputStream out)
+      throws IOException {
+    try {
+      byte[] buf = new byte[4096];
+      int len;
+      while ((len = in.read(buf)) > 0) {
+        out.write(buf, 0, len);
+      }
+    } finally {
+      in.close();
+      out.close();
+    }
+  }
+  
+  private static void makeParentDirs(File file) {
+    File parent = file.getParentFile();
+    if (parent != null && !parent.exists()) {
+      if (!parent.mkdirs()) {
+        throw new RuntimeException("Unable to create dir(s): " + parent.getPath());
+      }
+    }
+  }
+ 
+  // gets a path like usr/local/some%20dir%20with%20space/
+  private static String getEncodedPath(File dir) {
+    if (dir.getName().length() == 0) {
+      return "";
+    }
+    String current = encode(dir.getName()) + "/";
+    File parent = dir.getParentFile();
+    if (parent != null) {
+      return getEncodedPath(parent) + current;
+    } else {
+      return current;
+    }
+  }
+  
+  private static String encode(String in) {
+    try {
+      return URLEncoder.encode(in, "UTF-8");
+    } catch (UnsupportedEncodingException wontHappen) {
+      throw new RuntimeException(wontHappen);
+    }
+  }
+  
 }

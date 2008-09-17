@@ -49,7 +49,7 @@ import org.fedoracommons.akubra.BlobStoreConnection;
  * 
  * @author Chris Wilper
  */
-public class FSBlobStoreConnection implements BlobStoreConnection {
+class FSBlobStoreConnection implements BlobStoreConnection {
 
   private final File baseDir;
   

@@ -31,9 +31,9 @@ import java.net.URLEncoder;
 /**
  * Allocates unique filenames based on a modern-filesystem-safe encoding of
  * the given blobId (if provided) and a rolling 31-bit counter.
- * 
+ * <p>
  * A typical filename looks like _42_encoded-blob-id
- * 
+ * <p>
  * Each character in a blobId URI is UTF-8 percent-encoded ("URI escaped")
  * except for the following: <code>a-z A-Z 0-9 = ( ) [ ] -</code>
  * In addition, <code>.</code> (period) is escaped as <code>%</code> when
@@ -67,17 +67,15 @@ public class DefaultFilenameAllocator implements FilenameAllocator {
    */
   public URI getBlobId(String filename) {
     if (filename.startsWith("_")) {
-      // must be of the form _nnn_newEncoding or _nnn
+      // must be of the form _nnn_encodedBlobId or _nnn
       int i = filename.lastIndexOf("_");
       if (i == 0) {
         return null;  // does not encode blobID
       } else {
         return toURI(decodeBlobId(filename.substring(i + 1)));
       }
-    } else {
-      // must be of the form oldEncoding
-      return toURI(decodeLegacyBlobId(filename));
     }
+    return null;
   }
 
   private synchronized int getNextFileNumber() {
@@ -134,16 +132,6 @@ public class DefaultFilenameAllocator implements FilenameAllocator {
       toDecode = toDecode.substring(0, toDecode.length() - 1) + ".";
     }
     return uriDecode(toDecode);
-  }
-
-  private static String decodeLegacyBlobId(String encoded) {
-    // Compatible with Fedora 3.0 and below's LLStore, which did little encoding
-    String decoded = encoded.replaceFirst("_", ":");
-    if (decoded.endsWith("%")) {
-      return decoded.substring(0, decoded.length() - 1) + ".";
-    } else {
-      return decoded;
-    }
   }
 
   private static String uriEncode(char c) {

@@ -1,0 +1,70 @@
+/* $HeadURL$
+ * $Id$
+ *
+ * Copyright (c) 2007-2008 by Fedora Commons Inc.
+ * http://www.fedoracommons.org
+ * 
+ * In collaboration with Topaz Inc.
+ * http://www.topazproject.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.fedoracommons.akubra;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Abstract BlobStore implementation with no backing stores or capabilities.
+ *
+ * @author Chris Wilper
+ */
+public abstract class AbstractBlobStore implements BlobStore {
+  
+  /**
+   * {@inheritDoc}
+   * This implementation returns an empty list.
+   * Subclasses that support backing stores should override this.
+   */
+  public List<BlobStore> getBackingStores() {
+    return new ArrayList<BlobStore>(0);
+  }
+
+  /**
+   * {@inheritDoc}
+   * This implementation throws {@link UnsupportedOperationException}.
+   * Subclasses that support backing stores should override this.
+   */
+  public void setBackingStores(List<BlobStore> stores) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * {@inheritDoc}
+   * This implementation returns an empty array.
+   * Subclasses that support declared capabilities should override this.
+   */
+  public Capability[] getDeclaredCapabilities() {
+    return new Capability[0];
+  }
+
+  /**
+   * {@inheritDoc}
+   * This implementation returns an empty array.
+   * Subclasses that support capabilties should override this.
+   */
+  public Capability[] getCapabilities() {
+    return new Capability[0];
+  }
+
+}

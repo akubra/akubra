@@ -25,21 +25,17 @@ import java.io.File;
 
 import java.net.URI;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.transaction.Transaction;
 
-import org.fedoracommons.akubra.BlobStore;
+import org.fedoracommons.akubra.AbstractBlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
-import org.fedoracommons.akubra.Capability;
 
 /**
  * Filesystem-backed BlobStore implementation.
  *
  * @author Chris Wilper
  */
-public class FSBlobStore implements BlobStore {
+public class FSBlobStore extends AbstractBlobStore {
 
   private final File baseDir;
 
@@ -84,39 +80,8 @@ public class FSBlobStore implements BlobStore {
   /**
    * {@inheritDoc}
    */
-  public List<BlobStore> getBackingStores() {
-    // Q: if none, should implementations return a 0-size list or null?
-    return new ArrayList<BlobStore>(0);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void setBackingStores(List<BlobStore> stores) {
-    // Q: what if my impl doesn't support this? throw unsupported, as below?
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   public BlobStoreConnection openConnection(Transaction tx) {
      return new FSBlobStoreConnection(baseDir, pAlloc);
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  public Capability[] getDeclaredCapabilities() {
-    // Q: if none, should implementations return a 0-size array or null?
-    return new Capability[0];
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public Capability[] getCapabilities() {
-    // Q: ditto
-    return new Capability[0];
-  }
 }

@@ -31,7 +31,6 @@ import java.util.Map;
  * @author Chris Wilper
  */
 public interface FilenameAllocator {
-
   /**
    * Allocates a new filename.
    *

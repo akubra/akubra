@@ -30,7 +30,6 @@ import java.util.List;
  * @author Chris Wilper
  */
 public abstract class AbstractBlobStore implements BlobStore {
-  
   /**
    * {@inheritDoc}
    * This implementation returns an empty list.

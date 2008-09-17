@@ -34,19 +34,18 @@ import java.util.NoSuchElementException;
  *
  * @author Chris Wilper
  */
-class FSBlobIdIterator
-    implements Iterator<URI> {
-  
+class FSBlobIdIterator implements Iterator<URI> {
+
   private final File baseDir;
-  
+
   private final String blobIdPrefix;
-  
+
   private final String filterPrefix;
-  
+
   private DirectoryNode currentDir;
-  
+
   private URI next;
-  
+
   FSBlobIdIterator(File baseDir, String blobIdPrefix, String filterPrefix) {
     this.baseDir = baseDir;
     this.blobIdPrefix = blobIdPrefix;
@@ -80,7 +79,7 @@ class FSBlobIdIterator
   public void remove() {
     throw new UnsupportedOperationException();
   }
-  
+
   private URI getNext() {
     while (currentDir != null) {
       DirectoryNode child = currentDir.nextChild();
@@ -100,7 +99,7 @@ class FSBlobIdIterator
     }
     return null; // exhausted
   }
- 
+
   private class DirectoryNode {
 
     private final DirectoryNode parent;
@@ -119,7 +118,7 @@ class FSBlobIdIterator
         setChildPaths();
       }
     }
-    
+
     private void setChildPaths() {
       File dir;
       if (path.length() == 0) {
@@ -138,7 +137,7 @@ class FSBlobIdIterator
         childPaths[i] = childPath.toString();
       }
     }
-    
+
     DirectoryNode getParent() {
       return parent;
     }

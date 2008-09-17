@@ -53,9 +53,9 @@ import org.fedoracommons.akubra.BlobStoreConnection;
 class FSBlobStoreConnection implements BlobStoreConnection {
 
   private final File baseDir;
-  
+
   private final PathAllocator pAlloc;
-  
+
   private final String blobIdPrefix;
 
   public FSBlobStoreConnection(File baseDir, PathAllocator pAlloc) {
@@ -134,7 +134,7 @@ class FSBlobStoreConnection implements BlobStoreConnection {
     }
     return blobId;
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -160,7 +160,7 @@ class FSBlobStoreConnection implements BlobStoreConnection {
     }
     return null;
   }
- 
+
   private static void writeFile(InputStream in, File file) {
     makeParentDirs(file);
     try {
@@ -169,7 +169,7 @@ class FSBlobStoreConnection implements BlobStoreConnection {
       throw new RuntimeException("Error writing file", e);
     }
   }
-  
+
   private static void writeStream(InputStream in, OutputStream out)
       throws IOException {
     try {
@@ -183,7 +183,7 @@ class FSBlobStoreConnection implements BlobStoreConnection {
       out.close();
     }
   }
-  
+
   private static void makeParentDirs(File file) {
     File parent = file.getParentFile();
     if (parent != null && !parent.exists()) {
@@ -192,7 +192,7 @@ class FSBlobStoreConnection implements BlobStoreConnection {
       }
     }
   }
- 
+
   // gets a path like usr/local/some%20dir%20with%20space/
   private static String getEncodedPath(File dir) {
     if (dir.getName().length() == 0) {
@@ -206,7 +206,7 @@ class FSBlobStoreConnection implements BlobStoreConnection {
       return current;
     }
   }
-  
+
   private static String encode(String in) {
     try {
       return URLEncoder.encode(in, "UTF-8");
@@ -214,5 +214,4 @@ class FSBlobStoreConnection implements BlobStoreConnection {
       throw new RuntimeException(wontHappen);
     }
   }
-  
 }

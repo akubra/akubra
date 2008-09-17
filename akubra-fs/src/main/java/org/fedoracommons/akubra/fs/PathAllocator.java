@@ -31,7 +31,6 @@ import java.util.Map;
  * @author Chris Wilper
  */
 public interface PathAllocator {
-
   /**
    * Allocates a new path.
    *

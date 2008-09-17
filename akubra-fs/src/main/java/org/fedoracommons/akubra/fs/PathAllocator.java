@@ -23,6 +23,8 @@ package org.fedoracommons.akubra.fs;
 
 import java.net.URI;
 
+import java.util.Map;
+
 /**
  * Allocates unique filesystem paths.
  * 
@@ -39,9 +41,11 @@ public interface PathAllocator {
    * @param blobId id of the blob to be stored, may be null.
    *        If provided, an implementation may or may not use the
    *        blobId for path allocation.
+   * @param hints hints that implementations may use for allocation,
+   *        may be null.
    * @return the path.
    */
-  String allocate(URI blobId);
+  String allocate(URI blobId, Map<String, String> hints);
 
   /**
    * Gets the blobId from the given path, if possible.

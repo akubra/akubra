@@ -23,6 +23,8 @@ package org.fedoracommons.akubra.fs;
 
 import java.net.URI;
 
+import java.util.Map;
+
 /**
  * Allocates unique filenames.
  * 
@@ -39,9 +41,11 @@ public interface FilenameAllocator {
    * @param blobId id of the blob to be stored, may be null.
    *        If provided, an implementation may or may not use the
    *        blobId for filename allocation.
+   * @param hints a set of hints that implementations may use for allocation,
+   *        may be null.
    * @return the filename.
    */
-  String allocate(URI blobId);
+  String allocate(URI blobId, Map<String, String> hints);
 
   /**
    * Gets the blobId from the given filename, if possible.

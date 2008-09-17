@@ -21,7 +21,6 @@
  */
 package org.fedoracommons.akubra;
 
-import java.net.URI;
 import java.io.InputStream;
 
 /**

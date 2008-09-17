@@ -28,6 +28,8 @@ import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
+import java.util.Map;
+
 /**
  * Allocates unique filenames based on a modern-filesystem-safe encoding of
  * the given blobId (if provided) and a rolling 31-bit counter.
@@ -38,6 +40,8 @@ import java.net.URLEncoder;
  * except for the following: <code>a-z A-Z 0-9 = ( ) [ ] -</code>
  * In addition, <code>.</code> (period) is escaped as <code>%</code> when
  * it occurs as the last character of the URI.
+ * <p>
+ * Note: This implementation does not make use of hints.
  * 
  * @author Chris Wilper
  */
@@ -51,7 +55,7 @@ public class DefaultFilenameAllocator implements FilenameAllocator {
   /**
    * {@inheritDoc}
    */
-  public String allocate(URI blobId) {
+  public String allocate(URI blobId, Map<String, String> hints) {
       StringBuilder filename = new StringBuilder();
       filename.append('_');
       filename.append(getNextFileNumber());

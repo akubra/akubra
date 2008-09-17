@@ -44,8 +44,9 @@ import org.fedoracommons.akubra.BlobStoreConnection;
  * Filesystem-backed BlobStoreConnection implementation.
  * <p>
  * For new blobs, this implementation generates new blobIds as unique 
- * file:/// URIs beginning with the base directory provided to the
- * constructor. It does not make use of hints.
+ * <code>file:///</code> URIs beginning with the base directory provided to the
+ * constructor, and ending with the path given by the constructor-provided
+ * {@link PathAllocator}.
  * 
  * @author Chris Wilper
  */
@@ -92,7 +93,7 @@ class FSBlobStoreConnection implements BlobStoreConnection {
     File file = getFile(blobId);
     if (file == null) {
       // create
-      String path = pAlloc.allocate(blobId);
+      String path = pAlloc.allocate(blobId, hints);
       file = new File(baseDir, path);
       writeFile(blob.getInputStream(), file);
       try {

@@ -26,12 +26,17 @@ import java.net.URI;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Allocates a shallow hierarchy of unique filesystem paths, based on
- * the current date and a FilenameAllocator.
- * 
+ * the current date and a constructor-provided {@link FilenameAllocator}.
+ * <p>
  * A typical path looks like 2008/0304/1015/allocated-filename
+ * <p>
+ * Note: This implementation only uses hints for the filename part of the
+ * path allocation, and only if the associated <code>FilenameAllocator</code>
+ * uses them.
  * 
  * @author Chris Wilper
  */
@@ -58,8 +63,8 @@ public class DefaultPathAllocator implements PathAllocator {
   /**
    * {@inheritDoc}
    */
-  public String allocate(URI blobId) {
-    return getDir() + fAlloc.allocate(blobId);
+  public String allocate(URI blobId, Map<String, String> hints) {
+    return getDir() + fAlloc.allocate(blobId, hints);
   }
 
   /**

@@ -137,9 +137,8 @@ public class FSBlobStoreConnection implements BlobStoreConnection {
   /**
    * {@inheritDoc}
    */
-  public Iterator<URI> listBlobIds(String prefix) {
-    // TODO: implement iterator
-    return null;
+  public Iterator<URI> listBlobIds(String filterPrefix) {
+    return new FSBlobIdIterator(baseDir, blobIdPrefix, filterPrefix);
   }
 
   /**

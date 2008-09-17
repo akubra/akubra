@@ -22,6 +22,8 @@
 package org.fedoracommons.akubra;
 
 import java.net.URI;
+
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -82,6 +84,15 @@ public interface BlobStoreConnection {
    * @return URI identifying the location or null in case of no such blob
    */
   URI getBlobLocator(URI blobId, Map<String, String> hints);
+ 
+  /**
+   * Gets an iterator over the ids of all blobs in this store.
+   * 
+   * @param filterPrefix If provided, the list will be limited to those blob-ids beginning with this prefix
+   * 
+   * @return The iterator of blob-ids.
+   */
+  Iterator<URI> listBlobIds(String filterPrefix);
 
   /**
    * Close the connection to the blob store

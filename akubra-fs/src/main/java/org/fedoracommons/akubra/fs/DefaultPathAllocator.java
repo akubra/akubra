@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2007-2008 by Fedora Commons Inc.
  * http://www.fedoracommons.org
- * 
+ *
  * In collaboration with Topaz Inc.
  * http://www.topazproject.org
  *
@@ -37,11 +37,10 @@ import java.util.Map;
  * Note: This implementation only uses hints for the filename part of the
  * path allocation, and only if the associated <code>FilenameAllocator</code>
  * uses them.
- * 
+ *
  * @author Chris Wilper
  */
 public class DefaultPathAllocator implements PathAllocator {
-
   private final FilenameAllocator fAlloc;
 
   /**
@@ -53,7 +52,7 @@ public class DefaultPathAllocator implements PathAllocator {
 
   /**
    * Creates an instance that uses the given FilenameAllocator.
-   * 
+   *
    * @param fAlloc the filename allocator to use.
    */
   public DefaultPathAllocator(FilenameAllocator fAlloc) {

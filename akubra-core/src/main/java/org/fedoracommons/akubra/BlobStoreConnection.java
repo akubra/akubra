@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2007-2008 by Fedora Commons Inc.
  * http://www.fedoracommons.org
- * 
+ *
  * In collaboration with Topaz Inc.
  * http://www.topazproject.org
  *
@@ -47,11 +47,11 @@ public interface BlobStoreConnection {
 
   /**
    * Stores a blob in the store.
-   * 
+   *
    * If a blob already exists with the blob-id, then the blob will be overwritten.  Compliant stores
    * expect applications to not modify the passed blob till the transaction is completed (commit or
    * rollback).
-   * 
+   *
    * @param blobId    the blob-id for the blob. If the blob-id is null then the store is required to
    *                  assign one to the blob.
    * @param blob      the blob to store.
@@ -84,12 +84,12 @@ public interface BlobStoreConnection {
    * @return URI identifying the location or null in case of no such blob
    */
   URI getBlobLocator(URI blobId, Map<String, String> hints);
- 
+
   /**
    * Gets an iterator over the ids of all blobs in this store.
-   * 
+   *
    * @param filterPrefix If provided, the list will be limited to those blob-ids beginning with this prefix
-   * 
+   *
    * @return The iterator of blob-ids.
    */
   Iterator<URI> listBlobIds(String filterPrefix);

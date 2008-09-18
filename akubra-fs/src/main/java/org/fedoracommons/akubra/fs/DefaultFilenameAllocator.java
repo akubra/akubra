@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2007-2008 by Fedora Commons Inc.
  * http://www.fedoracommons.org
- * 
+ *
  * In collaboration with Topaz Inc.
  * http://www.topazproject.org
  *
@@ -42,11 +42,10 @@ import java.util.Map;
  * it occurs as the last character of the URI.
  * <p>
  * Note: This implementation does not make use of hints.
- * 
+ *
  * @author Chris Wilper
  */
 public class DefaultFilenameAllocator implements FilenameAllocator {
-
   private int fileNumber;
 
   public DefaultFilenameAllocator() {
@@ -76,7 +75,7 @@ public class DefaultFilenameAllocator implements FilenameAllocator {
       if (i == 0) {
         return null;  // does not encode blobID
       } else {
-        return toURI(decodeBlobId(filename.substring(i + 1)));
+        return getAbsoluteURI(decodeBlobId(filename.substring(i + 1)));
       }
     }
     return null;
@@ -154,11 +153,14 @@ public class DefaultFilenameAllocator implements FilenameAllocator {
     }
   }
 
-  private static URI toURI(String s) {
+  private static URI getAbsoluteURI(String s) {
     try {
-      return new URI(s);
+      URI uri = new URI(s);
+      if (uri.isAbsolute()) {
+        return uri;
+      }
     } catch (URISyntaxException e) {
-      return null;
     }
+    return null;
   }
 }

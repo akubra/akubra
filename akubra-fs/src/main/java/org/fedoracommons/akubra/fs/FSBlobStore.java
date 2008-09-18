@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2007-2008 by Fedora Commons Inc.
  * http://www.fedoracommons.org
- * 
+ *
  * In collaboration with Topaz Inc.
  * http://www.topazproject.org
  *
@@ -32,21 +32,23 @@ import org.fedoracommons.akubra.BlobStoreConnection;
 
 /**
  * Filesystem-backed BlobStore implementation.
+ * <p>
+ * For new blobs, this implementation generates new blobIds as unique
+ * <code>file:///</code> URIs beginning with the base directory provided to the
+ * constructor, and ending with the path given by the constructor-provided
+ * {@link PathAllocator}.
  *
  * @author Chris Wilper
  */
 public class FSBlobStore extends AbstractBlobStore {
-
   private final File baseDir;
-
   private final PathAllocator pAlloc;
-
-  private URI id;
+  private final URI id;
 
   /**
    * Creates an instance with the given id and base storage directory,
    * using the DefaultPathAllocator and the DefaultFilenameAllocator.
-   * 
+   *
    * @param id the unique identifier of this blobstore.
    * @param baseDir the base storage directory.
    */
@@ -59,7 +61,7 @@ public class FSBlobStore extends AbstractBlobStore {
   /**
    * Creates an instance with the given id, base storage directory,
    * and path allocator.
-   * 
+   *
    * @param id the unique identifier of this blobstore.
    * @param baseDir the base storage directory.
    * @param pAlloc the PathAllocator to use.

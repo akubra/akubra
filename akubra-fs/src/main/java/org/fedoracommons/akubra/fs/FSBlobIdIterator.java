@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2007-2008 by Fedora Commons Inc.
  * http://www.fedoracommons.org
- * 
+ *
  * In collaboration with Topaz Inc.
  * http://www.topazproject.org
  *
@@ -22,9 +22,11 @@
 package org.fedoracommons.akubra.fs;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -35,20 +37,15 @@ import java.util.NoSuchElementException;
  * @author Chris Wilper
  */
 class FSBlobIdIterator implements Iterator<URI> {
-
   private final File baseDir;
-
   private final String blobIdPrefix;
-
   private final String filterPrefix;
-
   private DirectoryNode currentDir;
-
   private URI next;
 
-  FSBlobIdIterator(File baseDir, String blobIdPrefix, String filterPrefix) {
+  FSBlobIdIterator(File baseDir, String filterPrefix) {
     this.baseDir = baseDir;
-    this.blobIdPrefix = blobIdPrefix;
+    this.blobIdPrefix = FSBlobStoreConnection.getBlobIdPrefix(baseDir);
     this.filterPrefix = filterPrefix;
     currentDir = new DirectoryNode(null, "");
     next = getNext();
@@ -92,7 +89,7 @@ class FSBlobIdIterator implements Iterator<URI> {
       } else {
           // child is file
           URI uri = child.getURI();
-          if (filterPrefix != null && uri.toString().startsWith(filterPrefix)) {
+          if (filterPrefix == null || uri.toString().startsWith(filterPrefix)) {
             return uri;
           }
       }
@@ -130,7 +127,11 @@ class FSBlobIdIterator implements Iterator<URI> {
       childPaths = new String[childFiles.length];
       for (int i = 0; i < childFiles.length; i++) {
         StringBuilder childPath = new StringBuilder(path);
-        childPath.append(childFiles[i].getName());
+        try {
+          childPath.append(URLEncoder.encode(childFiles[i].getName(), "UTF-8"));
+        } catch (UnsupportedEncodingException wontHappen) {
+          throw new RuntimeException(wontHappen);
+        }
         if (childFiles[i].isDirectory()) {
           childPath.append("/");
         }

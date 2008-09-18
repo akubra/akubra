@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2007-2008 by Fedora Commons Inc.
  * http://www.fedoracommons.org
- * 
+ *
  * In collaboration with Topaz Inc.
  * http://www.topazproject.org
  *
@@ -42,26 +42,19 @@ import org.fedoracommons.akubra.BlobStoreConnection;
 
 /**
  * Filesystem-backed BlobStoreConnection implementation.
- * <p>
- * For new blobs, this implementation generates new blobIds as unique 
- * <code>file:///</code> URIs beginning with the base directory provided to the
- * constructor, and ending with the path given by the constructor-provided
- * {@link PathAllocator}.
- * 
+
+ *
  * @author Chris Wilper
  */
 class FSBlobStoreConnection implements BlobStoreConnection {
-
   private final File baseDir;
-
   private final PathAllocator pAlloc;
-
   private final String blobIdPrefix;
 
   public FSBlobStoreConnection(File baseDir, PathAllocator pAlloc) {
     this.baseDir = baseDir;
     this.pAlloc = pAlloc;
-    this.blobIdPrefix = "file:///" + getEncodedPath(baseDir);
+    this.blobIdPrefix = getBlobIdPrefix(baseDir);
   }
 
   /**
@@ -139,7 +132,7 @@ class FSBlobStoreConnection implements BlobStoreConnection {
    * {@inheritDoc}
    */
   public Iterator<URI> listBlobIds(String filterPrefix) {
-    return new FSBlobIdIterator(baseDir, blobIdPrefix, filterPrefix);
+    return new FSBlobIdIterator(baseDir, filterPrefix);
   }
 
   /**
@@ -149,6 +142,25 @@ class FSBlobStoreConnection implements BlobStoreConnection {
     // nothing to do
   }
 
+  protected static String getBlobIdPrefix(File dir) {
+    return "file:///" + getEncodedPath(dir);
+  }
+
+  // gets a path like usr/local/some%20dir%20with%20space/
+  private static String getEncodedPath(File dir) {
+    if (dir.getName().length() == 0) {
+      return "";
+    }
+    String current = encode(dir.getName()) + "/";
+    File parent = dir.getParentFile();
+    if (parent != null) {
+      return getEncodedPath(parent) + current;
+    } else {
+      return current;
+    }
+  }
+
+  // gets the file with the given id if exists in store, else null
   private File getFile(URI blobId) {
     if (blobId == null) {
       return null;
@@ -190,20 +202,6 @@ class FSBlobStoreConnection implements BlobStoreConnection {
       if (!parent.mkdirs()) {
         throw new RuntimeException("Unable to create dir(s): " + parent.getPath());
       }
-    }
-  }
-
-  // gets a path like usr/local/some%20dir%20with%20space/
-  private static String getEncodedPath(File dir) {
-    if (dir.getName().length() == 0) {
-      return "";
-    }
-    String current = encode(dir.getName()) + "/";
-    File parent = dir.getParentFile();
-    if (parent != null) {
-      return getEncodedPath(parent) + current;
-    } else {
-      return current;
     }
   }
 

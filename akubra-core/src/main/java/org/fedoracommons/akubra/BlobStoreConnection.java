@@ -21,6 +21,7 @@
  */
 package org.fedoracommons.akubra;
 
+import java.io.IOException;
 import java.net.URI;
 
 import java.util.Iterator;
@@ -42,8 +43,10 @@ public interface BlobStoreConnection {
    *              null)
    *
    * @return the blob or null in case of no blob with the blob-id
+   *
+   * @exception IOException for IO errors
    */
-  Blob getBlob(URI blobId, Map<String, String> hints);
+  Blob getBlob(URI blobId, Map<String, String> hints) throws IOException;
 
   /**
    * Stores a blob in the store.
@@ -59,8 +62,10 @@ public interface BlobStoreConnection {
    *              null)
    *
    * @return the blob blob-id.
+   *
+   * @exception IOException for IO errors
    */
-  URI putBlob(URI blobId, Blob blob, Map<String, String> hints);
+  URI putBlob(URI blobId, Blob blob, Map<String, String> hints) throws IOException;
 
   /**
    * Remove the blob from the store
@@ -70,8 +75,10 @@ public interface BlobStoreConnection {
    *              null)
    *
    * @return URI locatator-id of the deleted blob or null in case of no blob found
+   *
+   * @exception IOException for IO errors
    */
-  URI removeBlob(URI blobId, Map<String, String> hints);
+  URI removeBlob(URI blobId, Map<String, String> hints) throws IOException;
 
   /**
    * Get the locator-id associated with the blob in this store. Applications can make use of this to

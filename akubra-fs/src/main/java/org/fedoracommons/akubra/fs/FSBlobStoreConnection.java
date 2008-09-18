@@ -60,18 +60,21 @@ class FSBlobStoreConnection implements BlobStoreConnection {
   /**
    * {@inheritDoc}
    */
-  public Blob getBlob(URI blobId, Map<String, String> hints) {
+  public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
     final File file = getFile(blobId);
     if (file == null) {
       return null;
     }
     return new Blob() {
-      public InputStream getInputStream() {
+      public InputStream getInputStream() throws IOException {
         try {
           return new FileInputStream(file);
         } catch (FileNotFoundException e) {
           throw new RuntimeException("File has been deleted: " + file.getPath(), e);
         }
+      }
+      public OutputStream getOutputStream() throws IOException {
+        throw new IOException("Operation not supported.");
       }
       public long getSize() {
         return file.length();
@@ -82,7 +85,7 @@ class FSBlobStoreConnection implements BlobStoreConnection {
   /**
    * {@inheritDoc}
    */
-  public URI putBlob(URI blobId, Blob blob, Map<String, String> hints) {
+  public URI putBlob(URI blobId, Blob blob, Map<String, String> hints) throws IOException {
     File file = getFile(blobId);
     if (file == null) {
       // create
@@ -104,7 +107,7 @@ class FSBlobStoreConnection implements BlobStoreConnection {
   /**
    * {@inheritDoc}
    */
-  public URI removeBlob(URI blobId, Map<String, String> hints) {
+  public URI removeBlob(URI blobId, Map<String, String> hints) throws IOException {
     File file = getFile(blobId);
     if (file == null) {
       return null;

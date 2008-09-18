@@ -22,6 +22,8 @@
 package org.fedoracommons.akubra;
 
 import java.io.InputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Interface to abstract the idea of a blob in the blob store.
@@ -32,11 +34,20 @@ import java.io.InputStream;
  */
 public interface Blob {
   /**
-   * Gets an input stream for reading the blob.
+   * This method returns an InputStream representing the data and throws the appropriate exception
+   * if it can not do so.
    *
    * @return the input stream.
    */
-  InputStream getInputStream();
+  InputStream getInputStream() throws IOException;
+
+  /**
+   * This method returns an OutputStream where the data can be written and throws the appropriate
+   * exception if it can not do so.
+   *
+   * @return the output stream.
+   */
+  OutputStream getOutputStream() throws IOException;
 
   /**
    * Gets the size of the blob, in bytes.

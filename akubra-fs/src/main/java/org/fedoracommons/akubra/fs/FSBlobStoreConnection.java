@@ -22,11 +22,7 @@
 package org.fedoracommons.akubra.fs;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
 import java.net.URI;
@@ -39,10 +35,10 @@ import java.util.Map;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
+import org.fedoracommons.akubra.DuplicateBlobException;
 
 /**
  * Filesystem-backed BlobStoreConnection implementation.
-
  *
  * @author Chris Wilper
  */
@@ -52,7 +48,7 @@ class FSBlobStoreConnection implements BlobStoreConnection {
   private final PathAllocator pAlloc;
   private final String blobIdPrefix;
 
-  public FSBlobStoreConnection(BlobStore blobStore, File baseDir, PathAllocator pAlloc) {
+  FSBlobStoreConnection(BlobStore blobStore, File baseDir, PathAllocator pAlloc) {
     this.blobStore = blobStore;
     this.baseDir = baseDir;
     this.pAlloc = pAlloc;
@@ -69,56 +65,31 @@ class FSBlobStoreConnection implements BlobStoreConnection {
   /**
    * {@inheritDoc}
    */
-  public Blob getBlob(final URI blobId, Map<String, String> hints) throws IOException {
-    final File file = getFile(blobId);
+  public Blob createBlob(URI blobId, Map<String, String> hints) throws DuplicateBlobException, IOException {
+    File file = getFile(blobId);
     if (file == null) {
-      return null;
+       // create
+      String path = pAlloc.allocate(blobId, hints);
+      file = new File(baseDir, path);
+      try {
+        return new FSBlob(this, new URI(blobIdPrefix + path), file);
+      } catch (URISyntaxException wontHappen) {
+        throw new RuntimeException(wontHappen);
+      }
+    } else {
+      throw new DuplicateBlobException(blobId);
     }
-    final BlobStoreConnection conn = this;
-    // TODO: make this a real class
-    return new Blob() {
-      public BlobStoreConnection getConnection() {
-        return conn;
-      }
-      public URI getId() {
-        return blobId;
-      }
-      public URI getLocatorId() {
-        return blobId;
-      }
-      public InputStream openInputStream() throws IOException {
-        return new FileInputStream(file);
-      }
-      public OutputStream openOutputStream() throws IOException {
-        // TODO: implement
-        throw new IOException("Operation not supported.");
-      }
-      public long getSize() {
-        return file.length();
-      }
-    };
   }
 
   /**
    * {@inheritDoc}
    */
-  public URI putBlob(URI blobId, Blob blob, Map<String, String> hints) throws IOException {
-    File file = getFile(blobId);
+  public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
+    final File file = getFile(blobId);
     if (file == null) {
-      // create
-      String path = pAlloc.allocate(blobId, hints);
-      file = new File(baseDir, path);
-      writeFile(blob.openInputStream(), file);
-      try {
-        return new URI(blobIdPrefix + path);
-      } catch (URISyntaxException wontHappen) {
-        throw new RuntimeException(wontHappen);
-      }
-    } else {
-      // update
-      writeFile(blob.openInputStream(), file);
-      return blobId;
+      return null;
     }
+    return new FSBlob(this, blobId, file);
   }
 
   /**
@@ -178,38 +149,6 @@ class FSBlobStoreConnection implements BlobStoreConnection {
         return file;
     }
     return null;
-  }
-
-  private static void writeFile(InputStream in, File file) {
-    makeParentDirs(file);
-    try {
-      writeStream(in, new FileOutputStream(file));
-    } catch (IOException e) {
-      throw new RuntimeException("Error writing file", e);
-    }
-  }
-
-  private static void writeStream(InputStream in, OutputStream out)
-      throws IOException {
-    try {
-      byte[] buf = new byte[4096];
-      int len;
-      while ((len = in.read(buf)) > 0) {
-        out.write(buf, 0, len);
-      }
-    } finally {
-      in.close();
-      out.close();
-    }
-  }
-
-  private static void makeParentDirs(File file) {
-    File parent = file.getParentFile();
-    if (parent != null && !parent.exists()) {
-      if (!parent.mkdirs()) {
-        throw new RuntimeException("Unable to create dir(s): " + parent.getPath());
-      }
-    }
   }
 
   private static String encode(String in) {

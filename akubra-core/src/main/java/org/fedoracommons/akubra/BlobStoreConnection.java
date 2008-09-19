@@ -43,9 +43,19 @@ public interface BlobStoreConnection {
   BlobStore getBlobStore();
 
   /**
-   * Return the blob associated with the blob-id
+   * Creates a new blob.
    *
-   * @param blobId URI identifying the blob
+   * @param blobId the preferred blob id, may be null
+   * @param hints  a set of hints to allow the implementation to optimize the operation (can be null)
+   * @throws DuplicateBlobException if a blob with the given id already exists
+   * @throws IOException if the blob cannot be created for any other reason
+   */
+  Blob createBlob(URI blobId, Map<String, String> hints) throws DuplicateBlobException, IOException;
+
+  /**
+   * Gets the blob with the given id.
+   *
+   * @param blobId the blob id
    * @param hints A set of hints to allow the implementation to optimize the operation (can be
    *              null)
    *
@@ -54,25 +64,6 @@ public interface BlobStoreConnection {
    * @exception IOException for IO errors
    */
   Blob getBlob(URI blobId, Map<String, String> hints) throws IOException;
-
-  /**
-   * Stores a blob in the store.
-   *
-   * If a blob already exists with the blob-id, then the blob will be overwritten.  Compliant stores
-   * expect applications to not modify the passed blob till the transaction is completed (commit or
-   * rollback).
-   *
-   * @param blobId    the blob-id for the blob. If the blob-id is null then the store is required to
-   *                  assign one to the blob.
-   * @param blob      the blob to store.
-   * @param hints A set of hints to allow the implementation to optimize the operation (can be
-   *              null)
-   *
-   * @return the blob blob-id.
-   *
-   * @exception IOException for IO errors
-   */
-  URI putBlob(URI blobId, Blob blob, Map<String, String> hints) throws IOException;
 
   /**
    * Remove the blob from the store

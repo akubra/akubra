@@ -37,6 +37,8 @@ import java.net.URI;
 public interface Blob {
   /**
    * Gets the connection that provided this blob.
+   *
+   * @return the blob store connection that created this blob
    */
   BlobStoreConnection getConnection();
 
@@ -66,10 +68,13 @@ public interface Blob {
   /**
    * Opens a new OutputStream for writing the content.
    *
+   * @param estimatedSize the estimated size of the data if known (or -1 if unknown).
+   *                      This can allow for the implementation to make better decisions
+   *                      on buffering or reserving space.
    * @return the output stream.
    * @throws IOException if the stream cannot be opened for any reason.
    */
-  OutputStream openOutputStream() throws IOException;
+  OutputStream openOutputStream(long estimatedSize) throws IOException;
 
   /**
    * Gets the size of the blob, in bytes.

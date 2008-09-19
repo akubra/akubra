@@ -43,35 +43,60 @@ class FSBlob implements Blob {
   private final URI blobId;
   private final File file;
 
+  /**
+   * Create a file based blob
+   *
+   * @param connection the blob store connection
+   * @param blobId the identifier for the blob
+   * @param file the file associated with the blog
+   */
   FSBlob(BlobStoreConnection connection, URI blobId, File file) {
     this.connection = connection;
     this.blobId = blobId;
     this.file = file;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public BlobStoreConnection getConnection() {
     return connection;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public URI getId() {
     return blobId;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public URI getLocatorId() {
     return blobId;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public InputStream openInputStream() throws IOException {
     return new FileInputStream(file);
   }
 
-  public OutputStream openOutputStream() throws IOException {
+  /**
+   * {@inheritDoc}
+   */
+  public OutputStream openOutputStream(long estimatedSize) throws IOException {
     if (!file.exists()) {
       makeParentDirs(file);
     }
     return new FileOutputStream(file);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public long getSize() {
     return file.length();
   }

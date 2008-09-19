@@ -83,7 +83,7 @@ public class FSBlobStore extends AbstractBlobStore {
    * {@inheritDoc}
    */
   public BlobStoreConnection openConnection(Transaction tx) {
-     return new FSBlobStoreConnection(baseDir, pAlloc);
+     return new FSBlobStoreConnection(this, baseDir, pAlloc);
   }
 
 }

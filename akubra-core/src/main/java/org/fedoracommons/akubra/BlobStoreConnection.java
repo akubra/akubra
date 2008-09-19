@@ -36,6 +36,13 @@ import java.util.Map;
  */
 public interface BlobStoreConnection {
   /**
+   * Gets the blob store associated with this session.
+   *
+   * @return the blob store.
+   */
+  BlobStore getBlobStore();
+
+  /**
    * Return the blob associated with the blob-id
    *
    * @param blobId URI identifying the blob
@@ -79,18 +86,6 @@ public interface BlobStoreConnection {
    * @exception IOException for IO errors
    */
   URI removeBlob(URI blobId, Map<String, String> hints) throws IOException;
-
-  /**
-   * Get the locator-id associated with the blob in this store. Applications can make use of this to
-   * ascertain existence of a blob.
-   *
-   * @param blobId URI identifying the blob
-   * @param hints A set of hints to allow the implementation to optimize the operation (can be
-   *              null)
-   *
-   * @return URI identifying the location or null in case of no such blob
-   */
-  URI getBlobLocator(URI blobId, Map<String, String> hints);
 
   /**
    * Gets an iterator over the ids of all blobs in this store.

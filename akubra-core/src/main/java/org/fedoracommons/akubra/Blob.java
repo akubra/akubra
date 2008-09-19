@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2007-2008 by Fedora Commons Inc.
  * http://www.fedoracommons.org
- * 
+ *
  * In collaboration with Topaz Inc.
  * http://www.topazproject.org
  *
@@ -21,9 +21,11 @@
  */
 package org.fedoracommons.akubra;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+
+import java.net.URI;
 
 /**
  * Interface to abstract the idea of a blob in the blob store.
@@ -34,20 +36,40 @@ import java.io.OutputStream;
  */
 public interface Blob {
   /**
-   * This method returns an InputStream representing the data and throws the appropriate exception
-   * if it can not do so.
-   *
-   * @return the input stream.
+   * Gets the connection that provided this blob.
    */
-  InputStream getInputStream() throws IOException;
+  BlobStoreConnection getConnection();
 
   /**
-   * This method returns an OutputStream where the data can be written and throws the appropriate
-   * exception if it can not do so.
+   * Gets the id of the blob.
+   *
+   * @return the id, or null if it has not yet been assigned.
+   */
+  URI getId();
+
+  /**
+   * Gets the locator-id of the blob.
+   *
+   * @return the locator-id, or null if it has not yet been assigned.
+   */
+  URI getLocatorId();
+
+  /**
+   * Opens a new InputStream for reading the content.
+   *
+   * @return the input stream.
+   * @throws IOException if no content has yet been written or the stream
+   *         cannot be opened for any other reason.
+   */
+  InputStream openInputStream() throws IOException;
+
+  /**
+   * Opens a new OutputStream for writing the content.
    *
    * @return the output stream.
+   * @throws IOException if the stream cannot be opened for any reason.
    */
-  OutputStream getOutputStream() throws IOException;
+  OutputStream openOutputStream() throws IOException;
 
   /**
    * Gets the size of the blob, in bytes.

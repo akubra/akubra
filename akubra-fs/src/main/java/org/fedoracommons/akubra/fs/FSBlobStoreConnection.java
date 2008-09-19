@@ -23,7 +23,6 @@ package org.fedoracommons.akubra.fs;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +37,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.fedoracommons.akubra.Blob;
+import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
 
 /**
@@ -47,11 +47,13 @@ import org.fedoracommons.akubra.BlobStoreConnection;
  * @author Chris Wilper
  */
 class FSBlobStoreConnection implements BlobStoreConnection {
+  private final BlobStore blobStore;
   private final File baseDir;
   private final PathAllocator pAlloc;
   private final String blobIdPrefix;
 
-  public FSBlobStoreConnection(File baseDir, PathAllocator pAlloc) {
+  public FSBlobStoreConnection(BlobStore blobStore, File baseDir, PathAllocator pAlloc) {
+    this.blobStore = blobStore;
     this.baseDir = baseDir;
     this.pAlloc = pAlloc;
     this.blobIdPrefix = getBlobIdPrefix(baseDir);
@@ -60,20 +62,35 @@ class FSBlobStoreConnection implements BlobStoreConnection {
   /**
    * {@inheritDoc}
    */
-  public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
+  public BlobStore getBlobStore() {
+    return blobStore;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public Blob getBlob(final URI blobId, Map<String, String> hints) throws IOException {
     final File file = getFile(blobId);
     if (file == null) {
       return null;
     }
+    final BlobStoreConnection conn = this;
+    // TODO: make this a real class
     return new Blob() {
-      public InputStream getInputStream() throws IOException {
-        try {
-          return new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-          throw new RuntimeException("File has been deleted: " + file.getPath(), e);
-        }
+      public BlobStoreConnection getConnection() {
+        return conn;
       }
-      public OutputStream getOutputStream() throws IOException {
+      public URI getId() {
+        return blobId;
+      }
+      public URI getLocatorId() {
+        return blobId;
+      }
+      public InputStream openInputStream() throws IOException {
+        return new FileInputStream(file);
+      }
+      public OutputStream openOutputStream() throws IOException {
+        // TODO: implement
         throw new IOException("Operation not supported.");
       }
       public long getSize() {
@@ -91,7 +108,7 @@ class FSBlobStoreConnection implements BlobStoreConnection {
       // create
       String path = pAlloc.allocate(blobId, hints);
       file = new File(baseDir, path);
-      writeFile(blob.getInputStream(), file);
+      writeFile(blob.openInputStream(), file);
       try {
         return new URI(blobIdPrefix + path);
       } catch (URISyntaxException wontHappen) {
@@ -99,7 +116,7 @@ class FSBlobStoreConnection implements BlobStoreConnection {
       }
     } else {
       // update
-      writeFile(blob.getInputStream(), file);
+      writeFile(blob.openInputStream(), file);
       return blobId;
     }
   }
@@ -114,19 +131,6 @@ class FSBlobStoreConnection implements BlobStoreConnection {
     }
     if (!file.delete()) {
       throw new RuntimeException("Unable to delete file: " + file.getPath());
-    }
-    return blobId;
-  }
-
-
-  /**
-   * {@inheritDoc}
-   */
-  public URI getBlobLocator(URI blobId, Map<String, String> hints) {
-    // just make sure it exists within baseDir
-    File file = getFile(blobId);
-    if (file == null) {
-      return null;
     }
     return blobId;
   }

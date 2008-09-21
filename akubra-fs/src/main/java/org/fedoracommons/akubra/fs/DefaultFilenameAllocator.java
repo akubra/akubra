@@ -51,9 +51,7 @@ public class DefaultFilenameAllocator implements FilenameAllocator {
   public DefaultFilenameAllocator() {
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public String allocate(URI blobId, Map<String, String> hints) {
       StringBuilder filename = new StringBuilder();
       filename.append('_');
@@ -65,9 +63,7 @@ public class DefaultFilenameAllocator implements FilenameAllocator {
       return filename.toString();
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public URI getBlobId(String filename) {
     if (filename.startsWith("_")) {
       // must be of the form _nnn_encodedBlobId or _nnn

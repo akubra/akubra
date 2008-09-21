@@ -56,37 +56,27 @@ class FSBlob implements Blob {
     this.file = file;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public BlobStoreConnection getConnection() {
     return connection;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public URI getId() {
     return blobId;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public URI getLocatorId() {
     return blobId;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public InputStream openInputStream() throws IOException {
     return new FileInputStream(file);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public OutputStream openOutputStream(long estimatedSize) throws IOException {
     if (!file.exists()) {
       makeParentDirs(file);
@@ -94,9 +84,7 @@ class FSBlob implements Blob {
     return new FileOutputStream(file);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public long getSize() {
     return file.length();
   }

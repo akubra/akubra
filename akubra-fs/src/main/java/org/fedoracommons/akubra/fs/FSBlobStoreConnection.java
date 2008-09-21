@@ -55,16 +55,12 @@ class FSBlobStoreConnection implements BlobStoreConnection {
     this.blobIdPrefix = getBlobIdPrefix(baseDir);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public BlobStore getBlobStore() {
     return blobStore;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public Blob createBlob(URI blobId, Map<String, String> hints) throws DuplicateBlobException, IOException {
     File file = getFile(blobId);
     if (file == null) {
@@ -81,9 +77,7 @@ class FSBlobStoreConnection implements BlobStoreConnection {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
     final File file = getFile(blobId);
     if (file == null) {
@@ -92,9 +86,7 @@ class FSBlobStoreConnection implements BlobStoreConnection {
     return new FSBlob(this, blobId, file);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public URI removeBlob(URI blobId, Map<String, String> hints) throws IOException {
     File file = getFile(blobId);
     if (file == null) {
@@ -106,16 +98,12 @@ class FSBlobStoreConnection implements BlobStoreConnection {
     return blobId;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public Iterator<URI> listBlobIds(String filterPrefix) {
     return new FSBlobIdIterator(baseDir, filterPrefix);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public void close() {
     // nothing to do
   }

@@ -51,16 +51,12 @@ class FSBlobIdIterator implements Iterator<URI> {
     next = getNext();
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public boolean hasNext() {
     return next != null;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public URI next() {
     if (next == null) {
       throw new NoSuchElementException();
@@ -70,9 +66,7 @@ class FSBlobIdIterator implements Iterator<URI> {
     return current;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public void remove() {
     throw new UnsupportedOperationException();
   }

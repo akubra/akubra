@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2007-2008 by Fedora Commons Inc.
  * http://www.fedoracommons.org
- * 
+ *
  * In collaboration with Topaz Inc.
  * http://www.topazproject.org
  *
@@ -31,37 +31,37 @@ import java.util.List;
  */
 public abstract class AbstractBlobStore implements BlobStore {
   /**
-   * {@inheritDoc}
    * This implementation returns an empty list.
    * Subclasses that support backing stores should override this.
    */
+  //@Override
   public List<BlobStore> getBackingStores() {
     return new ArrayList<BlobStore>(0);
   }
 
   /**
-   * {@inheritDoc}
    * This implementation throws {@link UnsupportedOperationException}.
    * Subclasses that support backing stores should override this.
    */
+  //@Override
   public void setBackingStores(List<BlobStore> stores) {
     throw new UnsupportedOperationException();
   }
 
   /**
-   * {@inheritDoc}
    * This implementation returns an empty array.
    * Subclasses that support declared capabilities should override this.
    */
+  //@Override
   public Capability[] getDeclaredCapabilities() {
     return new Capability[0];
   }
 
   /**
-   * {@inheritDoc}
    * This implementation returns an empty array.
    * Subclasses that support capabilties should override this.
    */
+  //@Override
   public Capability[] getCapabilities() {
     return new Capability[0];
   }

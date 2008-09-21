@@ -72,16 +72,12 @@ public class FSBlobStore extends AbstractBlobStore {
     this.pAlloc = pAlloc;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public URI getId() {
     return id;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public BlobStoreConnection openConnection(Transaction tx) {
      return new FSBlobStoreConnection(this, baseDir, pAlloc);
   }

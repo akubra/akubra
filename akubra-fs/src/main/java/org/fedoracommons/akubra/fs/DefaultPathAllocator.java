@@ -59,16 +59,12 @@ public class DefaultPathAllocator implements PathAllocator {
       this.fAlloc = fAlloc;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public String allocate(URI blobId, Map<String, String> hints) {
     return getDir() + fAlloc.allocate(blobId, hints);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  //@Override
   public URI getBlobId(String path) {
     int i = path.lastIndexOf("/");
     if (i == -1 || i == path.length() - 1) {

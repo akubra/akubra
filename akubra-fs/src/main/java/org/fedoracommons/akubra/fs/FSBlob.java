@@ -67,11 +67,6 @@ class FSBlob implements Blob {
   }
 
   //@Override
-  public URI getLocatorId() {
-    return blobId;
-  }
-
-  //@Override
   public InputStream openInputStream() throws IOException {
     return new FileInputStream(file);
   }

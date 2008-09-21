@@ -50,13 +50,6 @@ public interface Blob {
   URI getId();
 
   /**
-   * Gets the locator-id of the blob.
-   *
-   * @return the locator-id, or null if it has not yet been assigned.
-   */
-  URI getLocatorId();
-
-  /**
    * Opens a new InputStream for reading the content.
    *
    * @return the input stream.

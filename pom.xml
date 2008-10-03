@@ -73,6 +73,13 @@
       <post>akubra-dev@googlegroups.com</post>
       <archive>http://groups.google.com/group/akubra-dev/topics</archive>
     </mailingList>
+    <mailingList>
+      <name>Akubra project commit notification mailing list</name>
+      <subscribe>http://groups.google.com/group/akubra-codewatch/subscribe</subscribe>
+      <unsubscribe>akubra-codewatch+unsubscribe@googlegroups.com</unsubscribe>
+      <post>akubra-codewatch@googlegroups.com</post>
+      <archive>http://groups.google.com/group/akubra-codewatch/topics</archive>
+    </mailingList>
   </mailingLists>
 
   <repositories>

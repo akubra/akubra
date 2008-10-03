@@ -31,8 +31,8 @@
   <packaging>pom</packaging>
   <version>0.1-SNAPSHOT</version>
   <name>Akubra</name>
-  <description>Transaction compliant blob store</description>
-  <url>http://www.topazproject.org/akubra</url>
+  <description>Pluggable Blob Storage API</description>
+  <url>http://www.fedora-commons.org/confluence/display/DEV/Akubra+Project</url>
 
   <organization>
     <name>Fedora Commons</name>
@@ -49,38 +49,33 @@
   </licenses>
 
   <issueManagement>
-    <system>trac</system>
-    <url>http://www.topazproject.org/akubra/trac</url>
+    <system>jira</system>
+    <url>https://fedora-commons.org/jira/browse/AKUBRA</url>
   </issueManagement>
 
   <ciManagement>
-    <system>continuum</system>
-    <url>http://www.topazproject.org/akubra/continuum</url>
+    <system>bamboo</system>
+    <url>https://fedora-commons.org/bamboo/</url>
   </ciManagement>
 
   <mailingLists>
     <mailingList>
       <name>Akubra project general users mailing list</name>
-      <subscribe>akubra-general-subscribe@topazproject.org</subscribe>
-      <unsubscribe>akubra-general-unsubscribe@topazproject.org</unsubscribe>
-      <post>akubra-general@topazproject.org</post>
-      <archive>http://lists.topazproject.org/pipermail/akubra-general/</archive>
+      <subscribe>http://groups.google.com/group/akubra-users/subscribe</subscribe>
+      <unsubscribe>akubra-users+unsubscribe@googlegroups.com</unsubscribe>
+      <post>akubra-users@googlegroups.com</post>
+      <archive>http://groups.google.com/group/akubra-users/topics</archive>
     </mailingList>
     <mailingList>
       <name>Akubra project developer mailing list</name>
-      <subscribe>akubra-dev-subscribe@topazproject.org</subscribe>
-      <unsubscribe>akubra-dev-unsubscribe@topazproject.org</unsubscribe>
-      <post>akubra-dev@topazproject.org</post>
-      <archive>http://lists.topazproject.org/pipermail/akubra-dev/</archive>
+      <subscribe>http://groups.google.com/group/akubra-dev/subscribe</subscribe>
+      <unsubscribe>akubra-dev+unsubscribe@googlegroups.com</unsubscribe>
+      <post>akubra-dev@googlegroups.com</post>
+      <archive>http://groups.google.com/group/akubra-dev/topics</archive>
     </mailingList>
   </mailingLists>
 
   <repositories>
-    <repository>
-      <id>topaz</id>
-      <name>Maven 2 Repository for Topaz</name>
-      <url>http://maven.topazproject.org/maven2/</url>
-    </repository>
     <repository>
       <id>central</id>
       <name>Maven Repository Switchboard</name>
@@ -98,16 +93,23 @@
   </repositories>
   <pluginRepositories>
     <pluginRepository>
-      <id>topaz</id>
-      <name>Maven 2 Repository for Topaz</name>
-      <url>http://maven.topazproject.org/maven2/</url>
+      <id>central</id>
+      <name>Maven Plugin Repository</name>
+      <url>http://repo1.maven.org/maven2</url>
+      <layout>default</layout>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
     </pluginRepository>
   </pluginRepositories>
 
   <scm>
-    <developerConnection>scm:svn:http://svn.topazproject.org/akubra/svn/trunk</developerConnection>
-    <connection>scm:svn:http://svn.topazproject.org/akubra/svn/trunk</connection>
-    <url>http://www.topazproject.org/akubra/trac/browser</url>
+    <developerConnection>scm:svn:https://fedora-commons.org/svn/root/akubra/trunk</developerConnection>
+    <connection>scm:svn:https://fedora-commons.org/svn/root/akubra/trunk</connection>
+    <url>https://fedora-commons.org/svn/view/akubra/trunk/</url>
   </scm>
 
   <modules>

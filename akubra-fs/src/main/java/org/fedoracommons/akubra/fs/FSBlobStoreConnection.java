@@ -36,6 +36,7 @@ import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.DuplicateBlobException;
+import org.fedoracommons.akubra.MissingBlobException;
 
 /**
  * Filesystem-backed BlobStoreConnection implementation.
@@ -84,6 +85,11 @@ class FSBlobStoreConnection implements BlobStoreConnection {
       return null;
     }
     return new FSBlob(this, blobId, file);
+  }
+
+  //@Override
+  public void renameBlob(URI oldBlobId, URI newBlobId, Map<String, String> hints) {
+    throw new UnsupportedOperationException();
   }
 
   //@Override

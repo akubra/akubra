@@ -46,7 +46,7 @@ public interface BlobStoreConnection {
    * Creates a new blob.
    *
    * @param blobId the preferred blob id, may be null
-   * @param hints  a set of hints to allow the implementation to optimize the operation (can be null)
+   * @param hints a set of hints to allow the implementation to optimize the operation (can be null)
    * @throws DuplicateBlobException if a blob with the given id already exists
    * @throws IOException if the blob cannot be created for any other reason
    */
@@ -64,6 +64,19 @@ public interface BlobStoreConnection {
    * @exception IOException for IO errors
    */
   Blob getBlob(URI blobId, Map<String, String> hints) throws IOException;
+
+  /**
+   * Renames an existing Blob.
+   *
+   * @param oldBlobId the old blob id.
+   * @param newBlobId the new blob id.
+   * @param hints a set of hints to allow the implementation to optimize the operation (can be null)
+   * @throws DuplicateBlobException if a blob with id newBlobId already exists
+   * @throws IOException if an IO error occurs while attempting the operation
+   * @throws MissingBlobException if a blob with id oldBlobId does not exist
+   */
+  void renameBlob(URI oldBlobId, URI newBlobId, Map<String, String> hints)
+      throws DuplicateBlobException, IOException, MissingBlobException;
 
   /**
    * Remove the blob from the store

@@ -44,6 +44,7 @@ public class FSBlobStore extends AbstractBlobStore {
   private final File baseDir;
   private final PathAllocator pAlloc;
   private final URI id;
+  private boolean quiescent;
 
   /**
    * Creates an instance with the given id and base storage directory,
@@ -80,6 +81,28 @@ public class FSBlobStore extends AbstractBlobStore {
   //@Override
   public BlobStoreConnection openConnection(Transaction tx) {
      return new FSBlobStoreConnection(this, baseDir, pAlloc);
+  }
+
+  //@Override
+  public void setQuiescent(boolean quiescent) {
+    if (this.quiescent == quiescent) {
+      return;
+    }
+    if (quiescent) {
+      quiesce();
+    } else {
+      unquiesce();
+    }
+  }
+
+  private void quiesce() {
+    // TODO: Block until writes have completed, then start blocking new writes
+    quiescent = true;
+  }
+
+  private void unquiesce() {
+    // TODO: Unblock pending writes
+    quiescent = false;
   }
 
 }

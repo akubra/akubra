@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2007-2008 by Fedora Commons Inc.
  * http://www.fedoracommons.org
- * 
+ *
  * In collaboration with Topaz Inc.
  * http://www.topazproject.org
  *
@@ -65,6 +65,17 @@ public interface BlobStore {
    * @return the connection to the blob store
    */
   BlobStoreConnection openConnection(Transaction tx);
+
+  /**
+   * Makes the blob store quiescent or non-quiescent.
+   * <p>
+   * When going from non-quiescent to quiescent, this call blocks until all active writes have
+   * completed any caches have been flushed.  While in the quiescent state, the store may continue
+   * to honor read requests, but must block on write requests.
+   *
+   * @param quiescent whether to go into the quiescent (true) or non-quiescent (false) state.
+   */
+  void setQuiescent(boolean quiescent);
 
   /**
    * Get capabilities of this blob store instance only

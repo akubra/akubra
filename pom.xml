@@ -94,8 +94,12 @@
     </repository>
     <repository>
       <id>java.net</id>
-      <url>http://download.java.net/maven/1</url>
-      <layout>legacy</layout>
+      <name>Java.net Maven Repository</name>
+      <layout>default</layout>
+      <url>http://download.java.net/maven/2</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
     </repository>
   </repositories>
   <pluginRepositories>

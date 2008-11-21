@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2007-2008 by Fedora Commons Inc.
  * http://www.fedoracommons.org
- * 
+ *
  * In collaboration with Topaz Inc.
  * http://www.topazproject.org
  *
@@ -29,18 +29,20 @@ package org.fedoracommons.akubra;
  * @author Ronald Tschalär
  */
 public class AkubraException extends Exception {
-  /** 
-   * Create a new exception instance with a message. 
-   * 
+  public static final long serialVersionUID = 1L;
+
+  /**
+   * Create a new exception instance with a message.
+   *
    * @param msg the details about the exception
    */
   public AkubraException(String msg) {
     super(msg);
   }
 
-  /** 
-   * Create a new chained exception instance with a message. 
-   * 
+  /**
+   * Create a new chained exception instance with a message.
+   *
    * @param msg   the details about the exception
    * @param cause the underlying exception that caused this exception
    */

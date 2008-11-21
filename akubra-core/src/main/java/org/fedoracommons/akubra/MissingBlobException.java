@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2007-2008 by Fedora Commons Inc.
  * http://www.fedoracommons.org
- * 
+ *
  * In collaboration with Topaz Inc.
  * http://www.topazproject.org
  *
@@ -31,20 +31,21 @@ import java.net.URI;
  * @author Ronald Tschalär
  */
 public class MissingBlobException extends AkubraException {
-  private URI blobId;
+  public static final long serialVersionUID = 1L;
+  private final URI blobId;
 
-  /** 
+  /**
    * Exception indicating the there is no blob in the store associated with the blob-id.
-   * 
+   *
    * @param blobId the blob-id
    */
   public MissingBlobException(URI blobId) {
     this(blobId, "", null);
   }
 
-  /** 
+  /**
    * Exception indicating the there is no blob in the store associated with the blob-id.
-   * 
+   *
    * @param blobId the blob-id
    * @param msg the details about the exception
    */
@@ -52,9 +53,9 @@ public class MissingBlobException extends AkubraException {
     this(blobId, msg, null);
   }
 
-  /** 
+  /**
    * Exception indicating the there is no blob in the store associated with the blob-id.
-   * 
+   *
    * @param blobId the blob-id
    * @param msg    the details about the exception
    * @param cause  the underlying exception that caused this exception

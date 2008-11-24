@@ -19,14 +19,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fedoracommons.akubra.fs;
+package org.fedoracommons.akubra.util;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.junit.Test;
-
-import org.fedoracommons.akubra.util.DefaultFilenameAllocator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

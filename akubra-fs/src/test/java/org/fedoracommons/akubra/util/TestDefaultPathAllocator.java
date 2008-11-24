@@ -19,7 +19,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fedoracommons.akubra.fs;
+package org.fedoracommons.akubra.util;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -28,9 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-
-import org.fedoracommons.akubra.util.DefaultPathAllocator;
-import org.fedoracommons.akubra.util.FilenameAllocator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;

@@ -29,6 +29,9 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import org.fedoracommons.akubra.util.DefaultPathAllocator;
+import org.fedoracommons.akubra.util.FilenameAllocator;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -38,7 +41,7 @@ import static org.junit.Assert.fail;
  * @author Chris Wilper
  */
 public class TestDefaultPathAllocator {
-  private DefaultPathAllocator allocator = new DefaultPathAllocator(new MockFilenameAllocator());
+  private final DefaultPathAllocator allocator = new DefaultPathAllocator(new MockFilenameAllocator());
 
   /**
    * Allocations should have the form 2008/0304/1015/allocated-filename

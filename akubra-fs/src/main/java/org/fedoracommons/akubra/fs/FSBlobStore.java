@@ -29,6 +29,8 @@ import javax.transaction.Transaction;
 
 import org.fedoracommons.akubra.AbstractBlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
+import org.fedoracommons.akubra.util.DefaultPathAllocator;
+import org.fedoracommons.akubra.util.PathAllocator;
 import org.fedoracommons.akubra.util.StreamManager;
 
 /**

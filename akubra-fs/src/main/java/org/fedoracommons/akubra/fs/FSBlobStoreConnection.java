@@ -36,6 +36,7 @@ import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.DuplicateBlobException;
+import org.fedoracommons.akubra.util.PathAllocator;
 import org.fedoracommons.akubra.util.StreamManager;
 
 /**

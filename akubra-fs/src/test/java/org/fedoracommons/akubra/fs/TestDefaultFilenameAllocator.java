@@ -26,6 +26,8 @@ import java.net.URISyntaxException;
 
 import org.junit.Test;
 
+import org.fedoracommons.akubra.util.DefaultFilenameAllocator;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -37,7 +39,7 @@ import static org.junit.Assert.fail;
  * @author Chris Wilper
  */
 public class TestDefaultFilenameAllocator {
-  private DefaultFilenameAllocator allocator = new DefaultFilenameAllocator();
+  private final DefaultFilenameAllocator allocator = new DefaultFilenameAllocator();
 
   /**
    * Allocations without blobId should start with _0 and increment.

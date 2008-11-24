@@ -36,7 +36,7 @@ import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.DuplicateBlobException;
-import org.fedoracommons.akubra.MissingBlobException;
+import org.fedoracommons.akubra.util.StreamManager;
 
 /**
  * Filesystem-backed BlobStoreConnection implementation.
@@ -48,12 +48,15 @@ class FSBlobStoreConnection implements BlobStoreConnection {
   private final File baseDir;
   private final PathAllocator pAlloc;
   private final String blobIdPrefix;
+  private final StreamManager manager;
 
-  FSBlobStoreConnection(BlobStore blobStore, File baseDir, PathAllocator pAlloc) {
+  FSBlobStoreConnection(BlobStore blobStore, File baseDir, PathAllocator pAlloc,
+                        StreamManager manager) {
     this.blobStore = blobStore;
     this.baseDir = baseDir;
     this.pAlloc = pAlloc;
     this.blobIdPrefix = getBlobIdPrefix(baseDir);
+    this.manager = manager;
   }
 
   //@Override
@@ -69,7 +72,7 @@ class FSBlobStoreConnection implements BlobStoreConnection {
       String path = pAlloc.allocate(blobId, hints);
       file = new File(baseDir, path);
       try {
-        return new FSBlob(this, new URI(blobIdPrefix + path), file);
+        return new FSBlob(this, new URI(blobIdPrefix + path), file, manager);
       } catch (URISyntaxException wontHappen) {
         throw new RuntimeException(wontHappen);
       }
@@ -84,7 +87,7 @@ class FSBlobStoreConnection implements BlobStoreConnection {
     if (file == null) {
       return null;
     }
-    return new FSBlob(this, blobId, file);
+    return new FSBlob(this, blobId, file, manager);
   }
 
   //@Override

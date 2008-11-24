@@ -22,6 +22,7 @@
 package org.fedoracommons.akubra;
 
 import java.net.URI;
+
 import java.util.List;
 
 import javax.transaction.Transaction;
@@ -74,8 +75,9 @@ public interface BlobStore {
    * to honor read requests, but must block on write requests.
    *
    * @param quiescent whether to go into the quiescent (true) or non-quiescent (false) state.
+   * @return true if successful, false if the thread was interrupted while blocking.
    */
-  void setQuiescent(boolean quiescent);
+  boolean setQuiescent(boolean quiescent);
 
   /**
    * Get capabilities of this blob store instance only

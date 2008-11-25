@@ -21,6 +21,7 @@
  */
 package org.fedoracommons.akubra.util;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -41,12 +42,26 @@ public class StreamManager {
   /** Exclusive lock on the quiescent state. */
   private final ReentrantLock stateLock = new ReentrantLock(true);
 
+  /** Listens to close events. */
+  private final CloseListener listener;
+
   /** The set of open <code>OutputStream</code>s managed by this instance. */
   private volatile WeakHashMap<OutputStream, Object> openStreams
       = new WeakHashMap<OutputStream, Object>();
 
   /** The current quiescent state. */
   private boolean quiescent;
+
+  /**
+   * Creates an instance.
+   */
+  public StreamManager() {
+    listener = new CloseListener() {
+      public void notifyClosed(Closeable closeable) {
+        openStreams.remove(closeable);
+      }
+    };
+  }
 
   /**
    * Acquires the state lock in an unquiescent state.
@@ -86,6 +101,8 @@ public class StreamManager {
   /**
    * Sets the quiescent state.
    *
+   * Note that setting to the current state has no effect.
+   *
    * @param quiescent whether to go into the quiescent (true) or non-quiescent (false) state.
    * @return true if successful, false if the thread was interrupted while blocking.
    * @see org.fedoracommons.akubra.BlobStore#setQuiescent
@@ -116,7 +133,7 @@ public class StreamManager {
    * @return the wrapped version of the stream.
    */
   public OutputStream manageOutputStream(OutputStream stream) {
-    OutputStream managed = new ManagedOutputStream(this, stream);
+    OutputStream managed = new ManagedOutputStream(listener, stream);
     openStreams.put(managed, null);
     return managed;
   }
@@ -125,24 +142,30 @@ public class StreamManager {
    * Provides a tracked FileOutputStream for the given file.
    *
    * @param file the file open for writing.
-   * @return the wrapped version of the stream.
+   * @return a new FileOutputStream for the file.
    * @throws FileNotFoundException if the file exists but is a directory rather
    *     than a regular file, does not exist but cannot be created, or cannot be
    *     opened for any other reason.
    */
   public FileOutputStream manageOutputStream(File file) throws FileNotFoundException {
-    FileOutputStream managed = new ManagedFileOutputStream(this, file);
+    FileOutputStream managed = new ManagedFileOutputStream(listener, file);
     openStreams.put(managed, null);
     return managed;
   }
 
-  /**
-   * Callback for tracked streams to notify the StreamManager when closed.
-   *
-   * @param stream the stream that was just closed.
-   */
-  void notifyClosed(OutputStream stream) {
-    openStreams.remove(stream);
+  // how many streams are open?
+  int getOpenCount() {
+    return openStreams.size();
+  }
+
+  // are we in the quiescent state?
+  boolean isQuiescent() {
+    stateLock.lock();
+    try {
+        return quiescent;
+    } finally {
+      stateLock.unlock();
+    }
   }
 
 }

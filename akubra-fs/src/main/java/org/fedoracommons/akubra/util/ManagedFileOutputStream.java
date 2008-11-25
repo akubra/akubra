@@ -28,36 +28,36 @@ import java.io.IOException;
 
 /**
  * A <code>FileOutputStream</code> that provides notification to a
- * <code>StreamManager</code> when closed.
+ * <code>CloseListener</code> when closed.
  *
  * @author Chris Wilper
  */
 class ManagedFileOutputStream extends FileOutputStream {
 
-  private final StreamManager manager;
+  private final CloseListener listener;
 
   /**
    * Creates an instance.
    *
-   * @param manager the StreamManager to notify when closed.
+   * @param listener the CloseListener to notify when closed.
    * @param file the file to open for writing.
    * @throws FileNotFoundException if the file exists but is a directory rather
    *     than a regular file, does not exist but cannot be created, or cannot be
    *     opened for any other reason.
    */
-  ManagedFileOutputStream(StreamManager manager, File file)
+  ManagedFileOutputStream(CloseListener listener, File file)
       throws FileNotFoundException {
     super(file);
-    this.manager = manager;
+    this.listener = listener;
   }
 
   /**
-   * Closes the stream, then notifies the StreamManager.
+   * Closes the stream, then notifies the CloseListener.
    */
   @Override
   public void close() throws IOException {
     super.close();
-    manager.notifyClosed(this);
+    listener.notifyClosed(this);
   }
 
 }

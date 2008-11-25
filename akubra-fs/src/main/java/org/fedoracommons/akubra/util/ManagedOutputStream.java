@@ -26,23 +26,23 @@ import java.io.OutputStream;
 
 /**
  * Wraps an <code>OutputStream</code> to provide notification to a
- * <code>StreamManager</code> when closed.
+ * <code>CloseListener</code> when closed.
  *
  * @author Chris Wilper
  */
 class ManagedOutputStream extends OutputStream {
 
-  private final StreamManager manager;
+  private final CloseListener listener;
   private final OutputStream stream;
 
   /**
    * Creates an instance.
    *
-   * @param manager the StreamManager to notify when closed.
+   * @param listener the CloseListener to notify when closed.
    * @param stream the stream to wrap.
    */
-  ManagedOutputStream(StreamManager manager, OutputStream stream) {
-    this.manager = manager;
+  ManagedOutputStream(CloseListener listener, OutputStream stream) {
+    this.listener = listener;
     this.stream = stream;
   }
 
@@ -67,12 +67,12 @@ class ManagedOutputStream extends OutputStream {
   }
 
   /**
-   * Closes the stream, then notifies the StreamManager.
+   * Closes the stream, then notifies the CloseListener.
    */
   @Override
   public void close() throws IOException {
     stream.close();
-    manager.notifyClosed(this);
+    listener.notifyClosed(this);
   }
 
 }

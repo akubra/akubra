@@ -50,22 +50,41 @@ public interface BlobStore {
   List<BlobStore> getBackingStores();
 
   /**
-   * Set the list of back store
+   * Set the list of back stores.
    *
    * @param stores the list of backing store
+   * @throws UnsupportedOperationException if setting the backing stores is
+   *     not supported by this blob store.
+   * @throws IllegalStateException TODO: Document conditions under which this
+   *     is thrown.  Also: is it thrown by other methods?
    */
   void setBackingStores(List<BlobStore> stores)
     throws UnsupportedOperationException, IllegalStateException;
 
   /**
-   * Open a connection to the blob store. The connection is valid for exactly one transaction, at
-   * the end of which it will get {@link BlobStoreConnection#close close()}'d. Implementations are
-   * expected to do any desired pooling of underlying connections themselves.
-   *
-   * @param tx the transaction associated with this connection
+   * Opens a connection to the blob store.
+   * <p>
+   * If the blob store is transactional, the caller must provide a
+   * <code>Transaction</code>.  Once provided, the connection will be valid for
+   * the life of the transaction, at the end of which it will be automatically
+   * {@link BlobStoreConnection#close close()}'d.
+   * <p>
+   * If the blob store is not transactional, the caller must provide
+   * <code>null</code>.  Once provided, the connection will be valid until
+   * explicitly closed.
+   * <p>
+   * Implementations are expected to do any desired pooling of underlying
+   * connections themselves.
+   * <p>
+   * @param tx the transaction associated with this connection, or null if
+   *     the blob store is not transactional
    * @return the connection to the blob store
+   * @throws UnsupportedOperationException if the blob store is transactional
+   *     but a Transaction is not provided by the caller, or if the blob store
+   *     is not transactional and a Transaction is provided by the caller.
    */
-  BlobStoreConnection openConnection(Transaction tx);
+  BlobStoreConnection openConnection(Transaction tx)
+      throws UnsupportedOperationException;
 
   /**
    * Makes the blob store quiescent or non-quiescent.

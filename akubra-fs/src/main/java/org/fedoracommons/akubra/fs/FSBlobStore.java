@@ -83,7 +83,10 @@ public class FSBlobStore extends AbstractBlobStore {
 
   //@Override
   public BlobStoreConnection openConnection(Transaction tx) {
-     return new FSBlobStoreConnection(this, baseDir, pAlloc, manager);
+    if (tx != null) {
+      throw new UnsupportedOperationException();
+    }
+    return new FSBlobStoreConnection(this, baseDir, pAlloc, manager);
   }
 
   //@Override

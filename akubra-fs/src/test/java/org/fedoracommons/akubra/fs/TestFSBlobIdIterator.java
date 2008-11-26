@@ -52,25 +52,21 @@ public class TestFSBlobIdIterator {
    */
   @BeforeClass
   public static void init() throws Exception {
-    // create new tmpDir in java.io.tmpdir
-    File tempFile = File.createTempFile("akubra-test", null);
-    tmpDir = new File(tempFile.getPath());
-    tempFile.delete();
-    tmpDir.mkdir();
+    tmpDir = FSTestUtil.createTempDir();
     // setup dirs within for tests
     emptyDir = new File(tmpDir, "empty");
     emptyDir.mkdir();
     multiDir = new File(tmpDir, "multi");
     multiDir.mkdir();
-    add(multiDir, "file-1");
-    add(multiDir, "file-2");
-    add(multiDir, "dir-empty/");
-    add(multiDir, "dir-nonempty/");
-    add(multiDir, "dir-nonempty/file-3");
-    add(multiDir, "dir-nonempty/file-4");
-    add(multiDir, "dir-nonempty/subdir/");
-    add(multiDir, "dir-nonempty/subdir/file-5");
-    add(multiDir, "dir-nonempty/subdir/file-6");
+    FSTestUtil.add(multiDir, "file-1");
+    FSTestUtil.add(multiDir, "file-2");
+    FSTestUtil.add(multiDir, "dir-empty/");
+    FSTestUtil.add(multiDir, "dir-nonempty/");
+    FSTestUtil.add(multiDir, "dir-nonempty/file-3");
+    FSTestUtil.add(multiDir, "dir-nonempty/file-4");
+    FSTestUtil.add(multiDir, "dir-nonempty/subdir/");
+    FSTestUtil.add(multiDir, "dir-nonempty/subdir/file-5");
+    FSTestUtil.add(multiDir, "dir-nonempty/subdir/file-6");
   }
 
   /**
@@ -78,7 +74,7 @@ public class TestFSBlobIdIterator {
    */
   @AfterClass
   public static void destroy() {
-    rmdir(tmpDir);
+    FSTestUtil.rmdir(tmpDir);
   }
 
   /**
@@ -119,28 +115,6 @@ public class TestFSBlobIdIterator {
       set.add(iter.next());
     }
     return set;
-  }
-
-  // create an empty file or dir with the given name in the given dir
-  private static void add(File dir, String name) throws Exception {
-    File file = new File(dir, name);
-    if (name.endsWith("/")) {
-      file.mkdir();
-    } else {
-      file.createNewFile();
-    }
-  }
-
-  // rm -rf dir
-  private static void rmdir(File dir) {
-    for (File file : dir.listFiles()) {
-      if (file.isDirectory()) {
-        rmdir(file);
-      } else {
-        file.delete();
-      }
-    }
-    dir.delete();
   }
 
 }

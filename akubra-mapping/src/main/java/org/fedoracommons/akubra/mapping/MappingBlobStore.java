@@ -74,5 +74,4 @@ public class MappingBlobStore extends AbstractBlobStore {
   public boolean setQuiescent(boolean quiescent) {
     return wrappedStore.setQuiescent(quiescent);
   }
-
 }

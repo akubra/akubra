@@ -88,5 +88,4 @@ class MappingBlobStoreConnection implements BlobStoreConnection {
   //@Override
   public void close() {
   }
-
 }

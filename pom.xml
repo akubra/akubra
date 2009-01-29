@@ -128,6 +128,7 @@
     <module>akubra-fs</module>
     <module>akubra-mapping</module>
     <module>akubra-mem</module>
+    <module>akubra-txn</module>
   </modules>
 
   <dependencyManagement>

@@ -21,6 +21,7 @@
  */
 package org.fedoracommons.akubra;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,23 @@ import java.util.List;
  * @author Chris Wilper
  */
 public abstract class AbstractBlobStore implements BlobStore {
+  /** This store's id */
+  protected final URI id;
+
+  /**
+   * Create a new blob store.
+   *
+   * @param id the store's id
+   */
+  protected AbstractBlobStore(URI id) {
+    this.id = id;
+  }
+
+  //@Override
+  public URI getId() {
+    return id;
+  }
+
   /**
    * This implementation returns an empty list.
    * Subclasses that support backing stores should override this.

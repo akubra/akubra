@@ -42,22 +42,16 @@ import org.fedoracommons.akubra.BlobStoreConnection;
  * @author Chris Wilper
  */
 public class MappingBlobStore extends AbstractBlobStore {
-  private final URI id;
   private final BlobStore wrappedStore;
   private final DataSource dataSource;
   private final String mapTable;
 
   public MappingBlobStore(URI id, BlobStore wrappedStore, DataSource dataSource,
                           String mapTable) {
-    this.id = id;
+    super(id);
     this.wrappedStore = wrappedStore;
     this.dataSource = dataSource;
     this.mapTable = mapTable;
-  }
-
-  //@Override
-  public URI getId() {
-    return id;
   }
 
   //@Override

@@ -46,7 +46,6 @@ import org.fedoracommons.akubra.util.StreamManager;
 public class FSBlobStore extends AbstractBlobStore {
   private final File baseDir;
   private final PathAllocator pAlloc;
-  private final URI id;
   private final StreamManager manager = new StreamManager();
 
   /**
@@ -57,7 +56,7 @@ public class FSBlobStore extends AbstractBlobStore {
    * @param baseDir the base storage directory.
    */
   public FSBlobStore(URI id, File baseDir) {
-    this.id = id;
+    super(id);
     this.baseDir = baseDir;
     pAlloc = new DefaultPathAllocator();
   }
@@ -71,14 +70,9 @@ public class FSBlobStore extends AbstractBlobStore {
    * @param pAlloc the PathAllocator to use.
    */
   public FSBlobStore(URI id, File baseDir, PathAllocator pAlloc) {
-    this.id = id;
+    super(id);
     this.baseDir = baseDir;
     this.pAlloc = pAlloc;
-  }
-
-  //@Override
-  public URI getId() {
-    return id;
   }
 
   //@Override

@@ -127,6 +127,7 @@
     <module>akubra-core</module>
     <module>akubra-fs</module>
     <module>akubra-mapping</module>
+    <module>akubra-mem</module>
   </modules>
 
   <dependencyManagement>

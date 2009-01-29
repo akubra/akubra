@@ -21,6 +21,7 @@
  */
 package org.fedoracommons.akubra;
 
+import java.io.IOException;
 import java.net.URI;
 
 import java.util.List;
@@ -82,9 +83,10 @@ public interface BlobStore {
    * @throws UnsupportedOperationException if the blob store is transactional
    *     but a Transaction is not provided by the caller, or if the blob store
    *     is not transactional and a Transaction is provided by the caller.
+   * @throws IOException if an error occurred trying to open the connection.
    */
   BlobStoreConnection openConnection(Transaction tx)
-      throws UnsupportedOperationException;
+      throws UnsupportedOperationException, IOException;
 
   /**
    * Makes the blob store quiescent or non-quiescent.
@@ -95,8 +97,9 @@ public interface BlobStore {
    *
    * @param quiescent whether to go into the quiescent (true) or non-quiescent (false) state.
    * @return true if successful, false if the thread was interrupted while blocking.
+   * @throws IOException if an error occurred trying to quiesce the store.
    */
-  boolean setQuiescent(boolean quiescent);
+  boolean setQuiescent(boolean quiescent) throws IOException;
 
   /**
    * Get capabilities of this blob store instance only

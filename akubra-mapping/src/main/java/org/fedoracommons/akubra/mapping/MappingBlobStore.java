@@ -21,6 +21,7 @@
  */
 package org.fedoracommons.akubra.mapping;
 
+import java.io.IOException;
 import java.net.URI;
 
 import java.sql.Connection;
@@ -60,7 +61,7 @@ public class MappingBlobStore extends AbstractBlobStore {
   }
 
   //@Override
-  public BlobStoreConnection openConnection(Transaction tx) {
+  public BlobStoreConnection openConnection(Transaction tx) throws IOException {
     BlobStoreConnection bsConn = wrappedStore.openConnection(tx);
     try {
       Connection dbConn = dataSource.getConnection();
@@ -71,7 +72,7 @@ public class MappingBlobStore extends AbstractBlobStore {
   }
 
   //@Override
-  public boolean setQuiescent(boolean quiescent) {
+  public boolean setQuiescent(boolean quiescent) throws IOException {
     return wrappedStore.setQuiescent(quiescent);
   }
 }

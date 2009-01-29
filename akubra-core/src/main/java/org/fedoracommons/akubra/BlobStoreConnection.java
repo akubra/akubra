@@ -97,8 +97,9 @@ public interface BlobStoreConnection {
    * @param filterPrefix If provided, the list will be limited to those blob-ids beginning with this prefix
    *
    * @return The iterator of blob-ids.
+   * @throws IOException if an error occurred getting the list of blob ids
    */
-  Iterator<URI> listBlobIds(String filterPrefix);
+  Iterator<URI> listBlobIds(String filterPrefix) throws IOException;
 
   /**
    * Close the connection to the blob store

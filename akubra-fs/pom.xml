@@ -19,14 +19,12 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.5</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.fedoracommons</groupId>
       <artifactId>akubra-core</artifactId>
-      <version>0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
 

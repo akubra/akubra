@@ -132,6 +132,18 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
+        <groupId>org.fedoracommons</groupId>
+        <artifactId>akubra-core</artifactId>
+        <version>${pom.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.fedoracommons</groupId>
+        <artifactId>akubra-fs</artifactId>
+        <version>${pom.version}</version>
+      </dependency>
+
+      <dependency>
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
         <version>1.1.1</version>
@@ -141,6 +153,12 @@
         <groupId>javax.transaction</groupId>
         <artifactId>jta</artifactId>
         <version>1.0.1B</version>
+      </dependency>
+
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.5</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

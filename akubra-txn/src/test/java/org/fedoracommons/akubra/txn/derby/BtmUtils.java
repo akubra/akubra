@@ -1,7 +1,7 @@
 /* $HeadURL$
  * $Id$
  *
- * Copyright (c) 2008-2009 by Fedora Commons Inc.
+ * Copyright (c) 2008,2009 by Fedora Commons Inc.
  * http://www.fedoracommons.org
  *
  * In collaboration with Topaz Inc.

@@ -129,6 +129,7 @@
     <module>akubra-mapping</module>
     <module>akubra-mem</module>
     <module>akubra-txn</module>
+    <module>akubra-www</module>
   </modules>
 
   <dependencyManagement>

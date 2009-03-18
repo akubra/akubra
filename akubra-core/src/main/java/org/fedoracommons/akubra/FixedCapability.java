@@ -56,15 +56,15 @@ public class FixedCapability implements Capability {
   /**
    * @return true (always enabled)
    */
-  public boolean getSwitch() {
+  public boolean isEnabled() {
     return true;
   }
 
   /**
-   * @throws UnsupportedOperationException if <var>val</var> is false
+   * @throws UnsupportedOperationException if <var>enabled</var> is false
    */
-  public void setSwitch(boolean val) throws UnsupportedOperationException {
-    if (!val)
+  public void setEnabled(boolean enabled) throws UnsupportedOperationException {
+    if (!enabled)
       throw new UnsupportedOperationException("Cannot disable capability '" + id + "'");
   }
 }

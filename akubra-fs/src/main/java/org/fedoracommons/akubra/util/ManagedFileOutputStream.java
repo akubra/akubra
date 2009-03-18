@@ -56,8 +56,10 @@ class ManagedFileOutputStream extends FileOutputStream {
    */
   @Override
   public void close() throws IOException {
-    super.close();
-    listener.notifyClosed(this);
+    try {
+      super.close();
+    } finally {
+      listener.notifyClosed(this);
+    }
   }
-
 }

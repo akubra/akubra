@@ -23,7 +23,10 @@ package org.fedoracommons.akubra;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Abstract BlobStore implementation with no backing stores or capabilities.
@@ -76,12 +79,17 @@ public abstract class AbstractBlobStore implements BlobStore {
   }
 
   /**
-   * This implementation returns an empty array.
-   * Subclasses that support capabilties should override this.
+   * This implementation returns the union of the declared capabilities of this store and
+   * of the capabilities of all backing stores.
    */
   //@Override
   public Capability[] getCapabilities() {
-    return new Capability[0];
-  }
+    Set<Capability> caps = new HashSet<Capability>();
+    Collections.addAll(caps, getDeclaredCapabilities());
 
+    for (BlobStore bs : getBackingStores())
+      Collections.addAll(caps, bs.getCapabilities());
+
+    return caps.toArray(new Capability[caps.size()]);
+  }
 }

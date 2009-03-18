@@ -32,7 +32,7 @@
   <version>0.1-SNAPSHOT</version>
   <name>Akubra</name>
   <description>Pluggable Blob Storage API</description>
-  <url>http://www.fedora-commons.org/confluence/display/DEV/Akubra+Project</url>
+  <url>http://www.fedora-commons.org/confluence/display/Akubra</url>
 
   <organization>
     <name>Fedora Commons</name>

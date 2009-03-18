@@ -33,6 +33,7 @@ import org.apache.commons.logging.LogFactory;
 import org.fedoracommons.akubra.AbstractBlobStore;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.Capability;
+import org.fedoracommons.akubra.FixedCapability;
 
 /**
  * A basic superclass for transactional stores. This implements the capability and backing-store
@@ -49,26 +50,8 @@ public abstract class AbstractTransactionalStore extends AbstractBlobStore {
                         URI.create("http://fedoracommons.org/akubra/capabilities/transactions");
 
   private static final Log        logger      = LogFactory.getLog(AbstractTransactionalStore.class);
-  private static final Capability txnCapability = new Capability() {
-    public URI getId() {
-      return TXN_CAP_ID;
-    }
+  private static final Capability txnCapability = new FixedCapability(TXN_CAP_ID);
 
-    public boolean isOptional() {
-      return false;
-    }
-
-    public boolean getSwitch() {
-      return true;
-    }
-
-    public void setSwitch(boolean val) throws UnsupportedOperationException {
-      throw new UnsupportedOperationException("Can't disable transactions (yet)");
-    }
-  };
-
-  /** this store's id */
-  protected final URI       id;
   /** whether this store has been started */
   protected       boolean   started = false;
   /** the underlying blob-store used for the actual storage */

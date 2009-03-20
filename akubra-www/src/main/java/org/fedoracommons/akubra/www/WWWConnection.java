@@ -55,8 +55,13 @@ class WWWConnection implements BlobStoreConnection {
   }
 
   public void close() {
-    blobs.clear();
-    blobs = null;
+    if (blobs != null) {
+      for (WWWBlob blob : blobs.values())
+        blob.closed();
+
+      blobs.clear();
+      blobs = null;
+    }
   }
 
   /**

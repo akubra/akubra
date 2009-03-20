@@ -41,6 +41,8 @@ import org.fedoracommons.akubra.BlobStoreConnection;
 class WWWBlob implements Blob {
   private URL                 url;
   private BlobStoreConnection conn;
+  private Long                size;
+  private URLConnection       urlc;
 
   /**
    * Creates a new WWWBlob object.
@@ -57,6 +59,14 @@ class WWWBlob implements Blob {
     return conn;
   }
 
+  /**
+   * Notification that the BlobStoreConnection is closed.
+   */
+  void closed() {
+    conn   = null;
+    urlc   = null;
+  }
+
   public URI getId() {
     try {
       return url.toURI();
@@ -65,21 +75,55 @@ class WWWBlob implements Blob {
     }
   }
 
+  private URLConnection connect(boolean input, boolean cache)
+                         throws IOException {
+    if (conn == null)
+      throw new IOException("Connection closed.");
+
+    URLConnection con;
+
+    if ((urlc != null) && input)
+      con = urlc;
+    else {
+      con = url.openConnection();
+      con.setAllowUserInteraction(false);
+
+      if (input)
+        con.setDoInput(true);
+      else
+        con.setDoOutput(true);
+    }
+
+    if (input) {
+      size   = (long) con.getContentLength();
+
+      /*
+       * close() on the InputStream will disconnect.
+       * So the connection should not be cached in that case.
+       * For getSize(), the caching the connection is a valid option.
+       */
+      urlc   = cache ? con : null;
+    }
+
+    return con;
+  }
+
   public long getSize() throws IOException {
-    return -1;
+    if (size == null)
+      connect(true, true);
+
+    return size;
   }
 
   public InputStream openInputStream() throws IOException {
-    URLConnection con = url.openConnection();
-    con.setDoInput(true);
+    URLConnection con = connect(true, false);
 
     return con.getInputStream();
   }
 
   public OutputStream openOutputStream(long estimatedSize)
                                 throws IOException {
-    URLConnection con = url.openConnection();
-    con.setDoOutput(true);
+    URLConnection con = connect(false, false);
 
     return con.getOutputStream();
   }

@@ -21,15 +21,15 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.fedoracommons</groupId>
   <artifactId>akubra-www</artifactId>
-  <name>Akubra www</name>
+  <name>Akubra WWW Implementation</name>
   <version>0.1-SNAPSHOT</version>
-  <description>www resources as blobs</description>
+  <description>WWW resources as blobs</description>
 
   <parent>
     <artifactId>akubra</artifactId>
@@ -43,7 +43,7 @@
       <artifactId>akubra-core</artifactId>
       <version>0.1-SNAPSHOT</version>
     </dependency>
-  
+
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>

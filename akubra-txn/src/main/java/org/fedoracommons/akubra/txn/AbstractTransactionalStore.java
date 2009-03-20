@@ -32,8 +32,6 @@ import org.apache.commons.logging.LogFactory;
 
 import org.fedoracommons.akubra.AbstractBlobStore;
 import org.fedoracommons.akubra.BlobStore;
-import org.fedoracommons.akubra.Capability;
-import org.fedoracommons.akubra.FixedCapability;
 
 /**
  * A basic superclass for transactional stores. This implements the capability and backing-store
@@ -59,7 +57,7 @@ public abstract class AbstractTransactionalStore extends AbstractBlobStore {
    * @param id the id of this store
    */
   public AbstractTransactionalStore(URI id) throws IOException {
-    super(id, new FixedCapability(TXN_CAPABILITY));
+    super(id, TXN_CAPABILITY);
   }
 
   @Override

@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.net.URI;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transaction;
 
@@ -118,17 +119,17 @@ public interface BlobStore {
   boolean setQuiescent(boolean quiescent) throws IOException;
 
   /**
-   * Get capabilities of this blob store instance only
+   * Get capabilities of this blob store instance only.
    *
-   * @return array of Capability
+   * @return the declared capabilities of this store
    */
-  Capability[] getDeclaredCapabilities();
+  Set<URI> getDeclaredCapabilities();
 
   /**
    * Return capabilities of this store plus underlying blob stores, that is of the blob stack
    * starting at this level.
    *
-   * @return array of Capability
+   * @return the effective capabilities of this store
    */
-  Capability[] getCapabilities();
+  Set<URI> getCapabilities();
 }

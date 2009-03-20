@@ -31,7 +31,6 @@ import javax.transaction.Transaction;
 
 import org.fedoracommons.akubra.AbstractBlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
-import org.fedoracommons.akubra.FixedCapability;
 import org.fedoracommons.akubra.util.StreamManager;
 
 /**
@@ -68,8 +67,7 @@ public class MemBlobStore extends AbstractBlobStore {
    * @param id the store id
    */
   public MemBlobStore(URI id) {
-    super(id, new FixedCapability(GENERATE_ID_CAPABILITY),
-              new FixedCapability(ACCEPT_APP_ID_CAPABILITY));
+    super(id, GENERATE_ID_CAPABILITY, ACCEPT_APP_ID_CAPABILITY);
   }
 
   //@Override

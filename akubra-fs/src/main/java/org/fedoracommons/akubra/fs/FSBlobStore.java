@@ -29,7 +29,6 @@ import javax.transaction.Transaction;
 
 import org.fedoracommons.akubra.AbstractBlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
-import org.fedoracommons.akubra.FixedCapability;
 import org.fedoracommons.akubra.util.DefaultPathAllocator;
 import org.fedoracommons.akubra.util.PathAllocator;
 import org.fedoracommons.akubra.util.StreamManager;
@@ -57,7 +56,7 @@ public class FSBlobStore extends AbstractBlobStore {
    * @param baseDir the base storage directory.
    */
   public FSBlobStore(URI id, File baseDir) {
-    super(id, new FixedCapability(GENERATE_ID_CAPABILITY));
+    super(id, GENERATE_ID_CAPABILITY);
     this.baseDir = baseDir;
     pAlloc = new DefaultPathAllocator();
   }

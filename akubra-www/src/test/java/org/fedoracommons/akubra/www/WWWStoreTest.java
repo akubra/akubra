@@ -36,7 +36,6 @@ import javax.transaction.Transaction;
 import javax.transaction.xa.XAResource;
 
 import org.fedoracommons.akubra.BlobStore;
-import org.fedoracommons.akubra.Capability;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -151,7 +150,7 @@ public class WWWStoreTest {
    */
   @Test
   public void testDeclaredCapabilities() {
-    assertEquals(new Capability[0], store.getDeclaredCapabilities());
+    assertEquals(0, store.getDeclaredCapabilities().size());
   }
 
   /**
@@ -159,7 +158,7 @@ public class WWWStoreTest {
    */
   @Test
   public void testCapabilities() {
-    assertEquals(new Capability[0], store.getCapabilities());
+    assertEquals(0, store.getCapabilities().size());
   }
 
   private static class TestTransaction implements Transaction {

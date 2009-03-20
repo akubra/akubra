@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.transaction.TransactionManager;
 
@@ -45,7 +47,6 @@ import static org.testng.Assert.fail;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
-import org.fedoracommons.akubra.Capability;
 import org.fedoracommons.akubra.mem.MemBlobStore;
 
 /**
@@ -171,10 +172,9 @@ public class TestTransactionalStore {
    */
   @Test
   public void testGetDeclaredCapabilities() {
-    Capability[] caps = store.getDeclaredCapabilities();
-    assertEquals(1, caps.length);
-    assertEquals(TransactionalStore.TXN_CAPABILITY, caps[0].getId());
-    assertFalse(caps[0].isOptional());
+    Set<URI> caps = store.getDeclaredCapabilities();
+    assertEquals(1, caps.size());
+    assertTrue(caps.contains(BlobStore.TXN_CAPABILITY));
   }
 
   /**
@@ -182,19 +182,10 @@ public class TestTransactionalStore {
    */
   @Test(dependsOnGroups={ "init" })
   public void testGetCapabilities() {
-    Capability[] caps = store.getCapabilities();
-    assertEquals(store.getBackingStores().get(0).getCapabilities().length + 1, caps.length);
-
-    boolean found = false;
-    for (Capability cap : caps) {
-      if (TransactionalStore.TXN_CAPABILITY.equals(cap.getId())) {
-        assertFalse(cap.isOptional());
-        found = true;
-      }
-    }
-
-    if (!found)
-      fail(TransactionalStore.TXN_CAPABILITY + " not found");
+    Set<URI> caps = new HashSet<URI>(store.getCapabilities());
+    caps.removeAll(store.getBackingStores().get(0).getCapabilities());
+    assertEquals(1, caps.size());
+    assertTrue(caps.contains(BlobStore.TXN_CAPABILITY));
   }
 
   /**

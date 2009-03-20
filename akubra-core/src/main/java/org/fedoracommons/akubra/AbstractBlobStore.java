@@ -23,6 +23,7 @@ package org.fedoracommons.akubra;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -37,7 +38,7 @@ public abstract class AbstractBlobStore implements BlobStore {
   /** This store's id */
   protected final URI id;
   /** This store's declared capabilities */
-  protected Capability[] decCaps = new Capability[0];
+  protected Set<URI> decCaps;
 
   /**
    * Create a new blob store.
@@ -46,6 +47,7 @@ public abstract class AbstractBlobStore implements BlobStore {
    */
   protected AbstractBlobStore(URI id) {
     this.id = id;
+    decCaps = Collections.emptySet();
   }
 
   /**
@@ -54,9 +56,9 @@ public abstract class AbstractBlobStore implements BlobStore {
    * @param id the store's id
    * @param decCaps declared capabilities of this store
    */
-  protected AbstractBlobStore(URI id, Capability ... decCaps) {
+  protected AbstractBlobStore(URI id, URI ... decCaps) {
     this.id = id;
-    this.decCaps = decCaps;
+    this.decCaps = Collections.unmodifiableSet(new HashSet<URI>(Arrays.asList(decCaps)));
   }
 
   //@Override
@@ -87,7 +89,7 @@ public abstract class AbstractBlobStore implements BlobStore {
    * Subclasses that support declared capabilities should override this.
    */
   //@Override
-  public Capability[] getDeclaredCapabilities() {
+  public Set<URI> getDeclaredCapabilities() {
     return decCaps;
   }
 
@@ -96,13 +98,12 @@ public abstract class AbstractBlobStore implements BlobStore {
    * of the capabilities of all backing stores.
    */
   //@Override
-  public Capability[] getCapabilities() {
-    Set<Capability> caps = new HashSet<Capability>();
-    Collections.addAll(caps, getDeclaredCapabilities());
+  public Set<URI> getCapabilities() {
+    Set<URI> caps = new HashSet<URI>(getDeclaredCapabilities());
 
     for (BlobStore bs : getBackingStores())
-      Collections.addAll(caps, bs.getCapabilities());
+      caps.addAll(bs.getCapabilities());
 
-    return caps.toArray(new Capability[caps.size()]);
+    return caps;
   }
 }

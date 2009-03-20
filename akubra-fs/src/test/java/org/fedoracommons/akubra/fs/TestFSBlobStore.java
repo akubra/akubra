@@ -125,8 +125,8 @@ public class TestFSBlobStore {
    */
   @Test
   public void testGetDeclaredCapabilities() {
-    assertEquals(1, store.getDeclaredCapabilities().length);
-    assertEquals(BlobStore.GENERATE_ID_CAPABILITY, store.getDeclaredCapabilities()[0].getId());
+    assertEquals(1, store.getDeclaredCapabilities().size());
+    assertEquals(BlobStore.GENERATE_ID_CAPABILITY, store.getDeclaredCapabilities().iterator().next());
   }
 
   /**
@@ -134,8 +134,8 @@ public class TestFSBlobStore {
    */
   @Test
   public void testGetCapabilities() {
-    assertEquals(1, store.getCapabilities().length);
-    assertEquals(BlobStore.GENERATE_ID_CAPABILITY, store.getDeclaredCapabilities()[0].getId());
+    assertEquals(1, store.getCapabilities().size());
+    assertEquals(BlobStore.GENERATE_ID_CAPABILITY, store.getCapabilities().iterator().next());
   }
 
   private static class MockTransaction implements Transaction {

@@ -173,7 +173,7 @@ public class TestTransactionalStore {
   public void testGetDeclaredCapabilities() {
     Capability[] caps = store.getDeclaredCapabilities();
     assertEquals(1, caps.length);
-    assertEquals(TransactionalStore.TXN_CAP_ID, caps[0].getId());
+    assertEquals(TransactionalStore.TXN_CAPABILITY, caps[0].getId());
     assertFalse(caps[0].isOptional());
   }
 
@@ -183,9 +183,18 @@ public class TestTransactionalStore {
   @Test(dependsOnGroups={ "init" })
   public void testGetCapabilities() {
     Capability[] caps = store.getCapabilities();
-    assertEquals(1, caps.length);
-    assertEquals(TransactionalStore.TXN_CAP_ID, caps[0].getId());
-    assertFalse(caps[0].isOptional());
+    assertEquals(store.getBackingStores().get(0).getCapabilities().length + 1, caps.length);
+
+    boolean found = false;
+    for (Capability cap : caps) {
+      if (TransactionalStore.TXN_CAPABILITY.equals(cap.getId())) {
+        assertFalse(cap.isOptional());
+        found = true;
+      }
+    }
+
+    if (!found)
+      fail(TransactionalStore.TXN_CAPABILITY + " not found");
   }
 
   /**

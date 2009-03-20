@@ -45,12 +45,7 @@ import org.fedoracommons.akubra.FixedCapability;
  * @author Ronald Tschalär
  */
 public abstract class AbstractTransactionalStore extends AbstractBlobStore {
-  /** The URI representing the id of the transactional capability */
-  public static final URI TXN_CAP_ID =
-                        URI.create("http://fedoracommons.org/akubra/capabilities/transactions");
-
   private static final Log        logger      = LogFactory.getLog(AbstractTransactionalStore.class);
-  private static final Capability txnCapability = new FixedCapability(TXN_CAP_ID);
 
   /** whether this store has been started */
   protected       boolean   started = false;
@@ -64,7 +59,7 @@ public abstract class AbstractTransactionalStore extends AbstractBlobStore {
    * @param id the id of this store
    */
   public AbstractTransactionalStore(URI id) throws IOException {
-    super(id);
+    super(id, new FixedCapability(TXN_CAPABILITY));
   }
 
   @Override
@@ -98,15 +93,5 @@ public abstract class AbstractTransactionalStore extends AbstractBlobStore {
       throw new IllegalStateException("no backing store has been set yet");
 
     return wrappedStore.setQuiescent(quiescent);
-  }
-
-  /**
-   * This store supports exactly one capability, the transactional capability.
-   *
-   * @return an array of one containing the transactional capability
-   */
-  @Override
-  public Capability[] getDeclaredCapabilities() {
-    return new Capability[] { txnCapability };
   }
 }

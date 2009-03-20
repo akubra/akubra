@@ -36,6 +36,22 @@ import javax.transaction.Transaction;
  * @author Ronald Tschalär
  */
 public interface BlobStore {
+  /** The URI representing the id of the transactional capability */
+  public static final URI TXN_CAPABILITY =
+                        URI.create("http://fedoracommons.org/akubra/capabilities/transactions");
+  /**
+   * The URI representing the id generation capability. Indicates this store can generate an
+   * identifier for blobs when an identifier is not supplied.
+   */
+  public static final URI GENERATE_ID_CAPABILITY =
+                        URI.create("http://fedoracommons.org/akubra/capabilities/generateIds");
+  /**
+   * The URI representing the id accept capability. Indicates this store can accept any valid
+   * absolute URI supplied by the application as a blob identifier.
+   */
+  public static final URI ACCEPT_APP_ID_CAPABILITY =
+                        URI.create("http://fedoracommons.org/akubra/capabilities/acceptAppIds");
+
   /**
    * Return the identifier associated with the store
    *

@@ -125,7 +125,8 @@ public class TestFSBlobStore {
    */
   @Test
   public void testGetDeclaredCapabilities() {
-    assertEquals(0, store.getDeclaredCapabilities().length);
+    assertEquals(1, store.getDeclaredCapabilities().length);
+    assertEquals(BlobStore.GENERATE_ID_CAPABILITY, store.getDeclaredCapabilities()[0].getId());
   }
 
   /**
@@ -133,7 +134,8 @@ public class TestFSBlobStore {
    */
   @Test
   public void testGetCapabilities() {
-    assertEquals(0, store.getCapabilities().length);
+    assertEquals(1, store.getCapabilities().length);
+    assertEquals(BlobStore.GENERATE_ID_CAPABILITY, store.getDeclaredCapabilities()[0].getId());
   }
 
   private static class MockTransaction implements Transaction {

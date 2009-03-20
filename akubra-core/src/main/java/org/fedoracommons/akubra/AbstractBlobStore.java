@@ -36,6 +36,8 @@ import java.util.Set;
 public abstract class AbstractBlobStore implements BlobStore {
   /** This store's id */
   protected final URI id;
+  /** This store's declared capabilities */
+  protected Capability[] decCaps = new Capability[0];
 
   /**
    * Create a new blob store.
@@ -44,6 +46,17 @@ public abstract class AbstractBlobStore implements BlobStore {
    */
   protected AbstractBlobStore(URI id) {
     this.id = id;
+  }
+
+  /**
+   * Create a new blob store.
+   *
+   * @param id the store's id
+   * @param decCaps declared capabilities of this store
+   */
+  protected AbstractBlobStore(URI id, Capability ... decCaps) {
+    this.id = id;
+    this.decCaps = decCaps;
   }
 
   //@Override
@@ -75,7 +88,7 @@ public abstract class AbstractBlobStore implements BlobStore {
    */
   //@Override
   public Capability[] getDeclaredCapabilities() {
-    return new Capability[0];
+    return decCaps;
   }
 
   /**

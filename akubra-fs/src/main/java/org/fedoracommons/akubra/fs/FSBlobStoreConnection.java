@@ -23,19 +23,25 @@ package org.fedoracommons.akubra.fs;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URLEncoder;
 
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.DuplicateBlobException;
+import org.fedoracommons.akubra.UnsupportedIdException;
 import org.fedoracommons.akubra.util.PathAllocator;
 import org.fedoracommons.akubra.util.StreamManager;
 
@@ -45,6 +51,7 @@ import org.fedoracommons.akubra.util.StreamManager;
  * @author Chris Wilper
  */
 class FSBlobStoreConnection implements BlobStoreConnection {
+  private static final Log log  = LogFactory.getLog(FSBlobStoreConnection.class);
   private final BlobStore blobStore;
   private final File baseDir;
   private final PathAllocator pAlloc;
@@ -66,46 +73,37 @@ class FSBlobStoreConnection implements BlobStoreConnection {
   }
 
   //@Override
-  public Blob createBlob(URI blobId, Map<String, String> hints) throws DuplicateBlobException, IOException {
-    File file = getFile(blobId);
-    if (file == null) {
-       // create
-      String path = pAlloc.allocate(blobId, hints);
-      file = new File(baseDir, path);
-      try {
-        return new FSBlob(this, new URI(blobIdPrefix + path), file, manager);
-      } catch (URISyntaxException wontHappen) {
-        throw new RuntimeException(wontHappen);
-      }
-    } else {
-      throw new DuplicateBlobException(blobId);
-    }
-  }
-
-  //@Override
   public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
-    final File file = getFile(blobId);
-    if (file == null) {
-      return null;
-    }
-    return new FSBlob(this, blobId, file, manager);
+    return new FSBlob(this, blobId, getFile(blobId, hints), manager);
   }
 
-  //@Override
-  public void renameBlob(URI oldBlobId, URI newBlobId, Map<String, String> hints) {
-    throw new UnsupportedOperationException();
+  public Blob getBlob(InputStream content, Map<String, String> hints) throws IOException {
+    Blob blob = null;
+    while (blob == null) {
+      blob = getBlob((URI)null, hints);
+      try {
+        blob.create();
+      } catch (DuplicateBlobException e) {
+        blob = null;
+        log.warn("Newly created blob already exists. Trying another ...", e);
+      }
+    }
+
+    OutputStream out = null;
+    try {
+      IOUtils.copyLarge(content, out = blob.openOutputStream(-1));
+      out.close();
+      out = null;
+    } finally {
+      if (out != null)
+        IOUtils.closeQuietly(out);
+    }
+
+    return blob;
   }
 
-  //@Override
-  public URI removeBlob(URI blobId, Map<String, String> hints) throws IOException {
-    File file = getFile(blobId);
-    if (file == null) {
-      return null;
-    }
-    if (!file.delete()) {
-      throw new RuntimeException("Unable to delete file: " + file.getPath());
-    }
-    return blobId;
+  public boolean isAcceptableId(URI blobId) {
+    return blobId.toString().startsWith(blobIdPrefix);
   }
 
   //@Override
@@ -136,17 +134,18 @@ class FSBlobStoreConnection implements BlobStoreConnection {
     }
   }
 
-  // gets the file with the given id if exists in store, else null
-  private File getFile(URI blobId) {
+  // gets the file with the given id
+  private File getFile(URI blobId, Map<String, String> hints) throws UnsupportedIdException {
     if (blobId == null) {
-      return null;
+      // create
+      String path = pAlloc.allocate(blobId, hints);
+      return new File(baseDir, path);
     }
-    if (blobId.toString().startsWith(blobIdPrefix)) {
-      File file = new File(blobId.getRawPath());
-      if (file.exists())
-        return file;
-    }
-    return null;
+
+    if (!isAcceptableId(blobId))
+      throw new UnsupportedIdException(blobId, "Valid identifiers must start with '" +
+                                               blobIdPrefix + "'");
+    return new File(blobId.getRawPath());
   }
 
   private static String encode(String in) {

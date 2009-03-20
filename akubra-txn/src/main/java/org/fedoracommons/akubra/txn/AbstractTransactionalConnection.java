@@ -22,6 +22,8 @@
 
 package org.fedoracommons.akubra.txn;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -104,7 +106,66 @@ public abstract class AbstractTransactionalConnection
   }
 
   //@Override
-  public Blob createBlob(URI blobId, Map<String, String> hints)
+  public Blob getBlob(final URI blobId, final Map<String, String> hints) throws IOException {
+    if (blobId == null)
+      return getBlob(createBlob(blobId, hints).getId(), hints);
+
+    return new Blob() {
+
+      public URI getId() {
+        return blobId;
+      }
+
+      public BlobStoreConnection getConnection() {
+        return AbstractTransactionalConnection.this;
+      }
+
+      public boolean exists() throws IOException {
+        Blob blob = lookupBlob(blobId, hints);
+        return (blob != null) && blob.exists();
+      }
+
+      public void create() throws IOException {
+        createBlob(blobId, hints);
+      }
+
+      public void delete() throws IOException {
+        removeBlob(blobId, hints);
+      }
+
+      public void moveTo(Blob blob) throws IOException {
+        renameBlob(blobId, blob.getId(), hints);
+      }
+
+      public long getSize() throws IOException {
+        Blob blob = lookupBlob(blobId, hints);
+        if (blob == null)
+          throw new MissingBlobException(blobId);
+        return blob.getSize();
+      }
+
+      public InputStream openInputStream() throws IOException {
+        Blob blob = lookupBlob(blobId, hints);
+        if (blob == null)
+          throw new MissingBlobException(blobId);
+        return blob.openInputStream();
+      }
+
+      public OutputStream openOutputStream(long estimatedSize) throws IOException {
+        Blob blob = lookupBlob(blobId, hints);
+        if (blob == null)
+          throw new MissingBlobException(blobId);
+        return blob.openOutputStream(estimatedSize);
+      }
+    };
+  }
+
+  //@Override
+  public Blob getBlob(final InputStream in, final Map<String, String> hints) throws IOException {
+    throw new UnsupportedOperationException("Not implemented yet!");
+  }
+
+  Blob createBlob(URI blobId, Map<String, String> hints)
       throws DuplicateBlobException, IOException {
     if (logger.isTraceEnabled())
       logger.trace("creating blob '" + blobId + "' (" + this + ")");
@@ -112,13 +173,9 @@ public abstract class AbstractTransactionalConnection
     if (getRealId(blobId) != null)
       throw new DuplicateBlobException(blobId);
 
-    Blob res;
-    try {
-      res = bStoreCon.createBlob(blobId, hints);
-    } catch (DuplicateBlobException dbe) {
-      logger.debug("duplicate id - retrying with generated id");
-      res = bStoreCon.createBlob(null, hints);
-    }
+    Blob res = bStoreCon.getBlob(blobId, hints);
+    if (!res.exists())
+      res.create();
 
     if (blobId == null)
       blobId = res.getId();
@@ -133,8 +190,7 @@ public abstract class AbstractTransactionalConnection
     return res.getId().equals(blobId) ? res : new IdBlobWrapper(res, blobId);
   }
 
-  //@Override
-  public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
+  Blob lookupBlob(URI blobId, Map<String, String> hints) throws IOException {
     if (logger.isTraceEnabled())
       logger.trace("getting blob '" + blobId + "' (" + this + ")");
 
@@ -151,8 +207,7 @@ public abstract class AbstractTransactionalConnection
     return (res != null) ? new IdBlobWrapper(res, blobId) : null;
   }
 
-  //@Override
-  public void renameBlob(URI oldBlobId, URI newBlobId, Map<String, String> hints)
+  void renameBlob(URI oldBlobId, URI newBlobId, Map<String, String> hints)
       throws DuplicateBlobException, IOException, MissingBlobException {
     if (logger.isTraceEnabled())
       logger.trace("renaming blob '" + oldBlobId + "' to '" + newBlobId + "' (" + this + ")");
@@ -165,8 +220,7 @@ public abstract class AbstractTransactionalConnection
     addNameEntry(newBlobId, id);
   }
 
-  //@Override
-  public URI removeBlob(URI blobId, Map<String, String> hints) throws IOException {
+  URI removeBlob(URI blobId, Map<String, String> hints) throws IOException {
     if (logger.isTraceEnabled())
       logger.trace("removing blob '" + blobId + "' (" + this + ")");
 
@@ -237,7 +291,7 @@ public abstract class AbstractTransactionalConnection
     if (status == Status.STATUS_COMMITTED) {
       for (URI blobId : delBlobs) {
         try {
-          bStoreCon.removeBlob(blobId, null);
+          bStoreCon.getBlob(blobId, null).delete();
         } catch (IOException ioe) {
           logger.error("Error deleting removed blob after commit: blobId = '" + blobId + "'",
                        ioe);
@@ -246,7 +300,7 @@ public abstract class AbstractTransactionalConnection
     } else {
       for (URI blobId : newBlobs) {
         try {
-          bStoreCon.removeBlob(blobId, null);
+          bStoreCon.getBlob(blobId, null).delete();
         } catch (IOException ioe) {
           logger.error("Error deleting added blob after rollback: blobId = '" + blobId + "'",
                        ioe);

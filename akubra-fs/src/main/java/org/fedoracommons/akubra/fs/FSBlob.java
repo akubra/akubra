@@ -31,6 +31,9 @@ import java.net.URI;
 
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStoreConnection;
+import org.fedoracommons.akubra.DuplicateBlobException;
+import org.fedoracommons.akubra.MissingBlobException;
+import org.fedoracommons.akubra.UnsupportedIdException;
 import org.fedoracommons.akubra.util.StreamManager;
 
 /**
@@ -39,7 +42,7 @@ import org.fedoracommons.akubra.util.StreamManager;
  * @author Chris Wilper
  */
 class FSBlob implements Blob {
-  private final BlobStoreConnection connection;
+  private final FSBlobStoreConnection connection;
   private final URI blobId;
   private final File file;
   private final StreamManager manager;
@@ -52,7 +55,7 @@ class FSBlob implements Blob {
    * @param file the file associated with the blob
    * @param manager the stream manager
    */
-  FSBlob(BlobStoreConnection connection, URI blobId, File file, StreamManager manager) {
+  FSBlob(FSBlobStoreConnection connection, URI blobId, File file, StreamManager manager) {
     this.connection = connection;
     this.blobId = blobId;
     this.file = file;
@@ -71,35 +74,106 @@ class FSBlob implements Blob {
 
   //@Override
   public InputStream openInputStream() throws IOException {
+    if (!file.exists())
+      throw new MissingBlobException(blobId);
+
     return new FileInputStream(file);
   }
 
   //@Override
   public OutputStream openOutputStream(long estimatedSize) throws IOException {
-    if (!manager.lockUnquiesced()) {
+    if (!manager.lockUnquiesced())
       throw new IOException("Interrupted waiting for writable state");
-    }
+
     try {
-        if (!file.exists()) {
-          makeParentDirs(file);
-        }
-        return manager.manageOutputStream(file);
+      if (!file.exists())
+        throw new MissingBlobException(blobId);
+
+      return manager.manageOutputStream(file);
     } finally {
       manager.unlockState();
     }
   }
 
   //@Override
-  public long getSize() {
+  public long getSize() throws IOException {
+    if (!file.exists())
+      throw new MissingBlobException(blobId);
+
     return file.length();
+  }
+
+  //@Override
+  public boolean exists() throws IOException {
+    return file.exists();
+  }
+
+  //@Override
+  public void create() throws IOException {
+    if (!manager.lockUnquiesced())
+      throw new IOException("Interrupted waiting for writable state");
+
+    try {
+      makeParentDirs(file);
+
+      if (!file.createNewFile())
+        throw new DuplicateBlobException(blobId, file + " exists");
+    } finally {
+      manager.unlockState();
+    }
+  }
+
+  //@Override
+  public void delete() throws IOException {
+    if (!manager.lockUnquiesced())
+      throw new IOException("Interrupted waiting for writable state");
+
+    try {
+      if (!file.delete() && file.exists())
+        throw new IOException("Failed to delete file: " + file);
+    } finally {
+      manager.unlockState();
+    }
+  }
+
+  //@Override
+  public void moveTo(Blob blob) throws IOException {
+    if (!manager.lockUnquiesced())
+      throw new IOException("Interrupted waiting for writable state");
+
+    try {
+      if ((blob == null) || (blob.getId() == null))
+        throw new NullPointerException("Blob can't be null");
+
+      if (!connection.isAcceptableId(blob.getId()))
+        throw new UnsupportedIdException(blob.getId());
+
+      if (!(blob instanceof FSBlob))
+        throw new IllegalArgumentException("Blob must be an instance of " + FSBlob.class);
+
+      File other = ((FSBlob)blob).file;
+
+      makeParentDirs(other);
+
+      if (!file.renameTo(other)) {
+
+        if (!file.exists())
+          throw new MissingBlobException(blobId);
+
+        if (other.exists())
+          throw new DuplicateBlobException(blob.getId());
+
+        throw new IOException("Rename failed for an unknown reason.");
+      }
+    } finally {
+      manager.unlockState();
+    }
   }
 
   private static void makeParentDirs(File file) throws IOException {
     File parent = file.getParentFile();
-    if (parent != null && !parent.exists()) {
-      if (!parent.mkdirs()) {
-        throw new IOException("Unable to create directory: " + parent.getPath());
-      }
-    }
+
+    if (parent != null && !parent.exists() && !parent.mkdirs())
+      throw new IOException("Unable to create parent directory: " + parent.getPath());
   }
 }

@@ -31,6 +31,8 @@ import java.net.URI;
 
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStoreConnection;
+import org.fedoracommons.akubra.DuplicateBlobException;
+import org.fedoracommons.akubra.MissingBlobException;
 import org.fedoracommons.akubra.util.StreamManager;
 
 /**
@@ -39,7 +41,7 @@ import org.fedoracommons.akubra.util.StreamManager;
  * @author Ronald Tschalär
  */
 class MemBlob implements Blob {
-  private final MemOutputStream data;
+  private MemOutputStream data;
   private final StreamManager   streamMgr;
   private       URI             id;
 
@@ -52,16 +54,7 @@ class MemBlob implements Blob {
   MemBlob(URI id, StreamManager streamMgr) {
     this.id        = id;
     this.streamMgr = streamMgr;
-    data = new MemOutputStream();
-  }
-
-  /**
-   * Set the blob's id.
-   *
-   * @param id this blobs new id
-   */
-  void setId(URI id) {
-    this.id = id;
+    data = null;
   }
 
   //@Override
@@ -75,16 +68,80 @@ class MemBlob implements Blob {
   }
 
   //@Override
-  public InputStream openInputStream() throws IOException {
-    return new ByteArrayInputStream(data.getBuf(), 0, data.size());
+  public synchronized boolean exists() throws IOException {
+    return data != null;
   }
 
   //@Override
-  public OutputStream openOutputStream(long estimatedSize) throws IOException {
+  public synchronized void create() throws IOException {
     if (!streamMgr.lockUnquiesced())
       throw new IOException("Interrupted waiting for writable state");
 
     try {
+      if (data != null)
+        throw new DuplicateBlobException(id);
+
+      data = new MemOutputStream();
+    } finally {
+      streamMgr.unlockState();
+    }
+  }
+
+  //@Override
+  public synchronized void delete() throws IOException {
+    if (!streamMgr.lockUnquiesced())
+      throw new IOException("Interrupted waiting for writable state");
+
+    try {
+      data = null;
+    } finally {
+      streamMgr.unlockState();
+    }
+  }
+
+  private synchronized void atomicMove(MemOutputStream data) throws IOException {
+    if (this.data != null)
+       throw new DuplicateBlobException(getId());
+    this.data = data;
+  }
+
+  //@Override
+  public synchronized void moveTo(Blob blob) throws IOException,
+        MissingBlobException, NullPointerException, IllegalArgumentException {
+    if (!streamMgr.lockUnquiesced())
+      throw new IOException("Interrupted waiting for writable state");
+
+    try {
+      if (!(blob instanceof MemBlob))
+        throw new IllegalArgumentException("Blob must be an instance of " + MemBlob.class);
+
+      if (!exists())
+        throw new MissingBlobException(getId());
+
+      ((MemBlob)blob).atomicMove(data);
+      data = null;
+    } finally {
+      streamMgr.unlockState();
+    }
+  }
+
+  //@Override
+  public synchronized InputStream openInputStream() throws IOException {
+    if (data == null)
+      throw new MissingBlobException(getId());
+
+    return new ByteArrayInputStream(data.getBuf(), 0, data.size());
+  }
+
+  //@Override
+  public synchronized OutputStream openOutputStream(long estimatedSize) throws IOException {
+    if (!streamMgr.lockUnquiesced())
+      throw new IOException("Interrupted waiting for writable state");
+
+    try {
+      if (data == null)
+        throw new MissingBlobException(getId());
+
       data.reset();
       return streamMgr.manageOutputStream(data);
     } finally {
@@ -93,8 +150,11 @@ class MemBlob implements Blob {
   }
 
   //@Override
-  public long getSize() {
-    return (data != null) ? data.size() : -1;
+  public synchronized long getSize() throws IOException {
+    if (data == null)
+      throw new MissingBlobException(getId());
+
+    return data.size();
   }
 
   /**
@@ -105,4 +165,5 @@ class MemBlob implements Blob {
       return buf;
     }
   }
+
 }

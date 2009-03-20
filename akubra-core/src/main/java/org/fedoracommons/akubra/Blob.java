@@ -45,7 +45,7 @@ public interface Blob {
   /**
    * Gets the id of the blob.
    *
-   * @return the id, or null if it has not yet been assigned.
+   * @return the non-null immutable blob id
    */
   URI getId();
 
@@ -53,10 +53,10 @@ public interface Blob {
    * Opens a new InputStream for reading the content.
    *
    * @return the input stream.
-   * @throws IOException if no content has yet been written or the stream
-   *         cannot be opened for any other reason.
+   * @throws MissingBlobException if the blob does not {@link #exists exist}.
+   * @throws IOException if the stream cannot be opened for any other reason.
    */
-  InputStream openInputStream() throws IOException;
+  InputStream openInputStream() throws IOException, MissingBlobException;
 
   /**
    * Opens a new OutputStream for writing the content.
@@ -65,14 +65,60 @@ public interface Blob {
    *                      This can allow for the implementation to make better decisions
    *                      on buffering or reserving space.
    * @return the output stream.
-   * @throws IOException if the stream cannot be opened for any reason.
+   * @throws MissingBlobException if the blob does not {@link #exists exist}.
+   * @throws IOException if the stream cannot be opened for any other reason.
    */
-  OutputStream openOutputStream(long estimatedSize) throws IOException;
+  OutputStream openOutputStream(long estimatedSize) throws IOException, MissingBlobException;
 
   /**
    * Gets the size of the blob, in bytes.
    *
-   * @return the size in bytes, or -1 if unknown.
+   * @return the size in bytes, or -1 if unknown
+   * @throws MissingBlobException if the blob does not {@link #exists exist}.
+   * @throws IOException if an error occurred during
    */
-  long getSize();
+  long getSize() throws IOException, MissingBlobException;
+
+  /**
+   * Tests if a blob with this id exists in this blob-store.
+   *
+   * @return true if the blob denoted by this id exists; false otherwise.
+   *
+   * @throws IOException if an error occurred during existence check
+   * @see #create
+   * @see #delete
+   */
+  boolean exists() throws IOException;
+
+  /**
+   * Creates a new empty blob. This operation is not idempotent and will
+   * throw an exception if the blob already {@link #exists}.
+   *
+   * @throws DuplicateBlobException if a blob with the given id already exists
+   * @throws IOException if the blob cannot be created for any other reason
+   */
+  void create() throws DuplicateBlobException, IOException;
+
+  /**
+   * Removes this blob from the store. This operation is idempotent and does
+   * not throw an exception if the blob does not {@link #exists exist}.
+   *
+   * @throws IOException if the blob cannot be deleted for any reason
+   */
+  void delete() throws IOException;
+
+  /**
+   * Move this blob under the new id. Before the move, this blob must exist and the destination
+   * blob must not. After the move, this blob will not exist but the destination blob will.
+   *
+   * @param blob the blob to move to
+   *
+   * @throws NullPointerException if the blob is null
+   * @throws UnsupportedIdException if the blob is not recognized in this store
+   * @throws MissingBlobException if this blob does not exist
+   * @throws DuplicateBlobException if a blob with new blob-id already exists
+   * @throws IOException if an error occurs while attempting the operation
+   */
+  void moveTo(Blob blob) throws DuplicateBlobException, IOException, MissingBlobException,
+                                NullPointerException, UnsupportedIdException;
 }

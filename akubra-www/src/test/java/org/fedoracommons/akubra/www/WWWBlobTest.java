@@ -55,7 +55,7 @@ public class WWWBlobTest {
     WWWStore store = new WWWStore(URI.create("urn:www:test"));
     con      = store.openConnection(null);
     blobId   = URI.create("http://www.google.com");
-    blob     = con.createBlob(blobId, null);
+    blob     = con.getBlob(blobId, null);
   }
 
   /**
@@ -101,7 +101,11 @@ public class WWWBlobTest {
    */
   @Test
   public void testGetSize() {
-    assertEquals(-1, blob.getSize());
+    try {
+      assertEquals(-1, blob.getSize());
+    } catch (IOException e) {
+      fail("getSize() failed", e);
+    }
   }
 
   /**

@@ -23,19 +23,23 @@
 package org.fedoracommons.akubra.mem;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.iterators.FilterIterator;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.BlobWrapper;
 import org.fedoracommons.akubra.DuplicateBlobException;
-import org.fedoracommons.akubra.MissingBlobException;
 import org.fedoracommons.akubra.util.StreamManager;
 
 /**
@@ -44,6 +48,7 @@ import org.fedoracommons.akubra.util.StreamManager;
  * @author Ronald Tschalär
  */
 class MemConnection implements BlobStoreConnection {
+  private static final Log log  = LogFactory.getLog(MemConnection.class);
   private final BlobStore         owner;
   private final Map<URI, MemBlob> blobs;
   private final StreamManager     streamMgr;
@@ -67,52 +72,48 @@ class MemConnection implements BlobStoreConnection {
   }
 
   //@Override
-  public Blob createBlob(URI blobId, Map<String, String> hints) throws DuplicateBlobException {
+  public Blob getBlob(URI blobId, Map<String, String> hints) {
     synchronized (blobs) {
-      if (blobs.containsKey(blobId))
-        throw new DuplicateBlobException(blobId);
-
       if (blobId == null) {
         do {
           blobId = MemBlobStore.getRandomId("urn:mem-store:gen-id:");
         } while (blobs.containsKey(blobId));
       }
 
-      MemBlob res = new MemBlob(blobId, streamMgr);
-      blobs.put(blobId, res);
-      return new ConBlob(res);
-    }
-  }
-
-  //@Override
-  public Blob getBlob(URI blobId, Map<String, String> hints) {
-    synchronized (blobs) {
       MemBlob b = blobs.get(blobId);
-      return (b != null) ? new ConBlob(b) : null;
+      if (b == null) {
+        b = new MemBlob(blobId, streamMgr);
+        blobs.put(blobId, b);
+      }
+      return new ConBlob(b);
     }
   }
 
   //@Override
-  public void renameBlob(URI oldBlobId, URI newBlobId, Map<String, String> hints)
-      throws DuplicateBlobException, MissingBlobException {
-    synchronized (blobs) {
-      if (blobs.containsKey(newBlobId))
-        throw new DuplicateBlobException(newBlobId);
-
-      MemBlob b = blobs.remove(oldBlobId);
-      if (b == null)
-        throw new MissingBlobException(oldBlobId);
-
-      b.setId(newBlobId);
-      blobs.put(newBlobId, b);
+  public Blob getBlob(InputStream content, Map<String, String> hints)
+    throws IOException, UnsupportedOperationException {
+    Blob blob = null;
+    while (blob == null) {
+      blob = getBlob((URI)null, hints);
+      try {
+        blob.create();
+      } catch (DuplicateBlobException e) {
+        blob = null;
+        log.warn("Newly created blob already exists. Trying another ...", e);
+      }
     }
-  }
 
-  //@Override
-  public URI removeBlob(URI blobId, Map<String, String> hints) throws IOException {
-    synchronized (blobs) {
-      return (blobs.remove(blobId) != null) ? blobId : null;
+    OutputStream out = null;
+    try {
+      IOUtils.copyLarge(content, out = blob.openOutputStream(-1));
+      out.close();
+      out = null;
+    } finally {
+      if (out != null)
+        IOUtils.closeQuietly(out);
     }
+
+    return blob;
   }
 
   //@Override
@@ -120,7 +121,12 @@ class MemConnection implements BlobStoreConnection {
     synchronized (blobs) {
       return new FilterIterator(blobs.keySet().iterator(), new Predicate() {
          public boolean evaluate(Object object) {
-           return (filterPrefix == null) || object.toString().startsWith(filterPrefix);
+           MemBlob blob = blobs.get(object);
+           try {
+             return blob.exists() && ((filterPrefix == null) || object.toString().startsWith(filterPrefix));
+           } catch (IOException e) {
+             return false;
+           }
          }
       });
     }
@@ -139,5 +145,17 @@ class MemConnection implements BlobStoreConnection {
     public BlobStoreConnection getConnection() {
       return MemConnection.this;
     }
+
+    @Override
+    public void moveTo(Blob blob) throws IOException {
+      if ((blob == null) || (blob.getId() == null))
+        throw new NullPointerException("Blob can't be null");
+
+      if (!(blob instanceof ConBlob))
+        throw new IllegalArgumentException("Blob '" + blob.getId() + "' is not an instanceof " + ConBlob.class);
+
+      delegate.moveTo(((ConBlob)blob).delegate);
+    }
   }
+
 }

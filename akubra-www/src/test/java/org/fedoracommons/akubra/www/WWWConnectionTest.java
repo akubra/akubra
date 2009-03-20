@@ -28,7 +28,6 @@ import java.net.URI;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
-import org.fedoracommons.akubra.DuplicateBlobException;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
@@ -70,25 +69,6 @@ public class WWWConnectionTest {
   }
 
   /**
-   * Test blob creations.
-   */
-  @Test
-  public void testCreateBlob() {
-    try {
-      Blob blob1 = con.createBlob(URI.create("http://www.google.com"), null);
-      assertNotNull(blob1);
-
-      Blob blob2 = con.createBlob(URI.create("http://www.google.com"), null);
-      assertNotNull(blob2);
-      assertEquals(blob1, blob2);
-    } catch (IOException e) {
-      fail("createBlob() failed", e);
-    } catch (DuplicateBlobException e) {
-      fail("createBlob() failed", e);
-    }
-  }
-
-  /**
    * Test the getBlob operation.
    */
   @Test
@@ -111,22 +91,6 @@ public class WWWConnectionTest {
   @Test
   public void testGetBlobStore() {
     assertEquals(store, con.getBlobStore());
-  }
-
-  /**
-   * Test the renameBlob operation.
-   */
-  @Test
-  public void testRenameBlob() {
-    //nothing to test
-  }
-
-  /**
-   * Test the removeBlob operation.
-   */
-  @Test
-  public void testRemoveBlob() {
-    //nothing to test
   }
 
   /**

@@ -21,6 +21,8 @@
  */
 package org.fedoracommons.akubra;
 
+import java.io.IOException;
+
 /**
  * The base exception class for all exceptions thrown by a Akubra compliant store.
  *
@@ -28,7 +30,7 @@ package org.fedoracommons.akubra;
  * @author Pradeep Krishnan
  * @author Ronald Tschalär
  */
-public class AkubraException extends Exception {
+public class AkubraException extends IOException {
   public static final long serialVersionUID = 1L;
 
   /**

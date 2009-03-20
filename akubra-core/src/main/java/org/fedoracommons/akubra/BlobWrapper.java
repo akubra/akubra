@@ -63,7 +63,23 @@ public class BlobWrapper implements Blob {
     return delegate.openOutputStream(estimatedSize);
   }
 
-  public long getSize() {
+  public long getSize() throws IOException{
     return delegate.getSize();
+  }
+
+  public boolean exists() throws IOException {
+    return delegate.exists();
+  }
+
+  public void create() throws IOException {
+    delegate.create();
+  }
+
+  public void delete() throws IOException {
+    delegate.delete();
+  }
+
+  public void moveTo(Blob blob) throws IOException {
+    delegate.moveTo(blob);
   }
 }

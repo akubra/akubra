@@ -22,6 +22,8 @@
 package org.fedoracommons.akubra;
 
 import java.io.IOException;
+import java.io.InputStream;
+
 import java.net.URI;
 
 import java.util.Iterator;
@@ -43,53 +45,37 @@ public interface BlobStoreConnection {
   BlobStore getBlobStore();
 
   /**
-   * Creates a new blob.
-   *
-   * @param blobId the preferred blob id, may be null
-   * @param hints a set of hints to allow the implementation to optimize the operation (can be null)
-   * @throws DuplicateBlobException if a blob with the given id already exists
-   * @throws IOException if the blob cannot be created for any other reason
-   */
-  Blob createBlob(URI blobId, Map<String, String> hints) throws DuplicateBlobException, IOException;
-
-  /**
    * Gets the blob with the given id.
    *
    * @param blobId the blob id
    * @param hints A set of hints to allow the implementation to optimize the operation (can be
    *              null)
    *
-   * @return the blob or null in case of no blob with the blob-id
+   * @return the blob. Cannot be null and must have the passed in blobId. If the passed in blobId
+   *         is null, an id must be generated if the store is capable of generating ids. There is
+   *         no requirement that the returned blob must {@link Blob#exists exist}.
    *
-   * @exception IOException for IO errors
+   * @throws IOException for IO errors
+   * @throws UnsupportedIdException if blobId is not in a recognized/usable pattern by this store
    */
-  Blob getBlob(URI blobId, Map<String, String> hints) throws IOException;
+  Blob getBlob(URI blobId, Map<String, String> hints) throws IOException, IllegalArgumentException;
 
   /**
-   * Renames an existing Blob.
+   * Creates a blob with the given content. For Content Addressible Storage (CAS) systems,
+   * this is the only way to create a Blob. For other stores, there is also the {@link Blob#create
+   * create}
    *
-   * @param oldBlobId the old blob id.
-   * @param newBlobId the new blob id.
-   * @param hints a set of hints to allow the implementation to optimize the operation (can be null)
-   * @throws DuplicateBlobException if a blob with id newBlobId already exists
-   * @throws IOException if an IO error occurs while attempting the operation
-   * @throws MissingBlobException if a blob with id oldBlobId does not exist
-   */
-  void renameBlob(URI oldBlobId, URI newBlobId, Map<String, String> hints)
-      throws DuplicateBlobException, IOException, MissingBlobException;
-
-  /**
-   * Remove the blob from the store
-   *
-   * @param blobId URI identifying the blob
+   * @param content the contents of the blob
    * @param hints A set of hints to allow the implementation to optimize the operation (can be
    *              null)
    *
-   * @return URI locatator-id of the deleted blob or null in case of no blob found
+   * @return the blob. Cannot be null and must have a generated id.
    *
-   * @exception IOException for IO errors
+   * @throws IOException for IO errors
+   * @throws UnsupportedOperationException if this store cannot generate new id and create a new blob
    */
-  URI removeBlob(URI blobId, Map<String, String> hints) throws IOException;
+  Blob getBlob(InputStream content, Map<String, String> hints)
+        throws IOException, UnsupportedOperationException;
 
   /**
    * Gets an iterator over the ids of all blobs in this store.

@@ -22,7 +22,9 @@
 package org.fedoracommons.akubra.www;
 
 import java.io.IOException;
+import java.io.InputStream;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 
 import java.util.HashMap;
@@ -32,8 +34,7 @@ import java.util.Map;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
-import org.fedoracommons.akubra.DuplicateBlobException;
-import org.fedoracommons.akubra.MissingBlobException;
+import org.fedoracommons.akubra.UnsupportedIdException;
 
 /**
  * A connection for the BlobStore.
@@ -75,26 +76,30 @@ class WWWConnection implements BlobStoreConnection {
       throw new IOException("Connection closed.");
 
     if (blobId == null)
-      throw new IllegalArgumentException("blobId is null");
+      throw new UnsupportedIdException(blobId, " must be a valid URL");
 
     WWWBlob blob = blobs.get(blobId);
 
     if ((blob == null) && create) {
-      blob = new WWWBlob(blobId.toURL(), this);
+      try {
+        blob = new WWWBlob(blobId.toURL(), this);
+      } catch (MalformedURLException e) {
+        throw new UnsupportedIdException(blobId,  " must be a valid URL", e);
+      }
       blobs.put(blobId, blob);
     }
 
     return blob;
   }
 
-  public Blob createBlob(URI blobId, Map<String, String> hints)
-                  throws DuplicateBlobException, IOException {
+  public Blob getBlob(URI blobId, Map<String, String> hints)
+               throws IOException, IllegalArgumentException {
     return getWWWBlob(blobId, true);
   }
 
-  public Blob getBlob(URI blobId, Map<String, String> hints)
-               throws IOException {
-    return getWWWBlob(blobId, true);
+  public Blob getBlob(InputStream content, Map<String, String> hints)
+        throws IOException, UnsupportedOperationException {
+    throw new UnsupportedOperationException("No id-generation capability");
   }
 
   public BlobStore getBlobStore() {
@@ -106,12 +111,4 @@ class WWWConnection implements BlobStoreConnection {
     return null;
   }
 
-  public URI removeBlob(URI blobId, Map<String, String> hints)
-                 throws IOException {
-    return null;
-  }
-
-  public void renameBlob(URI oldBlobId, URI newBlobId, Map<String, String> hints)
-                  throws DuplicateBlobException, IOException, MissingBlobException {
-  }
 }

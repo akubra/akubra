@@ -39,7 +39,6 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
@@ -253,14 +252,15 @@ public class TestTransactionalStore {
 
     doInTxn(new Action() {
         public void run(final BlobStoreConnection con) throws Exception {
-          assertNull(con.getBlob(id1, null));
+          assertFalse(con.getBlob(id1, null).exists());
 
           t[0] = doInThread(new Runnable() {
             public void run() {
               try {
                 doInTxn(new Action() {
                   public void run(BlobStoreConnection c2) throws Exception {
-                    Blob b = c2.createBlob(id1, null);
+                    Blob b = c2.getBlob(id1, null);
+                    b.create();
                     b.openOutputStream(-1).write("hello".getBytes());
                     assertEquals("hello",
                                  IOUtils.toString(c2.getBlob(id1, null).openInputStream()));
@@ -277,7 +277,7 @@ public class TestTransactionalStore {
 
           waitFor(cv1, true, 100);
 
-          assertNull(con.getBlob(id1, null));
+          assertFalse(con.getBlob(id1, null).exists());
         }
     }, true);
 
@@ -310,7 +310,9 @@ public class TestTransactionalStore {
   private void createBlob(final URI id, final String val, boolean commit) throws Exception {
     doInTxn(new Action() {
         public void run(BlobStoreConnection con) throws Exception {
-          Blob b = con.createBlob(id, null);
+          Blob b = con.getBlob(id, null);
+          if (!b.exists())
+            b.create();
           b.openOutputStream(-1).write(val.getBytes());
           assertEquals(val, IOUtils.toString(con.getBlob(id, null).openInputStream()));
         }
@@ -320,12 +322,11 @@ public class TestTransactionalStore {
   private void deleteBlob(final URI id, final boolean exists, boolean commit) throws Exception {
     doInTxn(new Action() {
         public void run(BlobStoreConnection con) throws Exception {
-          URI i = con.removeBlob(id, null);
-          if (exists)
-            assertNotNull(i);
-          else
-            assertNull(i);
-          assertNull(con.getBlob(id, null));
+          Blob blob = con.getBlob(id, null);
+          assertEquals(exists, blob.exists());
+          blob.delete();
+          assertFalse(blob.exists());
+          assertFalse(con.getBlob(id, null).exists());
         }
     }, commit);
   }
@@ -337,7 +338,7 @@ public class TestTransactionalStore {
           if (val != null)
             assertEquals(val, IOUtils.toString(b.openInputStream()));
           else
-            assertNull(b);
+            assertFalse(b.exists());
         }
     }, commit);
   }
@@ -346,14 +347,14 @@ public class TestTransactionalStore {
       throws Exception {
     doInTxn(new Action() {
         public void run(BlobStoreConnection con) throws Exception {
-          con.renameBlob(oldId, newId, null);
-          assertNull(con.getBlob(oldId, null));
+          con.getBlob(oldId, null).moveTo(con.getBlob(newId, null));
+          assertFalse(con.getBlob(oldId, null).exists());
 
           Blob b = con.getBlob(newId, null);
           if (val != null)
             assertEquals(val, IOUtils.toString(b.openInputStream()));
           else
-            assertNull(b);
+            assertFalse(b.exists());
         }
     }, commit);
   }

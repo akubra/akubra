@@ -65,7 +65,7 @@ class WWWBlob implements Blob {
     }
   }
 
-  public long getSize() {
+  public long getSize() throws IOException {
     return -1;
   }
 
@@ -82,5 +82,21 @@ class WWWBlob implements Blob {
     con.setDoOutput(true);
 
     return con.getOutputStream();
+  }
+
+  public boolean exists() throws IOException {
+    return true;
+  }
+
+  public void create() throws IOException {
+    throw new UnsupportedOperationException();
+  }
+
+  public void delete() throws IOException {
+    throw new UnsupportedOperationException();
+  }
+
+  public void moveTo(Blob blob) throws IOException {
+    throw new UnsupportedOperationException();
   }
 }

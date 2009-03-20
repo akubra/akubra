@@ -22,6 +22,7 @@
 package org.fedoracommons.akubra.mapping;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import java.net.URI;
 
@@ -33,8 +34,6 @@ import java.util.Map;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
-import org.fedoracommons.akubra.DuplicateBlobException;
-import org.fedoracommons.akubra.MissingBlobException;
 
 /**
  *
@@ -60,24 +59,13 @@ class MappingBlobStoreConnection implements BlobStoreConnection {
   }
 
   //@Override
-  public Blob createBlob(URI blobId, Map<String, String> hints) throws DuplicateBlobException,
-      IOException {
-    return null;
-  }
-
-  //@Override
   public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
     return null;
   }
 
-  //@Override
-  public void renameBlob(URI oldBlobId, URI newBlobId, Map<String, String> hints)
-      throws DuplicateBlobException, IOException, MissingBlobException {
-  }
-
-  //@Override
-  public URI removeBlob(URI blobId, Map<String, String> hints) throws IOException {
-    return null;
+  public Blob getBlob(InputStream content, Map<String, String> hints)
+		throws IOException, UnsupportedOperationException {
+	throw new UnsupportedOperationException();
   }
 
   //@Override

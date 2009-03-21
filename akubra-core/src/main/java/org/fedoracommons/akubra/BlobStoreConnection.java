@@ -66,6 +66,9 @@ public interface BlobStoreConnection {
    * create}
    *
    * @param content the contents of the blob
+   * @param estimatedSize the estimated size of the data if known (or -1 if unknown).
+   *                      This can allow for the implementation to make better decisions
+   *                      on buffering or reserving space.
    * @param hints A set of hints to allow the implementation to optimize the operation (can be
    *              null)
    *
@@ -74,7 +77,7 @@ public interface BlobStoreConnection {
    * @throws IOException for IO errors
    * @throws UnsupportedOperationException if this store cannot generate new id and create a new blob
    */
-  Blob getBlob(InputStream content, Map<String, String> hints)
+  Blob getBlob(InputStream content, long estimatedSize, Map<String, String> hints)
         throws IOException, UnsupportedOperationException;
 
   /**

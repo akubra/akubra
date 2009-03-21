@@ -50,7 +50,7 @@ public abstract class AbstractBlobStoreConnection implements BlobStoreConnection
   }
 
   //@Override
-  public Blob getBlob(InputStream content, Map<String, String> hints)
+  public Blob getBlob(InputStream content, long estimatedSize, Map<String, String> hints)
             throws IOException, UnsupportedOperationException {
     Blob blob = getBlob((URI)null, hints);
     if (!blob.exists())
@@ -58,7 +58,7 @@ public abstract class AbstractBlobStoreConnection implements BlobStoreConnection
 
     OutputStream out = null;
     try {
-      IOUtils.copyLarge(content, out = blob.openOutputStream(-1));
+      IOUtils.copyLarge(content, out = blob.openOutputStream(estimatedSize));
       out.close();
       out = null;
     } finally {

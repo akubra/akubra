@@ -31,6 +31,7 @@ import java.sql.Connection;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.fedoracommons.akubra.AbstractBlobStoreConnection;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
@@ -39,41 +40,29 @@ import org.fedoracommons.akubra.BlobStoreConnection;
  *
  * @author Chris Wilper
  */
-class MappingBlobStoreConnection implements BlobStoreConnection {
-  private final BlobStore blobStore;
+class MappingBlobStoreConnection extends AbstractBlobStoreConnection {
   private final BlobStoreConnection bsConn;
   private final Connection dbConn;
   private final String tableName;
 
   public MappingBlobStoreConnection(BlobStore blobStore,
       BlobStoreConnection bsConn, Connection dbConn, String tableName) {
-    this.blobStore = blobStore;
+    super(blobStore);
     this.bsConn = bsConn;
     this.dbConn = dbConn;
     this.tableName = tableName;
   }
 
-  //@Override
-  public BlobStore getBlobStore() {
-    return blobStore;
-  }
 
   //@Override
   public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
-    return null;
+    throw new UnsupportedOperationException("Not implemented yet!");
   }
 
-  public Blob getBlob(InputStream content, Map<String, String> hints)
-		throws IOException, UnsupportedOperationException {
-	throw new UnsupportedOperationException();
-  }
 
   //@Override
   public Iterator<URI> listBlobIds(String filterPrefix) {
     return null;
   }
 
-  //@Override
-  public void close() {
-  }
 }

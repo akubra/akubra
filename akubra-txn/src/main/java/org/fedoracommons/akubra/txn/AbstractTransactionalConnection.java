@@ -37,6 +37,8 @@ import javax.transaction.Transaction;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.fedoracommons.akubra.AbstractBlob;
+import org.fedoracommons.akubra.AbstractBlobStoreConnection;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
@@ -61,12 +63,10 @@ import org.fedoracommons.akubra.MissingBlobException;
  *
  * @author Ronald Tschalär
  */
-public abstract class AbstractTransactionalConnection
-    implements BlobStoreConnection, Synchronization {
+public abstract class AbstractTransactionalConnection extends AbstractBlobStoreConnection
+    implements Synchronization {
   private static final Log logger = LogFactory.getLog(AbstractTransactionalConnection.class);
 
-  /** the blob-store to which this connection belongs */
-  protected final BlobStore   owner;
   /** the underlying blob-store that actually stores the blobs */
   protected final BlobStoreConnection bStoreCon;
   /** the transaction this connection belongs to */
@@ -86,7 +86,7 @@ public abstract class AbstractTransactionalConnection
    */
   protected AbstractTransactionalConnection(BlobStore owner, BlobStore bStore, Transaction tx)
       throws IOException {
-    this.owner     = owner;
+    super(owner);
     this.bStoreCon = bStore.openConnection(null);
     this.tx        = tx;
 
@@ -101,68 +101,50 @@ public abstract class AbstractTransactionalConnection
   }
 
   //@Override
-  public BlobStore getBlobStore() {
-    return owner;
-  }
-
-  //@Override
-  public Blob getBlob(final URI blobId, final Map<String, String> hints) throws IOException {
+  public Blob getBlob(URI blobId, final Map<String, String> hints) throws IOException {
     if (blobId == null)
-      return getBlob(createBlob(blobId, hints).getId(), hints);
+      blobId = createBlob(blobId, hints).getId();
 
-    return new Blob() {
-
-      public URI getId() {
-        return blobId;
-      }
-
-      public BlobStoreConnection getConnection() {
-        return AbstractTransactionalConnection.this;
-      }
+    return new AbstractBlob(this, blobId) {
 
       public boolean exists() throws IOException {
-        Blob blob = lookupBlob(blobId, hints);
+        Blob blob = lookupBlob(getId(), hints);
         return (blob != null) && blob.exists();
       }
 
       public void create() throws IOException {
-        createBlob(blobId, hints);
+        createBlob(getId(), hints);
       }
 
       public void delete() throws IOException {
-        removeBlob(blobId, hints);
+        removeBlob(getId(), hints);
       }
 
       public void moveTo(Blob blob) throws IOException {
-        renameBlob(blobId, blob.getId(), hints);
+        renameBlob(getId(), blob.getId(), hints);
       }
 
       public long getSize() throws IOException {
-        Blob blob = lookupBlob(blobId, hints);
+        Blob blob = lookupBlob(getId(), hints);
         if (blob == null)
-          throw new MissingBlobException(blobId);
+          throw new MissingBlobException(getId());
         return blob.getSize();
       }
 
       public InputStream openInputStream() throws IOException {
-        Blob blob = lookupBlob(blobId, hints);
+        Blob blob = lookupBlob(getId(), hints);
         if (blob == null)
-          throw new MissingBlobException(blobId);
+          throw new MissingBlobException(getId());
         return blob.openInputStream();
       }
 
       public OutputStream openOutputStream(long estimatedSize) throws IOException {
-        Blob blob = lookupBlob(blobId, hints);
+        Blob blob = lookupBlob(getId(), hints);
         if (blob == null)
-          throw new MissingBlobException(blobId);
+          throw new MissingBlobException(getId());
         return blob.openOutputStream(estimatedSize);
       }
     };
-  }
-
-  //@Override
-  public Blob getBlob(final InputStream in, final Map<String, String> hints) throws IOException {
-    throw new UnsupportedOperationException("Not implemented yet!");
   }
 
   Blob createBlob(URI blobId, Map<String, String> hints)
@@ -187,7 +169,7 @@ public abstract class AbstractTransactionalConnection
       logger.trace("created blob '" + blobId + "' with underlying id '" + res.getId() + "' (" +
                    this + ")");
 
-    return res.getId().equals(blobId) ? res : new IdBlobWrapper(res, blobId);
+    return res.getId().equals(blobId) ? res : new BlobWrapper(res, this, blobId);
   }
 
   Blob lookupBlob(URI blobId, Map<String, String> hints) throws IOException {
@@ -204,7 +186,7 @@ public abstract class AbstractTransactionalConnection
       logger.trace("got blob '" + blobId + "' with underlying id '" +
                    (res != null ? res.getId() : null) + "' (" + this + ")");
 
-    return (res != null) ? new IdBlobWrapper(res, blobId) : null;
+    return (res != null) ? new BlobWrapper(res, this, blobId) : null;
   }
 
   void renameBlob(URI oldBlobId, URI newBlobId, Map<String, String> hints)
@@ -306,25 +288,6 @@ public abstract class AbstractTransactionalConnection
                        ioe);
         }
       }
-    }
-  }
-
-  private class IdBlobWrapper extends BlobWrapper {
-    private final URI id;
-
-    IdBlobWrapper(Blob delegate, URI id) {
-      super(delegate);
-      this.id = id;
-    }
-
-    @Override
-    public BlobStoreConnection getConnection() {
-      return AbstractTransactionalConnection.this;
-    }
-
-    @Override
-    public URI getId() {
-      return id;
     }
   }
 }

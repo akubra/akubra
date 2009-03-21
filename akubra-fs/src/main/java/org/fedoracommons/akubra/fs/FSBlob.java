@@ -29,6 +29,7 @@ import java.io.OutputStream;
 
 import java.net.URI;
 
+import org.fedoracommons.akubra.AbstractBlob;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.DuplicateBlobException;
@@ -41,9 +42,7 @@ import org.fedoracommons.akubra.util.StreamManager;
  *
  * @author Chris Wilper
  */
-class FSBlob implements Blob {
-  private final FSBlobStoreConnection connection;
-  private final URI blobId;
+class FSBlob extends AbstractBlob {
   private final File file;
   private final StreamManager manager;
 
@@ -56,26 +55,15 @@ class FSBlob implements Blob {
    * @param manager the stream manager
    */
   FSBlob(FSBlobStoreConnection connection, URI blobId, File file, StreamManager manager) {
-    this.connection = connection;
-    this.blobId = blobId;
+    super(connection, blobId);
     this.file = file;
     this.manager = manager;
   }
 
   //@Override
-  public BlobStoreConnection getConnection() {
-    return connection;
-  }
-
-  //@Override
-  public URI getId() {
-    return blobId;
-  }
-
-  //@Override
   public InputStream openInputStream() throws IOException {
     if (!file.exists())
-      throw new MissingBlobException(blobId);
+      throw new MissingBlobException(getId());
 
     return new FileInputStream(file);
   }
@@ -87,7 +75,7 @@ class FSBlob implements Blob {
 
     try {
       if (!file.exists())
-        throw new MissingBlobException(blobId);
+        throw new MissingBlobException(getId());
 
       return manager.manageOutputStream(file);
     } finally {
@@ -98,7 +86,7 @@ class FSBlob implements Blob {
   //@Override
   public long getSize() throws IOException {
     if (!file.exists())
-      throw new MissingBlobException(blobId);
+      throw new MissingBlobException(getId());
 
     return file.length();
   }
@@ -117,7 +105,7 @@ class FSBlob implements Blob {
       makeParentDirs(file);
 
       if (!file.createNewFile())
-        throw new DuplicateBlobException(blobId, file + " exists");
+        throw new DuplicateBlobException(getId(), file + " exists");
     } finally {
       manager.unlockState();
     }
@@ -145,7 +133,7 @@ class FSBlob implements Blob {
       if ((blob == null) || (blob.getId() == null))
         throw new NullPointerException("Blob can't be null");
 
-      if (!connection.isAcceptableId(blob.getId()))
+      if (!((FSBlobStoreConnection) getConnection()).isAcceptableId(blob.getId()))
         throw new UnsupportedIdException(blob.getId());
 
       if (!(blob instanceof FSBlob))
@@ -158,7 +146,7 @@ class FSBlob implements Blob {
       if (!file.renameTo(other)) {
 
         if (!file.exists())
-          throw new MissingBlobException(blobId);
+          throw new MissingBlobException(getId());
 
         if (other.exists())
           throw new DuplicateBlobException(blob.getId());

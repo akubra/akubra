@@ -31,13 +31,10 @@ import java.util.Map;
 
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.iterators.FilterIterator;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
+import org.fedoracommons.akubra.AbstractBlobStoreConnection;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
-import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.BlobWrapper;
 import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.util.StreamManager;
@@ -47,9 +44,7 @@ import org.fedoracommons.akubra.util.StreamManager;
  *
  * @author Ronald Tschalär
  */
-class MemConnection implements BlobStoreConnection {
-  private static final Log log  = LogFactory.getLog(MemConnection.class);
-  private final BlobStore         owner;
+class MemConnection extends AbstractBlobStoreConnection {
   private final Map<URI, MemBlob> blobs;
   private final StreamManager     streamMgr;
 
@@ -61,14 +56,9 @@ class MemConnection implements BlobStoreConnection {
    * @param streamMgr the stream-manager to use
    */
   MemConnection(MemBlobStore owner, Map<URI, MemBlob> blobs, StreamManager streamMgr) {
-    this.owner     = owner;
+    super(owner);
     this.blobs     = blobs;
     this.streamMgr = streamMgr;
-  }
-
-  //@Override
-  public BlobStore getBlobStore() {
-    return owner;
   }
 
   //@Override
@@ -87,33 +77,6 @@ class MemConnection implements BlobStoreConnection {
       }
       return new ConBlob(b);
     }
-  }
-
-  //@Override
-  public Blob getBlob(InputStream content, Map<String, String> hints)
-    throws IOException, UnsupportedOperationException {
-    Blob blob = null;
-    while (blob == null) {
-      blob = getBlob((URI)null, hints);
-      try {
-        blob.create();
-      } catch (DuplicateBlobException e) {
-        blob = null;
-        log.warn("Newly created blob already exists. Trying another ...", e);
-      }
-    }
-
-    OutputStream out = null;
-    try {
-      IOUtils.copyLarge(content, out = blob.openOutputStream(-1));
-      out.close();
-      out = null;
-    } finally {
-      if (out != null)
-        IOUtils.closeQuietly(out);
-    }
-
-    return blob;
   }
 
   //@Override
@@ -138,12 +101,7 @@ class MemConnection implements BlobStoreConnection {
 
   private class ConBlob extends BlobWrapper {
     ConBlob(Blob b) {
-      super(b);
-    }
-
-    @Override
-    public BlobStoreConnection getConnection() {
-      return MemConnection.this;
+      super(b, MemConnection.this);
     }
 
     @Override

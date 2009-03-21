@@ -34,7 +34,7 @@ import java.net.URI;
  *
  * @author Ronald Tschalär
  */
-public class BlobWrapper implements Blob {
+public class BlobWrapper extends AbstractBlob {
   /** The wrapped blob to which all calls are delegated. */
   protected final Blob delegate;
 
@@ -43,16 +43,40 @@ public class BlobWrapper implements Blob {
    *
    * @param delegate the blob to delegate the calls to.
    */
-  protected BlobWrapper(Blob delegate) {
+  public BlobWrapper(Blob delegate) {
+    this(delegate, delegate.getConnection(), delegate.getId());
+  }
+
+  /**
+   * Create a new BlobWrapper.
+   *
+   * @param delegate the blob to delegate the calls to.
+   * @param con the blob store connection. Usually different from the delegate's connection
+   */
+  public BlobWrapper(Blob delegate, BlobStoreConnection con) {
+    this(delegate, con, delegate.getId());
+  }
+
+  /**
+   * Create a new BlobWrapper.
+   *
+   * @param delegate the blob to delegate the calls to.
+   * @param id the blob id. Usually different from the delegate's id
+   */
+  public BlobWrapper(Blob delegate, URI id) {
+    this(delegate, delegate.getConnection(), id);
+  }
+
+  /**
+   * Create a new BlobWrapper.
+   *
+   * @param delegate the blob to delegate the calls to.
+   * @param con the blob store connection. Usually different from the delegate's connection
+   * @param id the blob id. Usually different from the delegate's id
+   */
+  public BlobWrapper(Blob delegate, BlobStoreConnection con, URI id) {
+    super(con, id);
     this.delegate = delegate;
-  }
-
-  public BlobStoreConnection getConnection() {
-    return delegate.getConnection();
-  }
-
-  public URI getId() {
-    return delegate.getId();
   }
 
   public InputStream openInputStream() throws IOException {

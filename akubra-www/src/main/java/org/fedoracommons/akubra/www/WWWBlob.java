@@ -30,6 +30,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.fedoracommons.akubra.AbstractBlob;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStoreConnection;
 
@@ -38,9 +39,8 @@ import org.fedoracommons.akubra.BlobStoreConnection;
  *
  * @author Pradeep Krishnan
  */
-class WWWBlob implements Blob {
-  private URL                 url;
-  private BlobStoreConnection conn;
+class WWWBlob extends AbstractBlob {
+  private final URL           url;
   private Long                size;
   private URLConnection       urlc;
 
@@ -51,23 +51,11 @@ class WWWBlob implements Blob {
    * @param conn the connection object
    */
   public WWWBlob(URL url, BlobStoreConnection conn) {
+    super(conn, toURI(url));
     this.url    = url;
-    this.conn   = conn;
   }
 
-  public BlobStoreConnection getConnection() {
-    return conn;
-  }
-
-  /**
-   * Notification that the BlobStoreConnection is closed.
-   */
-  void closed() {
-    conn   = null;
-    urlc   = null;
-  }
-
-  public URI getId() {
+  private static URI toURI(URL url) {
     try {
       return url.toURI();
     } catch (URISyntaxException e) {
@@ -75,9 +63,16 @@ class WWWBlob implements Blob {
     }
   }
 
+  /**
+   * Notification that the BlobStoreConnection is closed.
+   */
+  void closed() {
+    urlc   = null;
+  }
+
   private URLConnection connect(boolean input, boolean cache)
                          throws IOException {
-    if (conn == null)
+    if (((WWWConnection)getConnection()).isClosed())
       throw new IOException("Connection closed.");
 
     URLConnection con;

@@ -31,9 +31,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.fedoracommons.akubra.AbstractBlobStoreConnection;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
-import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.UnsupportedIdException;
 
 /**
@@ -41,8 +41,7 @@ import org.fedoracommons.akubra.UnsupportedIdException;
  *
  * @author Pradeep Krishnan
  */
-class WWWConnection implements BlobStoreConnection {
-  private WWWStore          store;
+class WWWConnection extends AbstractBlobStoreConnection {
   private Map<URI, WWWBlob> blobs = new HashMap<URI, WWWBlob>();
 
   /**
@@ -51,7 +50,7 @@ class WWWConnection implements BlobStoreConnection {
    * @param store the BlobStore
    */
   public WWWConnection(WWWStore store) {
-    this.store = store;
+    super(store);
   }
 
   public void close() {
@@ -62,6 +61,7 @@ class WWWConnection implements BlobStoreConnection {
       blobs.clear();
       blobs = null;
     }
+    super.close();
   }
 
   /**
@@ -81,7 +81,8 @@ class WWWConnection implements BlobStoreConnection {
       throw new IOException("Connection closed.");
 
     if (blobId == null)
-      throw new UnsupportedIdException(blobId, " must be a valid URL");
+      throw new UnsupportedOperationException("Must supply a valid URL as the blob-id. " + 
+          "This store has no id generation capability.");
 
     WWWBlob blob = blobs.get(blobId);
 
@@ -102,18 +103,8 @@ class WWWConnection implements BlobStoreConnection {
     return getWWWBlob(blobId, true);
   }
 
-  public Blob getBlob(InputStream content, Map<String, String> hints)
-        throws IOException, UnsupportedOperationException {
-    throw new UnsupportedOperationException("No id-generation capability");
-  }
-
-  public BlobStore getBlobStore() {
-    return store;
-  }
-
   public Iterator<URI> listBlobIds(String filterPrefix)
                             throws IOException {
     return null;
   }
-
 }

@@ -40,24 +40,8 @@
   <dependencies>
     <dependency>
       <groupId>org.fedoracommons</groupId>
-      <artifactId>akubra-core</artifactId>
-      <version>${pom.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.fedoracommons</groupId>
       <artifactId>akubra-fs</artifactId>
       <version>${pom.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.transaction</groupId>
-      <artifactId>jta</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
     </dependency>
 
     <dependency>

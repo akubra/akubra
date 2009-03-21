@@ -34,12 +34,10 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
+import org.fedoracommons.akubra.AbstractBlobStoreConnection;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
-import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.UnsupportedIdException;
 import org.fedoracommons.akubra.util.PathAllocator;
@@ -50,9 +48,7 @@ import org.fedoracommons.akubra.util.StreamManager;
  *
  * @author Chris Wilper
  */
-class FSBlobStoreConnection implements BlobStoreConnection {
-  private static final Log log  = LogFactory.getLog(FSBlobStoreConnection.class);
-  private final BlobStore blobStore;
+class FSBlobStoreConnection extends AbstractBlobStoreConnection {
   private final File baseDir;
   private final PathAllocator pAlloc;
   private final String blobIdPrefix;
@@ -60,46 +56,17 @@ class FSBlobStoreConnection implements BlobStoreConnection {
 
   FSBlobStoreConnection(BlobStore blobStore, File baseDir, PathAllocator pAlloc,
                         StreamManager manager) {
-    this.blobStore = blobStore;
+    super(blobStore);
     this.baseDir = baseDir;
     this.pAlloc = pAlloc;
     this.blobIdPrefix = getBlobIdPrefix(baseDir);
     this.manager = manager;
   }
 
-  //@Override
-  public BlobStore getBlobStore() {
-    return blobStore;
-  }
 
   //@Override
   public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
     return new FSBlob(this, blobId, getFile(blobId, hints), manager);
-  }
-
-  public Blob getBlob(InputStream content, Map<String, String> hints) throws IOException {
-    Blob blob = null;
-    while (blob == null) {
-      blob = getBlob((URI)null, hints);
-      try {
-        blob.create();
-      } catch (DuplicateBlobException e) {
-        blob = null;
-        log.warn("Newly created blob already exists. Trying another ...", e);
-      }
-    }
-
-    OutputStream out = null;
-    try {
-      IOUtils.copyLarge(content, out = blob.openOutputStream(-1));
-      out.close();
-      out = null;
-    } finally {
-      if (out != null)
-        IOUtils.closeQuietly(out);
-    }
-
-    return blob;
   }
 
   public boolean isAcceptableId(URI blobId) {

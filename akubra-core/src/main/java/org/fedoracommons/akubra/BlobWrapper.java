@@ -41,7 +41,7 @@ public class BlobWrapper extends AbstractBlob {
   /**
    * Create a new BlobWrapper.
    *
-   * @param delegate the blob to delegate the calls to.
+   * @param delegate the blob to delegate the calls to
    */
   public BlobWrapper(Blob delegate) {
     this(delegate, delegate.getConnection(), delegate.getId());
@@ -50,8 +50,8 @@ public class BlobWrapper extends AbstractBlob {
   /**
    * Create a new BlobWrapper.
    *
-   * @param delegate the blob to delegate the calls to.
-   * @param con the blob store connection. Usually different from the delegate's connection
+   * @param delegate the blob to delegate the calls to
+   * @param con the blob store connection. Usually different from the delegate's connection.
    */
   public BlobWrapper(Blob delegate, BlobStoreConnection con) {
     this(delegate, con, delegate.getId());
@@ -60,8 +60,8 @@ public class BlobWrapper extends AbstractBlob {
   /**
    * Create a new BlobWrapper.
    *
-   * @param delegate the blob to delegate the calls to.
-   * @param id the blob id. Usually different from the delegate's id
+   * @param delegate the blob to delegate the calls to
+   * @param id the blob id. Could be different from the delegate's id.
    */
   public BlobWrapper(Blob delegate, URI id) {
     this(delegate, delegate.getConnection(), id);
@@ -70,9 +70,9 @@ public class BlobWrapper extends AbstractBlob {
   /**
    * Create a new BlobWrapper.
    *
-   * @param delegate the blob to delegate the calls to.
-   * @param con the blob store connection. Usually different from the delegate's connection
-   * @param id the blob id. Usually different from the delegate's id
+   * @param delegate the blob to delegate the calls to
+   * @param con the blob store connection. Usually different from the delegate's connection.
+   * @param id the blob id. Could be different from the delegate's id.
    */
   public BlobWrapper(Blob delegate, BlobStoreConnection con, URI id) {
     super(con, id);

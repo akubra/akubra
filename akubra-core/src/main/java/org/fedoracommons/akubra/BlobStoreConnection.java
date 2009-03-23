@@ -53,10 +53,14 @@ public interface BlobStoreConnection {
    *
    * @return the blob. Cannot be null and must have the passed in blobId. If the passed in blobId
    *         is null, an id must be generated if the store is capable of generating ids. There is
-   *         no requirement that the returned blob must {@link Blob#exists exist}.
+   *         no requirement that the returned blob must {@link Blob#exists exist}. However there
+   *         is a requirement that the {@link Blob#getConnection getConnection()} method of the
+   *         returned Blob must return this connection object.
    *
    * @throws IOException for IO errors
    * @throws UnsupportedIdException if blobId is not in a recognized/usable pattern by this store
+   *
+   * @see BlobWrapper
    */
   Blob getBlob(URI blobId, Map<String, String> hints) throws IOException, IllegalArgumentException;
 
@@ -72,10 +76,13 @@ public interface BlobStoreConnection {
    * @param hints A set of hints to allow the implementation to optimize the operation (can be
    *              null)
    *
-   * @return the blob. Cannot be null and must have a generated id.
+   * @return the blob. Cannot be null and must have a generated id. The {@link Blob#getConnection
+   *                   getConnection()} method must return this connection object.
    *
    * @throws IOException for IO errors
    * @throws UnsupportedOperationException if this store cannot generate new id and create a new blob
+   *
+   * @see BlobWrapper
    */
   Blob getBlob(InputStream content, long estimatedSize, Map<String, String> hints)
         throws IOException, UnsupportedOperationException;

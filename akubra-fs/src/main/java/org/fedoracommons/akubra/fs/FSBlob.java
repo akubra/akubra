@@ -62,6 +62,9 @@ class FSBlob extends AbstractBlob {
 
   //@Override
   public InputStream openInputStream() throws IOException {
+    if (getConnection().isClosed())
+      throw new IllegalStateException("Connection closed.");
+
     if (!file.exists())
       throw new MissingBlobException(getId());
 
@@ -70,6 +73,9 @@ class FSBlob extends AbstractBlob {
 
   //@Override
   public OutputStream openOutputStream(long estimatedSize) throws IOException {
+    if (getConnection().isClosed())
+      throw new IllegalStateException("Connection closed.");
+
     if (!manager.lockUnquiesced())
       throw new IOException("Interrupted waiting for writable state");
 
@@ -85,6 +91,9 @@ class FSBlob extends AbstractBlob {
 
   //@Override
   public long getSize() throws IOException {
+    if (getConnection().isClosed())
+      throw new IllegalStateException("Connection closed.");
+
     if (!file.exists())
       throw new MissingBlobException(getId());
 
@@ -93,11 +102,17 @@ class FSBlob extends AbstractBlob {
 
   //@Override
   public boolean exists() throws IOException {
+    if (getConnection().isClosed())
+      throw new IllegalStateException("Connection closed.");
+
     return file.exists();
   }
 
   //@Override
   public void create() throws IOException {
+    if (getConnection().isClosed())
+      throw new IllegalStateException("Connection closed.");
+
     if (!manager.lockUnquiesced())
       throw new IOException("Interrupted waiting for writable state");
 
@@ -113,6 +128,9 @@ class FSBlob extends AbstractBlob {
 
   //@Override
   public void delete() throws IOException {
+    if (getConnection().isClosed())
+      throw new IllegalStateException("Connection closed.");
+
     if (!manager.lockUnquiesced())
       throw new IOException("Interrupted waiting for writable state");
 
@@ -126,6 +144,9 @@ class FSBlob extends AbstractBlob {
 
   //@Override
   public void moveTo(Blob blob) throws IOException {
+    if (getConnection().isClosed())
+      throw new IllegalStateException("Connection closed.");
+
     if (!manager.lockUnquiesced())
       throw new IOException("Interrupted waiting for writable state");
 

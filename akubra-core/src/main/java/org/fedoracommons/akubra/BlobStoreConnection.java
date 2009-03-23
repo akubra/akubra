@@ -94,4 +94,11 @@ public interface BlobStoreConnection {
    * Close the connection to the blob store
    */
   void close();
+
+  /**
+   * Tests if the connection to the blob store is closed.
+   *
+   * @return true if the connection is closed.
+   */
+  boolean isClosed();
 }

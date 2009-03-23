@@ -53,7 +53,7 @@ import org.fedoracommons.akubra.MissingBlobException;
  *
  * <p>Subclasses must implement {@link #getRealId getRealId}, {@link #remNameEntry remNameEntry},
  * {@link #addNameEntry addNameEntry}, {@link BlobStoreConnection#listBlobIds listBlobIds}, and
- * {@link BlobStoreConnection#close close}; in addition they may want to override {@link
+ * override {@link #close close}; in addition they may want to override {@link
  * #beforeCompletion beforeCompletion} and/or {@link #afterCompletion afterCompletion} for pre-
  * and post-commit/rollback processing.
  *
@@ -102,6 +102,9 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
 
   //@Override
   public Blob getBlob(URI blobId, final Map<String, String> hints) throws IOException {
+    if (isClosed())
+      throw new IllegalStateException("Connection closed.");
+
     if (blobId == null)
       blobId = createBlob(blobId, hints).getId();
 
@@ -147,8 +150,16 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
     };
   }
 
+  public void close() {
+    bStoreCon.close();
+    super.close();
+  }
+
   Blob createBlob(URI blobId, Map<String, String> hints)
       throws DuplicateBlobException, IOException {
+    if (isClosed())
+      throw new IllegalStateException("Connection closed.");
+
     if (logger.isTraceEnabled())
       logger.trace("creating blob '" + blobId + "' (" + this + ")");
 
@@ -173,6 +184,9 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
   }
 
   Blob lookupBlob(URI blobId, Map<String, String> hints) throws IOException {
+    if (isClosed())
+      throw new IllegalStateException("Connection closed.");
+
     if (logger.isTraceEnabled())
       logger.trace("getting blob '" + blobId + "' (" + this + ")");
 
@@ -191,6 +205,9 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
 
   void renameBlob(URI oldBlobId, URI newBlobId, Map<String, String> hints)
       throws DuplicateBlobException, IOException, MissingBlobException {
+    if (isClosed())
+      throw new IllegalStateException("Connection closed.");
+
     if (logger.isTraceEnabled())
       logger.trace("renaming blob '" + oldBlobId + "' to '" + newBlobId + "' (" + this + ")");
 
@@ -203,6 +220,9 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
   }
 
   URI removeBlob(URI blobId, Map<String, String> hints) throws IOException {
+    if (isClosed())
+      throw new IllegalStateException("Connection closed.");
+
     if (logger.isTraceEnabled())
       logger.trace("removing blob '" + blobId + "' (" + this + ")");
 

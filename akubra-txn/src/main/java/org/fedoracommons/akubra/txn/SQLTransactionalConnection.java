@@ -71,6 +71,8 @@ public abstract class SQLTransactionalConnection extends AbstractTransactionalCo
     if (logger.isDebugEnabled())
       logger.debug("closing connection " + this);
 
+    super.close();
+
     try {
       con.close();
     } catch (SQLException sqle) {

@@ -53,6 +53,7 @@ public abstract class AbstractBlobStoreConnection implements BlobStoreConnection
   public Blob getBlob(InputStream content, long estimatedSize, Map<String, String> hints)
             throws IOException, UnsupportedOperationException {
     Blob blob = getBlob(null, hints);
+
     if (!blob.exists())
       blob.create();
 

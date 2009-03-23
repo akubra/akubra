@@ -80,30 +80,44 @@ public class BlobWrapper extends AbstractBlob {
   }
 
   public InputStream openInputStream() throws IOException {
+    if (getConnection().isClosed())
+      throw new IllegalStateException("Connection closed.");
     return delegate.openInputStream();
   }
 
   public OutputStream openOutputStream(long estimatedSize) throws IOException {
+    if (getConnection().isClosed())
+      throw new IllegalStateException("Connection closed.");
     return delegate.openOutputStream(estimatedSize);
   }
 
   public long getSize() throws IOException{
+    if (getConnection().isClosed())
+      throw new IllegalStateException("Connection closed.");
     return delegate.getSize();
   }
 
   public boolean exists() throws IOException {
+    if (getConnection().isClosed())
+      throw new IllegalStateException("Connection closed.");
     return delegate.exists();
   }
 
   public void create() throws IOException {
+    if (getConnection().isClosed())
+      throw new IllegalStateException("Connection closed.");
     delegate.create();
   }
 
   public void delete() throws IOException {
+    if (getConnection().isClosed())
+      throw new IllegalStateException("Connection closed.");
     delegate.delete();
   }
 
   public void moveTo(Blob blob) throws IOException {
+    if (getConnection().isClosed())
+      throw new IllegalStateException("Connection closed.");
     delegate.moveTo(blob);
   }
 }

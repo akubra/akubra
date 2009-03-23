@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -45,7 +46,7 @@ import org.fedoracommons.akubra.util.StreamManager;
  * @author Ronald Tschalär
  */
 class MemConnection extends AbstractBlobStoreConnection {
-  private final Map<URI, MemBlob> blobs;
+  private final Map<URI, MemData> blobs;
   private final StreamManager     streamMgr;
 
   /**
@@ -55,7 +56,7 @@ class MemConnection extends AbstractBlobStoreConnection {
    * @param blobs     the blob-map to use (shared, hence needs to be synchronized)
    * @param streamMgr the stream-manager to use
    */
-  MemConnection(MemBlobStore owner, Map<URI, MemBlob> blobs, StreamManager streamMgr) {
+  MemConnection(MemBlobStore owner, Map<URI, MemData> blobs, StreamManager streamMgr) {
     super(owner);
     this.blobs     = blobs;
     this.streamMgr = streamMgr;
@@ -63,57 +64,25 @@ class MemConnection extends AbstractBlobStoreConnection {
 
   //@Override
   public Blob getBlob(URI blobId, Map<String, String> hints) {
-    synchronized (blobs) {
-      if (blobId == null) {
+    if (blobId == null) {
+      synchronized (blobs) {
         do {
           blobId = MemBlobStore.getRandomId("urn:mem-store:gen-id:");
         } while (blobs.containsKey(blobId));
       }
-
-      MemBlob b = blobs.get(blobId);
-      if (b == null) {
-        b = new MemBlob(blobId, streamMgr);
-        blobs.put(blobId, b);
-      }
-      return new ConBlob(b);
     }
+
+    return new MemBlob(blobId, blobs, streamMgr, this);
   }
 
   //@Override
   public Iterator<URI> listBlobIds(final String filterPrefix) {
     synchronized (blobs) {
-      return new FilterIterator(blobs.keySet().iterator(), new Predicate() {
+      return new FilterIterator(new ArrayList(blobs.keySet()).iterator(), new Predicate() {
          public boolean evaluate(Object object) {
-           MemBlob blob = blobs.get(object);
-           try {
-             return blob.exists() && ((filterPrefix == null) || object.toString().startsWith(filterPrefix));
-           } catch (IOException e) {
-             return false;
-           }
+           return ((filterPrefix == null) || object.toString().startsWith(filterPrefix));
          }
       });
     }
   }
-
-  //@Override
-  public void close() {
-  }
-
-  private class ConBlob extends BlobWrapper {
-    ConBlob(Blob b) {
-      super(b, MemConnection.this);
-    }
-
-    @Override
-    public void moveTo(Blob blob) throws IOException {
-      if ((blob == null) || (blob.getId() == null))
-        throw new NullPointerException("Blob can't be null");
-
-      if (!(blob instanceof ConBlob))
-        throw new IllegalArgumentException("Blob '" + blob.getId() + "' is not an instanceof " + ConBlob.class);
-
-      delegate.moveTo(((ConBlob)blob).delegate);
-    }
-  }
-
 }

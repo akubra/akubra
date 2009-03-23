@@ -41,7 +41,7 @@ import org.fedoracommons.akubra.util.StreamManager;
 public class MemBlobStore extends AbstractBlobStore {
   private static final Random rng = new Random();
 
-  private final Map<URI, MemBlob> blobs     = new HashMap<URI, MemBlob>();
+  private final Map<URI, MemData> blobs     = new HashMap<URI, MemData>();
   private final StreamManager     streamMgr = new StreamManager();
 
   /**

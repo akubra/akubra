@@ -28,7 +28,9 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
+import java.util.Map;
 
+import org.fedoracommons.akubra.AbstractBlob;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.DuplicateBlobException;
@@ -40,107 +42,109 @@ import org.fedoracommons.akubra.util.StreamManager;
  *
  * @author Ronald Tschalär
  */
-class MemBlob implements Blob {
-  private MemOutputStream data;
-  private final StreamManager   streamMgr;
-  private       URI             id;
+class MemBlob extends AbstractBlob {
+  private final Map<URI, MemData> blobs;
+  private final StreamManager     streamMgr;
 
   /**
    * Create a new in-memory blob.
    *
    * @param id        the blob's id
+   * @param blobs     the blob-map to use (shared, hence needs to be synchronized)
    * @param streamMgr the stream-manager to use
+   * @param owner     the blob-store connection we belong to
    */
-  MemBlob(URI id, StreamManager streamMgr) {
-    this.id        = id;
+  MemBlob(URI id, Map<URI, MemData> blobs, StreamManager streamMgr, BlobStoreConnection owner) {
+    super(owner, id);
+    this.blobs     = blobs;
     this.streamMgr = streamMgr;
-    data = null;
   }
 
   //@Override
-  public URI getId() {
-    return id;
+  public boolean exists() throws IOException {
+    synchronized (blobs) {
+      return blobs.containsKey(id);
+    }
   }
 
   //@Override
-  public BlobStoreConnection getConnection() {
-    throw new Error("this blob implementation needs to be wrapped");
-  }
-
-  //@Override
-  public synchronized boolean exists() throws IOException {
-    return data != null;
-  }
-
-  //@Override
-  public synchronized void create() throws IOException {
+  public void create() throws IOException {
     if (!streamMgr.lockUnquiesced())
       throw new IOException("Interrupted waiting for writable state");
 
     try {
-      if (data != null)
-        throw new DuplicateBlobException(id);
+      synchronized (blobs) {
+        if (blobs.containsKey(id))
+          throw new DuplicateBlobException(id);
 
-      data = new MemOutputStream();
+        blobs.put(id, new MemData(0));
+      }
     } finally {
       streamMgr.unlockState();
     }
   }
 
   //@Override
-  public synchronized void delete() throws IOException {
+  public void delete() throws IOException {
     if (!streamMgr.lockUnquiesced())
       throw new IOException("Interrupted waiting for writable state");
 
     try {
-      data = null;
-    } finally {
-      streamMgr.unlockState();
-    }
-  }
-
-  private synchronized void atomicMove(MemOutputStream data) throws IOException {
-    if (this.data != null)
-       throw new DuplicateBlobException(getId());
-    this.data = data;
-  }
-
-  //@Override
-  public synchronized void moveTo(Blob blob) throws IOException,
-        MissingBlobException, NullPointerException, IllegalArgumentException {
-    if (!streamMgr.lockUnquiesced())
-      throw new IOException("Interrupted waiting for writable state");
-
-    try {
-      if (!(blob instanceof MemBlob))
-        throw new IllegalArgumentException("Blob must be an instance of " + MemBlob.class);
-
-      if (!exists())
-        throw new MissingBlobException(getId());
-
-      ((MemBlob)blob).atomicMove(data);
-      data = null;
+      synchronized (blobs) {
+        blobs.remove(id);
+      }
     } finally {
       streamMgr.unlockState();
     }
   }
 
   //@Override
-  public synchronized InputStream openInputStream() throws IOException {
-    if (data == null)
-      throw new MissingBlobException(getId());
-
-    return new ByteArrayInputStream(data.getBuf(), 0, data.size());
-  }
-
-  //@Override
-  public synchronized OutputStream openOutputStream(long estimatedSize) throws IOException {
+  public void moveTo(Blob dest) throws IOException, MissingBlobException, NullPointerException,
+         IllegalArgumentException, DuplicateBlobException {
     if (!streamMgr.lockUnquiesced())
       throw new IOException("Interrupted waiting for writable state");
 
     try {
-      if (data == null)
-        throw new MissingBlobException(getId());
+      if (dest == null)
+        throw new NullPointerException("Destination blob may not be null");
+      if (!(dest instanceof MemBlob))
+        throw new IllegalArgumentException("Destination blob must be an instance of " +
+                                           MemBlob.class);
+
+      synchronized (blobs) {
+        if (dest.exists())
+          throw new DuplicateBlobException(dest.getId(), "Destination blob already exists");
+
+        MemData data = blobs.remove(id);
+        if (data == null)
+          throw new MissingBlobException(getId());
+
+        blobs.put(dest.getId(), data);
+      }
+    } finally {
+      streamMgr.unlockState();
+    }
+  }
+
+  //@Override
+  public InputStream openInputStream() throws IOException {
+    return getData().getInputStream();
+  }
+
+  //@Override
+  public OutputStream openOutputStream(long estimatedSize) throws IOException {
+    if (!streamMgr.lockUnquiesced())
+      throw new IOException("Interrupted waiting for writable state");
+
+    try {
+      MemData data = getData();
+
+      if (estimatedSize > data.bufferSize()) {
+        data = new MemData((int) Math.min(estimatedSize, Integer.MAX_VALUE));
+        synchronized (blobs) {
+          blobs.put(id, data);
+        }
+      }
 
       data.reset();
       return streamMgr.manageOutputStream(data);
@@ -150,20 +154,16 @@ class MemBlob implements Blob {
   }
 
   //@Override
-  public synchronized long getSize() throws IOException {
-    if (data == null)
-      throw new MissingBlobException(getId());
-
-    return data.size();
+  public long getSize() throws IOException {
+    return getData().size();
   }
 
-  /**
-   * A byte-array output stream in which we can access the buffer directly.
-   */
-  private static class MemOutputStream extends ByteArrayOutputStream {
-    byte[] getBuf() {
-      return buf;
+  private MemData getData() throws MissingBlobException {
+    synchronized (blobs) {
+      MemData data = blobs.get(id);
+      if (data == null)
+        throw new MissingBlobException(getId());
+      return data;
     }
   }
-
 }

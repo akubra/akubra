@@ -24,7 +24,7 @@ package org.fedoracommons.akubra.impl;
 import java.io.Closeable;
 
 /**
- * Recieves notification when <code>Closeable</code> objects are closed.
+ * Receives notification when <code>Closeable</code> objects are closed.
  *
  * @author Chris Wilper
  */

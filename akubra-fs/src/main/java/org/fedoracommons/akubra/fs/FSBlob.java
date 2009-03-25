@@ -23,6 +23,7 @@ package org.fedoracommons.akubra.fs;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -35,7 +36,7 @@ import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.MissingBlobException;
 import org.fedoracommons.akubra.UnsupportedIdException;
 import org.fedoracommons.akubra.impl.AbstractBlob;
-import org.fedoracommons.akubra.util.StreamManager;
+import org.fedoracommons.akubra.impl.StreamManager;
 
 /**
  * File-backed Blob implementation.
@@ -83,7 +84,7 @@ class FSBlob extends AbstractBlob {
       if (!file.exists())
         throw new MissingBlobException(getId());
 
-      return manager.manageOutputStream(file);
+      return manager.manageOutputStream(new FileOutputStream(file));
     } finally {
       manager.unlockState();
     }

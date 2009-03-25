@@ -19,36 +19,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fedoracommons.akubra.util;
+package org.fedoracommons.akubra.impl;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
- * A <code>FileOutputStream</code> that provides notification to a
+ * Wraps an <code>OutputStream</code> to provide notification to a
  * <code>CloseListener</code> when closed.
  *
  * @author Chris Wilper
  */
-class ManagedFileOutputStream extends FileOutputStream {
+class ManagedOutputStream extends OutputStream {
 
   private final CloseListener listener;
+  private final OutputStream stream;
 
   /**
    * Creates an instance.
    *
    * @param listener the CloseListener to notify when closed.
-   * @param file the file to open for writing.
-   * @throws FileNotFoundException if the file exists but is a directory rather
-   *     than a regular file, does not exist but cannot be created, or cannot be
-   *     opened for any other reason.
+   * @param stream the stream to wrap.
    */
-  ManagedFileOutputStream(CloseListener listener, File file)
-      throws FileNotFoundException {
-    super(file);
+  ManagedOutputStream(CloseListener listener, OutputStream stream) {
     this.listener = listener;
+    this.stream = stream;
+  }
+
+  @Override
+  public void write(int b) throws IOException {
+    stream.write(b);
+  }
+
+  @Override
+  public void write(byte[] b) throws IOException {
+    stream.write(b);
+  }
+
+  @Override
+  public void write(byte[] b, int off, int len) throws IOException {
+    stream.write(b, off, len);
+  }
+
+  @Override
+  public void flush() throws IOException {
+    stream.flush();
   }
 
   /**
@@ -56,10 +71,8 @@ class ManagedFileOutputStream extends FileOutputStream {
    */
   @Override
   public void close() throws IOException {
-    try {
-      super.close();
-    } finally {
-      listener.notifyClosed(this);
-    }
+    stream.close();
+    listener.notifyClosed(this);
   }
+
 }

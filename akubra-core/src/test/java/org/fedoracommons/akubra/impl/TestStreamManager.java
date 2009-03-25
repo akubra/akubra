@@ -19,7 +19,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fedoracommons.akubra.util;
+package org.fedoracommons.akubra.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -55,18 +55,6 @@ public class TestStreamManager {
   @Test
   public void testManageOutputStream() throws Exception {
     OutputStream managed = manager.manageOutputStream(new ByteArrayOutputStream());
-    assertEquals(1, manager.getOpenCount());
-    managed.close();
-    assertEquals(0, manager.getOpenCount());
-  }
-
-  /**
-   * Managed FileOutputStreams should be tracked when open and forgotten when closed.
-   */
-  @Test
-  public void testManageFileOutputStream() throws Exception {
-    File file = File.createTempFile("akubra-test", ".tmp");
-    OutputStream managed = manager.manageOutputStream(file);
     assertEquals(1, manager.getOpenCount());
     managed.close();
     assertEquals(0, manager.getOpenCount());

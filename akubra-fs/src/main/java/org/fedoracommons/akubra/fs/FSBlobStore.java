@@ -29,9 +29,9 @@ import javax.transaction.Transaction;
 
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.impl.AbstractBlobStore;
+import org.fedoracommons.akubra.impl.StreamManager;
 import org.fedoracommons.akubra.util.DefaultPathAllocator;
 import org.fedoracommons.akubra.util.PathAllocator;
-import org.fedoracommons.akubra.util.StreamManager;
 
 /**
  * Filesystem-backed BlobStore implementation.

@@ -37,7 +37,7 @@ import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
-import org.fedoracommons.akubra.util.StreamManager;
+import org.fedoracommons.akubra.impl.StreamManager;
 
 /**
  * Connection implementation for in-memory blob store.

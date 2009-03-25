@@ -40,7 +40,7 @@
   <dependencies>
     <dependency>
       <groupId>org.fedoracommons</groupId>
-      <artifactId>akubra-fs</artifactId>
+      <artifactId>akubra-core</artifactId>
       <version>${pom.version}</version>
     </dependency>
 

@@ -19,12 +19,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fedoracommons.akubra.util;
+package org.fedoracommons.akubra.impl;
 
 import java.io.Closeable;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 import java.util.WeakHashMap;
@@ -134,21 +131,6 @@ public class StreamManager {
    */
   public OutputStream manageOutputStream(OutputStream stream) {
     OutputStream managed = new ManagedOutputStream(listener, stream);
-    openStreams.put(managed, null);
-    return managed;
-  }
-
-  /**
-   * Provides a tracked FileOutputStream for the given file.
-   *
-   * @param file the file open for writing.
-   * @return a new FileOutputStream for the file.
-   * @throws FileNotFoundException if the file exists but is a directory rather
-   *     than a regular file, does not exist but cannot be created, or cannot be
-   *     opened for any other reason.
-   */
-  public FileOutputStream manageOutputStream(File file) throws FileNotFoundException {
-    FileOutputStream managed = new ManagedFileOutputStream(listener, file);
     openStreams.put(managed, null);
     return managed;
   }

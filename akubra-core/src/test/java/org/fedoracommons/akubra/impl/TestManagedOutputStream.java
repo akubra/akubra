@@ -19,34 +19,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fedoracommons.akubra.util;
+package org.fedoracommons.akubra.impl;
 
-import java.io.Closeable;
+import java.io.ByteArrayOutputStream;
 
-import java.util.HashSet;
-import java.util.Set;
+import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 /**
- * Mock <code>CloseListener</code> for testing.
+ * Unit tests for {@link ManagedOutputStream}.
  *
  * @author Chris Wilper
  */
-public class MockCloseListener implements CloseListener {
-
-  private final Set<Closeable> closedSet = new HashSet<Closeable>();
-
-  //@Override
-  public void notifyClosed(Closeable closeable) {
-    closedSet.add(closeable);
-  }
+public class TestManagedOutputStream {
 
   /**
-   * Gets the set of objects that have been closed so far.
-   *
-   * @return the set.
+   * Close notification should be sent to the provided listener.
    */
-  public Set<Closeable> getClosedSet() {
-    return closedSet;
+  @Test
+  public void testCloseNotification() throws Exception {
+    MockCloseListener listener = new MockCloseListener();
+    ManagedOutputStream managed = new ManagedOutputStream(listener, new ByteArrayOutputStream());
+    managed.close();
+    assertTrue(listener.getClosedSet().contains(managed));
   }
-
 }

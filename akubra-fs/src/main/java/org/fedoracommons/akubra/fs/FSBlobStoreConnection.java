@@ -40,8 +40,8 @@ import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.UnsupportedIdException;
 import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
+import org.fedoracommons.akubra.impl.StreamManager;
 import org.fedoracommons.akubra.util.PathAllocator;
-import org.fedoracommons.akubra.util.StreamManager;
 
 /**
  * Filesystem-backed BlobStoreConnection implementation.

@@ -30,9 +30,9 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 import javax.transaction.Transaction;
 
-import org.fedoracommons.akubra.AbstractBlobStore;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
+import org.fedoracommons.akubra.impl.AbstractBlobStore;
 
 /**
  * A non-transactional wrapper that provides arbitrary, caller-specified blob

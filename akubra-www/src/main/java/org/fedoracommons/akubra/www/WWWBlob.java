@@ -30,9 +30,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.fedoracommons.akubra.AbstractBlob;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStoreConnection;
+import org.fedoracommons.akubra.impl.AbstractBlob;
 
 /**
  * A WWW resource as a Blob.

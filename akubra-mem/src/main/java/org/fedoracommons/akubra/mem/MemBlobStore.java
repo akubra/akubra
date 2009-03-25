@@ -29,8 +29,8 @@ import java.util.Random;
 
 import javax.transaction.Transaction;
 
-import org.fedoracommons.akubra.AbstractBlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
+import org.fedoracommons.akubra.impl.AbstractBlobStore;
 import org.fedoracommons.akubra.util.StreamManager;
 
 /**

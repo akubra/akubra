@@ -33,11 +33,10 @@ import java.util.Map;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.iterators.FilterIterator;
 
-import org.fedoracommons.akubra.AbstractBlobStoreConnection;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
-import org.fedoracommons.akubra.BlobWrapper;
 import org.fedoracommons.akubra.DuplicateBlobException;
+import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
 import org.fedoracommons.akubra.util.StreamManager;
 
 /**

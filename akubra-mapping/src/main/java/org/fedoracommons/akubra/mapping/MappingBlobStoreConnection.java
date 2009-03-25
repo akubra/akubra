@@ -31,10 +31,10 @@ import java.sql.Connection;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.fedoracommons.akubra.AbstractBlobStoreConnection;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
+import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
 
 /**
  *

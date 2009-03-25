@@ -37,14 +37,14 @@ import javax.transaction.Transaction;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import org.fedoracommons.akubra.AbstractBlob;
-import org.fedoracommons.akubra.AbstractBlobStoreConnection;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
-import org.fedoracommons.akubra.BlobWrapper;
 import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.MissingBlobException;
+import org.fedoracommons.akubra.impl.AbstractBlob;
+import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
+import org.fedoracommons.akubra.impl.BlobWrapper;
 
 /**
  * A basic superclass for transactional store connections. This implements the common blob-handling

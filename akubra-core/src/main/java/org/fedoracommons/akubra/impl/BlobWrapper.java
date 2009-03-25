@@ -20,13 +20,15 @@
  * limitations under the License.
  */
 
-package org.fedoracommons.akubra;
+package org.fedoracommons.akubra.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import java.net.URI;
+
+import org.fedoracommons.akubra.Blob;
+import org.fedoracommons.akubra.BlobStoreConnection;
 
 /**
  * Simple wrapper implementation that delegates all calls to the wrapped blob.

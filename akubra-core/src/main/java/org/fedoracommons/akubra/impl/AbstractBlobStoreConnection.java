@@ -19,17 +19,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fedoracommons.akubra;
+package org.fedoracommons.akubra.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import java.net.URI;
-
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.fedoracommons.akubra.Blob;
+import org.fedoracommons.akubra.BlobStore;
+import org.fedoracommons.akubra.BlobStoreConnection;
 
 /**
  * An abstract base class for blob store connections.

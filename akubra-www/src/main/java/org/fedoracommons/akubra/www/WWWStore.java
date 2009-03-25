@@ -27,8 +27,8 @@ import java.net.URI;
 
 import javax.transaction.Transaction;
 
-import org.fedoracommons.akubra.AbstractBlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
+import org.fedoracommons.akubra.impl.AbstractBlobStore;
 
 /**
  * A store that represents the World Wide Web. Blob ids are URLs. As expected, the store is

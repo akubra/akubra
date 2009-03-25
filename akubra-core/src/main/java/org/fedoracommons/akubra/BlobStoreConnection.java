@@ -59,8 +59,6 @@ public interface BlobStoreConnection {
    *
    * @throws IOException for IO errors
    * @throws UnsupportedIdException if blobId is not in a recognized/usable pattern by this store
-   *
-   * @see BlobWrapper
    */
   Blob getBlob(URI blobId, Map<String, String> hints) throws IOException, IllegalArgumentException;
 

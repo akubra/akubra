@@ -35,11 +35,11 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 
-import org.fedoracommons.akubra.AbstractBlobStoreConnection;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.UnsupportedIdException;
+import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
 import org.fedoracommons.akubra.util.PathAllocator;
 import org.fedoracommons.akubra.util.StreamManager;
 

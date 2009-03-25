@@ -30,8 +30,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import org.fedoracommons.akubra.AbstractBlobStore;
 import org.fedoracommons.akubra.BlobStore;
+import org.fedoracommons.akubra.impl.AbstractBlobStore;
 
 /**
  * A basic superclass for transactional stores. This implements the capability and backing-store

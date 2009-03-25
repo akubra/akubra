@@ -41,7 +41,6 @@ import org.fedoracommons.akubra.impl.StreamManager;
  */
 class MemConnection extends AbstractBlobStoreConnection {
   private final Map<URI, MemData> blobs;
-  private final StreamManager     streamMgr;
 
   /**
    * Create a new connection.
@@ -51,9 +50,8 @@ class MemConnection extends AbstractBlobStoreConnection {
    * @param streamMgr the stream-manager to use
    */
   MemConnection(MemBlobStore owner, Map<URI, MemData> blobs, StreamManager streamMgr) {
-    super(owner);
+    super(owner, streamMgr);
     this.blobs     = blobs;
-    this.streamMgr = streamMgr;
   }
 
   //@Override
@@ -69,7 +67,7 @@ class MemConnection extends AbstractBlobStoreConnection {
       }
     }
 
-    return new MemBlob(blobId, blobs, streamMgr, this);
+    return new MemBlob(blobId, blobs, streamManager, this);
   }
 
   //@Override

@@ -40,7 +40,7 @@ public class TestManagedOutputStream {
   @Test
   public void testCloseNotification() throws Exception {
     MockCloseListener listener = new MockCloseListener();
-    ManagedOutputStream managed = new ManagedOutputStream(listener, new ByteArrayOutputStream());
+    ManagedOutputStream managed = new ManagedOutputStream(listener, new ByteArrayOutputStream(), null);
     managed.close();
     assertTrue(listener.getClosedSet().contains(managed));
   }

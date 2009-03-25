@@ -25,6 +25,8 @@ import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.fedoracommons.akubra.BlobStoreConnection;
+
 /**
  * Wraps an <code>OutputStream</code> to provide notification to a
  * <code>CloseListener</code> when closed.
@@ -33,6 +35,7 @@ import java.io.OutputStream;
  */
 class ManagedOutputStream extends FilterOutputStream {
   private final CloseListener listener;
+  private final BlobStoreConnection con;
   private boolean closed = false;
 
   /**
@@ -40,10 +43,21 @@ class ManagedOutputStream extends FilterOutputStream {
    *
    * @param listener the CloseListener to notify when closed.
    * @param stream the stream to wrap.
+   * @param con the store connection
    */
-  ManagedOutputStream(CloseListener listener, OutputStream stream) {
+  ManagedOutputStream(CloseListener listener, OutputStream stream, BlobStoreConnection con) {
     super(stream);
     this.listener = listener;
+    this.con = con;
+  }
+
+  /**
+   * Gets the store connection that this stream is part of.
+   *
+   * @return the store connection
+   */
+  public BlobStoreConnection getConnection() {
+    return con;
   }
 
   /**

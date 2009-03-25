@@ -47,15 +47,13 @@ class FSBlobStoreConnection extends AbstractBlobStoreConnection {
   private final File baseDir;
   private final PathAllocator pAlloc;
   private final String blobIdPrefix;
-  private final StreamManager manager;
 
   FSBlobStoreConnection(BlobStore blobStore, File baseDir, PathAllocator pAlloc,
                         StreamManager manager) {
-    super(blobStore);
+    super(blobStore, manager);
     this.baseDir = baseDir;
     this.pAlloc = pAlloc;
     this.blobIdPrefix = getBlobIdPrefix(baseDir);
-    this.manager = manager;
   }
 
 
@@ -64,7 +62,7 @@ class FSBlobStoreConnection extends AbstractBlobStoreConnection {
     if (isClosed())
       throw new IllegalStateException("Connection closed.");
 
-    return new FSBlob(this, blobId, getFile(blobId, hints), manager);
+    return new FSBlob(this, blobId, getFile(blobId, hints), streamManager);
   }
 
   public boolean isAcceptableId(URI blobId) {

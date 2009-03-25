@@ -21,15 +21,24 @@
  */
 package org.fedoracommons.akubra.impl;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.InputStream;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URI;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import org.fedoracommons.akubra.Blob;
+import org.fedoracommons.akubra.BlobStoreConnection;
 
 /**
  * Unit Tests for {@link StreamManager}.
@@ -46,6 +55,7 @@ public class TestStreamManager {
   @Test
   public void testInitialState() {
     assertEquals(0, manager.getOpenCount());
+    assertEquals(0, manager.getOpenInputStreamCount());
     assertFalse(manager.isQuiescent());
   }
 
@@ -54,9 +64,47 @@ public class TestStreamManager {
    */
   @Test
   public void testManageOutputStream() throws Exception {
-    OutputStream managed = manager.manageOutputStream(new ByteArrayOutputStream());
+    OutputStream managed = manager.manageOutputStream(null, new ByteArrayOutputStream());
     assertEquals(1, manager.getOpenCount());
     managed.close();
+    assertEquals(0, manager.getOpenCount());
+  }
+
+  /**
+   * Managed InputStreams should be tracked when open and forgotten when closed.
+   */
+  @Test
+  public void testManageInputStream() throws Exception {
+    InputStream managed = manager.manageInputStream(null, new ByteArrayInputStream(new byte[0]));
+    assertEquals(1, manager.getOpenInputStreamCount());
+    managed.close();
+    assertEquals(0, manager.getOpenInputStreamCount());
+  }
+
+  /**
+   * Managed Streams should be tracked when open and closed when connection is closed.
+   */
+  @Test
+  public void testTrackedConnectionCloses() throws Exception {
+    BlobStoreConnection con1 = new MockConnection(manager);
+    BlobStoreConnection con2 = new MockConnection(manager);
+
+    manager.manageInputStream(con1, new ByteArrayInputStream(new byte[0]));
+    manager.manageOutputStream(con1, new ByteArrayOutputStream());
+    assertEquals(1, manager.getOpenInputStreamCount());
+    assertEquals(1, manager.getOpenCount());
+
+    manager.manageInputStream(con2, new ByteArrayInputStream(new byte[0]));
+    manager.manageOutputStream(con2, new ByteArrayOutputStream());
+    assertEquals(2, manager.getOpenInputStreamCount());
+    assertEquals(2, manager.getOpenCount());
+
+    con1.close();
+    assertEquals(1, manager.getOpenInputStreamCount());
+    assertEquals(1, manager.getOpenCount());
+
+    con2.close();
+    assertEquals(0, manager.getOpenInputStreamCount());
     assertEquals(0, manager.getOpenCount());
   }
 
@@ -82,7 +130,7 @@ public class TestStreamManager {
    */
   @Test
   public void testGoQuiescentOpenStreamBlocking() throws Exception {
-    OutputStream managed = manager.manageOutputStream(new ByteArrayOutputStream());
+    OutputStream managed = manager.manageOutputStream(null, new ByteArrayOutputStream());
     GoQuiescentThread thread = new GoQuiescentThread(manager);
     thread.start();
     Thread.sleep(100);
@@ -98,7 +146,7 @@ public class TestStreamManager {
    */
   @Test
   public void testGoQuiescentOpenStreamInterrupted() throws Exception {
-    manager.manageOutputStream(new ByteArrayOutputStream());
+    manager.manageOutputStream(null, new ByteArrayOutputStream());
     GoQuiescentThread thread = new GoQuiescentThread(manager);
     thread.start();
     Thread.sleep(100);
@@ -203,4 +251,19 @@ public class TestStreamManager {
     }
   }
 
+  private static class MockConnection extends AbstractBlobStoreConnection {
+    public MockConnection(StreamManager manager) {
+      super(null, manager);
+    }
+
+    @Override
+    public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
+      return null;
+    }
+
+    @Override
+    public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
+      return null;
+    }
+  }
 }

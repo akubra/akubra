@@ -22,15 +22,22 @@
 package org.fedoracommons.akubra.impl;
 
 import java.io.Closeable;
+import java.io.InputStream;
 import java.io.OutputStream;
 
-import java.util.WeakHashMap;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.apache.commons.io.IOUtils;
+import org.fedoracommons.akubra.BlobStoreConnection;
+
 /**
- * Utility class that tracks the open <code>OutputStream</code>s of a
- * <code>BlobStore</code> in order to provide a <code>setQuiescent</code>
- * implementation with the correct blocking behavior.
+ * Utility class that tracks the open streams of a <code>BlobStore</code> in order to provide a
+ * <code>setQuiescent</code> implementation with the correct blocking behavior as well as to 
+ * ensure that streams that belong to a <code>BlobStoreConnection</code> are closed when the
+ * connection is closed.
  *
  * @author Chris Wilper
  */
@@ -43,8 +50,12 @@ public class StreamManager {
   private final CloseListener listener;
 
   /** The set of open <code>OutputStream</code>s managed by this instance. */
-  private volatile WeakHashMap<OutputStream, Object> openStreams
-      = new WeakHashMap<OutputStream, Object>();
+  private Set<ManagedOutputStream> openStreams
+      = Collections.synchronizedSet(new HashSet<ManagedOutputStream>());
+
+  /** The set of open <code>InputStream</code>s managed by this instance. */
+  private Set<ManagedInputStream> openInputStreams
+      = Collections.synchronizedSet(new HashSet<ManagedInputStream>());
 
   /** The current quiescent state. */
   private boolean quiescent;
@@ -55,7 +66,10 @@ public class StreamManager {
   public StreamManager() {
     listener = new CloseListener() {
       public void notifyClosed(Closeable closeable) {
-        openStreams.remove(closeable);
+        if (closeable instanceof InputStream)
+          openInputStreams.remove(closeable);
+        else
+          openStreams.remove(closeable);
       }
     };
   }
@@ -126,18 +140,54 @@ public class StreamManager {
   /**
    * Provides a tracked wrapper around a given OutputStream.
    *
+   * @param con the connection that trac.
    * @param stream the stream to wrap.
    * @return the wrapped version of the stream.
    */
-  public OutputStream manageOutputStream(OutputStream stream) {
-    OutputStream managed = new ManagedOutputStream(listener, stream);
-    openStreams.put(managed, null);
+  public OutputStream manageOutputStream(BlobStoreConnection con, OutputStream stream) {
+    ManagedOutputStream managed = new ManagedOutputStream(listener, stream, con);
+    openStreams.add(managed);
     return managed;
+  }
+
+  /**
+   * Provides a tracked wrapper around a given OutputStream.
+   *
+   * @param con the connection that trac.
+   * @param stream the stream to wrap.
+   * @return the wrapped version of the stream.
+   */
+  public InputStream manageInputStream(BlobStoreConnection con, InputStream stream) {
+    ManagedInputStream managed = new ManagedInputStream(listener, stream, con);
+    openInputStreams.add(managed);
+    return managed;
+  }
+
+  /**
+   * Notification that a connection is closed. All its open streams are closed.
+   *
+   * @param con the connection that is closed
+   */
+  public void connectionClosed(BlobStoreConnection con) {
+    for (ManagedOutputStream out : new HashSet<ManagedOutputStream>(openStreams)) {
+      if (out.getConnection().equals(con))
+        IOUtils.closeQuietly(out);
+    }
+
+    for (ManagedInputStream in : new HashSet<ManagedInputStream>(openInputStreams)) {
+      if (in.getConnection().equals(con))
+        IOUtils.closeQuietly(in);
+    }
   }
 
   // how many streams are open?
   int getOpenCount() {
     return openStreams.size();
+  }
+
+  // how many input streams are open?
+  int getOpenInputStreamCount() {
+    return openInputStreams.size();
   }
 
   // are we in the quiescent state?
@@ -149,5 +199,4 @@ public class StreamManager {
       stateLock.unlock();
     }
   }
-
 }

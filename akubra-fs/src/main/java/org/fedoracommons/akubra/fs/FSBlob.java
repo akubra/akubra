@@ -68,7 +68,7 @@ class FSBlob extends AbstractBlob {
     if (!file.exists())
       throw new MissingBlobException(getId());
 
-    return new FileInputStream(file);
+    return manager.manageInputStream(getConnection(), new FileInputStream(file));
   }
 
   //@Override
@@ -83,7 +83,7 @@ class FSBlob extends AbstractBlob {
       if (!file.exists())
         throw new MissingBlobException(getId());
 
-      return manager.manageOutputStream(new FileOutputStream(file));
+      return manager.manageOutputStream(getConnection(), new FileOutputStream(file));
     } finally {
       manager.unlockState();
     }

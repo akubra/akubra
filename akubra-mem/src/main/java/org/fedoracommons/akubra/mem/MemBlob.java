@@ -126,7 +126,7 @@ class MemBlob extends AbstractBlob {
 
   //@Override
   public InputStream openInputStream() throws IOException {
-    return getData().getInputStream();
+    return streamMgr.manageInputStream(getConnection(), getData().getInputStream());
   }
 
   //@Override
@@ -145,7 +145,7 @@ class MemBlob extends AbstractBlob {
       }
 
       data.reset();
-      return streamMgr.manageOutputStream(data);
+      return streamMgr.manageOutputStream(getConnection(), data);
     } finally {
       streamMgr.unlockState();
     }

@@ -38,10 +38,16 @@ import org.fedoracommons.akubra.BlobStoreConnection;
  */
 public abstract class AbstractBlobStoreConnection implements BlobStoreConnection {
   protected final BlobStore owner;
+  protected final StreamManager streamManager;
   protected boolean closed = false;
 
   protected AbstractBlobStoreConnection(BlobStore owner) {
+    this(owner, null);
+  }
+
+  protected AbstractBlobStoreConnection(BlobStore owner, StreamManager streamManager) {
     this.owner = owner;
+    this.streamManager = streamManager;
   }
 
   //@Override
@@ -73,7 +79,11 @@ public abstract class AbstractBlobStoreConnection implements BlobStoreConnection
 
   //@Override
   public void close() {
-    closed = true;
+    if (!closed) {
+      closed = true;
+      if (streamManager != null)
+        streamManager.connectionClosed(this);
+    }
   }
 
   //@Override

@@ -31,6 +31,9 @@ import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.fedoracommons.akubra.BlobStoreConnection;
 
 /**
@@ -42,6 +45,7 @@ import org.fedoracommons.akubra.BlobStoreConnection;
  * @author Chris Wilper
  */
 public class StreamManager {
+  private static final Log log = LogFactory.getLog(StreamManager.class);
 
   /** Exclusive lock on the quiescent state. */
   private final ReentrantLock stateLock = new ReentrantLock(true);
@@ -86,14 +90,21 @@ public class StreamManager {
    * @see #unlockState
    */
   public boolean lockUnquiesced() {
+    boolean waited = false;
     try {
       while (true) {
         stateLock.lockInterruptibly();
         if (!quiescent) {
+          if (waited)
+            log.info("lockUnquiesced: Wait is over.");
+          if (log.isDebugEnabled())
+            log.debug("Aquired the unquiescent lock");
           return true;
         }
         stateLock.unlock();
+        log.info("lockUquiesced: Waiting ...");
         Thread.sleep(500);
+        waited = true;
       }
     } catch (InterruptedException e) {
       return false;
@@ -107,7 +118,9 @@ public class StreamManager {
    */
   public void unlockState() {
     stateLock.unlock();
-  }
+    if (log.isDebugEnabled())
+      log.debug("Released the unquiescent lock");
+ }
 
   /**
    * Sets the quiescent state.
@@ -124,9 +137,14 @@ public class StreamManager {
       try {
         if (quiescent && !this.quiescent) {
           while (!openStreams.isEmpty()) {
+            log.info("setQuiescent: Waiting for " + openStreams.size() + " output streams to close...");
             Thread.sleep(500);
           }
+          log.info("setQuiescent: No open output streams. Entering quiescent state.");
         }
+        if (!quiescent && this.quiescent)
+          log.info("setQuiescent: Exiting quiescent state.");
+
         this.quiescent = quiescent;
         return true;
       } finally {
@@ -169,24 +187,27 @@ public class StreamManager {
    * @param con the connection that is closed
    */
   public void connectionClosed(BlobStoreConnection con) {
-    Set<ManagedOutputStream> openOutputStreamsCopy;
+    Set<Closeable> closeables = new HashSet<Closeable>();
     synchronized (openStreams) {
-      openOutputStreamsCopy = new HashSet<ManagedOutputStream>(openStreams);
+      for (ManagedOutputStream c : openStreams)
+        if (c.getConnection().equals(con))
+          closeables.add(c);
     }
 
-    for (ManagedOutputStream out : openOutputStreamsCopy) {
-      if (out.getConnection().equals(con))
-        IOUtils.closeQuietly(out);
-    }
-
-    Set<ManagedInputStream> openInputStreamsCopy;
     synchronized (openInputStreams) {
-      openInputStreamsCopy = new HashSet<ManagedInputStream>(openInputStreams);
+      for (ManagedInputStream c : openInputStreams)
+        if (c.getConnection().equals(con))
+          closeables.add(c);
     }
 
-    for (ManagedInputStream in : openInputStreamsCopy) {
-      if (in.getConnection().equals(con))
-        IOUtils.closeQuietly(in);
+    if (!closeables.isEmpty()) {
+      log.warn("Auto-closing " + closeables.size() + " open streams for closed connection " + con);
+      for (Closeable c : closeables) {
+        if (c instanceof InputStream)
+          IOUtils.closeQuietly((InputStream) c);
+        else
+          IOUtils.closeQuietly((OutputStream) c);
+      }
     }
   }
 

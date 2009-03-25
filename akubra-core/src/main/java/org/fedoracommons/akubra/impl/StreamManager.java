@@ -169,12 +169,22 @@ public class StreamManager {
    * @param con the connection that is closed
    */
   public void connectionClosed(BlobStoreConnection con) {
-    for (ManagedOutputStream out : new HashSet<ManagedOutputStream>(openStreams)) {
+    Set<ManagedOutputStream> openOutputStreamsCopy;
+    synchronized (openStreams) {
+      openOutputStreamsCopy = new HashSet<ManagedOutputStream>(openStreams);
+    }
+
+    for (ManagedOutputStream out : openOutputStreamsCopy) {
       if (out.getConnection().equals(con))
         IOUtils.closeQuietly(out);
     }
 
-    for (ManagedInputStream in : new HashSet<ManagedInputStream>(openInputStreams)) {
+    Set<ManagedInputStream> openInputStreamsCopy;
+    synchronized (openInputStreams) {
+      openInputStreamsCopy = new HashSet<ManagedInputStream>(openInputStreams);
+    }
+
+    for (ManagedInputStream in : openInputStreamsCopy) {
       if (in.getConnection().equals(con))
         IOUtils.closeQuietly(in);
     }

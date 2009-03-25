@@ -21,6 +21,7 @@
  */
 package org.fedoracommons.akubra.impl;
 
+import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -30,10 +31,9 @@ import java.io.OutputStream;
  *
  * @author Chris Wilper
  */
-class ManagedOutputStream extends OutputStream {
-
+class ManagedOutputStream extends FilterOutputStream {
   private final CloseListener listener;
-  private final OutputStream stream;
+  private boolean closed = false;
 
   /**
    * Creates an instance.
@@ -42,28 +42,8 @@ class ManagedOutputStream extends OutputStream {
    * @param stream the stream to wrap.
    */
   ManagedOutputStream(CloseListener listener, OutputStream stream) {
+    super(stream);
     this.listener = listener;
-    this.stream = stream;
-  }
-
-  @Override
-  public void write(int b) throws IOException {
-    stream.write(b);
-  }
-
-  @Override
-  public void write(byte[] b) throws IOException {
-    stream.write(b);
-  }
-
-  @Override
-  public void write(byte[] b, int off, int len) throws IOException {
-    stream.write(b, off, len);
-  }
-
-  @Override
-  public void flush() throws IOException {
-    stream.flush();
   }
 
   /**
@@ -71,8 +51,10 @@ class ManagedOutputStream extends OutputStream {
    */
   @Override
   public void close() throws IOException {
-    stream.close();
-    listener.notifyClosed(this);
+    if (!closed) {
+      super.close();
+      closed = true;
+      listener.notifyClosed(this);
+    }
   }
-
 }

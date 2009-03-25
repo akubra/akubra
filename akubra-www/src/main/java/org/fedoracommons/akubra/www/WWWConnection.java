@@ -22,7 +22,6 @@
 package org.fedoracommons.akubra.www;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -32,7 +31,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.fedoracommons.akubra.Blob;
-import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.UnsupportedIdException;
 import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
 

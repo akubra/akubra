@@ -23,8 +23,6 @@ package org.fedoracommons.akubra.fs;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
 import java.net.URI;
@@ -33,11 +31,8 @@ import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
-
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
-import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.UnsupportedIdException;
 import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
 import org.fedoracommons.akubra.impl.StreamManager;

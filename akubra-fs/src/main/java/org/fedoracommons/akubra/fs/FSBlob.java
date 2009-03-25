@@ -31,7 +31,6 @@ import java.io.OutputStream;
 import java.net.URI;
 
 import org.fedoracommons.akubra.Blob;
-import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.MissingBlobException;
 import org.fedoracommons.akubra.UnsupportedIdException;

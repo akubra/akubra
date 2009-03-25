@@ -22,9 +22,6 @@
 
 package org.fedoracommons.akubra.mem;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -34,8 +31,6 @@ import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.iterators.FilterIterator;
 
 import org.fedoracommons.akubra.Blob;
-import org.fedoracommons.akubra.BlobStore;
-import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
 import org.fedoracommons.akubra.impl.StreamManager;
 

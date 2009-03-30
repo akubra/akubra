@@ -256,12 +256,12 @@ public class TestStreamManager {
       super(null, manager);
     }
 
-    @Override
+    //@Override
     public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
       return null;
     }
 
-    @Override
+    //@Override
     public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
       return null;
     }

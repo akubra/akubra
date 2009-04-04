@@ -130,6 +130,7 @@
     <module>akubra-mem</module>
     <module>akubra-txn</module>
     <module>akubra-www</module>
+    <module>akubra-rmi</module>
   </modules>
 
   <dependencyManagement>

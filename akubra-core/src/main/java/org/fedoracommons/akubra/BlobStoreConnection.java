@@ -60,7 +60,7 @@ public interface BlobStoreConnection {
    * @throws IOException for IO errors
    * @throws UnsupportedIdException if blobId is not in a recognized/usable pattern by this store
    */
-  Blob getBlob(URI blobId, Map<String, String> hints) throws IOException, IllegalArgumentException;
+  Blob getBlob(URI blobId, Map<String, String> hints) throws IOException, UnsupportedIdException;
 
   /**
    * Creates a blob with the given content. For Content Addressible Storage (CAS) systems,
@@ -79,8 +79,6 @@ public interface BlobStoreConnection {
    *
    * @throws IOException for IO errors
    * @throws UnsupportedOperationException if this store cannot generate new id and create a new blob
-   *
-   * @see BlobWrapper
    */
   Blob getBlob(InputStream content, long estimatedSize, Map<String, String> hints)
         throws IOException, UnsupportedOperationException;

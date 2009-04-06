@@ -130,20 +130,21 @@ public class ClientConnectionTest {
 
     reset(con);
     con.close();
-    expect(con.getBlob(null, null)).andStubReturn(null);
+    expect(con.listBlobIds(null)).andStubReturn(null);
     replay(con);
 
+    cc.listBlobIds(null);
     cc.close();
     verify(con);
 
     try {
       for (int i = 0; i < 10; i++) {
         try {
-          Thread.sleep(Exporter.RETRY_DELAY * i);
+          Thread.sleep(Exporter.RETRY_DELAY * i * 2);
         } catch (InterruptedException e) {
         }
 
-        cc.getBlob(null, null);
+        cc.listBlobIds(null);
       }
 
       fail("Failed to get expected exception");

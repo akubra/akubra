@@ -31,9 +31,8 @@ import java.net.URI;
  *
  * @author Pradeep Krishnan
  */
-public class UnsupportedIdException extends AkubraException {
+public class UnsupportedIdException extends AkubraBlobException {
   public static final long serialVersionUID = 1L;
-  private final URI blobId;
 
   /**
    * Construct an instance for the given unsupported identifier with no further details.
@@ -63,16 +62,6 @@ public class UnsupportedIdException extends AkubraException {
    * @param cause  the underlying exception that caused this exception
    */
   public UnsupportedIdException(URI blobId, String msg, Throwable cause) {
-    super("(Unsupported blob identifier = '" + blobId + "')" + msg, cause);
-    this.blobId = blobId;
-  }
-
-  /**
-   * Return the unsupported blob-id
-   *
-   * @return the unsupported blob-id
-   */
-  public URI getBlobId() {
-    return blobId;
+    super(blobId, "(Unsupported blob identifier = '" + blobId + "')" + msg, cause);
   }
 }

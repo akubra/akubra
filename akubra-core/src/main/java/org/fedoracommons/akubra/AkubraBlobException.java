@@ -24,42 +24,34 @@ package org.fedoracommons.akubra;
 import java.net.URI;
 
 /**
- * This exception is thrown by a blob store in case in of missing blob in store.
+ * A common superclass for exceptions that relate to a specific blob.
  *
  * @author Chris Wilper
  * @author Pradeep Krishnan
  * @author Ronald Tschalär
  */
-public class MissingBlobException extends AkubraBlobException {
+public abstract class AkubraBlobException extends AkubraException {
   public static final long serialVersionUID = 1L;
+  private final URI blobId;
 
   /**
-   * Exception indicating the there is no blob in the store associated with the blob-id.
-   *
-   * @param blobId the blob-id
-   */
-  public MissingBlobException(URI blobId) {
-    this(blobId, "", null);
-  }
-
-  /**
-   * Exception indicating the there is no blob in the store associated with the blob-id.
-   *
-   * @param blobId the blob-id
-   * @param msg the details about the exception
-   */
-  public MissingBlobException(URI blobId, String msg) {
-    this(blobId, msg, null);
-  }
-
-  /**
-   * Exception indicating the there is no blob in the store associated with the blob-id.
+   * Create a new exception instance.
    *
    * @param blobId the blob-id
    * @param msg    the details about the exception
-   * @param cause  the underlying exception that caused this exception
+   * @param cause  the underlying exception that caused this exception; may be null
    */
-  public MissingBlobException(URI blobId, String msg, Throwable cause) {
-    super(blobId, "(Missing blob with id = '" + blobId + "')" + msg, cause);
+  protected AkubraBlobException(URI blobId, String msg, Throwable cause) {
+    super(msg != null ? msg : cause != null ? cause.toString() : null, cause);
+    this.blobId = blobId;
+  }
+
+  /**
+   * Return the blob-id
+   *
+   * @return the blob-id
+   */
+  public URI getBlobId() {
+    return blobId;
   }
 }

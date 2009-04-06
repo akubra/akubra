@@ -30,9 +30,8 @@ import java.net.URI;
  * @author Pradeep Krishnan
  * @author Ronald Tschalär
  */
-public class DuplicateBlobException extends AkubraException {
+public class DuplicateBlobException extends AkubraBlobException {
   public static final long serialVersionUID = 1L;
-  private final URI blobId;
 
   /**
    * Exception indicating there is duplicate blob in the store associated with the blob-id.
@@ -61,16 +60,6 @@ public class DuplicateBlobException extends AkubraException {
    * @param cause  the underlying exception that caused this exception
    */
   public DuplicateBlobException(URI blobId, String msg, Throwable cause) {
-    super("(Duplicate blob with id = '" + blobId + "')" + msg, cause);
-    this.blobId = blobId;
-  }
-
-  /**
-   * Return the duplicate blob-id
-   *
-   * @return the duplicate blob-id
-   */
-  public URI getBlobId() {
-    return blobId;
+    super(blobId, "(Duplicate blob with id = '" + blobId + "')" + msg, cause);
   }
 }

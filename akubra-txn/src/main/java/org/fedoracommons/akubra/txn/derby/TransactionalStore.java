@@ -31,6 +31,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -97,6 +98,8 @@ public class TransactionalStore extends AbstractTransactionalStore {
   private       long                 nextVersion;
   private       long                 writeVersion = -1;
   private       long                 writeLockHolder = -1;
+  private       boolean              purgeInProgress = false;
+  private       int                  numPurgesDelayed = 0;
 
   /**
    * Create a new transactional store. Exactly one backing store must be set before this can
@@ -131,6 +134,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
 
     createTables();
     nextVersion = findYoungestVersion() + 1;
+    logger.info("TransactionalStore started: dbDir='" + dbDir + "', version=" + nextVersion);
   }
 
   private void createTables() throws IOException {
@@ -151,11 +155,11 @@ public class TransactionalStore extends AbstractTransactionalStore {
         Statement stmt = con.createStatement();
         try {
           stmt.execute("CREATE TABLE " + NAME_TABLE +
-                       " (appId VARCHAR(1000), storeId VARCHAR(1000), version BIGINT, deleted SMALLINT, committed SMALLINT)");
+                       " (appId VARCHAR(1000) NOT NULL, storeId VARCHAR(1000) NOT NULL, version BIGINT NOT NULL, deleted SMALLINT, committed SMALLINT)");
           stmt.execute("CREATE INDEX " + NAME_TABLE + "_AIIDX ON " + NAME_TABLE + "(appId)");
           stmt.execute("CREATE INDEX " + NAME_TABLE + "_VIDX ON " + NAME_TABLE + "(version)");
 
-          stmt.execute("CREATE TABLE " + DEL_TABLE + " (appId VARCHAR(1000), storeId VARCHAR(1000), version BIGINT)");
+          stmt.execute("CREATE TABLE " + DEL_TABLE + " (appId VARCHAR(1000) NOT NULL, storeId VARCHAR(1000), version BIGINT NOT NULL)");
           stmt.execute("CREATE INDEX " + DEL_TABLE + "_VIDX ON " + DEL_TABLE + "(version)");
         } finally {
           stmt.close();
@@ -316,9 +320,10 @@ public class TransactionalStore extends AbstractTransactionalStore {
      * transaction numbers jump more than necessary, which isn't tragic as long as the jumps are
      * not so large that we run into a real possibility of version number wrap-around; if it is too
      * small then that just means transactions may be needlessly held up waiting for this one to
-     * complete.
+     * complete. Also, we always leave a little extra room to account for the fact that there's a
+     * semi-fixed overhead that a commit will take even if there are only a few changes.
      */
-    writeVersion = nextVersion + numMods / 100;
+    writeVersion = Math.max(nextVersion + numMods / 100, 10);
 
     if (logger.isDebugEnabled())
       logger.debug("Prepared transaction " + version + ", write-version=" + writeVersion);
@@ -362,10 +367,36 @@ public class TransactionalStore extends AbstractTransactionalStore {
     final long minVers;
     synchronized (this) {
       minVers = activeTxns.isEmpty() ? nextVersion : Collections.min(activeTxns);
-    }
+      if (minVers < lastCompletedVersion)
+        return;           // we didn't release anything
 
-    if (minVers < lastCompletedVersion)
-      return;           // we didn't release anything
+      /* Derby has issues trying to run multiple purges in parallel (NPE's, waiting for
+       * locks that should be held by anybody, and even deadlocks). Also, there isn't
+       * that much point in running multiple purges simultaneously, as the next purge
+       * will clean up stuff too.
+       *
+       * However, just short-circuiting here if a purge is already in progress can cause
+       * the purging to fall seriously behind under load (in a sort of negative feedback
+       * loop: the more it falls behind, the longer it takes to catch up, the more it
+       * falls behind, ...). Hence we keep track of how many times we've skipped the
+       * purge and after some threshhold we start blocking to let the purge catch up.
+       */
+      while (purgeInProgress) {
+        if (numPurgesDelayed < 10) {
+          numPurgesDelayed++;
+          return;
+        }
+
+        try {
+          wait();
+        } catch (InterruptedException ie) {
+          throw new RuntimeException("Interrupted waiting for purge lock", ie);
+        }
+      }
+
+      purgeInProgress  = true;
+      numPurgesDelayed = 0;
+    }
 
     try {
       runInCon(new Action<Void>() {
@@ -373,64 +404,115 @@ public class TransactionalStore extends AbstractTransactionalStore {
           if (logger.isDebugEnabled())
             logger.debug("Purging deleted blobs older than revision " + minVers);
 
-          Statement stmt = con.createStatement();
+          // clean out stale mapping entries
+          PreparedStatement findOld = con.prepareStatement(
+              "SELECT appId, version FROM " + DEL_TABLE + " WHERE version < ?");
+          findOld.setLong(1, minVers);
+          ResultSet rs = findOld.executeQuery();
+          int cntM = 0;
           try {
-            // clean out stale mapping entries
-            ResultSet rs = stmt.executeQuery("SELECT appId, version FROM " + DEL_TABLE +
-                                             " WHERE version < " + minVers);
             if (!rs.next())
               return null;
 
             PreparedStatement purge = con.prepareStatement(
                 "DELETE FROM " + NAME_TABLE +
                 " WHERE appId = ? AND (version < ? OR version = ? AND deleted <> 0)");
-            try {
-              do {
-                purge.setString(1, rs.getString(1));
-                purge.setLong(2, rs.getLong(2));
-                purge.setLong(3, rs.getLong(2));
-                purge.executeUpdate();
-              } while (rs.next());
-            } finally {
-              purge.close();
-            }
+            int cnt = 0;
 
-            // remove unreferenced blobs
-            rs = stmt.executeQuery("SELECT storeId FROM " + DEL_TABLE +
-                                   " WHERE version < " + minVers + " AND storeId IS NOT NULL");
-            try {
-              BlobStoreConnection bsc = wrappedStore.openConnection(null);
-              try {
-                while (rs.next()) {
-                  String storeId = rs.getString(1);
-                  if (logger.isTraceEnabled())
-                    logger.trace("Purging deleted blob '" + storeId + "'");
-
-                  try {
-                    bsc.getBlob(URI.create(storeId), null).delete();
-                  } catch (IOException ioe) {
-                    logger.warn("Error purging blob '" + storeId + "'", ioe);
-                  }
-                }
-              } finally {
-                bsc.close();
+            do {
+              purge.setString(1, rs.getString(1));
+              purge.setLong(2, rs.getLong(2));
+              purge.setLong(3, rs.getLong(2));
+              purge.addBatch();
+              if (cnt++ > 100) {
+                for (int c : purge.executeBatch())
+                  cntM += c;
+                cnt = 0;
               }
-            } catch (IOException ioe) {
-              logger.warn("Error opening connection to underlying store to purge old versions",
-                          ioe);
+            } while (rs.next());
+
+            if (cnt > 0) {
+              for (int c : purge.executeBatch())
+                cntM += c;
             }
 
-            // purge processed entries fromm the delete table
-            stmt.executeUpdate("DELETE FROM " + DEL_TABLE + " WHERE version < " + minVers);
-
-            return null;
+            purge.close();
           } finally {
-            stmt.close();
+            try {
+              rs.close();
+            } finally {
+              findOld.close();
+            }
           }
+
+          // remove unreferenced blobs
+          findOld = con.prepareStatement(
+              "SELECT storeId FROM " + DEL_TABLE + " WHERE version < ? AND storeId IS NOT NULL");
+          findOld.setLong(1, minVers);
+          rs = findOld.executeQuery();
+          int cntB = 0;
+
+          try {
+            BlobStoreConnection bsc = wrappedStore.openConnection(null);
+            try {
+              while (rs.next()) {
+                cntB++;
+                String storeId = rs.getString(1);
+                if (logger.isTraceEnabled())
+                  logger.trace("Purging deleted blob '" + storeId + "'");
+
+                try {
+                  bsc.getBlob(URI.create(storeId), null).delete();
+                } catch (IOException ioe) {
+                  logger.warn("Error purging blob '" + storeId + "'", ioe);
+                }
+              }
+            } finally {
+              bsc.close();
+            }
+          } catch (IOException ioe) {
+            logger.warn("Error opening connection to underlying store to purge old versions", ioe);
+          } finally {
+            try {
+              rs.close();
+            } finally {
+              findOld.close();
+            }
+          }
+
+          // purge processed entries fromm the delete table
+          PreparedStatement purge =
+              con.prepareStatement("DELETE FROM " + DEL_TABLE + " WHERE version < ?");
+          purge.setLong(1, minVers);
+          int cntD = purge.executeUpdate();
+          purge.close();
+
+          try {
+            int cntL = 0;
+            if (logger.isTraceEnabled()) {
+              BlobStoreConnection bsc = wrappedStore.openConnection(null);
+              for (Iterator<URI> iter = bsc.listBlobIds(null); iter.hasNext(); iter.next())
+                cntL++;
+              bsc.close();
+            }
+
+            if (logger.isDebugEnabled())
+              logger.debug("purged: " + cntM + " mappings, " + cntB + " blobs, " + cntD +
+                           " deletes" + (logger.isTraceEnabled() ? "; " + cntL + " blobs left" : ""));
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+
+          return null;
         }
       }, "Error purging old versions");
     } catch (Exception e) {
       logger.warn("Error purging old versions", e);
+    } finally {
+      synchronized (this) {
+        purgeInProgress = false;
+        notifyAll();
+      }
     }
   }
 
@@ -444,10 +526,22 @@ public class TransactionalStore extends AbstractTransactionalStore {
       }
 
       con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+      con.setAutoCommit(false);
+      boolean committed = false;
 
       try {
-        return action.run(con);
+        T res = action.run(con);
+        con.commit();
+        committed = true;
+        return res;
       } finally {
+        if (!committed) {
+          try {
+            con.rollback();
+          } catch (SQLException sqle) {
+            logger.error("Error rolling back after failure", sqle);
+          }
+        }
         xaCon.close();
       }
     } catch (SQLException sqle) {

@@ -25,8 +25,11 @@ package org.fedoracommons.akubra.txn;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.IOException;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.WeakReference;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,15 +71,19 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
   private static final Log logger = LogFactory.getLog(AbstractTransactionalConnection.class);
 
   /** the underlying blob-store that actually stores the blobs */
-  protected final BlobStoreConnection bStoreCon;
+  protected final BlobStoreConnection  bStoreCon;
   /** the transaction this connection belongs to */
-  protected final Transaction         tx;
+  protected final Transaction          tx;
   /** Whether or not the current transaction has been completed yet */
-  protected       boolean             isCompleted = false;
+  protected       boolean              isCompleted = false;
   /** the list of underlying id's of added blobs */
-  protected final List<URI>           newBlobs = new ArrayList<URI>();
+  protected final List<URI>            newBlobs = new ArrayList<URI>();
   /** the list of underlying id's of deleted blobs */
-  protected final List<URI>           delBlobs = new ArrayList<URI>();
+  protected final List<URI>            delBlobs = new ArrayList<URI>();
+  /** a cache of blobs */
+  protected final Map<URI, BlobRef>    blobCache = new HashMap<URI, BlobRef>();
+  /** a cache of blobs */
+  protected final ReferenceQueue<Blob> bcRefQueue = new ReferenceQueue<Blob>();
 
   /**
    * Create a new transactional connection.
@@ -103,75 +110,44 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
   }
 
   //@Override
-  public Blob getBlob(URI blobId, final Map<String, String> hints) throws IOException {
+  public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
     if (isClosed())
       throw new IllegalStateException("Connection closed.");
 
     if (blobId != null)
       validateId(blobId);
     else
-      blobId = createBlob(null, hints);
+      blobId = (URI) createBlob(null, hints)[0];
 
-    return new AbstractBlob(this, blobId) {
-      private boolean isNew;
-
-      public boolean exists() throws IOException {
-        return (getRealId(getId()) != null);
-      }
-
-      public void create() throws IOException {
-        createBlob(getId(), hints);
-        isNew = true;
-      }
-
-      public void delete() throws IOException {
-        removeBlob(getId(), hints);
-      }
-
-      public void moveTo(Blob blob) throws IOException {
-        renameBlob(getId(), blob.getId(), hints);
-      }
-
-      public long getSize() throws IOException {
-        Blob blob = lookupBlob(getId(), hints);
-        if (blob == null)
-          throw new MissingBlobException(getId());
-        return blob.getSize();
-      }
-
-      public InputStream openInputStream() throws IOException {
-        Blob blob = lookupBlob(getId(), hints);
-        if (blob == null)
-          throw new MissingBlobException(getId());
-        return blob.openInputStream();
-      }
-
-      public OutputStream openOutputStream(long estimatedSize) throws IOException {
-        if (!exists())
-          throw new MissingBlobException(getId());
-
-        if (!isNew) {
-          removeBlob(getId(), hints);
-          createBlob(getId(), hints);
-        }
-
-        return lookupBlob(getId(), hints).openOutputStream(estimatedSize);
-      }
-    };
+    return getBlobInternal(blobId, hints);
   }
 
-  private URI createBlob(URI blobId, Map<String, String> hints)
-      throws DuplicateBlobException, IOException {
-    if (isClosed())
-      throw new IllegalStateException("Connection closed.");
+  private Blob getBlobInternal(URI blobId, final Map<String, String> hints) throws IOException {
+    // clean out removed cached entries
+    BlobRef bref;
+    while ((bref = (BlobRef) bcRefQueue.poll()) != null)
+      blobCache.remove(bref.blobId);
+
+    // grab from cache if it's there
+    bref = blobCache.get(blobId);
+    if (bref != null) {
+      Blob b = bref.get();
+      if (b != null)
+        return b;
+    }
+
+    // not in cache, so create and cache
+    Blob b = new TxnBlob(blobId, hints);
+    blobCache.put(blobId, new BlobRef(blobId, b, bcRefQueue));
+    return b;
+  }
+
+  private Object[] createBlob(URI blobId, Map<String, String> hints) throws IOException {
     if (blobId == null)
       throw new UnsupportedIdException(null, "id-generation is not currently supported");
 
     if (logger.isDebugEnabled())
       logger.debug("creating blob '" + blobId + "' (" + this + ")");
-
-    if (getRealId(blobId) != null)
-      throw new DuplicateBlobException(blobId);
 
     boolean accAppId =
         bStoreCon.getBlobStore().getCapabilities().contains(BlobStore.ACCEPT_APP_ID_CAPABILITY);
@@ -205,63 +181,34 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
       logger.debug("created blob '" + blobId + "' with underlying id '" + res.getId() + "' (" +
                    this + ")");
 
-    return blobId;
+    return new Object[] { blobId, res };
   }
 
-  private Blob lookupBlob(URI blobId, Map<String, String> hints) throws IOException {
-    if (isClosed())
-      throw new IllegalStateException("Connection closed.");
-
-    if (logger.isTraceEnabled())
-      logger.trace("getting blob '" + blobId + "' (" + this + ")");
-
-    URI realId = getRealId(blobId);
-    if (realId == null)
-      return null;
-
-    Blob res = bStoreCon.getBlob(realId, hints);
-
-    if (logger.isTraceEnabled())
-      logger.trace("got blob '" + blobId + "' with underlying id '" +
-                   (res != null ? res.getId() : null) + "' (" + this + ")");
-
-    return res;
-  }
-
-  private void renameBlob(URI oldBlobId, URI newBlobId, Map<String, String> hints)
+  private void renameBlob(URI oldBlobId, URI newBlobId, URI storeId, Map<String, String> hints)
       throws DuplicateBlobException, IOException, MissingBlobException {
-    if (isClosed())
-      throw new IllegalStateException("Connection closed.");
-
     if (logger.isDebugEnabled())
       logger.debug("renaming blob '" + oldBlobId + "' to '" + newBlobId + "' (" + this + ")");
 
-    URI id = getRealId(oldBlobId);
-    if (id == null)
-      throw new MissingBlobException(oldBlobId);
     if (getRealId(newBlobId) != null)
       throw new DuplicateBlobException(newBlobId);
 
-    remNameEntry(oldBlobId, id);
-    addNameEntry(newBlobId, id);
+    remNameEntry(oldBlobId, storeId);
+    addNameEntry(newBlobId, storeId);
   }
 
-  private void removeBlob(URI blobId, Map<String, String> hints) throws IOException {
-    if (isClosed())
-      throw new IllegalStateException("Connection closed.");
-
+  private void removeBlob(URI blobId, URI storeId, Map<String, String> hints) throws IOException {
     if (logger.isDebugEnabled())
       logger.debug("removing blob '" + blobId + "' (" + this + ")");
 
-    URI id = getRealId(blobId);
-    if (id == null)
+    if (storeId == null)
       return;
 
-    remNameEntry(blobId, id);
-    remBlob(blobId, id);
+    remNameEntry(blobId, storeId);
+    remBlob(blobId, storeId);
 
     if (logger.isDebugEnabled())
-      logger.debug("removed blob '" + blobId + "' with underlying id '" + id + "' (" + this + ")");
+      logger.debug("removed blob '" + blobId + "' with underlying id '" + storeId +
+                   "' (" + this + ")");
   }
 
   /**
@@ -375,6 +322,116 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
       }
     } finally {
       bStoreCon.close();
+    }
+  }
+
+  /**
+   * A weak reference to a blob that also holds the blob-id so entries can be removed from
+   * the cache when the reference is cleared.
+   */
+  protected static class BlobRef extends WeakReference<Blob> {
+    public final URI blobId;
+
+    public BlobRef(URI blobId, Blob blob, ReferenceQueue queue) {
+      super(blob, queue);
+      this.blobId = blobId;
+    }
+  }
+
+  /**
+   * A transactional blob implementation. This blob caches underlying infos such as the
+   * store-id and the store-blob, and hence only works properly in conjuction with the
+   * blob-cache which guarantees only one instance of this class per blob-id at any given
+   * time.
+   */
+  protected class TxnBlob extends AbstractBlob {
+    private final Map<String, String> hints;
+    private       boolean isNew;
+    private       URI     storeId;
+    private       Blob    storeBlob = null;
+
+    public TxnBlob(URI blobId, Map<String, String> hints) throws IOException {
+      super(AbstractTransactionalConnection.this, blobId);
+      this.hints = hints;
+
+      storeId = getRealId(blobId);
+      isNew   = (storeId == null);
+    }
+
+    //@Override
+    public boolean exists() throws IOException {
+      check(false, false);
+      return (storeId != null);
+    }
+
+    //@Override
+    public void create() throws IOException, DuplicateBlobException {
+      check(false, true);
+      storeBlob = (Blob) createBlob(getId(), hints)[1];
+      storeId   = storeBlob.getId();
+    }
+
+    //@Override
+    public void delete() throws IOException {
+      check(false, false);
+      removeBlob(getId(), storeId, hints);
+      storeBlob = null;
+      storeId   = null;
+    }
+
+    //@Override
+    public void moveTo(Blob blob) throws IOException {
+      check(true, false);
+
+      renameBlob(getId(), blob.getId(), storeId, hints);
+
+      ((TxnBlob) blob).storeBlob = storeBlob;
+      ((TxnBlob) blob).storeId   = storeId;
+      storeBlob = null;
+      storeId   = null;
+    }
+
+    //@Override
+    public long getSize() throws IOException {
+      getStoreBlob();
+      return storeBlob.getSize();
+    }
+
+    //@Override
+    public InputStream openInputStream() throws IOException {
+      getStoreBlob();
+      return storeBlob.openInputStream();
+    }
+
+    //@Override
+    public OutputStream openOutputStream(long estimatedSize) throws IOException {
+      check(true, false);
+
+      if (!isNew) {
+        removeBlob(getId(), storeId, hints);
+        storeBlob = (Blob) createBlob(getId(), hints)[1];
+        storeId   = storeBlob.getId();
+      } else {
+        getStoreBlob();
+      }
+
+      return storeBlob.openOutputStream(estimatedSize);
+    }
+
+    private void getStoreBlob() throws IOException, MissingBlobException {
+      check(true, false);
+      if (storeBlob == null)
+        storeBlob = bStoreCon.getBlob(storeId, hints);
+    }
+
+    private void check(boolean needBlob, boolean noBlob)
+        throws IllegalStateException, MissingBlobException, DuplicateBlobException {
+      if (isClosed())
+        throw new IllegalStateException("Connection closed.");
+      if (needBlob && storeId == null)
+        throw new MissingBlobException(getId());
+      if (noBlob && storeId != null)
+        throw new DuplicateBlobException(getId());
     }
   }
 }

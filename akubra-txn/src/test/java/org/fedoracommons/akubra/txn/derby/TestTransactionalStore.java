@@ -34,6 +34,7 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Set;
 
 import javax.transaction.TransactionManager;
@@ -1072,6 +1073,178 @@ public class TestTransactionalStore {
     assertFalse(failed[0]);
 
     assertNoBlobs("urn:blobTxnIsol2_");
+  }
+
+  /**
+   * Stress test the stuff a bit.
+   */
+  @Test(groups={ "blobs" }, dependsOnGroups={ "init" })
+  public void stressTest() throws Exception {
+    // get our config
+    final int numFillers = Integer.getInteger("akubra.txn.test.numFillers", 0);
+    final int numReaders = Integer.getInteger("akubra.txn.test.numReaders", 10);
+    final int numWriters = Integer.getInteger("akubra.txn.test.numWriters", 10);
+    final int numObjects = Integer.getInteger("akubra.txn.test.numObjects", 10);
+    final int numRounds  = Integer.getInteger("akubra.txn.test.numRounds",  10);
+
+    long t0 = System.currentTimeMillis();
+
+    // "fill" the db a bit
+    for (int b = 0; b < numFillers / 1000; b++) {
+      final int start = b * 1000;
+
+      doInTxn(new Action() {
+        public void run(BlobStoreConnection con) throws Exception {
+          for (int idx = start; idx < start + 1000; idx++) {
+            Blob b = con.getBlob(URI.create("urn:blobStressTestFiller" + idx), null);
+            b.create();
+            setBody(b, "v" + idx);
+          }
+        }
+      }, true);
+    }
+
+    long t1 = System.currentTimeMillis();
+
+    // set up
+    Thread[] writers = new Thread[numWriters];
+    Thread[] readers = new Thread[numReaders];
+    boolean[] failed = new boolean[] { false };
+
+    final boolean[] testDone = new boolean[] { false };
+    final int[]     lowIds   = new int[numWriters];
+    final int[]     highId   = new int[] { 0 };
+
+    // start/run the writers
+    for (int t = 0; t < writers.length; t++) {
+      final int tid   = t;
+      final int start = t * numRounds * numObjects;
+
+      writers[t] = doInThread(new ERunnable() {
+        public void erun() throws Exception {
+          for (int r = 0; r < numRounds; r++) {
+            final int off = start + r * numObjects;
+
+            doInTxn(new Action() {
+              public void run(BlobStoreConnection con) throws Exception {
+                for (int o = 0; o < numObjects; o++) {
+                  int    idx = off + o;
+                  URI    id  = URI.create("urn:blobStressTest" + idx);
+                  String val = "v" + idx;
+
+                  Blob b = getBlob(con, id, null);
+                  createBlob(con, b, val);
+                }
+              }
+            }, true);
+
+            synchronized (testDone) {
+              highId[0] = Math.max(highId[0], off + numObjects);
+            }
+
+            doInTxn(new Action() {
+              public void run(BlobStoreConnection con) throws Exception {
+                for (int o = 0; o < numObjects; o++) {
+                  int    idx = off + o;
+                  URI    id  = URI.create("urn:blobStressTest" + idx);
+                  String val = "v" + idx;
+
+                  Blob b = getBlob(con, id, val);
+                  deleteBlob(con, b);
+                }
+              }
+            }, true);
+
+            synchronized (testDone) {
+              lowIds[tid] = off + numObjects;
+            }
+          }
+        }
+      }, failed);
+    }
+
+    // start/run the readers
+    for (int t = 0; t < readers.length; t++) {
+      readers[t] = doInThread(new ERunnable() {
+        public void erun() throws Exception {
+          final Random rng   = new Random();
+          final int[]  found = new int[] { 0 };
+
+          while (true) {
+            final int low, high;
+            synchronized (testDone) {
+              if (testDone[0])
+                break;
+
+              high = highId[0];
+
+              int tmp = Integer.MAX_VALUE;
+              for (int id : lowIds)
+                tmp = Math.min(tmp, id);
+              low = tmp;
+            }
+
+            if (low == high) {
+              Thread.yield();
+              continue;
+            }
+
+            doInTxn(new Action() {
+              public void run(BlobStoreConnection con) throws Exception {
+                for (int o = 0; o < numObjects; o++) {
+                  int    idx = rng.nextInt(high - low) + low;
+                  URI    id  = URI.create("urn:blobStressTest" + idx);
+                  String val = "v" + idx;
+
+                  Blob b = con.getBlob(id, null);
+                  if (b.exists()) {
+                    assertEquals(getBody(b), val);
+                    found[0]++;
+                  }
+                }
+              }
+            }, true);
+          }
+
+          if (found[0] == 0)
+            System.out.println("Warning: this reader found no blobs");
+        }
+      }, failed);
+    }
+
+    // wait for things to end
+    for (int t = 0; t < writers.length; t++)
+      writers[t].join();
+
+    synchronized (testDone) {
+      testDone[0] = true;
+    }
+
+    for (int t = 0; t < readers.length; t++)
+      readers[t].join();
+
+    long t2 = System.currentTimeMillis();
+
+    // remove the fillers again
+    for (int b = 0; b < numFillers / 1000; b++) {
+      final int start = b * 1000;
+
+      doInTxn(new Action() {
+        public void run(BlobStoreConnection con) throws Exception {
+          for (int idx = start; idx < start + 1000; idx++)
+            con.getBlob(URI.create("urn:blobStressTestFiller" + idx), null).delete();
+        }
+      }, true);
+    }
+
+    long t3 = System.currentTimeMillis();
+
+    System.out.println("Time to create " + numFillers + " fillers: " + ((t1 - t0) / 1000.) + " s");
+    System.out.println("Time to remove " + numFillers + " fillers: " + ((t3 - t2) / 1000.) + " s");
+    System.out.println("Time to run test (" + numWriters + "/" + numRounds + "/" + numObjects +
+                       "): " + ((t2 - t1) / 1000.) + " s");
+
+    assertFalse(failed[0]);
   }
 
   /**

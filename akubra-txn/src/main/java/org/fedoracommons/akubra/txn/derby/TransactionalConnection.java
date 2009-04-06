@@ -28,6 +28,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Iterator;
 
 import javax.sql.XAConnection;
@@ -58,6 +59,10 @@ public class TransactionalConnection extends SQLTransactionalConnection {
   private final PreparedStatement del_ins;
   private final PreparedStatement del_upd;
   private final PreparedStatement nam_cfl;
+  private final PreparedStatement nam_cmt;
+  private final PreparedStatement del_cmt;
+  private final PreparedStatement nam_lst_all;
+  private final PreparedStatement nam_lst_pfx;
 
   private int numMods = 0;
 
@@ -79,31 +84,55 @@ public class TransactionalConnection extends SQLTransactionalConnection {
     this.version = version;
 
     try {
+      /* Note: it's important that these all be constant strings (i.e. always the same on each
+       * invocation) so that jdbc prepared-statement caching can kick in.
+       */
+
+      // get store-id
       String sql = "SELECT storeId, deleted FROM " + TransactionalStore.NAME_TABLE +
-                   " WHERE appId = ? AND (version < " + version + " AND committed <> 0 OR " +
-                   " version = " + version + ") ORDER BY version DESC";
+                   " WHERE appId = ? AND (version < ? AND committed <> 0 OR " +
+                   " version = ?) ORDER BY version DESC";
       nam_get = con.prepareStatement(sql);
       nam_get.setMaxRows(1);
 
-      sql = "INSERT INTO " + TransactionalStore.NAME_TABLE +
-            " VALUES (?, ?, " + version + ", ?, ?)";
+      // update name-table on blob insert/delete/modify
+      sql = "INSERT INTO " + TransactionalStore.NAME_TABLE + " VALUES (?, ?, ?, ?, ?)";
       nam_ins = con.prepareStatement(sql);
 
       sql = "UPDATE " + TransactionalStore.NAME_TABLE + " SET storeId = ?, deleted = ? " +
-            " WHERE appId = ? AND version = " + version;
+            " WHERE appId = ? AND version = ?";
       nam_upd = con.prepareStatement(sql);
 
-      sql = "INSERT INTO " + TransactionalStore.DEL_TABLE + " VALUES (?, ?, " + version + ")";
+      // update delete-list on blob delete
+      sql = "INSERT INTO " + TransactionalStore.DEL_TABLE + " VALUES (?, ?, ?)";
       del_ins = con.prepareStatement(sql);
 
       sql = "UPDATE " + TransactionalStore.DEL_TABLE + " SET storeId = ? " +
-            " WHERE appId = ? AND version = " + version;
+            " WHERE appId = ? AND version = ?";
       del_upd = con.prepareStatement(sql);
 
+      // detect update conflicts
       sql = "SELECT version, committed, deleted FROM " + TransactionalStore.NAME_TABLE +
             " WHERE appId = ? ORDER BY version DESC";
       nam_cfl = con.prepareStatement(sql);
       nam_cfl.setMaxRows(1);
+
+      // update name-table and delete-list on commit
+      sql = "UPDATE " + TransactionalStore.NAME_TABLE + " SET version = ?, committed = 1 " +
+            " WHERE version = ?";
+      nam_cmt = con.prepareStatement(sql);
+      sql = "UPDATE " + TransactionalStore.DEL_TABLE + " SET version = ? WHERE version = ?";
+      del_cmt = con.prepareStatement(sql);
+
+      // list blob-ids
+      sql = "SELECT appId, version, deleted FROM " + TransactionalStore.NAME_TABLE +
+            " WHERE (version < ? AND committed <> 0 OR version = ?) ORDER BY appId";
+      nam_lst_all = con.prepareStatement(sql);
+
+      sql = "SELECT appId, version, deleted FROM " + TransactionalStore.NAME_TABLE +
+            " WHERE (version < ? AND committed <> 0 OR version = ?)" +
+            " AND appId LIKE ? ESCAPE '!' ORDER BY appId";
+      nam_lst_pfx = con.prepareStatement(sql);
     } catch (SQLException sqle) {
       throw (IOException) new IOException("Error querying db").initCause(sqle);
     }
@@ -114,16 +143,21 @@ public class TransactionalConnection extends SQLTransactionalConnection {
     if (logger.isDebugEnabled())
       logger.debug("listing blob-ids with prefix '" + filterPrefix + "' (" + this + ")");
 
-    String query =
-      "SELECT appId, version, deleted FROM " + TransactionalStore.NAME_TABLE +
-      " WHERE (version < " + version + " and committed <> 0 or version = " + version + ")";
-    if (filterPrefix != null && filterPrefix.length() > 0)
-      query += " and appId LIKE '" + escLike(filterPrefix) + "%' ESCAPE '!'";
-    query += " ORDER BY appId";
-
     try {
-      ResultSet rs = con.createStatement().executeQuery(query);
-      return new RSBlobIdIterator(rs, true) {
+      PreparedStatement query;
+      if (filterPrefix != null && filterPrefix.trim().length() > 0) {
+        query = nam_lst_pfx;
+        query.setLong(1, version);
+        query.setLong(2, version);
+        query.setString(3, escLike(filterPrefix.trim()) + '%');
+      } else {
+        query = nam_lst_all;
+        query.setLong(1, version);
+        query.setLong(2, version);
+      }
+
+      ResultSet rs = query.executeQuery();
+      return new RSBlobIdIterator(rs, false) {
         private String  lastId;
         private boolean afterFirst;
         private boolean notFinished;
@@ -178,6 +212,8 @@ public class TransactionalConnection extends SQLTransactionalConnection {
       //    "SELECT * FROM " + TransactionalStore.NAME_TABLE)));
 
       nam_get.setString(1, blobId.toString());
+      nam_get.setLong(2, version);
+      nam_get.setLong(3, version);
 
       ResultSet rs = nam_get.executeQuery();
       try {
@@ -259,6 +295,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
         nam_upd.setString(1, storeId.toString());
         nam_upd.setBoolean(2, delete);
         nam_upd.setString(3, ourId.toString());
+        nam_upd.setLong(4, version);
         nam_upd.executeUpdate();
       } else {
         if (logger.isTraceEnabled())
@@ -266,14 +303,16 @@ public class TransactionalConnection extends SQLTransactionalConnection {
 
         nam_ins.setString(1, ourId.toString());
         nam_ins.setString(2, storeId.toString());
-        nam_ins.setBoolean(3, delete);
-        nam_ins.setBoolean(4, false);
+        nam_ins.setLong(3, version);
+        nam_ins.setBoolean(4, delete);
+        nam_ins.setBoolean(5, false);
         nam_ins.executeUpdate();
       }
 
       if (delete) {
         del_ins.setString(1, ourId.toString());
         del_ins.setString(2, null);
+        del_ins.setLong(3, version);
         del_ins.executeUpdate();
       }
     } catch (SQLException sqle) {
@@ -290,6 +329,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
       } else {
         del_upd.setString(1, storeId.toString());
         del_upd.setString(2, ourId.toString());
+        del_upd.setLong(3, version);
         del_upd.executeUpdate();
       }
     } catch (SQLException sqle) {
@@ -298,7 +338,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
   }
 
   private static String escLike(String str) {
-    return str.replace("'", "''").replace("!", "!!").replace("_", "!_").replace("%", "!%");
+    return str.replace("!", "!!").replace("_", "!_").replace("%", "!%");
   }
 
   @Override
@@ -308,16 +348,20 @@ public class TransactionalConnection extends SQLTransactionalConnection {
         long writeVers = ((TransactionalStore) owner).txnPrepare(numMods, version);
 
         if (logger.isTraceEnabled())
-          logger.trace("updating name-table for commit");
-        con.createStatement().execute(
-            "UPDATE " + TransactionalStore.NAME_TABLE + " SET version = " + writeVers +
-            ", committed = 1 WHERE version = " + version);
+          logger.trace("updating name-table for commit (version=" + version + ", write-version=" +
+                       writeVers + ")");
+
+        nam_cmt.setLong(1, writeVers);
+        nam_cmt.setLong(2, version);
+        nam_cmt.executeUpdate();
 
         if (logger.isTraceEnabled())
-          logger.trace("updating delete-table for commit");
-        con.createStatement().execute(
-            "UPDATE " + TransactionalStore.DEL_TABLE + " SET version = " + writeVers +
-            " WHERE version = " + version);
+          logger.trace("updating delete-table for commit (version=" + version + ", write-version=" +
+                       writeVers + ")");
+
+        del_cmt.setLong(1, writeVers);
+        del_cmt.setLong(2, version);
+        del_cmt.executeUpdate();
       } catch (InterruptedException ie) {
         throw new RuntimeException("Error waiting for write lock", ie);
       } catch (SQLException sqle) {
@@ -335,6 +379,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
 
     try {
       ((TransactionalStore) owner).txnComplete(status == Status.STATUS_COMMITTED, version);
+      closeStatements();
     } finally {
       super.afterCompletion(status);
     }
@@ -347,5 +392,16 @@ public class TransactionalConnection extends SQLTransactionalConnection {
      * https://issues.apache.org/jira/browse/DERBY-4137
      */
     Monitor.getMonitor().getTimerFactory().getCancellationTimer().purge();
+  }
+
+  private void closeStatements() {
+    for (Statement stmt : new Statement[] { nam_get, nam_ins, nam_upd, del_ins, del_upd, nam_cfl,
+                                            nam_cmt, del_cmt, nam_lst_all, nam_lst_pfx }) {
+      try {
+        stmt.close();
+      } catch (SQLException sqle) {
+        logger.warn("Error closing prepared statement", sqle);
+      }
+    }
   }
 }

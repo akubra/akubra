@@ -249,8 +249,8 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
   protected abstract void addNameEntry(URI ourId, URI storeId) throws IOException;
 
   /**
-   * Remove a blob from the underlying store. This implementation just updates the {@link newBlobs}
-   * and {@link delBlobs} lists; actual blob deletion is deferred till commit.
+   * Remove a blob from the underlying store. This implementation just updates the {@link #newBlobs}
+   * and {@link #delBlobs} lists; actual blob deletion is deferred till commit.
    *
    * @param ourId   the upper-level blob-id
    * @param storeId the underlying store's blob-id
@@ -266,7 +266,7 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
   }
 
   /**
-   * Add a blob to the underlying store. This implementation just updates the {@link newBlobs}
+   * Add a blob to the underlying store. This implementation just updates the {@link #newBlobs}
    * list; actual blob writing is done via the blob itself..
    *
    * @param ourId   the upper-level blob-id

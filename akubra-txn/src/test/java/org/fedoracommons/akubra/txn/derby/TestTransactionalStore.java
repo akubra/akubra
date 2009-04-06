@@ -92,7 +92,7 @@ public class TestTransactionalStore {
    */
   @Test
   public void testGetId() {
-    assertEquals(id, store.getId());
+    assertEquals(store.getId(), id);
   }
 
   /**
@@ -165,7 +165,7 @@ public class TestTransactionalStore {
    */
   @Test(dependsOnGroups={ "init" })
   public void testGetBackingStores() {
-    assertEquals(1, store.getBackingStores().size());
+    assertEquals(store.getBackingStores().size(), 1);
   }
 
   /**
@@ -174,7 +174,7 @@ public class TestTransactionalStore {
   @Test
   public void testGetDeclaredCapabilities() {
     Set<URI> caps = store.getDeclaredCapabilities();
-    assertEquals(1, caps.size());
+    assertEquals(caps.size(), 1);
     assertTrue(caps.contains(BlobStore.TXN_CAPABILITY));
   }
 
@@ -185,7 +185,7 @@ public class TestTransactionalStore {
   public void testGetCapabilities() {
     Set<URI> caps = new HashSet<URI>(store.getCapabilities());
     caps.removeAll(store.getBackingStores().get(0).getCapabilities());
-    assertEquals(1, caps.size());
+    assertEquals(caps.size(), 1);
     assertTrue(caps.contains(BlobStore.TXN_CAPABILITY));
   }
 
@@ -324,7 +324,7 @@ public class TestTransactionalStore {
     doInTxn(new Action() {
         public void run(BlobStoreConnection con) throws Exception {
           Blob blob = con.getBlob(id, null);
-          assertEquals(exists, blob.exists());
+          assertEquals(blob.exists(), exists);
           blob.delete();
           assertFalse(blob.exists());
           assertFalse(con.getBlob(id, null).exists());
@@ -337,7 +337,7 @@ public class TestTransactionalStore {
         public void run(BlobStoreConnection con) throws Exception {
           Blob b = con.getBlob(id, null);
           if (val != null)
-            assertEquals(val, IOUtils.toString(b.openInputStream()));
+            assertEquals(getBody(b), val);
           else
             assertFalse(b.exists());
         }

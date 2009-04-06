@@ -43,21 +43,22 @@ import org.fedoracommons.akubra.impl.AbstractBlobStore;
  * @author Ronald Tschalär
  */
 public abstract class AbstractTransactionalStore extends AbstractBlobStore {
-  private static final Log        logger      = LogFactory.getLog(AbstractTransactionalStore.class);
+  private static final Log logger = LogFactory.getLog(AbstractTransactionalStore.class);
 
   /** whether this store has been started */
-  protected       boolean   started = false;
+  protected boolean   started = false;
   /** the underlying blob-store used for the actual storage */
-  protected       BlobStore wrappedStore;
+  protected BlobStore wrappedStore;
 
   /**
    * Create a new transactional store. Exactly one backing store must be set before this can
    * be used.
    *
-   * @param id the id of this store
+   * @param id      the id of this store
+   * @param decCaps declared capabilities of this store (should include transactions)
    */
-  public AbstractTransactionalStore(URI id) throws IOException {
-    super(id, TXN_CAPABILITY);
+  protected AbstractTransactionalStore(URI id, URI ... decCaps) throws IOException {
+    super(id, decCaps);
   }
 
   @Override

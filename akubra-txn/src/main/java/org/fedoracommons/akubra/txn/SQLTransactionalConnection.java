@@ -30,6 +30,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import javax.sql.XAConnection;
 import javax.transaction.Transaction;
 
 import org.apache.commons.logging.Log;
@@ -48,35 +49,39 @@ import org.fedoracommons.akubra.BlobStoreConnection;
 public abstract class SQLTransactionalConnection extends AbstractTransactionalConnection {
   private static final Log logger = LogFactory.getLog(SQLTransactionalConnection.class);
 
+  /** The xa connection being used */
+  protected final XAConnection xaCon;
   /** The db connection being used */
-  protected final Connection con;
+  protected final Connection   con;
 
   /**
    * Create a new sql-based transactional connection.
    *
    * @param owner   the blob-store we belong to
    * @param bStore  the underlying blob-store to use
+   * @param xaCon   the xa connection to use
    * @param con     the db connection to use
    * @param tx      the transaction we belong to
    * @throws IOException if an error occurs initializing this connection
    */
-  protected SQLTransactionalConnection(BlobStore owner, BlobStore bStore, Connection con,
-                                       Transaction tx) throws IOException {
+  protected SQLTransactionalConnection(BlobStore owner, BlobStore bStore, XAConnection xaCon,
+                                       Connection con, Transaction tx) throws IOException {
     super(owner, bStore, tx);
-    this.con = con;
+    this.con   = con;
+    this.xaCon = xaCon;
   }
 
-  //@Override
-  public void close() {
-    if (logger.isDebugEnabled())
-      logger.debug("closing connection " + this);
-
-    super.close();
+  @Override
+  public void afterCompletion(int status) {
+    if (isCompleted)
+      return;
 
     try {
-      con.close();
+      xaCon.close();
     } catch (SQLException sqle) {
       logger.error("Error closing db connection", sqle);
+    } finally {
+      super.afterCompletion(status);
     }
   }
 
@@ -87,15 +92,16 @@ public abstract class SQLTransactionalConnection extends AbstractTransactionalCo
    * @author Ronald Tschalär
    */
   protected static class RSBlobIdIterator implements Iterator<URI> {
-    private final ResultSet rs;
-    private final boolean   closeStmt;
-    private       boolean   hasNext;
+    protected final ResultSet rs;
+    private   final boolean   closeStmt;
+    private         boolean   hasNext;
 
     /**
      * Create a new iterator.
      *
-     * @param rs        the underlying result-set to use; the result-set must have one column such
-     *                  that <code>rs.getString(1)</code> returns a URI.
+     * @param rs        the underlying result-set to use; the result-set must either have one
+     *                  column such that <code>rs.getString(1)</code> returns a URI, or you
+     *                  must override {@link #getId}.
      * @param closeStmt whether to close the associated statement when closing the result-set at
      *                  the end of the iteration.
      * @throws SQLException if thrown while attempting to advance to the first row
@@ -103,7 +109,7 @@ public abstract class SQLTransactionalConnection extends AbstractTransactionalCo
     public RSBlobIdIterator(ResultSet rs, boolean closeStmt) throws SQLException {
       this.rs        = rs;
       this.closeStmt = closeStmt;
-      this.hasNext   = rs.next();
+      this.hasNext   = nextRow();
     }
 
     //@Override
@@ -117,8 +123,8 @@ public abstract class SQLTransactionalConnection extends AbstractTransactionalCo
         throw new NoSuchElementException();
 
       try {
-        URI res = URI.create(rs.getString(1));
-        hasNext = rs.next();
+        URI res = URI.create(getId());
+        hasNext = nextRow();
 
         if (!hasNext)
           close();
@@ -127,6 +133,25 @@ public abstract class SQLTransactionalConnection extends AbstractTransactionalCo
       } catch (SQLException sqle) {
         throw new RuntimeException("error reading db results", sqle);
       }
+    }
+
+    /**
+     * Advance to the next result row. Override if it's necessary to skip rows. Defaults
+     * to <code>rs.next()</code>.
+     *
+     * @return false if there are no more rows; true otherwise
+     */
+    protected boolean nextRow() throws SQLException {
+      return rs.next();
+    }
+
+    /**
+     * Get the id from the current row. Defaults to <code>rs.getString(1)</code>.
+     *
+     * @return the id; this must be a uri
+     */
+    protected String getId() throws SQLException {
+      return rs.getString(1);
     }
 
     //@Override
@@ -139,16 +164,12 @@ public abstract class SQLTransactionalConnection extends AbstractTransactionalCo
      */
     protected void close() {
       try {
-        rs.close();
-      } catch (SQLException sqle2) {
-        logger.error("Error closing result-set", sqle2);
-      }
-
-      try {
         if (closeStmt)
           rs.getStatement().close();
-      } catch (SQLException sqle2) {
-        logger.error("Error closing statement", sqle2);
+        else
+          rs.close();
+      } catch (SQLException sqle) {
+        logger.error("Error closing statement or result-set", sqle);
       }
     }
   }

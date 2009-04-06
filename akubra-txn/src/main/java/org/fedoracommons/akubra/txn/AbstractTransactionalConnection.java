@@ -42,9 +42,9 @@ import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.MissingBlobException;
+import org.fedoracommons.akubra.UnsupportedIdException;
 import org.fedoracommons.akubra.impl.AbstractBlob;
 import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
-import org.fedoracommons.akubra.impl.BlobWrapper;
 
 /**
  * A basic superclass for transactional store connections. This implements the common blob-handling
@@ -70,11 +70,13 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
   /** the underlying blob-store that actually stores the blobs */
   protected final BlobStoreConnection bStoreCon;
   /** the transaction this connection belongs to */
-  protected final Transaction tx;
+  protected final Transaction         tx;
+  /** Whether or not the current transaction has been completed yet */
+  protected       boolean             isCompleted = false;
   /** the list of underlying id's of added blobs */
-  protected final List<URI>   newBlobs = new ArrayList<URI>();
+  protected final List<URI>           newBlobs = new ArrayList<URI>();
   /** the list of underlying id's of deleted blobs */
-  protected final List<URI>   delBlobs = new ArrayList<URI>();
+  protected final List<URI>           delBlobs = new ArrayList<URI>();
 
   /**
    * Create a new transactional connection.
@@ -105,18 +107,21 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
     if (isClosed())
       throw new IllegalStateException("Connection closed.");
 
-    if (blobId == null)
-      blobId = createBlob(blobId, hints).getId();
+    if (blobId != null)
+      validateId(blobId);
+    else
+      blobId = createBlob(null, hints);
 
     return new AbstractBlob(this, blobId) {
+      private boolean isNew;
 
       public boolean exists() throws IOException {
-        Blob blob = lookupBlob(getId(), hints);
-        return (blob != null) && blob.exists();
+        return (getRealId(getId()) != null);
       }
 
       public void create() throws IOException {
         createBlob(getId(), hints);
+        isNew = true;
       }
 
       public void delete() throws IOException {
@@ -142,48 +147,68 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
       }
 
       public OutputStream openOutputStream(long estimatedSize) throws IOException {
-        Blob blob = lookupBlob(getId(), hints);
-        if (blob == null)
+        if (!exists())
           throw new MissingBlobException(getId());
-        return blob.openOutputStream(estimatedSize);
+
+        if (!isNew) {
+          removeBlob(getId(), hints);
+          createBlob(getId(), hints);
+        }
+
+        return lookupBlob(getId(), hints).openOutputStream(estimatedSize);
       }
     };
   }
 
-  public void close() {
-    bStoreCon.close();
-    super.close();
-  }
-
-  Blob createBlob(URI blobId, Map<String, String> hints)
+  private URI createBlob(URI blobId, Map<String, String> hints)
       throws DuplicateBlobException, IOException {
     if (isClosed())
       throw new IllegalStateException("Connection closed.");
+    if (blobId == null)
+      throw new UnsupportedIdException(null, "id-generation is not currently supported");
 
-    if (logger.isTraceEnabled())
-      logger.trace("creating blob '" + blobId + "' (" + this + ")");
+    if (logger.isDebugEnabled())
+      logger.debug("creating blob '" + blobId + "' (" + this + ")");
 
     if (getRealId(blobId) != null)
       throw new DuplicateBlobException(blobId);
 
-    Blob res = bStoreCon.getBlob(blobId, hints);
+    boolean accAppId =
+        bStoreCon.getBlobStore().getCapabilities().contains(BlobStore.ACCEPT_APP_ID_CAPABILITY);
+    Blob res = bStoreCon.getBlob(accAppId ? blobId : null, hints);
+    if (accAppId && res.exists()) {
+      if (logger.isDebugEnabled())
+        logger.debug("duplicate id - retrying with generated id");
+      res = bStoreCon.getBlob(null, hints);
+    }
+
     if (!res.exists())
       res.create();
 
-    if (blobId == null)
-      blobId = res.getId();
+    boolean added = false;
+    try {
+      addNameEntry(blobId, res.getId());
+      addBlob(blobId, res.getId());
+      added = true;
+    } finally {
+      if (!added) {
+        try {
+          res.delete();
+        } catch (Throwable t) {
+          logger.warn("Error removing created blob during exception handling: lower-blob-id = '" +
+                      res.getId() + "'", t);
+        }
+      }
+    }
 
-    addNameEntry(blobId, res.getId());
-    newBlobs.add(res.getId());
-
-    if (logger.isTraceEnabled())
-      logger.trace("created blob '" + blobId + "' with underlying id '" + res.getId() + "' (" +
+    if (logger.isDebugEnabled())
+      logger.debug("created blob '" + blobId + "' with underlying id '" + res.getId() + "' (" +
                    this + ")");
 
-    return res.getId().equals(blobId) ? res : new BlobWrapper(res, this, blobId);
+    return blobId;
   }
 
-  Blob lookupBlob(URI blobId, Map<String, String> hints) throws IOException {
+  private Blob lookupBlob(URI blobId, Map<String, String> hints) throws IOException {
     if (isClosed())
       throw new IllegalStateException("Connection closed.");
 
@@ -200,46 +225,52 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
       logger.trace("got blob '" + blobId + "' with underlying id '" +
                    (res != null ? res.getId() : null) + "' (" + this + ")");
 
-    return (res != null) ? new BlobWrapper(res, this, blobId) : null;
+    return res;
   }
 
-  void renameBlob(URI oldBlobId, URI newBlobId, Map<String, String> hints)
+  private void renameBlob(URI oldBlobId, URI newBlobId, Map<String, String> hints)
       throws DuplicateBlobException, IOException, MissingBlobException {
     if (isClosed())
       throw new IllegalStateException("Connection closed.");
 
-    if (logger.isTraceEnabled())
-      logger.trace("renaming blob '" + oldBlobId + "' to '" + newBlobId + "' (" + this + ")");
+    if (logger.isDebugEnabled())
+      logger.debug("renaming blob '" + oldBlobId + "' to '" + newBlobId + "' (" + this + ")");
 
     URI id = getRealId(oldBlobId);
     if (id == null)
       throw new MissingBlobException(oldBlobId);
+    if (getRealId(newBlobId) != null)
+      throw new DuplicateBlobException(newBlobId);
 
     remNameEntry(oldBlobId, id);
     addNameEntry(newBlobId, id);
   }
 
-  URI removeBlob(URI blobId, Map<String, String> hints) throws IOException {
+  private void removeBlob(URI blobId, Map<String, String> hints) throws IOException {
     if (isClosed())
       throw new IllegalStateException("Connection closed.");
 
-    if (logger.isTraceEnabled())
-      logger.trace("removing blob '" + blobId + "' (" + this + ")");
+    if (logger.isDebugEnabled())
+      logger.debug("removing blob '" + blobId + "' (" + this + ")");
 
     URI id = getRealId(blobId);
     if (id == null)
-      return null;
+      return;
 
     remNameEntry(blobId, id);
-    if (newBlobs.contains(id))
-      newBlobs.remove(id);
-    else
-      delBlobs.add(id);
+    remBlob(blobId, id);
 
-    if (logger.isTraceEnabled())
-      logger.trace("removed blob '" + blobId + "' with underlying id '" + id + "' (" + this + ")");
+    if (logger.isDebugEnabled())
+      logger.debug("removed blob '" + blobId + "' with underlying id '" + id + "' (" + this + ")");
+  }
 
-    return id;
+  /**
+   * Check whether we can store this id.
+   *
+   * @param blobId  the upper level blob-id
+   * @throws UnsupportedIdException if the id cannot be stored
+   */
+  protected void validateId(URI blobId) throws UnsupportedIdException {
   }
 
   /**
@@ -271,6 +302,35 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
   protected abstract void addNameEntry(URI ourId, URI storeId) throws IOException;
 
   /**
+   * Remove a blob from the underlying store. This implementation just updates the {@link newBlobs}
+   * and {@link delBlobs} lists; actual blob deletion is deferred till commit.
+   *
+   * @param ourId   the upper-level blob-id
+   * @param storeId the underlying store's blob-id
+   * @throws IOException if an error occurred removing the blob or the blob does not exist
+   */
+  protected void remBlob(URI ourId, URI storeId) throws IOException {
+    if (newBlobs.contains(storeId)) {
+      newBlobs.remove(storeId);
+      bStoreCon.getBlob(storeId, null).delete();
+    } else {
+      delBlobs.add(storeId);
+    }
+  }
+
+  /**
+   * Add a blob to the underlying store. This implementation just updates the {@link newBlobs}
+   * list; actual blob writing is done via the blob itself..
+   *
+   * @param ourId   the upper-level blob-id
+   * @param storeId the underlying store's blob-id
+   * @throws IOException if an error occurred removing the blob or the blob does not exist
+   */
+  protected void addBlob(URI ourId, URI storeId) throws IOException {
+    newBlobs.add(storeId);
+  }
+
+  /**
    * Invoked before the transaction is completed, i.e. before a rollback or commit is started.
    * Whether or not this is called on a rollback may vary.
    *
@@ -290,24 +350,31 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
    * @see Synchronization#afterCompletion
    */
   public void afterCompletion(int status) {
-    if (status == Status.STATUS_COMMITTED) {
-      for (URI blobId : delBlobs) {
-        try {
-          bStoreCon.getBlob(blobId, null).delete();
-        } catch (IOException ioe) {
-          logger.error("Error deleting removed blob after commit: blobId = '" + blobId + "'",
-                       ioe);
+    if (isCompleted)    // I've seen BTM call us twice here after a timeout and rollback.
+      return;
+    isCompleted = true;
+
+    try {
+      if (status == Status.STATUS_COMMITTED) {
+        for (URI blobId : delBlobs) {
+          try {
+            bStoreCon.getBlob(blobId, null).delete();
+          } catch (IOException ioe) {
+            logger.error("Error deleting removed blob after commit: blobId = '" + blobId + "'",
+                         ioe);
+          }
+        }
+      } else {
+        for (URI blobId : newBlobs) {
+          try {
+            bStoreCon.getBlob(blobId, null).delete();
+          } catch (IOException ioe) {
+            logger.error("Error deleting added blob after rollback: blobId = '" + blobId + "'", ioe);
+          }
         }
       }
-    } else {
-      for (URI blobId : newBlobs) {
-        try {
-          bStoreCon.getBlob(blobId, null).delete();
-        } catch (IOException ioe) {
-          logger.error("Error deleting added blob after rollback: blobId = '" + blobId + "'",
-                       ioe);
-        }
-      }
+    } finally {
+      bStoreCon.close();
     }
   }
 }

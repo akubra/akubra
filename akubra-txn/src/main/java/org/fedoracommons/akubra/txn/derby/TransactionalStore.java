@@ -72,7 +72,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
     Runtime.getRuntime().addShutdownHook(new Thread() {
       public void run() {
         try {
-          DriverManager.getConnection("jdbc:derby;shutdown=true");
+          DriverManager.getConnection("jdbc:derby:;shutdown=true");
         } catch (Exception e) {
           logger.warn("Error shutting down derby", e);
         }

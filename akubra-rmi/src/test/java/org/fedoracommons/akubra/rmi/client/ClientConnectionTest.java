@@ -130,6 +130,7 @@ public class ClientConnectionTest {
 
     reset(con);
     con.close();
+    expect(con.getBlob(null, null)).andStubReturn(null);
     replay(con);
 
     cc.close();

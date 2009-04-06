@@ -48,6 +48,7 @@ import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.mem.MemBlobStore;
+import org.fedoracommons.akubra.txn.BtmUtils;
 
 /**
  * Unit tests for {@link TransactionalStore}.

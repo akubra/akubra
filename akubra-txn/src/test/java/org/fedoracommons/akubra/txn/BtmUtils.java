@@ -20,7 +20,7 @@
  * limitations under the License.
  */
 
-package org.fedoracommons.akubra.txn.derby;
+package org.fedoracommons.akubra.txn;
 
 import java.lang.ref.WeakReference;
 import java.util.Date;
@@ -47,7 +47,7 @@ import bitronix.tm.resource.common.XAStatefulHolder;
  *
  * @author Ronald Tschalär
  */
-class BtmUtils {
+public class BtmUtils {
   /**
    * Not meant to be instantiated.
    */

@@ -332,7 +332,7 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
   protected static class BlobRef extends WeakReference<Blob> {
     public final URI blobId;
 
-    public BlobRef(URI blobId, Blob blob, ReferenceQueue queue) {
+    public BlobRef(URI blobId, Blob blob, ReferenceQueue<Blob> queue) {
       super(blob, queue);
       this.blobId = blobId;
     }

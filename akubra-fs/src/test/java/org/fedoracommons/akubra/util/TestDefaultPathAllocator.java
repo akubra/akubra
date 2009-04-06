@@ -27,10 +27,10 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
 
 /**
  * Unit tests for {@link DefaultPathAllocator}.
@@ -66,23 +66,22 @@ public class TestDefaultPathAllocator {
    */
   @Test
   public void testGetBlobId() {
-    assertEquals(uri("urn:example:filename"),
-                 allocator.getBlobId("2008/0304/1015/filename"));
+    assertEquals(allocator.getBlobId("2008/0304/1015/filename"), uri("urn:example:filename"));
   }
 
   private void validate(String path, String expectedFilename) {
     String[] parts = path.split("/");
-    assertEquals(4, parts.length);
+    assertEquals(parts.length, 4);
     for (int i = 0; i < 3; i++) {
       String part = parts[i];
-      assertEquals(4, part.length());
+      assertEquals(part.length(), 4);
       try {
         Integer.parseInt(part);
       } catch (NumberFormatException e) {
         fail("path part is non-numeric: " + part);
       }
     }
-    assertEquals(expectedFilename, parts[3]);
+    assertEquals(parts[3], expectedFilename);
   }
 
   private static URI uri(String uri) {

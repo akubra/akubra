@@ -24,12 +24,12 @@ package org.fedoracommons.akubra.util;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.fail;
 
 /**
  * Unit tests for {@link DefaultFilenameAllocator}.
@@ -44,9 +44,9 @@ public class TestDefaultFilenameAllocator {
    */
   @Test
   public void testAllocateWithoutBlobId() {
-    assertEquals("_0", allocator.allocate(null, null));
-    assertEquals("_1", allocator.allocate(null, null));
-    assertEquals("_2", allocator.allocate(null, null));
+    assertEquals(allocator.allocate(null, null), "_0");
+    assertEquals(allocator.allocate(null, null), "_1");
+    assertEquals(allocator.allocate(null, null), "_2");
   }
 
   /**
@@ -90,11 +90,11 @@ public class TestDefaultFilenameAllocator {
       fail("Expected two underscores in name: " + name);
     String encoded = "urn%3Aexample%3A" + encodedLocalName;
     String gotEncoded = name.substring(i + 1);
-    assertEquals(encoded, gotEncoded);
+    assertEquals(gotEncoded, encoded);
     // test decoding
     URI uri = allocator.getBlobId("_0_" + encoded);
     assertNotNull(uri);
-    assertEquals("urn:example:" + localName, uri.toString());
+    assertEquals(uri.toString(), "urn:example:" + localName);
   }
 
   private static URI uri(String uri) {

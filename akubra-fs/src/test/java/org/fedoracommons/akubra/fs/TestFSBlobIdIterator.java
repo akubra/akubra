@@ -29,11 +29,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Unit tests for {@link FSBlobIdIterator}.
@@ -82,7 +82,7 @@ public class TestFSBlobIdIterator {
    */
   @Test
   public void testEmpty() {
-    assertEquals(0, getSet(getIter(emptyDir, null)).size());
+    assertEquals(getSet(getIter(emptyDir, null)).size(), 0);
   }
 
   /**
@@ -90,7 +90,7 @@ public class TestFSBlobIdIterator {
    */
   @Test
   public void testMulti() {
-    assertEquals(6, getSet(getIter(multiDir, null)).size());
+    assertEquals(getSet(getIter(multiDir, null)).size(), 6);
   }
 
   /**
@@ -98,11 +98,11 @@ public class TestFSBlobIdIterator {
    */
   @Test
   public void testMultiWithFilter() {
-    assertEquals(6, getSet(getIter(multiDir, "file:///")).size());
+    assertEquals(getSet(getIter(multiDir, "file:///")).size(), 6);
     String prefix = FSBlobStoreConnection.getBlobIdPrefix(multiDir);
-    assertEquals(1, getSet(getIter(multiDir, prefix + "file-1")).size());
-    assertEquals(0, getSet(getIter(multiDir, prefix + "dir-e")).size());
-    assertEquals(4, getSet(getIter(multiDir, prefix + "dir-n")).size());
+    assertEquals(getSet(getIter(multiDir, prefix + "file-1")).size(), 1);
+    assertEquals(getSet(getIter(multiDir, prefix + "dir-e")).size(), 0);
+    assertEquals(getSet(getIter(multiDir, prefix + "dir-n")).size(), 4);
   }
 
   private static FSBlobIdIterator getIter(File dir, String filterPrefix) {

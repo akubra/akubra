@@ -31,11 +31,11 @@ import java.net.URI;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStoreConnection;
@@ -54,8 +54,8 @@ public class TestStreamManager {
    */
   @Test
   public void testInitialState() {
-    assertEquals(0, manager.getOpenCount());
-    assertEquals(0, manager.getOpenInputStreamCount());
+    assertEquals(manager.getOpenCount(), 0);
+    assertEquals(manager.getOpenInputStreamCount(), 0);
     assertFalse(manager.isQuiescent());
   }
 
@@ -65,9 +65,9 @@ public class TestStreamManager {
   @Test
   public void testManageOutputStream() throws Exception {
     OutputStream managed = manager.manageOutputStream(null, new ByteArrayOutputStream());
-    assertEquals(1, manager.getOpenCount());
+    assertEquals(manager.getOpenCount(), 1);
     managed.close();
-    assertEquals(0, manager.getOpenCount());
+    assertEquals(manager.getOpenCount(), 0);
   }
 
   /**
@@ -76,9 +76,9 @@ public class TestStreamManager {
   @Test
   public void testManageInputStream() throws Exception {
     InputStream managed = manager.manageInputStream(null, new ByteArrayInputStream(new byte[0]));
-    assertEquals(1, manager.getOpenInputStreamCount());
+    assertEquals(manager.getOpenInputStreamCount(), 1);
     managed.close();
-    assertEquals(0, manager.getOpenInputStreamCount());
+    assertEquals(manager.getOpenInputStreamCount(), 0);
   }
 
   /**
@@ -91,21 +91,21 @@ public class TestStreamManager {
 
     manager.manageInputStream(con1, new ByteArrayInputStream(new byte[0]));
     manager.manageOutputStream(con1, new ByteArrayOutputStream());
-    assertEquals(1, manager.getOpenInputStreamCount());
-    assertEquals(1, manager.getOpenCount());
+    assertEquals(manager.getOpenInputStreamCount(), 1);
+    assertEquals(manager.getOpenCount(), 1);
 
     manager.manageInputStream(con2, new ByteArrayInputStream(new byte[0]));
     manager.manageOutputStream(con2, new ByteArrayOutputStream());
-    assertEquals(2, manager.getOpenInputStreamCount());
-    assertEquals(2, manager.getOpenCount());
+    assertEquals(manager.getOpenInputStreamCount(), 2);
+    assertEquals(manager.getOpenCount(), 2);
 
     con1.close();
-    assertEquals(1, manager.getOpenInputStreamCount());
-    assertEquals(1, manager.getOpenCount());
+    assertEquals(manager.getOpenInputStreamCount(), 1);
+    assertEquals(manager.getOpenCount(), 1);
 
     con2.close();
-    assertEquals(0, manager.getOpenInputStreamCount());
-    assertEquals(0, manager.getOpenCount());
+    assertEquals(manager.getOpenInputStreamCount(), 0);
+    assertEquals(manager.getOpenCount(), 0);
   }
 
   /**
@@ -138,6 +138,7 @@ public class TestStreamManager {
     managed.close();
     thread.join();                // thread will now terminate; wait for it
     assertTrue(thread.getReturnValue());
+    manager.setQuiescent(false);
   }
 
   /**
@@ -146,7 +147,7 @@ public class TestStreamManager {
    */
   @Test
   public void testGoQuiescentOpenStreamInterrupted() throws Exception {
-    manager.manageOutputStream(null, new ByteArrayOutputStream());
+    OutputStream managed = manager.manageOutputStream(null, new ByteArrayOutputStream());
     GoQuiescentThread thread = new GoQuiescentThread(manager);
     thread.start();
     Thread.sleep(100);
@@ -154,6 +155,8 @@ public class TestStreamManager {
     thread.interrupt();
     thread.join();                // thread will now terminate; wait for it
     assertFalse(thread.getReturnValue());
+    managed.close();
+    manager.setQuiescent(false);
   }
 
   /**
@@ -170,6 +173,7 @@ public class TestStreamManager {
     manager.unlockState();
     thread.join();                // thread will now terminate; wait for it
     assertTrue(thread.getReturnValue());
+    manager.setQuiescent(false);
   }
 
   /**
@@ -186,6 +190,8 @@ public class TestStreamManager {
     thread.interrupt();
     thread.join();                // thread will now terminate; wait for it
     assertFalse(thread.getReturnValue());
+    manager.unlockState();
+    manager.setQuiescent(false);
   }
 
   /**
@@ -217,6 +223,7 @@ public class TestStreamManager {
     thread.interrupt();
     thread.join();                // thread will now terminate; wait for it
     assertFalse(thread.getReturnValue());
+    manager.setQuiescent(false);
   }
 
   private static class GoQuiescentThread extends Thread {

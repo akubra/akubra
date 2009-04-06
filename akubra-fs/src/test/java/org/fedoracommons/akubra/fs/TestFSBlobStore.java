@@ -31,15 +31,15 @@ import javax.transaction.Synchronization;
 import javax.transaction.Transaction;
 import javax.transaction.xa.XAResource;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import org.fedoracommons.akubra.BlobStore;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 /**
  * Unit tests for {@link FSBlobStore}.
@@ -69,7 +69,7 @@ public class TestFSBlobStore {
    */
   @Test
   public void testGetId() {
-    assertEquals(id, store.getId());
+    assertEquals(store.getId(), id);
   }
 
   /**
@@ -87,7 +87,7 @@ public class TestFSBlobStore {
   /**
    * Request to open a connection with a transaction is unsupported.
    */
-  @Test (expected=UnsupportedOperationException.class)
+  @Test (expectedExceptions={ UnsupportedOperationException.class })
   public void testOpenConnectionWithTransaction() {
     store.openConnection(new MockTransaction());
   }
@@ -109,13 +109,13 @@ public class TestFSBlobStore {
    */
   @Test
   public void testGetBackingStores() {
-    assertEquals(0, store.getBackingStores().size());
+    assertEquals(store.getBackingStores().size(), 0);
   }
 
   /**
    * Not supported; should fail.
    */
-  @Test (expected=UnsupportedOperationException.class)
+  @Test (expectedExceptions={ UnsupportedOperationException.class })
   public void testSetBackingStores() {
     store.setBackingStores(new ArrayList<BlobStore>());
   }
@@ -125,8 +125,8 @@ public class TestFSBlobStore {
    */
   @Test
   public void testGetDeclaredCapabilities() {
-    assertEquals(1, store.getDeclaredCapabilities().size());
-    assertEquals(BlobStore.GENERATE_ID_CAPABILITY, store.getDeclaredCapabilities().iterator().next());
+    assertEquals(store.getDeclaredCapabilities().size(), 1);
+    assertEquals(store.getDeclaredCapabilities().iterator().next(), BlobStore.GENERATE_ID_CAPABILITY);
   }
 
   /**
@@ -134,8 +134,8 @@ public class TestFSBlobStore {
    */
   @Test
   public void testGetCapabilities() {
-    assertEquals(1, store.getCapabilities().size());
-    assertEquals(BlobStore.GENERATE_ID_CAPABILITY, store.getCapabilities().iterator().next());
+    assertEquals(store.getCapabilities().size(), 1);
+    assertEquals(store.getCapabilities().iterator().next(), BlobStore.GENERATE_ID_CAPABILITY);
   }
 
   private static class MockTransaction implements Transaction {

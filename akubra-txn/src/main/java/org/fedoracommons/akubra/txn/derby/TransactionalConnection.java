@@ -99,17 +99,17 @@ public class TransactionalConnection extends SQLTransactionalConnection {
       sql = "INSERT INTO " + TransactionalStore.NAME_TABLE + " VALUES (?, ?, ?, ?, ?)";
       nam_ins = con.prepareStatement(sql);
 
-      sql = "UPDATE " + TransactionalStore.NAME_TABLE + " SET storeId = ?, deleted = ? " +
-            " WHERE appId = ? AND version = ?";
-      nam_upd = con.prepareStatement(sql);
+      sql = "SELECT storeId, deleted FROM " + TransactionalStore.NAME_TABLE +
+            " -- DERBY-PROPERTIES index=NAME_MAP_AIIDX \n WHERE appId = ? AND version = ?";
+      nam_upd = con.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 
       // update delete-list on blob delete
       sql = "INSERT INTO " + TransactionalStore.DEL_TABLE + " VALUES (?, ?, ?)";
       del_ins = con.prepareStatement(sql);
 
-      sql = "UPDATE " + TransactionalStore.DEL_TABLE + " SET storeId = ? " +
-            " WHERE appId = ? AND version = ?";
-      del_upd = con.prepareStatement(sql);
+      sql = "SELECT storeId FROM " + TransactionalStore.DEL_TABLE +
+            " -- DERBY-PROPERTIES index=DELETED_LIST_VIDX \n WHERE appId = ? AND version = ?";
+      del_upd = con.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 
       // detect update conflicts
       sql = "SELECT version, committed, deleted FROM " + TransactionalStore.NAME_TABLE +
@@ -118,11 +118,13 @@ public class TransactionalConnection extends SQLTransactionalConnection {
       nam_cfl.setMaxRows(1);
 
       // update name-table and delete-list on commit
-      sql = "UPDATE " + TransactionalStore.NAME_TABLE + " SET version = ?, committed = 1 " +
-            " WHERE version = ?";
-      nam_cmt = con.prepareStatement(sql);
-      sql = "UPDATE " + TransactionalStore.DEL_TABLE + " SET version = ? WHERE version = ?";
-      del_cmt = con.prepareStatement(sql);
+      sql = "SELECT version, committed FROM " + TransactionalStore.NAME_TABLE +
+            " -- DERBY-PROPERTIES index=NAME_MAP_VIDX \n WHERE version = ?";
+      nam_cmt = con.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+
+      sql = "SELECT version FROM " + TransactionalStore.DEL_TABLE +
+            " -- DERBY-PROPERTIES index=DELETED_LIST_VIDX \n WHERE version = ?";
+      del_cmt = con.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 
       // list blob-ids
       sql = "SELECT appId, version, deleted FROM " + TransactionalStore.NAME_TABLE +
@@ -268,6 +270,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
     try {
       boolean useUpdate = false;
 
+      // check for conflicts
       nam_cfl.setString(1, ourId.toString());
       ResultSet rs = nam_cfl.executeQuery();
       try {
@@ -286,17 +289,25 @@ public class TransactionalConnection extends SQLTransactionalConnection {
         rs.close();
       }
 
+      // hack to serialize writers if desired (because of Derby locking issues)
+      if (numMods == 0 && ((TransactionalStore) owner).singleWriter()) {
+        try {
+          ((TransactionalStore) owner).acquireWriteLock(version);
+        } catch (InterruptedException ie) {
+          throw (IOException) new IOException("Interrupted waiting for write lock").initCause(ie);
+        }
+      }
+
       numMods++;
 
+      // add-to/update the name-map and deleted-list
       if (useUpdate) {
         if (logger.isTraceEnabled())
           logger.trace("Updating existing name-entry");
 
-        nam_upd.setString(1, storeId.toString());
-        nam_upd.setBoolean(2, delete);
-        nam_upd.setString(3, ourId.toString());
-        nam_upd.setLong(4, version);
-        nam_upd.executeUpdate();
+        nam_upd.setString(1, ourId.toString());
+        nam_upd.setLong(2, version);
+        doUpdate(nam_upd, storeId.toString(), delete);
       } else {
         if (logger.isTraceEnabled())
           logger.trace("Inserting new name-entry");
@@ -327,10 +338,9 @@ public class TransactionalConnection extends SQLTransactionalConnection {
         newBlobs.remove(storeId);
         bStoreCon.getBlob(storeId, null).delete();
       } else {
-        del_upd.setString(1, storeId.toString());
-        del_upd.setString(2, ourId.toString());
-        del_upd.setLong(3, version);
-        del_upd.executeUpdate();
+        del_upd.setString(1, ourId.toString());
+        del_upd.setLong(2, version);
+        doUpdate(del_upd, storeId.toString());
       }
     } catch (SQLException sqle) {
       throw (IOException) new IOException("Error updating delete-blobs table").initCause(sqle);
@@ -351,17 +361,15 @@ public class TransactionalConnection extends SQLTransactionalConnection {
           logger.trace("updating name-table for commit (version=" + version + ", write-version=" +
                        writeVers + ")");
 
-        nam_cmt.setLong(1, writeVers);
-        nam_cmt.setLong(2, version);
-        nam_cmt.executeUpdate();
+        nam_cmt.setLong(1, version);
+        doUpdate(nam_cmt, writeVers, true);
 
         if (logger.isTraceEnabled())
           logger.trace("updating delete-table for commit (version=" + version + ", write-version=" +
                        writeVers + ")");
 
-        del_cmt.setLong(1, writeVers);
-        del_cmt.setLong(2, version);
-        del_cmt.executeUpdate();
+        del_cmt.setLong(1, version);
+        doUpdate(del_cmt, writeVers);
       } catch (InterruptedException ie) {
         throw new RuntimeException("Error waiting for write lock", ie);
       } catch (SQLException sqle) {
@@ -402,6 +410,28 @@ public class TransactionalConnection extends SQLTransactionalConnection {
       } catch (SQLException sqle) {
         logger.warn("Error closing prepared statement", sqle);
       }
+    }
+  }
+
+  private static void doUpdate(PreparedStatement query, Object... newVals) throws SQLException {
+    ResultSet rs = query.executeQuery();
+    try {
+      while (rs.next()) {
+        int idx = 1;
+        for (Object v : newVals) {
+          if (v instanceof String)
+            rs.updateString(idx++, (String) v);
+          else if (v instanceof Boolean)
+            rs.updateBoolean(idx++, (Boolean) v);
+          else if (v instanceof Long)
+            rs.updateLong(idx++, (Long) v);
+          else
+            throw new Error("Unknown value type " + v.getClass() + " (" + v + ")");
+        }
+        rs.updateRow();
+      }
+    } finally {
+      rs.close();
     }
   }
 }

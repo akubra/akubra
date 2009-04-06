@@ -41,6 +41,7 @@ import javax.transaction.Transaction;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.derby.jdbc.EmbeddedXADataSource;
+import org.apache.derby.tools.sysinfo;
 
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
@@ -83,6 +84,29 @@ import org.fedoracommons.akubra.txn.AbstractTransactionalStore;
  * at the end of every transaction and upon startup (on startup the list is completely cleared as
  * there are no active transactions).
  *
+ * <p><em>A note on locking</em>: Derby, even in read-uncommitted mode, likes to acquire exclusive
+ * locks on rows when doing inserts, deletes, and updates. This would be ok, except that it
+ * sometimes attempts to lock rows it won't change. This can lead to deadlocks. The way around this
+ * that I've found is to ensure Derby always uses an index when searching for the rows to update or
+ * delete. This is accomplished by giving the optimizer explicit instructions via the
+ * <var>DERBY-PROPERTIES</var> directive in the queries. Since this directive is only supported in
+ * select statements, all updates and deletes are done via updatable queries (result-sets). This
+ * actually performs about the same as a direct update or delete statement. See also the thread <a
+ * href="http://mail-archives.apache.org/mod_mbox/db-derby-user/200903.mbox/%3c20090330092451.GD26813@innovation.ch%3e">disabling locking</a> (<a
+ * href="http://mail-archives.apache.org/mod_mbox/db-derby-user/200904.mbox/%3c20090401001750.GB5281@innovation.ch%3e">continued</a>),
+ * or at <a href="http://news.gmane.org/find-root.php?message_id=%3c20090330092451.GD26813%40innovation.ch%3e">gmane</a>.
+ * Unfortunately, however, this does not seem to be sufficient: Derby may still lock other rows, as
+ * documented in <a
+ * href="http://db.apache.org/derby/docs/10.4/devguide/rdevconcepts8424.html">Scope of locks</a>
+ * in Derbys's developer guide. When this happens, the wait for the lock will eventually time out
+ * and an exception will be thrown. However, I have not enountered this issue so far. But a related
+ * issue is present in 10.4 and earlier, namely <a
+ * href="https://issues.apache.org/jira/browse/DERBY-2991">DERBY-2991</a>; testing with 10.5
+ * indicates this issue has been resolved. For these reasons a flag is provided to restrict the
+ * number of concurrent write-transactions to one, and the
+ * {@link TransactionalStore(URI, String) two-argument-constructor} will set this single-writer
+ * flag to true for derby 10.4 and earlier.
+ *
  * @author Ronald Tschalär
  */
 public class TransactionalStore extends AbstractTransactionalStore {
@@ -95,6 +119,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
 
   private final EmbeddedXADataSource dataSource;
   private final Set<Long>            activeTxns = new HashSet<Long>();
+  private final boolean              singleWriter;
   private       long                 nextVersion;
   private       long                 writeVersion = -1;
   private       long                 writeLockHolder = -1;
@@ -103,13 +128,36 @@ public class TransactionalStore extends AbstractTransactionalStore {
 
   /**
    * Create a new transactional store. Exactly one backing store must be set before this can
-   * be used.
+   * be used. The single-writer flag will be determined automatically depending on the version
+   * of derby being used.
    *
    * @param id    the id of this store
    * @param dbDir the directory to use to store the transaction information
+   * @throws IOException if there was an error initializing the db
    */
   public TransactionalStore(URI id, String dbDir) throws IOException {
+    this(id, dbDir, needSingleWriter());
+  }
+
+  private static boolean needSingleWriter() {
+    return sysinfo.getMajorVersion() < 10 ||
+           sysinfo.getMajorVersion() == 10 && sysinfo.getMinorVersion() < 5;
+  }
+
+  /**
+   * Create a new transactional store. Exactly one backing store must be set before this can
+   * be used.
+   *
+   * @param id           the id of this store
+   * @param dbDir        the directory to use to store the transaction information
+   * @param singleWriter if true, serialize all writers to avoid all locking issues with
+   *                     Derby; if false, some transactions may fail sometimes due to
+   *                     locks timing out
+   * @throws IOException if there was an error initializing the db
+   */
+  public TransactionalStore(URI id, String dbDir, boolean singleWriter) throws IOException {
     super(id, TXN_CAPABILITY, ACCEPT_APP_ID_CAPABILITY);
+    this.singleWriter = singleWriter;
 
     //TODO: redirect logging to logger
     //System.setProperty("derby.stream.error.logSeverityLevel", "50000");
@@ -155,12 +203,23 @@ public class TransactionalStore extends AbstractTransactionalStore {
         Statement stmt = con.createStatement();
         try {
           stmt.execute("CREATE TABLE " + NAME_TABLE +
-                       " (appId VARCHAR(1000) NOT NULL, storeId VARCHAR(1000) NOT NULL, version BIGINT NOT NULL, deleted SMALLINT, committed SMALLINT)");
+                       " (appId VARCHAR(1000) NOT NULL, storeId VARCHAR(1000) NOT NULL, " +
+                       "  version BIGINT NOT NULL, deleted SMALLINT, committed SMALLINT)");
           stmt.execute("CREATE INDEX " + NAME_TABLE + "_AIIDX ON " + NAME_TABLE + "(appId)");
           stmt.execute("CREATE INDEX " + NAME_TABLE + "_VIDX ON " + NAME_TABLE + "(version)");
 
-          stmt.execute("CREATE TABLE " + DEL_TABLE + " (appId VARCHAR(1000) NOT NULL, storeId VARCHAR(1000), version BIGINT NOT NULL)");
+          stmt.execute("CREATE TABLE " + DEL_TABLE + " (appId VARCHAR(1000) NOT NULL, " +
+                       " storeId VARCHAR(1000), version BIGINT NOT NULL)");
           stmt.execute("CREATE INDEX " + DEL_TABLE + "_VIDX ON " + DEL_TABLE + "(version)");
+
+          // ensure Derby never uses table-locks, only row-locks
+          stmt.execute(
+            "CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY('derby.locks.escalationThreshold', '" +
+            Integer.MAX_VALUE + "')");
+
+          // we should really never be waiting for a lock let alone deadlock, but just in case
+          stmt.execute(
+            "CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY('derby.locks.deadlockTimeout', '30')");
         } finally {
           stmt.close();
         }
@@ -259,6 +318,10 @@ public class TransactionalStore extends AbstractTransactionalStore {
         }
       }
     }
+  }
+
+  boolean singleWriter() {
+    return singleWriter;
   }
 
   /**
@@ -399,6 +462,9 @@ public class TransactionalStore extends AbstractTransactionalStore {
     }
 
     try {
+      if (singleWriter)
+        acquireWriteLock(lastCompletedVersion);
+
       runInCon(new Action<Void>() {
         public Void run(Connection con) throws SQLException {
           if (logger.isDebugEnabled())
@@ -410,31 +476,31 @@ public class TransactionalStore extends AbstractTransactionalStore {
           findOld.setLong(1, minVers);
           ResultSet rs = findOld.executeQuery();
           int cntM = 0;
+
           try {
             if (!rs.next())
               return null;
 
             PreparedStatement purge = con.prepareStatement(
-                "DELETE FROM " + NAME_TABLE +
-                " WHERE appId = ? AND (version < ? OR version = ? AND deleted <> 0)");
-            int cnt = 0;
+                "SELECT version FROM " + NAME_TABLE + " -- DERBY-PROPERTIES index=NAME_MAP_AIIDX \n" +
+                " WHERE appId = ? AND (version < ? OR version = ? AND deleted <> 0)",
+                ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 
             do {
               purge.setString(1, rs.getString(1));
               purge.setLong(2, rs.getLong(2));
               purge.setLong(3, rs.getLong(2));
-              purge.addBatch();
-              if (cnt++ > 100) {
-                for (int c : purge.executeBatch())
-                  cntM += c;
-                cnt = 0;
+
+              ResultSet rs2 = purge.executeQuery();
+              try {
+                while (rs2.next()) {
+                  cntM++;
+                  rs2.deleteRow();
+                }
+              } finally {
+                rs2.close();
               }
             } while (rs.next());
-
-            if (cnt > 0) {
-              for (int c : purge.executeBatch())
-                cntM += c;
-            }
 
             purge.close();
           } finally {
@@ -481,12 +547,28 @@ public class TransactionalStore extends AbstractTransactionalStore {
           }
 
           // purge processed entries fromm the delete table
+          String sql = "SELECT version FROM " + DEL_TABLE +
+                       " -- DERBY-PROPERTIES index=DELETED_LIST_VIDX \n WHERE version < ?";
           PreparedStatement purge =
-              con.prepareStatement("DELETE FROM " + DEL_TABLE + " WHERE version < ?");
+              con.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
           purge.setLong(1, minVers);
-          int cntD = purge.executeUpdate();
-          purge.close();
+          rs = purge.executeQuery();
+          int cntD = 0;
 
+          try {
+            while (rs.next()) {
+              cntD++;
+              rs.deleteRow();
+            }
+          } finally {
+            try {
+              rs.close();
+            } finally {
+              purge.close();
+            }
+          }
+
+          // debug log the stats
           try {
             int cntL = 0;
             if (logger.isTraceEnabled()) {
@@ -509,9 +591,14 @@ public class TransactionalStore extends AbstractTransactionalStore {
     } catch (Exception e) {
       logger.warn("Error purging old versions", e);
     } finally {
-      synchronized (this) {
-        purgeInProgress = false;
-        notifyAll();
+      try {
+        if (singleWriter)
+          releaseWriteLock(lastCompletedVersion);
+      } finally {
+        synchronized (this) {
+          purgeInProgress = false;
+          notifyAll();
+        }
       }
     }
   }

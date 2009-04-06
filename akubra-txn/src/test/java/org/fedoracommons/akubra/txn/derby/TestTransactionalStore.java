@@ -69,6 +69,7 @@ public class TestTransactionalStore {
   private TransactionalStore store;
   private BlobStore          blobStore;
   private TransactionManager tm;
+  private boolean            singleWriter;
 
   @BeforeSuite(alwaysRun=true)
   public void init() throws Exception {
@@ -88,6 +89,7 @@ public class TestTransactionalStore {
 
     System.setProperty("derby.stream.error.file", new File(base, "derby.log").toString());
     store = new TransactionalStore(storeId, dbDir.getAbsolutePath());
+    singleWriter = store.singleWriter();
 
     // set up transaction manager
     tm = BtmUtils.getTM();
@@ -552,6 +554,9 @@ public class TestTransactionalStore {
    */
   @Test(groups={ "blobs" }, dependsOnGroups={ "init" })
   public void testConflicts() throws Exception {
+    if (singleWriter)
+      return;
+
     final URI id1 = URI.create("urn:blobConflict1");
     final URI id2 = URI.create("urn:blobConflict2");
     final URI id3 = URI.create("urn:blobConflict3");
@@ -766,6 +771,9 @@ public class TestTransactionalStore {
    */
   @Test(groups={ "blobs" }, dependsOnGroups={ "init" })
   public void testBasicTransactionIsolation() throws Exception {
+    if (singleWriter)
+      return;
+
     final URI id1 = URI.create("urn:blobBasicTxnIsol1");
     final URI id2 = URI.create("urn:blobBasicTxnIsol2");
     final URI id3 = URI.create("urn:blobBasicTxnIsol3");
@@ -954,6 +962,9 @@ public class TestTransactionalStore {
    */
   @Test(groups={ "blobs" }, dependsOnGroups={ "init" })
   public void testTransactionIsolation2() throws Exception {
+    if (singleWriter)
+      return;
+
     final URI id1 = URI.create("urn:blobTxnIsol2_1");
     final URI id2 = URI.create("urn:blobTxnIsol2_2");
     final URI id3 = URI.create("urn:blobTxnIsol2_3");

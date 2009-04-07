@@ -55,7 +55,7 @@
 
   <ciManagement>
     <system>bamboo</system>
-    <url>https://fedora-commons.org/bamboo/</url>
+    <url>https://fedora-commons.org/bamboo/browse/AKUBRA</url>
   </ciManagement>
 
   <mailingLists>

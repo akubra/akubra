@@ -73,7 +73,7 @@ public abstract class AbstractBlobStore implements BlobStore {
    * Subclasses that support backing stores should override this.
    */
   //@Override
-  public List<BlobStore> getBackingStores() {
+  public List<? extends BlobStore> getBackingStores() {
     return new ArrayList<BlobStore>(0);
   }
 
@@ -82,7 +82,7 @@ public abstract class AbstractBlobStore implements BlobStore {
    * Subclasses that support backing stores should override this.
    */
   //@Override
-  public void setBackingStores(List<BlobStore> stores) {
+  public void setBackingStores(List<? extends BlobStore> stores) {
     throw new UnsupportedOperationException();
   }
 

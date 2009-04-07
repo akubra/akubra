@@ -65,7 +65,7 @@ public interface BlobStore {
    *
    * @return list of underlying blob stores
    */
-  List<BlobStore> getBackingStores();
+  List<? extends BlobStore> getBackingStores();
 
   /**
    * Set the list of back stores.
@@ -76,7 +76,7 @@ public interface BlobStore {
    * @throws IllegalStateException TODO: Document conditions under which this
    *     is thrown.  Also: is it thrown by other methods?
    */
-  void setBackingStores(List<BlobStore> stores)
+  void setBackingStores(List<? extends BlobStore> stores)
     throws UnsupportedOperationException, IllegalStateException;
 
   /**

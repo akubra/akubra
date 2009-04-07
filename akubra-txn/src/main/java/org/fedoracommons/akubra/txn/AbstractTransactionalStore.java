@@ -62,7 +62,7 @@ public abstract class AbstractTransactionalStore extends AbstractBlobStore {
   }
 
   @Override
-  public List<BlobStore> getBackingStores() {
+  public List<? extends BlobStore> getBackingStores() {
     return (wrappedStore != null) ? Collections.singletonList(wrappedStore) :
                                     Collections.<BlobStore>emptyList();
   }
@@ -76,7 +76,7 @@ public abstract class AbstractTransactionalStore extends AbstractBlobStore {
    * @throws IllegalArgumentException if <var>stores</var> doesn't contain exactly one store
    */
   @Override
-  public void setBackingStores(List<BlobStore> stores)
+  public void setBackingStores(List<? extends BlobStore> stores)
       throws IllegalStateException, IllegalArgumentException {
     if (started)
       throw new IllegalStateException("Already started");

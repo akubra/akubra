@@ -30,6 +30,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import java.rmi.NotBoundException;
+import java.rmi.registry.Registry;
 
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.mem.MemBlobStore;
@@ -71,8 +72,10 @@ public class ServiceTest {
    */
   @Test
   public void testDefault() throws NotBoundException, IOException {
-    AkubraRMIServer.export(mem);
+    if (!isFree(Registry.REGISTRY_PORT))
+      return;  // skip this test
 
+    AkubraRMIServer.export(mem);
     try {
       BlobStore store = AkubraRMIClient.create();
       assertEquals(mem.getCapabilities(), store.getCapabilities());
@@ -156,5 +159,14 @@ public class ServiceTest {
     s.close();
 
     return port;
+  }
+
+  private boolean isFree(int port) {
+    try {
+      new ServerSocket(port).close();
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
   }
 }

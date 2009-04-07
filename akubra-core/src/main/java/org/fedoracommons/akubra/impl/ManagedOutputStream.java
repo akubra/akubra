@@ -61,6 +61,14 @@ class ManagedOutputStream extends FilterOutputStream {
   }
 
   /**
+   * Implement this far more efficiently than the ridiculous implementation in the superclass.
+   */
+  @Override
+  public void write(byte[] b, int off, int len) throws IOException {
+    out.write(b, off, len);
+  }
+
+  /**
    * Closes the stream, then notifies the CloseListener.
    */
   @Override

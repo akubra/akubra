@@ -134,6 +134,11 @@
     <module>akubra-mux</module>
   </modules>
 
+  <properties>
+    <!-- aggregate documentation: javadocs, jxr, pmd, etc -->
+    <aggregate>true</aggregate>
+  </properties>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -206,17 +211,17 @@
           <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
-      
+
       <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.5</version>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.2</version>
         <configuration>
-          <encoding>UTF-8</encoding>
-          <links>
-            <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
-            <link>http://jakarta.apache.org/commons/logging/apidocs</link>
-            <link>http://java.sun.com/j2ee/1.4/docs/api</link>
-          </links>
+          <instrumentation>
+            <ignores>
+              <ignore>org.apache.commons.logging.*</ignore>
+            </ignores>
+          </instrumentation>
         </configuration>
       </plugin>
     </plugins>
@@ -224,15 +229,14 @@
     <defaultGoal>install</defaultGoal>
   </build>
 
-  <!-- Generate one javadoc for everything -->
   <reporting>
     <plugins>
+      <!-- Generate one javadoc for everything -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.5</version>
         <configuration>
-          <aggregate>true</aggregate>
           <encoding>UTF-8</encoding>
           <links>
             <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
@@ -241,6 +245,56 @@
             <link>http://commons.apache.org/io/api-1.4</link>
           </links>
         </configuration>
+      </plugin>
+
+      <!-- Java Cross-References -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.1</version>
+        <configuration>
+          <inputEncoding>UTF-8</inputEncoding>
+          <outputEncoding>UTF-8</outputEncoding>
+        </configuration>
+      </plugin>
+
+      <!-- code style checks -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <sourceEncoding>UTF-8</sourceEncoding>
+          <targetJdk>1.5</targetJdk>
+          <failOnViolation>false</failOnViolation>
+        </configuration>
+      </plugin>
+
+      <!-- findbugs -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>2.0</version>
+      </plugin>
+
+      <!-- code coverage analyzer -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.2</version>
+      </plugin>
+
+      <!-- collect test reports -->
+      <plugin>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.4.3</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>report-only</report>
+            </reports>
+          </reportSet>
+        </reportSets>
       </plugin>
     </plugins>
   </reporting>

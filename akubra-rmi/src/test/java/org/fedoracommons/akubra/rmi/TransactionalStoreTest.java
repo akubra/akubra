@@ -58,6 +58,7 @@ public class TransactionalStoreTest {
   private TransactionalStore serverStore;
   private BlobStore store;
   private TransactionManager tm;
+  private int                reg;
 
   @BeforeSuite
   public void init() throws Exception {
@@ -82,13 +83,15 @@ public class TransactionalStoreTest {
     // set up transaction manager
     tm = BtmUtils.getTM();
 
-    AkubraRMIServer.export(serverStore, "txn-store-test");
-    store = AkubraRMIClient.create(AkubraRMIClient.locateServer("txn-store-test"), id);
+    reg = ServiceTest.freePort();
+    AkubraRMIServer.export(serverStore, reg);
+    store = AkubraRMIClient.create(URI.create("rmi://localhost:" + reg + "/" +
+                                              AkubraRMIServer.DEFAULT_SERVER_NAME), id);
   }
 
   @AfterSuite
   public void destroy() throws RemoteException, NotBoundException {
-    AkubraRMIServer.unExport("txn-store-test");
+    AkubraRMIServer.unExport(reg);
   }
 
   /**

@@ -153,7 +153,7 @@ public class ServiceTest {
     }
   }
 
-  private int freePort() throws IOException {
+  public static int freePort() throws IOException {
     ServerSocket s    = new ServerSocket(0);
     int          port = s.getLocalPort();
     s.close();

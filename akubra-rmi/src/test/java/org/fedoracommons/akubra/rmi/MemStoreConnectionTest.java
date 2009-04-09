@@ -54,6 +54,7 @@ import org.testng.annotations.Test;
 public class MemStoreConnectionTest {
   private BlobStore           mem;
   private BlobStoreConnection con;
+  private int                 reg;
 
   /**
    * Starts up the server and create a client connection.
@@ -63,9 +64,10 @@ public class MemStoreConnectionTest {
   @BeforeSuite
   public void setUp() throws Exception {
     mem = new MemBlobStore();
-    AkubraRMIServer.export(mem, "mem-store-connection-test");
+    reg = ServiceTest.freePort();
+    AkubraRMIServer.export(mem, reg);
 
-    BlobStore store = AkubraRMIClient.create("mem-store-connection-test");
+    BlobStore store = AkubraRMIClient.create(reg);
     con = store.openConnection(null);
     assertEquals(store, con.getBlobStore());
   }
@@ -78,7 +80,7 @@ public class MemStoreConnectionTest {
   @AfterSuite
   public void tearDown() throws Exception {
     con.close();
-    AkubraRMIServer.unExport("mem-store-connection-test");
+    AkubraRMIServer.unExport(reg);
   }
 
   /**

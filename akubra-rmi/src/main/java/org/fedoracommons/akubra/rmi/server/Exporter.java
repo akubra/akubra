@@ -21,6 +21,9 @@
  */
 package org.fedoracommons.akubra.rmi.server;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import java.rmi.NoSuchObjectException;
@@ -56,7 +59,7 @@ public class Exporter implements Serializable {
   private final int                                port;
   private final RMIClientSocketFactory             csf;
   private final RMIServerSocketFactory             ssf;
-  private transient final ScheduledExecutorService executor;
+  private transient ScheduledExecutorService       executor;
 
   /**
    * Creates a new Exporter object.
@@ -80,8 +83,11 @@ public class Exporter implements Serializable {
     this.port       = port;
     this.csf        = csf;
     this.ssf        = ssf;
-    this.executor =
-      Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
+    this.executor   = createExecutor();
+  }
+
+  private static ScheduledExecutorService createExecutor() {
+    return Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
           public Thread newThread(Runnable r) {
             Thread t = new Thread(r, "akubra-rmi-unexporter");
             t.setPriority(Thread.MIN_PRIORITY);
@@ -161,5 +167,14 @@ public class Exporter implements Serializable {
       };
 
     executor.schedule(job, RETRY_DELAY * trial, TimeUnit.MILLISECONDS);
+  }
+
+  private void writeObject(ObjectOutputStream out) throws IOException {
+    out.defaultWriteObject();
+  }
+
+  private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    in.defaultReadObject();
+    executor = createExecutor();
   }
 }

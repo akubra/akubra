@@ -102,6 +102,7 @@
       </snapshots>
     </repository>
   </repositories>
+
   <pluginRepositories>
     <pluginRepository>
       <id>central</id>
@@ -116,6 +117,23 @@
       </releases>
     </pluginRepository>
   </pluginRepositories>
+
+  <distributionManagement>
+    <repository>
+      <id>fc-releases</id>
+      <name>Fedora Commons Releases</name>
+      <url>https://fedora-commons.org/m2/content/repositories/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>fc-snapshots</id>
+      <name>Fedora Commons Snapshots</name>
+      <url>https://fedora-commons.org/m2/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <site>
+      <id>local-site</id>
+      <url>file://${project.build.directory}/local-site</url>
+    </site>
+  </distributionManagement>
 
   <scm>
     <developerConnection>scm:svn:https://fedora-commons.org/svn/root/akubra/trunk</developerConnection>

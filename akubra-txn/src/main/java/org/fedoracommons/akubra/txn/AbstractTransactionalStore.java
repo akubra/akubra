@@ -57,7 +57,7 @@ public abstract class AbstractTransactionalStore extends AbstractBlobStore {
   }
 
   @Override
-  public List<? extends BlobStore> getBackingStores() {
+  public synchronized List<? extends BlobStore> getBackingStores() {
     return (wrappedStore != null) ? Collections.singletonList(wrappedStore) :
                                     Collections.<BlobStore>emptyList();
   }
@@ -71,7 +71,7 @@ public abstract class AbstractTransactionalStore extends AbstractBlobStore {
    * @throws IllegalArgumentException if <var>stores</var> doesn't contain exactly one store
    */
   @Override
-  public void setBackingStores(List<? extends BlobStore> stores)
+  public synchronized void setBackingStores(List<? extends BlobStore> stores)
       throws IllegalStateException, IllegalArgumentException {
     if (started)
       throw new IllegalStateException("Already started");
@@ -83,8 +83,10 @@ public abstract class AbstractTransactionalStore extends AbstractBlobStore {
 
   //@Override
   public boolean setQuiescent(boolean quiescent) throws IOException {
-    if (wrappedStore == null)
-      throw new IllegalStateException("no backing store has been set yet");
+    synchronized (this) {
+      if (wrappedStore == null)
+        throw new IllegalStateException("no backing store has been set yet");
+    }
 
     return wrappedStore.setQuiescent(quiescent);
   }

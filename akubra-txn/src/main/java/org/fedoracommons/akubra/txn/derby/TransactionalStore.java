@@ -246,7 +246,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
   }
 
   @Override
-  public void setBackingStores(List<? extends BlobStore> stores)
+  public synchronized void setBackingStores(List<? extends BlobStore> stores)
       throws IllegalStateException, IllegalArgumentException {
     super.setBackingStores(stores);
     if (!wrappedStore.getCapabilities().contains(GENERATE_ID_CAPABILITY))

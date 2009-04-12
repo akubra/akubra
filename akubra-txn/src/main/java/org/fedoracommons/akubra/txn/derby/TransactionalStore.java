@@ -233,8 +233,8 @@ public class TransactionalStore extends AbstractTransactionalStore {
     return runInCon(new Action<Long>() {
       public Long run(Connection con) throws SQLException {
         Statement stmt = con.createStatement();
-        stmt.setMaxRows(1);
         try {
+          stmt.setMaxRows(1);
           ResultSet rs =
               stmt.executeQuery("SELECT version FROM " + NAME_TABLE + " ORDER BY version DESC");
           return rs.next() ? rs.getLong(1) : -1L;

@@ -130,8 +130,8 @@
       <url>https://fedora-commons.org/m2/content/repositories/snapshots</url>
     </snapshotRepository>
     <site>
-      <id>local-site</id>
-      <url>file://${project.build.directory}/local-site</url>
+      <id>site</id>
+      <url>${site.deploy.url}</url>
     </site>
   </distributionManagement>
 
@@ -155,6 +155,8 @@
   <properties>
     <!-- aggregate documentation: javadocs, jxr, pmd, etc -->
     <aggregate>true</aggregate>
+    <site.deploy.path>/tmp/akubra-site</site.deploy.path>
+    <site.deploy.url>file://${site.deploy.path}</site.deploy.url>
   </properties>
 
   <dependencyManagement>

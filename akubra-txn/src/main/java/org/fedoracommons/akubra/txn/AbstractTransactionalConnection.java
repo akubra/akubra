@@ -184,7 +184,7 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
     return new Object[] { blobId, res };
   }
 
-  private void renameBlob(URI oldBlobId, URI newBlobId, URI storeId, Map<String, String> hints)
+  private void renameBlob(URI oldBlobId, URI newBlobId, URI storeId)
       throws DuplicateBlobException, IOException, MissingBlobException {
     if (logger.isDebugEnabled())
       logger.debug("renaming blob '" + oldBlobId + "' to '" + newBlobId + "' (" + this + ")");
@@ -196,7 +196,7 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
     addNameEntry(newBlobId, storeId);
   }
 
-  private void removeBlob(URI blobId, URI storeId, Map<String, String> hints) throws IOException {
+  private void removeBlob(URI blobId, URI storeId) throws IOException {
     if (logger.isDebugEnabled())
       logger.debug("removing blob '" + blobId + "' (" + this + ")");
 
@@ -374,7 +374,7 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
     //@Override
     public void delete() throws IOException {
       check(false, false);
-      removeBlob(getId(), storeId, hints);
+      removeBlob(getId(), storeId);
       storeBlob = null;
       storeId   = null;
     }
@@ -383,7 +383,7 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
     public void moveTo(Blob blob) throws IOException {
       check(true, false);
 
-      renameBlob(getId(), blob.getId(), storeId, hints);
+      renameBlob(getId(), blob.getId(), storeId);
 
       ((TxnBlob) blob).storeBlob = storeBlob;
       ((TxnBlob) blob).storeId   = storeId;
@@ -408,7 +408,7 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
       check(true, false);
 
       if (!isNew) {
-        removeBlob(getId(), storeId, hints);
+        removeBlob(getId(), storeId);
         storeBlob = (Blob) createBlob(getId(), hints)[1];
         storeId   = storeBlob.getId();
       } else {

@@ -235,7 +235,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
         Statement stmt = con.createStatement();
         try {
           stmt.setMaxRows(1);
-          ResultSet rs =
+          ResultSet rs =                                // NOPMD
               stmt.executeQuery("SELECT version FROM " + NAME_TABLE + " ORDER BY version DESC");
           return rs.next() ? rs.getLong(1) : -1L;
         } finally {
@@ -474,7 +474,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
           PreparedStatement findOld = con.prepareStatement(
               "SELECT appId, version FROM " + DEL_TABLE + " WHERE version < ?");
           findOld.setLong(1, minVers);
-          ResultSet rs = findOld.executeQuery();
+          ResultSet rs = findOld.executeQuery();        // NOPMD
           int cntM = 0;
 
           try {
@@ -491,7 +491,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
               purge.setLong(2, rs.getLong(2));
               purge.setLong(3, rs.getLong(2));
 
-              ResultSet rs2 = purge.executeQuery();
+              ResultSet rs2 = purge.executeQuery();     // NOPMD
               try {
                 while (rs2.next()) {
                   cntM++;

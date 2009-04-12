@@ -158,7 +158,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
         query.setLong(2, version);
       }
 
-      ResultSet rs = query.executeQuery();
+      ResultSet rs = query.executeQuery();              // NOPMD
       return new RSBlobIdIterator(rs, false) {
         private String  lastId;
         private boolean afterFirst;
@@ -217,7 +217,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
       nam_get.setLong(2, version);
       nam_get.setLong(3, version);
 
-      ResultSet rs = nam_get.executeQuery();
+      ResultSet rs = nam_get.executeQuery();            // NOPMD
       try {
         return !rs.next() ? null : rs.getBoolean(2) ? null : URI.create(rs.getString(1));
       } finally {

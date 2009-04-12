@@ -48,6 +48,11 @@
       <groupId>org.fedoracommons</groupId>
       <artifactId>akubra-core</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </dependency>
   </dependencies>
 
 </project>

@@ -270,7 +270,9 @@ public class AkubraRMIServer {
     try {
       reg.lookup("akubra-server");
     } catch (NotBoundException e) {
+      log.debug("'akubra-server' not bound", e);
     } catch (RemoteException e) {
+      log.debug("failed to communicate with registry - assuming it's not running", e);
       reg = null;
     }
 

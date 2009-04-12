@@ -30,6 +30,9 @@ import java.net.URLEncoder;
 
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Allocates unique filenames based on a modern-filesystem-safe encoding of
  * the given blobId (if provided) and a rolling 31-bit counter.
@@ -46,6 +49,8 @@ import java.util.Map;
  * @author Chris Wilper
  */
 public class DefaultFilenameAllocator implements FilenameAllocator {
+  private static final Log logger = LogFactory.getLog(DefaultFilenameAllocator.class);
+
   private int fileNumber;
 
   public DefaultFilenameAllocator() {
@@ -156,6 +161,7 @@ public class DefaultFilenameAllocator implements FilenameAllocator {
         return uri;
       }
     } catch (URISyntaxException e) {
+      logger.debug("Error parsing url '" + s + "'", e);
     }
     return null;
   }

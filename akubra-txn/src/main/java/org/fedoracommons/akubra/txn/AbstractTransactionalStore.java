@@ -27,9 +27,6 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.impl.AbstractBlobStore;
 
@@ -43,8 +40,6 @@ import org.fedoracommons.akubra.impl.AbstractBlobStore;
  * @author Ronald Tschalär
  */
 public abstract class AbstractTransactionalStore extends AbstractBlobStore {
-  private static final Log logger = LogFactory.getLog(AbstractTransactionalStore.class);
-
   /** whether this store has been started */
   protected boolean   started = false;
   /** the underlying blob-store used for the actual storage */

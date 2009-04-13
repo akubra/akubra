@@ -30,11 +30,15 @@ import java.io.File;
  */
 public abstract class FSTestUtil {
 
-  // create new tmpDir in java.io.tmpdir
+  private static File targetDir = new File(System.getProperty("basedir"), "target");
+
+  // create new test-temp dir in ${basedir}/target
   public static File createTempDir() throws Exception {
-    File tempFile = File.createTempFile("akubra-test", null);
-    File tmpDir = new File(tempFile.getPath());
-    tempFile.delete();
+    File tmpDir = null;
+    int i = 0;
+    while (tmpDir == null || tmpDir.exists()) {
+      tmpDir = new File(targetDir, "test-temp" + i++);
+    }
     tmpDir.mkdir();
     return tmpDir;
   }

@@ -193,7 +193,7 @@ class FSBlob extends AbstractBlob {
       if (seg.length() == 0)
         throw new UnsupportedIdException(blobId, "Blob id cannot contain //");
       if (seg.equals("..")) {
-        throw new UnsupportedIdException(blobId, "Blob id cannot contain ..");
+        throw new UnsupportedIdException(blobId, "Blob id cannot contain path navigation elements");
       }
     }
   }

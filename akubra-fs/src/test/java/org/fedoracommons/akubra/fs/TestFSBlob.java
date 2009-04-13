@@ -81,6 +81,10 @@ public class TestFSBlob {
   public void testValidateGoodIds() {
     assertTrue(isValidId("file:foo"));
     assertTrue(isValidId("file:foo/bar"));
+    assertTrue(isValidId("file:..."));
+    assertTrue(isValidId("file:.../foo"));
+    assertTrue(isValidId("file:foo/..."));
+    assertTrue(isValidId("file:foo/.../bar"));
   }
 
   /**

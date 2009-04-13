@@ -23,20 +23,25 @@ digraph connection {
   rankdir=LR;
   overlap=scale;
 
-  node [shape = doublecircle]; Open Unknown Closed;
+  node [shape = doublecircle]; Open Closed Error;
   node [shape = circle];
-
-  Open -> Closed [ label = "close()::*" ];
 
   Open -> Open [ label = "getBlobStore()::*" ];
 
   Open -> Open [ label = "isClosed()::*" ];
 
   Open -> Open [ label = "listBlobIds()::success" ];
-  Open -> Unknown [ style = dotted, label = "listBlobIds()::IOException" ];
+  Open -> Error [ style = dotted, label = "listBlobIds()::IOException" ];
 
   Open -> Open [ label = "getBlob()::success" ];
-  Open -> Open [ style = dotted, label = "getBlob()::UnsupportedIdException" ];
-  Open -> Open [ style = dotted, label = "getBlob()::UnsupportedOperationException" ];
-  Open -> Unknown [ style = dotted, label = "getBlob()::IOException" ];
+  Open -> Error [ style = dotted, label = "getBlob()::IOException" ];
+  Open -> Open [ style = dotted, label = "getBlob()::otherExceptions" ];
+
+  Open -> Closed [ label = "close()::*" ];
+
+  Error -> Closed [ label = "close()::*" ];
+
+  Error -> Error [ label = "others::*" ];
+
+  Closed -> Closed [ label = "*::*" ];
 }

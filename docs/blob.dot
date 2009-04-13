@@ -23,49 +23,59 @@ digraph blob {
   rankdir=LR;
   overlap=false
 
-  node [shape = doublecircle]; Open Exists Unknown;
+  node [shape = doublecircle]; NotExists Exists Error;
   node [shape = circle];
 
-  Open -> Open [ label = "getConnection()::*" ];
+  NotExists -> NotExists [ label = "getConnection()::*" ];
 
-  Open -> Open [ label = "getId()::*" ];
+  NotExists -> NotExists [ label = "getId()::*" ];
 
-  Open -> Open [ label = "delete()::*" ];
+  NotExists -> NotExists [ label = "delete()::*" ];
 
-  Open -> Exists [ label = "create()::success" ];
-  Open -> Open [ style = dotted, label = "create()::DuplicateBlobException" ];
-  Open -> Unknown [ style = dotted, label = "create()::IOException" ];
+  NotExists -> Exists [ label = "create()::success" ];
+  NotExists -> NotExists [ style = dotted, label = "create()::others" ];
+  NotExists -> Error [ style = dotted, label = "create()::IOException" ];
 
-  Open -> Open [ label = "exists()::success" ];
-  Open -> Unknown [ style = dotted, label = "exists()::IOException" ];
+  NotExists -> NotExists [ label = "exists()::false" ];
+  NotExists -> Error [ style = dotted, label = "exists()::IOException" ];
 
-  Open -> Open [ style = dotted, label = "moveTo()::MissingBlobException" ];
-  Open -> Open [ style = dotted, label = "moveTo()::NullPointerException" ];
-  Open -> Unknown [ style = dotted, label = "moveTo()::IOException" ];
+  NotExists -> NotExists [ label = "openInputStream()::others" ];
+  NotExists -> Error [ style = dotted, label = "openInputStream()::IOException" ];
+
+  NotExists -> NotExists [ label = "openOutputStream()::others" ];
+  NotExists -> Error [ style = dotted, label = "openOutputStream()::IOException" ];
+
+  NotExists -> NotExists [ label = "getSize()::others" ];
+  NotExists -> Error [ style = dotted, label = "getSize()::IOException" ];
+
+  NotExists -> NotExists [ style = dotted, label = "moveTo()::others" ];
+  NotExists -> Error [ style = dotted, label = "moveTo()::IOException" ];
 
   Exists -> Exists [ label = "getConnection()::*" ];
 
   Exists -> Exists [ label = "getId()::*" ];
 
-  Exists -> Exists [ label = "openInputStream()::success" ];
-  Exists -> Exists [ style = dotted, label = "openInputStream()::MissingBlobException" ];
-  Exists -> Unknown [ style = dotted, label = "openInputStream()::IOException" ];
+  Exists -> NotExists [ label = "delete()::success" ];
+  Exists -> Error [ style = dotted, label = "delete()::IOException" ];
 
-  Exists -> Exists [ label = "openOutputStream()::success" ];
-  Exists -> Exists [ style = dotted, label = "openOutputStream()::MissingBlobException" ];
-  Exists -> Unknown [ style = dotted, label = "openOutputStream()::IOException" ];
+  Exists -> Exists [ style = dotted, label = "create()::others" ];
+  Exists -> Error [ style = dotted, label = "create()::IOException" ];
 
-  Exists -> Unknown [ label = "delete()::success" ];
-  Exists -> Unknown [ style = dotted, label = "delete()::IOException" ];
+  Exists -> Exists [ label = "exists()::true" ];
+  Exists -> Error [ style = dotted, label = "exists()::IOException" ];
+
+  Exists -> Exists [ label = "openInputStream()::others" ];
+  Exists -> Error [ style = dotted, label = "openInputStream()::IOException" ];
+
+  Exists -> Exists [ label = "openOutputStream()::others" ];
+  Exists -> Error [ style = dotted, label = "openOutputStream()::IOException" ];
 
   Exists -> Exists [ label = "getSize()::success" ];
-  Exists -> Unknown [ style = dotted, label = "getSize()::IOException" ];
+  Exists -> Error [ style = dotted, label = "getSize()::IOException" ];
 
-  Exists -> Exists [ label = "exists()::success" ];
-  Exists -> Unknown [ style = dotted, label = "exists()::IOException" ];
+  Exists -> NotExists [ label = "moveTo()::sucess" ];
+  Exists -> Exists [ style = dotted, label = "moveTo()::others" ];
+  Exists -> Error [ style = dotted, label = "moveTo()::IOException" ];
 
-  Exists -> Unknown [ label = "moveTo()::sucess" ];
-  Exists -> Exists [ style = dotted, label = "moveTo()::DuplicateBlobException" ];
-  Exists -> Exists [ style = dotted, label = "moveTo()::UnsupportedIdException" ];
-  Exists -> Unknown [ style = dotted, label = "moveTo()::IOException" ];
+  Error -> Error [ label = "*::*" ];
 }

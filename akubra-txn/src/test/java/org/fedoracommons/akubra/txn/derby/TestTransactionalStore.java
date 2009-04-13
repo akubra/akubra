@@ -701,6 +701,7 @@ public class TestTransactionalStore {
     Thread[] threads = new Thread[2];
 
     threads[0] = doInThread(new ERunnable() {
+      @Override
       public void erun() throws Exception {
         doInTxn(new Action() {
             public void run(BlobStoreConnection con) throws Exception {
@@ -717,6 +718,7 @@ public class TestTransactionalStore {
     }, failed);
 
     threads[1] = doInThread(new ERunnable() {
+      @Override
       public void erun() throws Exception {
         doInTxn(new Action() {
             public void run(BlobStoreConnection con) throws Exception {
@@ -808,6 +810,7 @@ public class TestTransactionalStore {
           boolean[] failed = new boolean[] { false };
 
           doInThread(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               createBlob(id3, body3, true);
             }
@@ -815,6 +818,7 @@ public class TestTransactionalStore {
           assertFalse(failed[0]);
 
           doInThread(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               getBlob(id1, body1, true);
               getBlob(id2, null, true);
@@ -831,6 +835,7 @@ public class TestTransactionalStore {
 
           // delete the new blob
           doInThread(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               deleteBlob(id3, body3, true);
             }
@@ -838,6 +843,7 @@ public class TestTransactionalStore {
           assertFalse(failed[0]);
 
           doInThread(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               getBlob(id1, body1, true);
               getBlob(id2, null, true);
@@ -854,6 +860,7 @@ public class TestTransactionalStore {
 
           // delete the first blob
           doInThread(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               deleteBlob(id1, body1, true);
             }
@@ -861,6 +868,7 @@ public class TestTransactionalStore {
           assertFalse(failed[0]);
 
           doInThread(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               getBlob(id1, null, true);
               getBlob(id2, null, true);
@@ -877,6 +885,7 @@ public class TestTransactionalStore {
 
           // re-create the first blob, but with different content
           doInThread(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               createBlob(id1, body22, true);
             }
@@ -884,6 +893,7 @@ public class TestTransactionalStore {
           assertFalse(failed[0]);
 
           doInThread(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               getBlob(id1, body22, true);
               getBlob(id2, null, true);
@@ -901,6 +911,7 @@ public class TestTransactionalStore {
           // step through, making sure we don't see anything from active transactions
           final boolean[] cv = new boolean[1];
           Thread t = doInThread(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               doInTxn(new Action() {
                 public void run(BlobStoreConnection c2) throws Exception {
@@ -991,6 +1002,7 @@ public class TestTransactionalStore {
       final boolean  cvVal   = (t == 0);
 
       threads[t] = doInThread(new ERunnable() {
+        @Override
         public void erun() throws Exception {
           // create two blobs
           doInTxn(new Action() {
@@ -1132,6 +1144,7 @@ public class TestTransactionalStore {
       final int start = t * numRounds * numObjects;
 
       writers[t] = doInThread(new ERunnable() {
+        @Override
         public void erun() throws Exception {
           for (int r = 0; r < numRounds; r++) {
             final int off = start + r * numObjects;
@@ -1177,6 +1190,7 @@ public class TestTransactionalStore {
     // start/run the readers
     for (int t = 0; t < readers.length; t++) {
       readers[t] = doInThread(new ERunnable() {
+        @Override
         public void erun() throws Exception {
           final Random rng   = new Random();
           final int[]  found = new int[] { 0 };
@@ -1334,7 +1348,7 @@ public class TestTransactionalStore {
   }
 
   private void listBlobs(BlobStoreConnection con, String prefix, URI[] expected) throws Exception {
-    Set<URI> exp = new HashSet(Arrays.asList(expected));
+    Set<URI> exp = new HashSet<URI>(Arrays.asList(expected));
     URI id;
 
     for (Iterator<URI> iter = con.listBlobIds(prefix); iter.hasNext(); )

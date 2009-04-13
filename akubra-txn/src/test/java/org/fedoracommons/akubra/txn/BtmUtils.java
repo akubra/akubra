@@ -72,6 +72,7 @@ public class BtmUtils {
     return TransactionManagerServices.getTransactionManager();
   }
 
+  @SuppressWarnings("serial")
   private static class SimpleXAResourceProducer implements XAResourceProducer {
     private final Map<XAResource, WeakReference<XAResourceHolder>> xaresHolders =
                                     new WeakHashMap<XAResource, WeakReference<XAResourceHolder>>();
@@ -141,6 +142,7 @@ public class BtmUtils {
         return null;
       }
 
+      @SuppressWarnings("unchecked")
       public List getXAResourceHolders() {
         return null;
       }

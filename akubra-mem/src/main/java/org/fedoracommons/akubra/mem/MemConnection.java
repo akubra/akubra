@@ -71,12 +71,13 @@ class MemConnection extends AbstractBlobStoreConnection {
   }
 
   //@Override
+  @SuppressWarnings("unchecked")
   public Iterator<URI> listBlobIds(final String filterPrefix) {
     if (isClosed())
       throw new IllegalStateException("Connection closed.");
 
     synchronized (blobs) {
-      return new FilterIterator(new ArrayList(blobs.keySet()).iterator(), new Predicate() {
+      return new FilterIterator(new ArrayList<URI>(blobs.keySet()).iterator(), new Predicate() {
          public boolean evaluate(Object object) {
            return ((filterPrefix == null) || object.toString().startsWith(filterPrefix));
          }

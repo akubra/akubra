@@ -180,18 +180,21 @@ class FSBlob extends AbstractBlob {
   }
 
   static void validateId(URI blobId) throws UnsupportedIdException {
-    if (blobId == null) {
+    if (blobId == null)
       throw new NullPointerException("Blob id cannot be null");
-    }
     String str = blobId.toString();
-    if (!str.startsWith(uriPrefix)) {
+    if (!str.startsWith(uriPrefix))
       throw new UnsupportedIdException(blobId, "Blob id must start with " + uriPrefix);
-    }
-    if (str.length() == uriPrefix.length()) {
-      throw new UnsupportedIdException(blobId, "Blob id must specify a path");
-    }
-    if (str.charAt(uriPrefix.length()) == '/') {
-      throw new UnsupportedIdException(blobId, "Blob id cannot specify an absolute path");
+    if (str.charAt(uriPrefix.length()) == '/')
+      throw new UnsupportedIdException(blobId, "Blob id cannot specify an absolute file path");
+    if (str.endsWith("/"))
+      throw new UnsupportedIdException(blobId, "Blob id cannot end with /");
+    for (String seg: str.substring(uriPrefix.length()).split("\\/")) {
+      if (seg.length() == 0)
+        throw new UnsupportedIdException(blobId, "Blob id cannot contain //");
+      if (seg.equals("..")) {
+        throw new UnsupportedIdException(blobId, "Blob id cannot contain ..");
+      }
     }
   }
 

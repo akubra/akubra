@@ -71,8 +71,8 @@ public abstract class AbstractBlob implements Blob {
    */
   @Override
   public boolean equals(Object obj) {
-    return (obj instanceof Blob) && same(getId(),
-            ((Blob) obj).getId()) && same(getConnection(), ((Blob) obj).getConnection());
+    return (obj instanceof Blob) &&
+      same(getId(), ((Blob) obj).getId()) && same(getConnection(), ((Blob) obj).getConnection());
   }
 
   /**

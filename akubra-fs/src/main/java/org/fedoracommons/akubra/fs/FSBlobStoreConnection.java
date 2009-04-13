@@ -23,10 +23,8 @@ package org.fedoracommons.akubra.fs;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 import java.net.URI;
-import java.net.URLEncoder;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -46,14 +44,12 @@ import org.fedoracommons.akubra.util.PathAllocator;
 class FSBlobStoreConnection extends AbstractBlobStoreConnection {
   private final File baseDir;
   private final PathAllocator pAlloc;
-  private final String blobIdPrefix;
 
   FSBlobStoreConnection(BlobStore blobStore, File baseDir, PathAllocator pAlloc,
                         StreamManager manager) {
     super(blobStore, manager);
     this.baseDir = baseDir;
     this.pAlloc = pAlloc;
-    this.blobIdPrefix = getBlobIdPrefix(baseDir);
   }
 
 
@@ -65,10 +61,6 @@ class FSBlobStoreConnection extends AbstractBlobStoreConnection {
     return new FSBlob(this, blobId, getFile(blobId, hints), streamManager);
   }
 
-  public boolean isAcceptableId(URI blobId) {
-    return blobId.toString().startsWith(blobIdPrefix);
-  }
-
   //@Override
   public Iterator<URI> listBlobIds(String filterPrefix) {
     if (isClosed())
@@ -77,25 +69,7 @@ class FSBlobStoreConnection extends AbstractBlobStoreConnection {
     return new FSBlobIdIterator(baseDir, filterPrefix);
   }
 
-  protected static String getBlobIdPrefix(File dir) {
-    return "file:///" + getEncodedPath(dir);
-  }
-
-  // gets a path like usr/local/some%20dir%20with%20space/
-  private static String getEncodedPath(File dir) {
-    if (dir.getName().length() == 0) {
-      return "";
-    }
-    String current = encode(dir.getName()) + "/";
-    File parent = dir.getParentFile();
-    if (parent != null) {
-      return getEncodedPath(parent) + current;
-    } else {
-      return current;
-    }
-  }
-
-  // gets the file with the given id
+  // gets the File for the given id, or allocates one if null
   private File getFile(URI blobId, Map<String, String> hints) throws UnsupportedIdException {
     if (blobId == null) {
       // create
@@ -103,17 +77,8 @@ class FSBlobStoreConnection extends AbstractBlobStoreConnection {
       return new File(baseDir, path);
     }
 
-    if (!isAcceptableId(blobId))
-      throw new UnsupportedIdException(blobId, "Valid identifiers must start with '" +
-                                               blobIdPrefix + "'");
-    return new File(blobId.getRawPath());
+    FSBlob.validateId(blobId);
+    return new File(baseDir, blobId.getRawPath());
   }
 
-  private static String encode(String in) {
-    try {
-      return URLEncoder.encode(in, "UTF-8");
-    } catch (UnsupportedEncodingException wontHappen) {
-      throw new RuntimeException(wontHappen);
-    }
-  }
 }

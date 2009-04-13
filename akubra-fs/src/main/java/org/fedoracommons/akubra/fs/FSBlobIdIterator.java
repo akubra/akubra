@@ -38,14 +38,12 @@ import java.util.NoSuchElementException;
  */
 class FSBlobIdIterator implements Iterator<URI> {
   private final File baseDir;
-  private final String blobIdPrefix;
   private final String filterPrefix;
   private DirectoryNode currentDir;
   private URI next;
 
   FSBlobIdIterator(File baseDir, String filterPrefix) {
     this.baseDir = baseDir;
-    this.blobIdPrefix = FSBlobStoreConnection.getBlobIdPrefix(baseDir);
     this.filterPrefix = filterPrefix;
     currentDir = new DirectoryNode(null, "");
     next = getNext();
@@ -139,7 +137,7 @@ class FSBlobIdIterator implements Iterator<URI> {
 
     URI getURI() {
       try {
-        return new URI(blobIdPrefix + path);
+        return new URI(FSBlob.uriPrefix + path);
       } catch (URISyntaxException e) {
         throw new RuntimeException(e);
       }

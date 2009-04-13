@@ -98,8 +98,8 @@ public class TestFSBlobIdIterator {
    */
   @Test
   public void testMultiWithFilter() {
-    assertEquals(getSet(getIter(multiDir, "file:///")).size(), 6);
-    String prefix = FSBlobStoreConnection.getBlobIdPrefix(multiDir);
+    String prefix = "file:";
+    assertEquals(getSet(getIter(multiDir, prefix)).size(), 6);
     assertEquals(getSet(getIter(multiDir, prefix + "file-1")).size(), 1);
     assertEquals(getSet(getIter(multiDir, prefix + "dir-e")).size(), 0);
     assertEquals(getSet(getIter(multiDir, prefix + "dir-n")).size(), 4);

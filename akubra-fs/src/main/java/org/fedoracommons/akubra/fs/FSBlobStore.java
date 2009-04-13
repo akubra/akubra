@@ -36,10 +36,10 @@ import org.fedoracommons.akubra.util.PathAllocator;
 /**
  * Filesystem-backed BlobStore implementation.
  * <p>
- * For new blobs, this implementation generates new blobIds as unique
- * <code>file:///</code> URIs beginning with the base directory provided to the
- * constructor, and ending with the path given by the constructor-provided
- * {@link PathAllocator}.
+ * For new blobs, this implementation generates new blobIds as unique URIs
+ * of the form <code>file:path/to/file</code>, where the path is generated
+ * by the provided {@link PathAllocator} and denotes the location of the
+ * content relative to <code>baseDir</code>.
  *
  * @author Chris Wilper
  */

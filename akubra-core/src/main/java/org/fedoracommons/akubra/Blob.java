@@ -43,7 +43,8 @@ public interface Blob {
   BlobStoreConnection getConnection();
 
   /**
-   * Gets the id of the blob.
+   * Gets the id of the blob. Blob ids are URIs as defined by RFC 3986, and therefore will
+   * always have a scheme.
    *
    * @return the non-null immutable blob id
    */

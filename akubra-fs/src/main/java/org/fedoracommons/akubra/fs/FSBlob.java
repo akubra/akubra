@@ -43,6 +43,7 @@ import org.fedoracommons.akubra.impl.StreamManager;
  * @author Chris Wilper
  */
 class FSBlob extends AbstractBlob {
+  static final String uriPrefix = "file:";
   private final File file;
   private final StreamManager manager;
 
@@ -151,11 +152,10 @@ class FSBlob extends AbstractBlob {
       throw new IOException("Interrupted waiting for writable state");
 
     try {
-      if ((blob == null) || (blob.getId() == null))
+      if (blob == null)
         throw new NullPointerException("Blob can't be null");
 
-      if (!((FSBlobStoreConnection) getConnection()).isAcceptableId(blob.getId()))
-        throw new UnsupportedIdException(blob.getId());
+      FSBlob.validateId(blob.getId());
 
       if (!(blob instanceof FSBlob))
         throw new IllegalArgumentException("Blob must be an instance of " + FSBlob.class);
@@ -176,6 +176,22 @@ class FSBlob extends AbstractBlob {
       }
     } finally {
       manager.unlockState();
+    }
+  }
+
+  static void validateId(URI blobId) throws UnsupportedIdException {
+    if (blobId == null) {
+      throw new NullPointerException("Blob id cannot be null");
+    }
+    String str = blobId.toString();
+    if (!str.startsWith(uriPrefix)) {
+      throw new UnsupportedIdException(blobId, "Blob id must start with " + uriPrefix);
+    }
+    if (str.length() == uriPrefix.length()) {
+      throw new UnsupportedIdException(blobId, "Blob id must specify a path");
+    }
+    if (str.charAt(uriPrefix.length()) == '/') {
+      throw new UnsupportedIdException(blobId, "Blob id cannot specify an absolute path");
     }
   }
 

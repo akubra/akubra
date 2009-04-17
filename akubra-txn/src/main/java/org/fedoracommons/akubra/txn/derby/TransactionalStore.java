@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2008,2009 by Fedora Commons Inc.
  * http://www.fedoracommons.org
- * 
+ *
  * In collaboration with Topaz Inc.
  * http://www.topazproject.org
  *
@@ -53,7 +53,7 @@ import org.fedoracommons.akubra.txn.AbstractTransactionalStore;
  * {@link org.fedoracommons.akubra.txn.ConcurrentBlobUpdateException ConcurrentBlobUpdateException}
  * if a transaction tries to modify (insert, delete, or overwrite) a blob which was modified by
  * another transaction since the start of the first transaction (even if the change by the other
- * transaction hasn't beem committed yet). The assumption is that rollbacks are rare and that it is
+ * transaction hasn't been committed yet). The assumption is that rollbacks are rare and that it is
  * better to be notified of a conflict immediately rather than wasting time uploading large amounts
  * of data that will just have to be deleted again.
  *
@@ -170,6 +170,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
     dataSource.setCreateDatabase("create");
 
     Runtime.getRuntime().addShutdownHook(new Thread() {
+      @Override
       public void run() {
         try {
           dataSource.setShutdownDatabase("shutdown");
@@ -378,7 +379,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
 
     /* Leave a little space in the version number sequence so other transactions may start while
      * this one completes. The constant '1/100' is pulled out of thin air, and represents a guess
-     * on the upper bound on how many transactions are likely to be started during the time it 
+     * on the upper bound on how many transactions are likely to be started during the time it
      * takes this one to complete; if it is too large then we just have larger holes and the
      * transaction numbers jump more than necessary, which isn't tragic as long as the jumps are
      * not so large that we run into a real possibility of version number wrap-around; if it is too
@@ -546,7 +547,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
             }
           }
 
-          // purge processed entries fromm the delete table
+          // purge processed entries from the delete table
           String sql = "SELECT version FROM " + DEL_TABLE +
                        " -- DERBY-PROPERTIES index=DELETED_LIST_VIDX \n WHERE version < ?";
           PreparedStatement purge =

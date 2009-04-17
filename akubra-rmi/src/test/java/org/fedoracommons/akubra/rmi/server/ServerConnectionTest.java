@@ -25,6 +25,7 @@ import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.makeThreadSafe;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.reset;
 import static org.easymock.classextension.EasyMock.verify;
@@ -36,6 +37,7 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 
 import java.io.IOException;
+import java.io.PipedInputStream;
 
 import java.net.URI;
 
@@ -49,10 +51,9 @@ import java.util.Map;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.UnsupportedIdException;
-import org.fedoracommons.akubra.rmi.client.ClientInputStream;
 import org.fedoracommons.akubra.rmi.remote.RemoteBlob;
+import org.fedoracommons.akubra.rmi.remote.RemoteBlobCreator;
 import org.fedoracommons.akubra.rmi.remote.RemoteConnection;
-import org.fedoracommons.akubra.rmi.remote.RemoteInputStream;
 import org.fedoracommons.akubra.rmi.remote.RemoteIterator;
 
 import org.testng.annotations.AfterSuite;
@@ -114,27 +115,27 @@ public class ServerConnectionTest {
   }
 
   @Test
-  public void testGetBlobRemoteInputStreamLongMapOfStringString()
-    throws IOException {
-    RemoteInputStream   ri    = createMock(RemoteInputStream.class);
+  public void testGetBlobCreator() throws IOException {
     Map<String, String> hints = new HashMap<String, String>();
     hints.put("try harder?", "yes, of course!");
 
     Blob blob = createMock(Blob.class);
 
     reset(con);
-    expect(con.getBlob(isA(ClientInputStream.class), eq(42L), eq(hints))).andReturn(blob);
-    expect(con.getBlob(isA(ClientInputStream.class), eq(-1L), eq(hints)))
+    makeThreadSafe(con, true);
+
+    expect(con.getBlob(isA(PipedInputStream.class), eq(42L), eq(hints))).andReturn(blob);
+    expect(con.getBlob(isA(PipedInputStream.class), eq(-1L), eq(hints)))
        .andThrow(new UnsupportedOperationException());
 
     replay(con);
-
-    RemoteBlob rb = sc.getBlob(ri, 42L, hints);
-    assertTrue(rb instanceof ServerBlob);
-    assertEquals(blob, ((ServerBlob) rb).getBlob());
+    RemoteBlobCreator rb = sc.getBlobCreator(42L, hints);
+    assertTrue(rb instanceof ServerBlobCreator);
+    assertTrue(rb.getBlob() instanceof ServerBlob);
+    assertEquals(blob, ((ServerBlob)rb.getBlob()).getBlob());
 
     try {
-      sc.getBlob(ri, -1L, hints);
+      sc.getBlobCreator(-1L, hints).getBlob();
       fail("Failed to rcv expected exception");
     } catch (UnsupportedOperationException e) {
     }

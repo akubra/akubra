@@ -41,7 +41,7 @@ import org.fedoracommons.akubra.rmi.remote.RemoteOutputStream;
 public class ServerOutputStream extends UnicastExportable implements RemoteOutputStream, Closeable {
   private static final Log   log              = LogFactory.getLog(ServerOutputStream.class);
   private static final long  serialVersionUID = 1L;
-  private final OutputStream out;
+  protected final OutputStream out;
 
   /**
    * Creates a new ServerOutputStream object.

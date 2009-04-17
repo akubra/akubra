@@ -23,12 +23,14 @@ package org.fedoracommons.akubra.rmi.client;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import java.net.URI;
 
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -36,10 +38,9 @@ import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
 import org.fedoracommons.akubra.impl.StreamManager;
+import org.fedoracommons.akubra.rmi.remote.RemoteBlobCreator;
 import org.fedoracommons.akubra.rmi.remote.RemoteConnection;
 import org.fedoracommons.akubra.rmi.remote.RemoteIterator;
-import org.fedoracommons.akubra.rmi.server.Exporter;
-import org.fedoracommons.akubra.rmi.server.ServerInputStream;
 
 /**
  * Connection returned by the akubra-rmi-client that wraps a remote connection.
@@ -93,14 +94,12 @@ class ClientConnection extends AbstractBlobStoreConnection {
     if (isClosed())
       throw new IOException("Connection closed");
 
-    Exporter          exporter = getExporter();
-    ServerInputStream ri       = new ServerInputStream(in, exporter);
+    RemoteBlobCreator bc = remote.getBlobCreator(estimatedSize, hints);
+    OutputStream out = new ClientOutputStream(bc);
+    IOUtils.copyLarge(in, out);
+    out.close();
 
-    try {
-      return new ClientBlob(this, streamManager, remote.getBlob(ri, estimatedSize, hints), hints);
-    } finally {
-      ri.unExport(false);
-    }
+    return new ClientBlob(this, streamManager, bc.getBlob(), hints);
   }
 
   public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
@@ -112,7 +111,4 @@ class ClientConnection extends AbstractBlobStoreConnection {
     return new ClientIterator<URI>(ri, ITERATOR_BATCH_SIZE);
   }
 
-  public Exporter getExporter() {
-    return ((ClientStore) getBlobStore()).getExporter();
-  }
 }

@@ -32,7 +32,7 @@ import org.fedoracommons.akubra.rmi.remote.RemoteInputStream;
  *
  * @author Pradeep Krishnan
  */
-public class ClientInputStream extends InputStream {
+class ClientInputStream extends InputStream {
   private final RemoteInputStream remote;
 
   /**

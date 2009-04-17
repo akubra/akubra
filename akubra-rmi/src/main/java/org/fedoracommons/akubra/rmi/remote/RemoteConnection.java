@@ -54,9 +54,8 @@ public interface RemoteConnection extends Remote {
               throws RemoteException, IOException, UnsupportedIdException;
 
   /**
-   * Gets a blob handle for a newly created blob on the remote server.
+   * Gets a blob creator for creating a blob from user supplied content.
    *
-   * @param stream the content by which to create this blob
    * @param estimatedSize estimated size to pass to the remote server
    * @param hints the hints to pass to the remote server
    *
@@ -65,7 +64,7 @@ public interface RemoteConnection extends Remote {
    * @throws RemoteException on an error in rmi transport
    * @throws IOException error reported by the remote server
    */
-  RemoteBlob getBlob(RemoteInputStream stream, long estimatedSize, Map<String, String> hints)
+  RemoteBlobCreator getBlobCreator(long estimatedSize, Map<String, String> hints)
               throws RemoteException, IOException;
 
   /**

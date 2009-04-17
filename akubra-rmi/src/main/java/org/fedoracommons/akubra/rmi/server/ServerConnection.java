@@ -29,12 +29,10 @@ import java.rmi.RemoteException;
 
 import java.util.Map;
 
-import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStoreConnection;
-import org.fedoracommons.akubra.rmi.client.ClientInputStream;
 import org.fedoracommons.akubra.rmi.remote.RemoteBlob;
+import org.fedoracommons.akubra.rmi.remote.RemoteBlobCreator;
 import org.fedoracommons.akubra.rmi.remote.RemoteConnection;
-import org.fedoracommons.akubra.rmi.remote.RemoteInputStream;
 import org.fedoracommons.akubra.rmi.remote.RemoteIterator;
 
 /**
@@ -66,11 +64,9 @@ public class ServerConnection extends UnicastExportable implements RemoteConnect
     return new ServerBlob(con.getBlob(id, hints), getExporter());
   }
 
-  public RemoteBlob getBlob(RemoteInputStream stream, long estimatedSize, Map<String, String> hints)
+  public RemoteBlobCreator getBlobCreator(long estimatedSize, Map<String, String> hints)
                      throws IOException {
-    Blob blob = con.getBlob(new ClientInputStream(stream), estimatedSize, hints);
-
-    return new ServerBlob(blob, getExporter());
+    return new ServerBlobCreator(con, estimatedSize, hints, getExporter());
   }
 
   public RemoteIterator<URI> listBlobIds(String filterPrefix)

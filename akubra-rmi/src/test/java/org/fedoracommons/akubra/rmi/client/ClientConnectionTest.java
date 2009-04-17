@@ -35,8 +35,10 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PipedInputStream;
 
 import java.net.URI;
 
@@ -89,7 +91,7 @@ public class ClientConnectionTest {
   @Test
   public void testGetBlobInputStreamLongMapOfStringString()
                                                    throws IOException {
-    InputStream         in    = createMock(InputStream.class);
+    InputStream         in    = new ByteArrayInputStream(new byte[0]);
     URI                 id    = URI.create("foo:bar");
     Map<String, String> hints = new HashMap<String, String>();
     hints.put("try harder?", "yes, of course!");
@@ -100,8 +102,8 @@ public class ClientConnectionTest {
     replay(blob);
 
     reset(con);
-    expect(con.getBlob(isA(ClientInputStream.class), eq(42L), eq(hints))).andReturn(blob);
-    expect(con.getBlob(isA(ClientInputStream.class), eq(-1L), eq(hints)))
+    expect(con.getBlob(isA(PipedInputStream.class), eq(42L), eq(hints))).andReturn(blob);
+    expect(con.getBlob(isA(PipedInputStream.class), eq(-1L), eq(hints)))
        .andThrow(new UnsupportedOperationException());
     makeThreadSafe(con, true);
     replay(con);

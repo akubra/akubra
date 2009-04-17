@@ -60,6 +60,11 @@ class ClientOutputStream extends OutputStream {
   }
 
   @Override
+  public void write(byte[] buf) throws IOException {
+    remote.write(buf);
+  }
+
+  @Override
   public void write(byte[] buf, int off, int len) throws IOException {
     if ((off < 0) || (off > buf.length))
       throw new IllegalArgumentException("offset " + off + " is out of bounds");

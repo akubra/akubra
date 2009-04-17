@@ -21,11 +21,11 @@
  */
 package org.fedoracommons.akubra.rmi.server;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 
 import java.rmi.RemoteException;
-import java.rmi.server.Unreferenced;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -39,7 +39,7 @@ import org.fedoracommons.akubra.rmi.remote.RemoteInputStream;
  *
  * @author Pradeep Krishnan
  */
-public class ServerInputStream extends Exportable implements RemoteInputStream, Unreferenced {
+public class ServerInputStream extends UnicastExportable implements RemoteInputStream, Closeable {
   private static final Log log = LogFactory.getLog(ServerInputStream.class);
   private static final long serialVersionUID = 1L;
   private final InputStream in;
@@ -75,6 +75,7 @@ public class ServerInputStream extends Exportable implements RemoteInputStream, 
     in.close();
   }
 
+  @Override
   public void unreferenced() {
     try {
       close();

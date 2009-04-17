@@ -38,7 +38,8 @@ import org.fedoracommons.akubra.rmi.remote.RemoteIterator;
  *
  * @param <T> the type of the Iterator
  */
-public class ServerIterator<T extends Serializable> extends Exportable implements RemoteIterator<T> {
+public class ServerIterator<T extends Serializable>
+     extends UnicastExportable implements RemoteIterator<T> {
   private static final long serialVersionUID = 1L;
   private final Iterator<T> it;
 

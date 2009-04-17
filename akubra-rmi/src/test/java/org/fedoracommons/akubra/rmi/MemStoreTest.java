@@ -50,9 +50,9 @@ import org.testng.annotations.Test;
  * @author Pradeep Krishnan
   */
 public class MemStoreTest {
-  private BlobStore mem;
-  private BlobStore store;
-  private int reg;
+  private BlobStore       mem;
+  private BlobStore       store;
+  private AkubraRMIServer server;
 
   /**
    * Starts up an rmi-server and create a connection to it.
@@ -61,8 +61,8 @@ public class MemStoreTest {
   @BeforeSuite
   public void setUp() throws Exception {
     mem = new MemBlobStore();
-    reg = ServiceTest.freePort();
-    AkubraRMIServer.export(mem, reg);
+    int reg = ServiceTest.freePort();
+    server = new AkubraRMIServer(mem, reg);
     store = AkubraRMIClient.create(reg);
   }
 
@@ -72,7 +72,7 @@ public class MemStoreTest {
    */
   @AfterSuite
   public void tearDown() throws Exception {
-    AkubraRMIServer.unExport(reg);
+    server.shutDown(true);
   }
 
   /**

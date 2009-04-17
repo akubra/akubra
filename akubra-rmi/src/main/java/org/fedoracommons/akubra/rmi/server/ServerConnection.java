@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.net.URI;
 
 import java.rmi.RemoteException;
-import java.rmi.server.Unreferenced;
 
 import java.util.Map;
 
@@ -44,7 +43,7 @@ import org.fedoracommons.akubra.rmi.remote.RemoteIterator;
  *
  * @author Pradeep Krishnan
  */
-public class ServerConnection extends Exportable implements RemoteConnection, Unreferenced {
+public class ServerConnection extends UnicastExportable implements RemoteConnection {
   private static final long         serialVersionUID = 1L;
   private final BlobStoreConnection con;
 
@@ -84,6 +83,7 @@ public class ServerConnection extends Exportable implements RemoteConnection, Un
     con.close();
   }
 
+  @Override
   public void unreferenced() {
     close();
   }

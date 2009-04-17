@@ -45,7 +45,7 @@ import org.fedoracommons.akubra.rmi.remote.RemoteXAResource;
  *
  * @author Pradeep Krishnan
  */
-public class ServerTransaction extends Exportable implements RemoteTransaction {
+public class ServerTransaction extends UnicastExportable implements RemoteTransaction {
   private static final long serialVersionUID = 1L;
   private final Transaction                       txn;
   private final Map<RemoteXAResource, XAResource> map = new HashMap<RemoteXAResource, XAResource>();

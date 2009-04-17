@@ -38,7 +38,7 @@ import org.fedoracommons.akubra.rmi.remote.SerializedXid;
  *
  * @author Pradeep Krishnan
   */
-public class ServerXAResource extends Exportable implements RemoteXAResource {
+public class ServerXAResource extends UnicastExportable implements RemoteXAResource {
   private static final long       serialVersionUID = 1L;
   private final XAResource        xaRes;
   private final ClientTransaction txn;

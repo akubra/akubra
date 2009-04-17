@@ -26,14 +26,25 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
 
 import javax.transaction.TransactionManager;
 
@@ -52,13 +63,14 @@ import org.testng.annotations.Test;
  * Integration test for a transactional store on the RMI server side.
  *
  * @author Ronald Tschalär
+ * @author Pradeep Krishnan
  */
 public class TransactionalStoreTest {
   private URI id;
   private TransactionalStore serverStore;
-  private BlobStore store;
+  private BlobStore          store;
   private TransactionManager tm;
-  private int                reg;
+  private AkubraRMIServer    server;
 
   @BeforeSuite
   public void init() throws Exception {
@@ -83,15 +95,15 @@ public class TransactionalStoreTest {
     // set up transaction manager
     tm = BtmUtils.getTM();
 
-    reg = ServiceTest.freePort();
-    AkubraRMIServer.export(serverStore, reg);
+    int reg = ServiceTest.freePort();
+    server = new AkubraRMIServer(serverStore, reg);
     store = AkubraRMIClient.create(URI.create("rmi://localhost:" + reg + "/" +
                                               AkubraRMIServer.DEFAULT_SERVER_NAME), id);
   }
 
   @AfterSuite
   public void destroy() throws RemoteException, NotBoundException {
-    AkubraRMIServer.unExport(reg);
+    server.shutDown(true);
   }
 
   /**
@@ -195,6 +207,45 @@ public class TransactionalStoreTest {
     getBlob(id, null, true);
   }
 
+  @Test
+  public void testMTStress() throws InterruptedException, ExecutionException {
+    ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
+    List<Future<Void>> futures = new ArrayList<Future<Void>>();
+
+    for (int loop = 0; loop < 30; loop++) {
+      futures.add(executor.submit(new Callable<Void>() {
+        public Void call() throws Exception {
+          for (int i = 0; i < 10; i++) {
+            doInTxn(new Action() {
+              public void run(BlobStoreConnection con) throws Exception {
+                for (int j = 0; j < 3; j++) {
+                  URI id = URI.create("urn:mt:" + UUID.randomUUID());
+                  byte[] buf = new byte[4096];
+                  Blob b;
+                  b = con.getBlob(id, null);
+                  if (!b.exists())
+                    b.create();
+                  OutputStream out;
+                  IOUtils.copyLarge(new ByteArrayInputStream(buf), out = b.openOutputStream(buf.length));
+                  out.close();
+
+                  InputStream in;
+                  assertEquals(buf, IOUtils.toByteArray(in = b.openInputStream()));
+                  in.close();
+                  b.delete();
+                }
+              }
+            }, true);
+          }
+          return null;
+        }
+      }));
+    }
+
+    for (Future<Void> res : futures)
+      res.get();
+  }
+
   private void createBlob(final URI id, final String val, boolean commit) throws Exception {
     doInTxn(new Action() {
         public void run(BlobStoreConnection con) throws Exception {
@@ -268,27 +319,6 @@ public class TransactionalStoreTest {
       }
 
       con.close();
-    }
-  }
-
-  private static Thread doInThread(Runnable r) throws Exception {
-    Thread t = new Thread(r);
-    t.start();
-    return t;
-  }
-
-  private static void waitFor(boolean[] cv, boolean val, long to) throws InterruptedException {
-    long t0 = System.currentTimeMillis();
-    synchronized (cv) {
-      while (cv[0] != val && (to == 0 || (System.currentTimeMillis() - t0) < to))
-        cv.wait(to);
-    }
-  }
-
-  private static void notify(boolean[] cv, boolean val) {
-    synchronized (cv) {
-      cv[0] = val;
-      cv.notify();
     }
   }
 

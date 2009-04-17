@@ -28,16 +28,20 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.fedoracommons.akubra.BlobStore;
+import org.fedoracommons.akubra.rmi.server.Exportable;
 import org.fedoracommons.akubra.rmi.server.Exporter;
+import org.fedoracommons.akubra.rmi.server.ServerConnection;
 import org.fedoracommons.akubra.rmi.server.ServerStore;
 
 /**
- * A utility class that helps applications to export BlobStores for remote access.
+ * Akubra RMI server.
  *
  * @author Pradeep Krishnan
  */
@@ -47,12 +51,11 @@ public class AkubraRMIServer {
    */
   public static final String DEFAULT_SERVER_NAME = "akubra-rmi";
   private static final Log log = LogFactory.getLog(AkubraRMIServer.class);
+  private static final long serialVersionUID = 1L;
 
-  /**
-   * Disabled constructor. Use static methods.
-   */
-  private AkubraRMIServer() {
-  }
+  private final Registry    registry;
+  private final String      name;
+  private final ServerStore store;
 
   /**
    * Exports the given Blob Store for remote access.
@@ -62,12 +65,12 @@ public class AkubraRMIServer {
    * @throws AccessException when the caller does not have permission to export
    * @throws RemoteException on any other error in export
    */
-  public static void export(BlobStore store) throws AccessException, RemoteException {
-    export(store, DEFAULT_SERVER_NAME, 0);
+  public AkubraRMIServer(BlobStore store) throws AccessException, RemoteException {
+    this(store, DEFAULT_SERVER_NAME, 0);
   }
 
   /**
-   * Exports the given Blob Store for remote access.
+   * Creates an AkubraRMIServer that exports the given Blob Store for remote access.
    *
    * @param store the store to export.
    * @param port the RMI registry port
@@ -75,13 +78,13 @@ public class AkubraRMIServer {
    * @throws AccessException when the caller does not have permission to export
    * @throws RemoteException on any other error in export
    */
-  public static void export(BlobStore store, int port)
+  public AkubraRMIServer(BlobStore store, int port)
                      throws AccessException, RemoteException {
-    export(store, DEFAULT_SERVER_NAME, port);
+    this(store, DEFAULT_SERVER_NAME, port);
   }
 
   /**
-   * Exports the given Blob Store for remote access.
+   * Creates an AkubraRMIServer that exports the given Blob Store for remote access.
    *
    * @param store the store to export.
    * @param name the name to register with RMI registry
@@ -89,13 +92,13 @@ public class AkubraRMIServer {
    * @throws AccessException when the caller does not have permission to export
    * @throws RemoteException on any other error in export
    */
-  public static void export(BlobStore store, String name)
+  public AkubraRMIServer(BlobStore store, String name)
                      throws AccessException, RemoteException {
-    export(store, name, 0);
+    this(store, name, 0);
   }
 
   /**
-   * Exports the given Blob Store for remote access.
+   * Creates an AkubraRMIServer that exports the given Blob Store for remote access.
    *
    * @param store the store to export.
    * @param name the name to register with RMI registry
@@ -104,13 +107,13 @@ public class AkubraRMIServer {
    * @throws AccessException when the caller does not have permission to export
    * @throws RemoteException on any other error in export
    */
-  public static void export(BlobStore store, String name, int port)
+  public AkubraRMIServer(BlobStore store, String name, int port)
                      throws AccessException, RemoteException {
-    export(store, name, port, port);
+    this(store, name, port, port);
   }
 
   /**
-   * Exports the given Blob Store for remote access.
+   * Creates an AkubraRMIServer that exports the given Blob Store for remote access.
    *
    * @param store the store to export.
    * @param name the name to register with RMI registry
@@ -120,107 +123,124 @@ public class AkubraRMIServer {
    * @throws AccessException when the caller does not have permission to export
    * @throws RemoteException on any other error in export
    */
-  public static void export(BlobStore store, String name, int registryPort, int port)
+  public AkubraRMIServer(BlobStore store, String name, int registryPort, int port)
                      throws AccessException, RemoteException {
-    export(store, name, ensureRegistry(registryPort), port);
+    this(store, name, ensureRegistry(registryPort), registryPort, port);
   }
 
   /**
-   * Exports the given Blob Store for remote access.
+   * Creates an AkubraRMIServer that exports the given Blob Store for remote access.
    *
    * @param store the store to export.
    * @param name the name to register with RMI registry
    * @param registry the RMI registry
+   * @param registryPort the RMI registry port
    * @param port the port where the BlobStore is exported at
    *
    * @throws AccessException when the caller does not have permission to export
    * @throws RemoteException on any other error in export
    */
-  public static void export(BlobStore store, String name, Registry registry, int port)
-                     throws AccessException, RemoteException {
-    export(store, name, registry, new Exporter(port));
+  public AkubraRMIServer(BlobStore store, String name, Registry registry, int registryPort,
+                         int port) throws AccessException, RemoteException {
+    this(store, name, registry, registryPort, new Exporter(port));
   }
 
   /**
-   * Exports the given Blob Store for remote access.
+   * Creates an AkubraRMIServer that exports the given Blob Store for remote access.
    *
    * @param store the store to export.
    * @param name the name to register with RMI registry
    * @param registry the RMI registry
+   * @param registryPort the RMI registry port
    * @param exporter the exporter for the BlobStore
    *
    * @throws AccessException when the caller does not have permission to export
    * @throws RemoteException on any other error in export
    */
-  public static void export(BlobStore store, String name, Registry registry, Exporter exporter)
-                     throws AccessException, RemoteException {
-    log.info("Exporting server '" + name + "'  ...");
-    registry.rebind(name, new ServerStore(store, exporter));
-    log.info("Server '" + name + "' exported.");
+  public AkubraRMIServer(BlobStore store, String name, Registry registry, int registryPort,
+                         Exporter exporter) throws AccessException, RemoteException {
+    log.info("Starting server '" + name + "'  ...");
+    this.store = new ServerStore(store, exporter);
+    this.registry = registry;
+    this.name     = name;
+    registry.rebind(name, this.store);
+    log.info("Server '" + name + "' is bound to registry on port " + registryPort);
   }
 
   /**
-   * Unexport the given Blob Store and make it un-available for remote access.
+   * Shutdown this server.
    *
-   * @throws RemoteException on any other errors
-   * @throws NotBoundException when the store is already unexported (or was never exported)
+   * @param abort if true, will abort all current in progress calls and close all connections.
+   *
+   * @throws AccessException when the caller does not have permission to shutdown
+   * @throws RemoteException on any other error in registry unbind
    */
-  public static void unExport() throws RemoteException, NotBoundException {
-    unExport(DEFAULT_SERVER_NAME);
-  }
+  public void shutDown(boolean abort) throws AccessException, RemoteException {
+    if (abort)
+      log.info("Starting shutdown(abort) of server '" + name + "'");
+    else
+      log.info("Starting shutdown of server '" + name + "'");
 
-  /**
-   * Unexport the given Blob Store and make it un-available for remote access.
-   *
-   * @param name the name of the akubra-rmi-server to un-register from the RMI registry
-   *
-   * @throws RemoteException on any other errors
-   * @throws NotBoundException when the store is already unexported (or was never exported)
-   */
-  public static void unExport(String name) throws RemoteException, NotBoundException {
-    unExport(name, LocateRegistry.getRegistry());
-  }
+    try {
+      log.info("Ubinding from registry ...");
+      registry.unbind(name);
+    } catch (NotBoundException e) {
+      log.info("Server '" + name + "' was already unbound.", e);
+    }
 
-  /**
-   * Unexport the given Blob Store and make it un-available for remote access.
-   *
-   * @param registryPort the RMI registry port
-   *
-   * @throws RemoteException on any other errors
-   * @throws NotBoundException when the store is already unexported (or was never exported)
-   */
-  public static void unExport(int registryPort) throws RemoteException, NotBoundException {
-    unExport(DEFAULT_SERVER_NAME, registryPort);
-  }
+    log.info("Unexporting server instance...");
+    store.unExport(true);
 
-  /**
-   * Unexport the given Blob Store and make it un-available for remote access.
-   *
-   * @param name the name of the akubra-rmi-server to un-register from the RMI registry
-   * @param registryPort the RMI registry port
-   *
-   * @throws RemoteException on any other errors
-   * @throws NotBoundException when the store is already unexported (or was never exported)
-   */
-  public static void unExport(String name, int registryPort)
-                       throws RemoteException, NotBoundException {
-    unExport(name, LocateRegistry.getRegistry(registryPort));
-  }
+    Set<ServerConnection> cons = new HashSet<ServerConnection>();
+    do {
+      int others = 0;
+      cons.clear();
+      for (Exportable exported : store.getExporter().getExportedObjects()) {
+        if (exported instanceof ServerConnection)
+          cons.add((ServerConnection) exported);
+        else
+          others++;
+      }
 
-  /**
-   * Unexport the given Blob Store and make it un-available for remote access.
-   *
-   * @param name the name of the akubra-rmi-server to un-register from the RMI registry
-   * @param registry the RMI registry
-   *
-   * @throws RemoteException on any other errors
-   * @throws NotBoundException when the store is already unexported (or was never exported)
-   */
-  public static void unExport(String name, Registry registry)
-                       throws RemoteException, NotBoundException {
-    log.info("Unexporting server '" + name + "' ...");
-    registry.unbind(name);
-    log.info("Server '" + name + "' unexported.");
+      if (cons.isEmpty() && (others == 0)) {
+        log.info("No connections are open and no exported objects. Shutdown is complete.");
+        return;
+      }
+
+      log.info("There are " + cons.size() + " open connections and " + others + " exported objects.");
+
+      if (!cons.isEmpty() && !abort) {
+        log.info("Shutdown completed. Existing connections will continue till closed.");
+        return;
+      }
+
+      if (!cons.isEmpty()) {
+        log.info("Shutting down connections ...");
+
+        for (ServerConnection con : cons) {
+          try {
+            con.unExport(true);
+            con.close();
+          } catch (Exception e) {
+            log.info("Ignoring failure in connection close for " + con, e);
+          }
+        }
+      }
+    } while (!cons.isEmpty());
+
+    log.info("Unexporting all exported objects ...");
+    for (Exportable exported : store.getExporter().getExportedObjects()) {
+      try {
+        exported.unExport(true);
+      } catch (Exception e) {
+        log.info("Ignoring failure in unexport for " + exported, e);
+      }
+    }
+
+    if (abort)
+      log.info("Shutdown(abort) completed.");
+    else
+      log.info("Shutdown completed.");
   }
 
   /**
@@ -277,5 +297,18 @@ public class AkubraRMIServer {
     }
 
     return (reg != null);
+  }
+
+  @Override
+  protected void finalize() throws Throwable {
+    if (store.getExported() != null) {
+      log.info("Shutting down due to finalize()");
+      try {
+        shutDown(true);
+      } catch (Exception e) {
+        log.info("Shutdown failed", e);
+      }
+    }
+    super.finalize();
   }
 }

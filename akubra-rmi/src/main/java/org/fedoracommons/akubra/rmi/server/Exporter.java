@@ -33,6 +33,9 @@ import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
@@ -42,7 +45,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * RMI object exporter. Encapsulates the configuration needed to export an RMI object.
+ * RMI object exporter. Encapsulates the configuration needed to export an RMI object. It also
+ * holds a reference to the exported objects so that exported objects stays alive until
+ * un-exported.
  *
  * @author Pradeep Krishnan
  */
@@ -56,10 +61,11 @@ public class Exporter implements Serializable {
    * of this delay.
    */
   public static final int RETRY_DELAY = 10;
-  private final int                                port;
-  private final RMIClientSocketFactory             csf;
-  private final RMIServerSocketFactory             ssf;
-  private transient ScheduledExecutorService       executor;
+  private final int                          port;
+  private final RMIClientSocketFactory       csf;
+  private final RMIServerSocketFactory       ssf;
+  private transient ScheduledExecutorService executor;
+  private transient Set<Exportable>          exportedObjects;
 
   /**
    * Creates a new Exporter object.
@@ -80,10 +86,11 @@ public class Exporter implements Serializable {
    * @param ssf the server-side socket factory for receiving remote calls
    */
   public Exporter(int port, RMIClientSocketFactory csf, RMIServerSocketFactory ssf) {
-    this.port       = port;
-    this.csf        = csf;
-    this.ssf        = ssf;
-    this.executor   = createExecutor();
+    this.port         = port;
+    this.csf          = csf;
+    this.ssf          = ssf;
+    this.executor     = createExecutor();
+    exportedObjects   = Collections.synchronizedSet(new HashSet<Exportable>());
   }
 
   private static ScheduledExecutorService createExecutor() {
@@ -109,7 +116,12 @@ public class Exporter implements Serializable {
 
   /**
    * Exports the remote object to make it available to receive incoming calls using this
-   * configuration.
+   * configuration. Note that this exporter holds a reference to the exported object (not the
+   * stub, but the Exportable itself) so that the exported object remains in scope and does not
+   * get garbage collected. (This is something that the RMI spec claims to provide, but in reality
+   * does not. The sun.rmi.transport.ObjectTable only keeps weak references.) So this means, all
+   * exported objects using this exporter must be {@link #unExportObject un-exported} using this
+   * so that the reference held here is cleared. Failure to do so will result in memory leaks.
    *
    * @param object the remote object to be exported
    *
@@ -117,9 +129,13 @@ public class Exporter implements Serializable {
    *
    * @throws RemoteException if export fails
    */
-  public Remote exportObject(Remote object) throws RemoteException {
-    return (csf == null) ? UnicastRemoteObject.exportObject(object, port)
-           : UnicastRemoteObject.exportObject(object, port, csf, ssf);
+  public Remote exportObject(Exportable object) throws RemoteException {
+    Remote stub =
+      (csf == null) ? UnicastRemoteObject.exportObject(object, port)
+      : UnicastRemoteObject.exportObject(object, port, csf, ssf);
+    exportedObjects.add(object);
+
+    return stub;
   }
 
   /**
@@ -136,8 +152,9 @@ public class Exporter implements Serializable {
    *
    * @throws NoSuchObjectException if the object is not exported
    */
-  public void unexportObject(Remote object, boolean force)
+  public void unexportObject(Exportable object, boolean force)
                       throws NoSuchObjectException {
+    exportedObjects.remove(object);
     unexportObject(object, force, 0);
   }
 
@@ -175,6 +192,18 @@ public class Exporter implements Serializable {
 
   private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
     in.defaultReadObject();
-    executor = createExecutor();
+    executor          = createExecutor();
+    exportedObjects   = Collections.synchronizedSet(new HashSet<Exportable>());
+  }
+
+  /**
+   * Gets the set of all exported objects.
+   *
+   * @return a copy of the exported objects.
+   */
+  public Set<Exportable> getExportedObjects() {
+    synchronized (exportedObjects) {
+      return new HashSet<Exportable>(exportedObjects);
+    }
   }
 }

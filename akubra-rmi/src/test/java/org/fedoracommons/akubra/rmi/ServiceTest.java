@@ -75,12 +75,12 @@ public class ServiceTest {
     if (!isFree(Registry.REGISTRY_PORT))
       return;  // skip this test
 
-    AkubraRMIServer.export(mem);
+    AkubraRMIServer server = new AkubraRMIServer(mem);
     try {
       BlobStore store = AkubraRMIClient.create();
       assertEquals(mem.getCapabilities(), store.getCapabilities());
     } finally {
-      AkubraRMIServer.unExport();
+      server.shutDown(false);
     }
   }
 
@@ -90,13 +90,13 @@ public class ServiceTest {
    */
   @Test
   public void testWithPort() throws NotBoundException, IOException {
-    AkubraRMIServer.export(mem, reg);
+    AkubraRMIServer server = new AkubraRMIServer(mem, reg);
 
     try {
       BlobStore store = AkubraRMIClient.create(reg);
       assertEquals(mem.getCapabilities(), store.getCapabilities());
     } finally {
-      AkubraRMIServer.unExport(reg);
+      server.shutDown(true);
     }
   }
 
@@ -107,13 +107,13 @@ public class ServiceTest {
    */
   @Test
   public void testWithNameAndPort() throws NotBoundException, IOException, URISyntaxException {
-    AkubraRMIServer.export(mem, "service-test-with-name-and-port", reg);
+    AkubraRMIServer server = new AkubraRMIServer(mem, "service-test-with-name-and-port", reg);
 
     try {
       BlobStore store = AkubraRMIClient.create("service-test-with-name-and-port", reg);
       assertEquals(mem.getCapabilities(), store.getCapabilities());
     } finally {
-      AkubraRMIServer.unExport("service-test-with-name-and-port", reg);
+      server.shutDown(true);
     }
   }
 
@@ -125,13 +125,13 @@ public class ServiceTest {
   @Test
   public void testWithNameAndAlternatePorts()
                                      throws NotBoundException, IOException, URISyntaxException {
-    AkubraRMIServer.export(mem, "test-with-name-and-alternate-ports", reg, freePort());
+    AkubraRMIServer server = new AkubraRMIServer(mem, "test-with-name-and-alternate-ports", reg, freePort());
 
     try {
       BlobStore store = AkubraRMIClient.create("test-with-name-and-alternate-ports", reg);
       assertEquals(mem.getCapabilities(), store.getCapabilities());
     } finally {
-      AkubraRMIServer.unExport("test-with-name-and-alternate-ports", reg);
+      server.shutDown(true);
     }
   }
 
@@ -142,14 +142,14 @@ public class ServiceTest {
    */
   @Test
   public void testLookupByUri() throws NotBoundException, IOException, URISyntaxException {
-    AkubraRMIServer.export(mem, "test-uri-lookup", reg, freePort());
+    AkubraRMIServer server = new AkubraRMIServer(mem, "test-uri-lookup", reg, freePort());
 
     try {
       BlobStore store =
         AkubraRMIClient.create(URI.create("rmi://localhost:" + reg + "/test-uri-lookup"));
       assertEquals(mem.getCapabilities(), store.getCapabilities());
     } finally {
-      AkubraRMIServer.unExport("test-uri-lookup", reg);
+      server.shutDown(false);
     }
   }
 

@@ -39,7 +39,7 @@ import org.fedoracommons.akubra.rmi.remote.RemoteOutputStream;
  *
  * @author Pradeep Krishnan
  */
-public class ServerBlob extends Exportable implements RemoteBlob {
+public class ServerBlob extends UnicastExportable implements RemoteBlob {
   private static final long serialVersionUID = 1L;
   private final Blob        blob;
 

@@ -22,39 +22,28 @@
 package org.fedoracommons.akubra.rmi.server;
 
 import java.rmi.RemoteException;
-
-import javax.transaction.Synchronization;
-
-import org.fedoracommons.akubra.rmi.remote.RemoteSynchronization;
+import java.rmi.server.Unreferenced;
 
 /**
- * Server side implementation of a Transaction Synchronization listener.
+ * A base class for all objects that are exported for use by a single client.
  *
  * @author Pradeep Krishnan
-  */
-public class ServerSynchronization extends UnicastExportable implements RemoteSynchronization {
-  private static final long     serialVersionUID = 1L;
-  private final Synchronization sync;
+ */
+public abstract class UnicastExportable extends Exportable implements Unreferenced {
+  private static final long serialVersionUID = 1L;
 
   /**
-   * Creates a new ServerSynchronization object.
+   * Creates a new UnicastExportable object.
    *
-   * @param sync the real listener to forward events to
    * @param exporter the exporter to use
    *
-   * @throws RemoteException on an error in export
+   * @throws RemoteException on an export error
    */
-  public ServerSynchronization(Synchronization sync, Exporter exporter)
-                        throws RemoteException {
+  protected UnicastExportable(Exporter exporter) throws RemoteException {
     super(exporter);
-    this.sync = sync;
   }
 
-  public void afterCompletion(int status) {
-    sync.afterCompletion(status);
-  }
-
-  public void beforeCompletion() {
-    sync.beforeCompletion();
+  public void unreferenced() {
+    unExport(false);
   }
 }

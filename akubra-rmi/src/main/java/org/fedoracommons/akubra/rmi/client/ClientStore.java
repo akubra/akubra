@@ -38,7 +38,6 @@ import org.fedoracommons.akubra.impl.AbstractBlobStore;
 import org.fedoracommons.akubra.impl.StreamManager;
 import org.fedoracommons.akubra.rmi.remote.RemoteConnection;
 import org.fedoracommons.akubra.rmi.remote.RemoteStore;
-import org.fedoracommons.akubra.rmi.server.Exporter;
 
 /**
  * A BlobStore that forwards calls to a RemoteStore.
@@ -50,19 +49,16 @@ public class ClientStore extends AbstractBlobStore {
   private final StreamManager streamManager = new StreamManager();
   private final RemoteStore   server;
   private Set<URI>            capabilities;
-  private final Exporter      exporter;
 
   /**
    * Creates a new ClientStore object.
    *
    * @param localId the id of this local store
    * @param server the remote store stub
-   * @param exporter the exporter to use for callbacks. If null, the exporter from server is used.
    *
    * @throws IOException on an error in talking to the remote
    */
-  public ClientStore(URI localId, RemoteStore server, Exporter exporter)
-              throws IOException {
+  public ClientStore(URI localId, RemoteStore server) throws IOException {
     super(localId);
     this.server = server;
 
@@ -72,11 +68,6 @@ public class ClientStore extends AbstractBlobStore {
       throw (IOException) new IOException("Failed to get server capabilites").initCause(e);
     }
 
-    try {
-      this.exporter = (exporter == null) ? server.getExporter() : exporter;
-    } catch (Exception e) {
-      throw (IOException) new IOException("Failed to get export config from server").initCause(e);
-    }
   }
 
   public BlobStoreConnection openConnection(Transaction tx)
@@ -100,14 +91,5 @@ public class ClientStore extends AbstractBlobStore {
     }
 
     return capabilities;
-  }
-
-  /**
-   * Gets the call-back exporter.
-   *
-   * @return the exporter
-   */
-  public Exporter getExporter() {
-    return exporter;
   }
 }

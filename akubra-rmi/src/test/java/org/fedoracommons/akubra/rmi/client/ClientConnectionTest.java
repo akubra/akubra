@@ -75,8 +75,6 @@ public class ClientConnectionTest {
     exporter = new Exporter(0);
 
     ClientStore store = createMock(ClientStore.class);
-    expect(store.getExporter()).andStubReturn(exporter);
-    replay(store);
 
     con   = createMock(BlobStoreConnection.class);
     sc    = new ServerConnection(con, exporter);

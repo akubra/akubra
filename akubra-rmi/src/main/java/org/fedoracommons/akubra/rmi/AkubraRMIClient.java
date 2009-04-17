@@ -35,7 +35,6 @@ import java.rmi.registry.Registry;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.rmi.client.ClientStore;
 import org.fedoracommons.akubra.rmi.remote.RemoteStore;
-import org.fedoracommons.akubra.rmi.server.Exporter;
 
 /**
  * A Utility class that helps applications to locate an Akubra RMI Server and create a
@@ -180,29 +179,7 @@ public class AkubraRMIClient {
    */
   public static BlobStore create(URI serverUri, URI localId)
                           throws IOException, NotBoundException {
-    return create(locateServer(serverUri), localId, null);
-  }
-
-  /**
-   * Creates a client to the given akubra-rmi-server.
-   *
-   * @param serverUri a URI of the form rmi://registryHost:registryPort/serverName. The
-   *        registryPort can be omitted in which case it defaults to the default RMI registry
-   *        port. The 'serverName' is the registered name of the akubra-rmi-server at the RMI
-   *        registry.
-   * @param localId the identifier for the RMI client BlobStore
-   * @param callbackPort the port on which server calls back to the client. This is the port used
-   *        by the server to make calls to the Transaction object. This is also used for creating
-   *        a Blob from an application supplied InputStream.
-   *
-   * @return an RMI client BlobStore
-   *
-   * @throws IOException on an error in contacting the server
-   * @throws NotBoundException when a server with the given serverName is not bound
-   */
-  public static BlobStore create(URI serverUri, URI localId, int callbackPort)
-                          throws IOException, NotBoundException {
-    return create(locateServer(serverUri), localId, new Exporter(callbackPort));
+    return create(locateServer(serverUri), localId);
   }
 
   /**
@@ -215,43 +192,8 @@ public class AkubraRMIClient {
    *
    * @throws IOException on an error in contacting the server
    */
-  public static BlobStore create(RemoteStore server, URI localId)
-                          throws IOException {
-    return create(server, localId, null);
-  }
-
-  /**
-   * Creates a client to the given akubra-rmi-server.
-   *
-   * @param server the akubra-rmi-server stub
-   * @param localId the identifier for the RMI client BlobStore
-   * @param callbackPort the port on which server calls back to the client. This is the port used
-   *        by the server to make calls to the Transaction object. This is also used for creating
-   *        a Blob from an application supplied InputStream.
-   *
-   * @return an RMI client BlobStore
-   *
-   * @throws IOException on an error in contacting the server
-   */
-  public static BlobStore create(RemoteStore server, URI localId, int callbackPort)
-                          throws IOException {
-    return create(server, localId, new Exporter(callbackPort));
-  }
-
-  /**
-   * Creates a client to the given akubra-rmi-server.
-   *
-   * @param server the akubra-rmi-server stub
-   * @param localId the identifier for the RMI client BlobStore
-   * @param exporter the exporter to use for call-backs from the server.
-   *
-   * @return an RMI client BlobStore
-   *
-   * @throws IOException on an error in contacting the server
-   */
-  public static BlobStore create(RemoteStore server, URI localId, Exporter exporter)
-                          throws IOException {
-    return new ClientStore(localId, server, exporter);
+  public static BlobStore create(RemoteStore server, URI localId) throws IOException {
+    return new ClientStore(localId, server);
   }
 
   /**

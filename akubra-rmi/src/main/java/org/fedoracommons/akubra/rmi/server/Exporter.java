@@ -21,11 +21,6 @@
  */
 package org.fedoracommons.akubra.rmi.server;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-
 import java.rmi.NoSuchObjectException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -51,8 +46,7 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author Pradeep Krishnan
  */
-public class Exporter implements Serializable {
-  private static final long serialVersionUID = 1L;
+public class Exporter {
   private static final Log  log              = LogFactory.getLog(Exporter.class);
 
   /**
@@ -64,12 +58,12 @@ public class Exporter implements Serializable {
   private final int                          port;
   private final RMIClientSocketFactory       csf;
   private final RMIServerSocketFactory       ssf;
-  private transient ScheduledExecutorService executor;
-  private transient Set<Exportable>          exportedObjects;
+  private final ScheduledExecutorService     executor;
+  private final Set<Exportable>              exportedObjects;
 
   /**
    * Creates a new Exporter object.
-   * 
+   *
    * @param port the port number on which the remote object receives calls (if port is zero, an
    *          anonymous port is chosen)
    */
@@ -79,7 +73,7 @@ public class Exporter implements Serializable {
 
   /**
    * Creates a new Exporter object.
-   * 
+   *
    * @param port the port number on which the remote object receives calls (if port is zero, an
    *          anonymous port is chosen)
    * @param csf the client-side socket factory for making calls to the remote object
@@ -184,16 +178,6 @@ public class Exporter implements Serializable {
       };
 
     executor.schedule(job, RETRY_DELAY * trial, TimeUnit.MILLISECONDS);
-  }
-
-  private void writeObject(ObjectOutputStream out) throws IOException {
-    out.defaultWriteObject();
-  }
-
-  private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-    in.defaultReadObject();
-    executor          = createExecutor();
-    exportedObjects   = Collections.synchronizedSet(new HashSet<Exportable>());
   }
 
   /**

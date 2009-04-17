@@ -72,7 +72,7 @@ public class ClientStoreTest {
     replay(store);
 
     ss   = new ServerStore(store, exporter);
-    cs   = new ClientStore(URI.create("urn:rmi-client"), (RemoteStore) ss.getExported(), null);
+    cs   = new ClientStore(URI.create("urn:rmi-client"), (RemoteStore) ss.getExported());
   }
 
   @AfterSuite

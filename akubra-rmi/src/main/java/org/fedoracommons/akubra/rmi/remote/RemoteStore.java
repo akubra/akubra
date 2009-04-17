@@ -30,8 +30,6 @@ import java.rmi.RemoteException;
 
 import java.util.Set;
 
-import org.fedoracommons.akubra.rmi.server.Exporter;
-
 /**
  * Represents a remote blob store.
  *
@@ -58,15 +56,6 @@ public interface RemoteStore extends Remote {
    * @throws IllegalStateException if the remote is not ready yet
    */
   public Set<URI> getCapabilities() throws RemoteException, IllegalStateException;
-
-  /**
-   * Gets the export configuration from remote.
-   *
-   * @return the export configuration
-   *
-   * @throws RemoteException on an RMI communication failure
-   */
-  public Exporter getExporter() throws RemoteException;
 
   /**
    * Sets the remote store into a quiescent state.

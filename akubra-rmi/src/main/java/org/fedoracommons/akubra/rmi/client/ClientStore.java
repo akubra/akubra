@@ -36,9 +36,9 @@ import org.apache.commons.logging.LogFactory;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.impl.AbstractBlobStore;
 import org.fedoracommons.akubra.impl.StreamManager;
+import org.fedoracommons.akubra.rmi.remote.RemoteConnection;
 import org.fedoracommons.akubra.rmi.remote.RemoteStore;
 import org.fedoracommons.akubra.rmi.server.Exporter;
-import org.fedoracommons.akubra.rmi.server.ServerTransaction;
 
 /**
  * A BlobStore that forwards calls to a RemoteStore.
@@ -81,9 +81,10 @@ public class ClientStore extends AbstractBlobStore {
 
   public BlobStoreConnection openConnection(Transaction tx)
                                      throws UnsupportedOperationException, IOException {
-    ServerTransaction stxn = (tx == null) ? null : new ServerTransaction(tx, getExporter());
+    RemoteConnection con = (tx == null) ? server.openConnection()
+        : new ClientTransactionListener(server.startTransactionListener(true), tx).getConnection();
 
-    return new ClientConnection(this, streamManager, server.openConnection(stxn));
+    return new ClientConnection(this, streamManager, con);
   }
 
   public boolean setQuiescent(boolean quiescent) throws IOException {

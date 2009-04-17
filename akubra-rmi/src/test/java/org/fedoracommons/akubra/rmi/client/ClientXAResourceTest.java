@@ -31,23 +31,20 @@ import static org.easymock.classextension.EasyMock.verify;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import java.rmi.RemoteException;
 
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
-import javax.transaction.Transaction;
 import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
 
-import org.fedoracommons.akubra.rmi.remote.RemoteTransaction;
-import org.fedoracommons.akubra.rmi.remote.RemoteXAResource;
 import org.fedoracommons.akubra.rmi.remote.SerializedXid;
 import org.fedoracommons.akubra.rmi.server.Exporter;
-import org.fedoracommons.akubra.rmi.server.ServerTransaction;
+import org.fedoracommons.akubra.rmi.server.ServerTransactionListener;
+import org.fedoracommons.akubra.rmi.server.ServerXAResource;
 
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -60,18 +57,17 @@ import org.testng.annotations.Test;
   */
 public class ClientXAResourceTest {
   private Exporter          exporter;
-  private RemoteXAResource  sx;
+  private ServerXAResource  sx;
   private ClientXAResource  cx;
-  private ServerTransaction st;
   private XAResource        res;
-  private Transaction       txn;
   private Xid               xid;
+  private ClientTransactionListener txn;
+  private ServerTransactionListener stxn;
 
   @BeforeSuite
   public void setUp() throws Exception {
     exporter   = new Exporter(0);
     res        = createMock(XAResource.class);
-    txn        = createMock(Transaction.class);
     xid =
       new Xid() {
           public byte[] getBranchQualifier() {
@@ -87,38 +83,15 @@ public class ClientXAResourceTest {
           }
         };
 
-    expect(txn.enlistResource(isA(XAResource.class))).andReturn(true);
-    replay(txn);
-
-    // txn gets exported to the server by the akubra-client
-    st         = new ServerTransaction(txn, exporter);
-
-    // exported txn gets converted to txn by the akubra-server
-    ClientTransaction ct = new ClientTransaction((RemoteTransaction) st.getExported(), exporter);
-
-    /*
-     * A resource enlists with this txn on the akubra-server side.
-     * this should trigger an enlist all the way to the akubra-client side
-     */
-    assertTrue(ct.enlistResource(res));
-
-    verify(txn); // verifies that this did get registered on akubra-client
-
-    // gets the exported server resource at the akubra-server side
-    sx = ct.getRemoteXAResource(res);
-    assertNotNull(sx);
-
-    /*
-     * gets the akubra-client side resource that got enlisted with the akubra-client side
-     * transaction (the real txn). This is the ClientXAResource under test. (ie.
-     * integration-testing)
-     */
-    cx = (ClientXAResource) st.getEnlistedResources().iterator().next();
+    stxn = createMock(ServerTransactionListener.class);
+    sx  = new ServerXAResource(res, stxn, exporter);
+    txn = createMock(ClientTransactionListener.class);
+    cx  = new ClientXAResource(sx, txn);
   }
 
   @AfterSuite
   public void tearDown() throws Exception {
-    st.unExport(false);
+    sx.unExport(false);
   }
 
 
@@ -166,13 +139,22 @@ public class ClientXAResourceTest {
   public void testIsSameRM()
                     throws RemoteException, XAException, RollbackException, SystemException {
     reset(res);
-    expect(res.isSameRM(isA(XAResource.class))).andReturn(true);
+    reset(txn);
+    reset(stxn);
+    expect(txn.getRemoteXAResource(res)).andReturn(sx);
+    expect(stxn.getXAResource(sx)).andReturn(res);
+    expect(res.isSameRM(res)).andReturn(true);
     replay(res);
+    replay(txn);
+    replay(stxn);
 
     assertTrue(cx.isSameRM(cx));
     assertFalse(cx.isSameRM(null));
-    assertFalse(cx.isSameRM(res));
+    assertTrue(cx.isSameRM(res));
+
     verify(res);
+    verify(txn);
+    verify(stxn);
   }
 
   @Test

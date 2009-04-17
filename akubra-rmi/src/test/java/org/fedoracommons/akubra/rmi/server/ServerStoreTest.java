@@ -44,9 +44,11 @@ import javax.transaction.Transaction;
 
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
-import org.fedoracommons.akubra.rmi.client.ClientTransaction;
 import org.fedoracommons.akubra.rmi.remote.RemoteConnection;
 import org.fedoracommons.akubra.rmi.remote.RemoteStore;
+import org.fedoracommons.akubra.rmi.remote.RemoteTransactionListener;
+import org.fedoracommons.akubra.rmi.remote.RemoteCallListener.Operation;
+import org.fedoracommons.akubra.rmi.remote.RemoteCallListener.Result;
 
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -80,27 +82,46 @@ public class ServerStoreTest {
   }
 
   @Test
-  public void testOpenConnection() throws UnsupportedOperationException, IOException {
+  public void testOpenConnection() throws Exception {
     BlobStoreConnection con = createMock(BlobStoreConnection.class);
-    Transaction         tx  = createMock(Transaction.class);
-
     reset(store);
+    expect(store.openConnection(null)).andReturn(con);
     expect(store.openConnection(null)).andThrow(new UnsupportedOperationException());
-    expect(store.openConnection(isA(ClientTransaction.class))).andReturn(con);
     replay(store);
 
+    RemoteConnection rc = ss.openConnection();
+    assertTrue(rc instanceof ServerConnection);
+    assertEquals(con, ((ServerConnection)rc).getConnection());
+
     try {
-      ss.openConnection(null);
+      ss.openConnection();
       fail("Failed to rcv expected exception");
     } catch (UnsupportedOperationException e) {
     }
 
-    RemoteConnection rc = ss.openConnection(new ServerTransaction(tx, exporter));
+    verify(store);
+  }
+
+  @SuppressWarnings("unchecked")
+  @Test
+  public void testStartTransaction() throws Exception {
+    BlobStoreConnection con = createMock(BlobStoreConnection.class);
+
+    reset(store);
+    expect(store.openConnection(isA(Transaction.class))).andReturn(con);
+    replay(store);
+
+    RemoteTransactionListener rtl = ss.startTransactionListener(true);
+    Operation<?> op = rtl.getNextOperation();
+    assertTrue(op instanceof Result);
+
+    RemoteConnection rc = ((Result<RemoteConnection>) op).get();
     assertTrue(rc instanceof ServerConnection);
-    assertEquals(con, ((ServerConnection) rc).getConnection());
+    assertEquals(con, ((ServerConnection)rc).getConnection());
 
     verify(store);
   }
+
 
   @Test
   public void testGetCapabilities() {

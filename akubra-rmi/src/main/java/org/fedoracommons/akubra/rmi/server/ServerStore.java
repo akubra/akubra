@@ -27,10 +27,9 @@ import java.rmi.RemoteException;
 import java.util.Set;
 
 import org.fedoracommons.akubra.BlobStore;
-import org.fedoracommons.akubra.rmi.client.ClientTransaction;
 import org.fedoracommons.akubra.rmi.remote.RemoteConnection;
 import org.fedoracommons.akubra.rmi.remote.RemoteStore;
-import org.fedoracommons.akubra.rmi.remote.RemoteTransaction;
+import org.fedoracommons.akubra.rmi.remote.RemoteTransactionListener;
 
 /**
  * Server side implementation of the RemoteStore.
@@ -54,9 +53,8 @@ public class ServerStore extends Exportable implements RemoteStore {
     this.store = store;
   }
 
-  public RemoteConnection openConnection(RemoteTransaction txn) throws IOException {
-    ClientTransaction ctxn = (txn == null) ? null : new ClientTransaction(txn, getExporter());
-    return new ServerConnection(store.openConnection(ctxn), getExporter());
+  public RemoteConnection openConnection() throws IOException {
+    return new ServerConnection(store.openConnection(null), getExporter());
   }
 
   public Set<URI> getCapabilities() {
@@ -65,5 +63,9 @@ public class ServerStore extends Exportable implements RemoteStore {
 
   public boolean setQuiescent(boolean quiescent) throws IOException {
     return store.setQuiescent(quiescent);
+  }
+
+  public RemoteTransactionListener startTransactionListener(boolean stopOnOpen) throws RemoteException {
+    return new ServerTransactionListener(store, stopOnOpen, getExporter());
   }
 }

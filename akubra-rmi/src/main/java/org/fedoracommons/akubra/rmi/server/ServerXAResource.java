@@ -29,7 +29,6 @@ import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
 
-import org.fedoracommons.akubra.rmi.client.ClientTransaction;
 import org.fedoracommons.akubra.rmi.remote.RemoteXAResource;
 import org.fedoracommons.akubra.rmi.remote.SerializedXid;
 
@@ -41,25 +40,22 @@ import org.fedoracommons.akubra.rmi.remote.SerializedXid;
 public class ServerXAResource extends UnicastExportable implements RemoteXAResource {
   private static final long       serialVersionUID = 1L;
   private final XAResource        xaRes;
-  private final ClientTransaction txn;
+  private final ServerTransactionListener txnListener;
 
   /**
    * Creates a new ServerXAResource object.
    *
    * @param xaRes the real XAResource
-   * @param txn the transaction wrapper for
+   * @param txnListener the transaction listener that created it
    * @param exporter the exporter to use
    *
    * @throws RemoteException on an export error
    */
-  public ServerXAResource(XAResource xaRes, ClientTransaction txn, Exporter exporter)
+  public ServerXAResource(XAResource xaRes, ServerTransactionListener txnListener, Exporter exporter)
                    throws RemoteException {
     super(exporter);
     this.xaRes = xaRes;
-    this.txn   = txn;
-
-    if (txn == null)
-      throw new IllegalArgumentException("txn must be non-null");
+    this.txnListener = txnListener;
   }
 
   public void commit(Xid xid, boolean onePhase) throws XAException {
@@ -85,7 +81,7 @@ public class ServerXAResource extends UnicastExportable implements RemoteXAResou
      * the proxies is the one in the public XAResource interface and so we can make an early
      * decision here.
      */
-    XAResource local = (remote == null) ? null : txn.getXAResource(remote);
+    XAResource local = (remote == null) ? null : txnListener.getXAResource(remote);
 
     return (local == null) ? false : xaRes.isSameRM(local);
   }

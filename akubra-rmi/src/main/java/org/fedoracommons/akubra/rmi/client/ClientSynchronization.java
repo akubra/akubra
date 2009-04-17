@@ -35,7 +35,7 @@ import org.fedoracommons.akubra.rmi.remote.RemoteSynchronization;
  *
  * @author Pradeep Krishnan
   */
-public class ClientSynchronization implements Synchronization {
+class ClientSynchronization implements Synchronization {
   private static final Log            log    = LogFactory.getLog(ClientSynchronization.class);
   private final RemoteSynchronization remote;
 

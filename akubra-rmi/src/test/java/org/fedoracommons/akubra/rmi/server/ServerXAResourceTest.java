@@ -38,7 +38,6 @@ import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
 
-import org.fedoracommons.akubra.rmi.client.ClientTransaction;
 import org.fedoracommons.akubra.rmi.remote.RemoteXAResource;
 
 import org.testng.annotations.AfterSuite;
@@ -51,17 +50,17 @@ import org.testng.annotations.Test;
  * @author Pradeep Krishnan
   */
 public class ServerXAResourceTest {
-  private Exporter          exporter;
-  private ServerXAResource  sx;
-  private XAResource        res;
-  private Xid               xid;
-  private ClientTransaction txn;
+  private Exporter                  exporter;
+  private ServerTransactionListener txn;
+  private ServerXAResource          sx;
+  private XAResource                res;
+  private Xid                       xid;
 
   @BeforeSuite
   public void setUp() throws Exception {
     exporter   = new Exporter(0);
     res        = createMock(XAResource.class);
-    txn        = createMock(ClientTransaction.class);
+    txn        = createMock(ServerTransactionListener.class);
     sx         = new ServerXAResource(res, txn, exporter);
     xid        = createMock(Xid.class);
   }

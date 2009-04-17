@@ -34,14 +34,12 @@ import org.fedoracommons.akubra.rmi.server.Exporter;
 
 /**
  * Represents a remote blob store.
- * 
+ *
  * @author Pradeep Krishnan
  */
 public interface RemoteStore extends Remote {
   /**
-   * Open a connection on the remote blob-store.
-   *
-   * @param txn the jta transaction on the application/calling side
+   * Open a non transactional connection on the remote blob-store.
    *
    * @return a remote-connection handle
    *
@@ -49,8 +47,7 @@ public interface RemoteStore extends Remote {
    * @throws IOException on an error in opening a connection on the remote
    * @throws IllegalStateException if the remote is not ready to open up connections
    */
-  public RemoteConnection openConnection(RemoteTransaction txn)
-                                  throws RemoteException, IOException, IllegalStateException;
+  public RemoteConnection openConnection() throws RemoteException, IOException, IllegalStateException;
 
   /**
    * Gets the capabilities of the remote blob-store
@@ -82,4 +79,15 @@ public interface RemoteStore extends Remote {
    * @throws IOException on an error from the remote
    */
   public boolean setQuiescent(boolean quiescent) throws RemoteException, IOException;
+
+  /**
+   * Starts a Transaction listener on remote.
+   *
+   * @param stopOnOpen if true, stop accepting calls after a connection is opened
+   *
+   * @return a newly allocated transaction listener
+   *
+   * @throws RemoteException on an RMI communication failure
+   */
+  public RemoteTransactionListener startTransactionListener(boolean stopOnOpen) throws RemoteException;
 }

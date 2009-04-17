@@ -24,6 +24,7 @@ package org.fedoracommons.akubra.rmi.client;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.makeThreadSafe;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.reset;
 import static org.easymock.classextension.EasyMock.verify;
@@ -46,6 +47,7 @@ import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.rmi.remote.RemoteStore;
 import org.fedoracommons.akubra.rmi.server.Exporter;
 import org.fedoracommons.akubra.rmi.server.ServerStore;
+import org.fedoracommons.akubra.rmi.server.ServerTransactionListener;
 
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -97,8 +99,9 @@ public class ClientStoreTest {
     Transaction         tx  = createMock(Transaction.class);
 
     reset(store);
+    makeThreadSafe(store, true);
     expect(store.openConnection(null)).andThrow(new UnsupportedOperationException());
-    expect(store.openConnection(isA(ClientTransaction.class))).andReturn(con);
+    expect(store.openConnection(isA(ServerTransactionListener.class))).andReturn(con);
     replay(store);
 
     try {

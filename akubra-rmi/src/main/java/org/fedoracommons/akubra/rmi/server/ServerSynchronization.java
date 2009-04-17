@@ -57,4 +57,9 @@ public class ServerSynchronization extends UnicastExportable implements RemoteSy
   public void beforeCompletion() {
     sync.beforeCompletion();
   }
+
+  // for testing
+  Synchronization getSynchronization() {
+    return sync;
+  }
 }

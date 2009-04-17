@@ -31,16 +31,15 @@ import javax.transaction.xa.Xid;
 
 import org.fedoracommons.akubra.rmi.remote.RemoteXAResource;
 import org.fedoracommons.akubra.rmi.remote.SerializedXid;
-import org.fedoracommons.akubra.rmi.server.ServerTransaction;
 
 /**
  * An XAResource wrapper that forwards all calls to a RemoteXAResource.
  *
  * @author Pradeep Krishnan
   */
-public class ClientXAResource implements XAResource {
+class ClientXAResource implements XAResource {
   private final RemoteXAResource  remote;
-  private final ServerTransaction txn;
+  private final ClientTransactionListener txn;
 
   /**
    * Creates a new ClientXAResource object.
@@ -48,12 +47,9 @@ public class ClientXAResource implements XAResource {
    * @param xaRes the remote stub
    * @param txn the akubra-rmi-client side RemoteTransaction implementation that created this
    */
-  public ClientXAResource(RemoteXAResource xaRes, ServerTransaction txn) {
+  public ClientXAResource(RemoteXAResource xaRes, ClientTransactionListener txn) {
     this.remote   = xaRes;
     this.txn      = txn;
-
-    if (txn == null)
-      throw new IllegalArgumentException("txn must be non-null");
   }
 
   public void commit(Xid xid, boolean onePhase) throws XAException {
@@ -89,6 +85,9 @@ public class ClientXAResource implements XAResource {
   }
 
   public boolean isSameRM(XAResource xa) throws XAException {
+    if (this == xa)
+      return true;
+
     try {
       /*
        * Only the ones enlisted from the remote is compared. Others are assumed to be not same.
@@ -96,7 +95,7 @@ public class ClientXAResource implements XAResource {
        * the proxies is the one in the public XAResource interface and so we can make an early
        * decision here.
        */
-      RemoteXAResource rxa = txn.getRemoteXAResource(xa);
+      RemoteXAResource rxa = (xa == null) ? null : txn.getRemoteXAResource(xa);
 
       return (rxa == null) ? false : remote.isSameRM(rxa);
     } catch (RemoteException e) {

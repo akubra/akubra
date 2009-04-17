@@ -22,6 +22,7 @@
 package org.fedoracommons.akubra.rmi.client;
 
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.makeThreadSafe;
 import static org.easymock.classextension.EasyMock.replay;
@@ -108,6 +109,7 @@ public class ClientBlobTest {
 
     expect(in.read()).andReturn(42);
     in.close();
+    expectLastCall().atLeastOnce();
     replay(blob);
     replay(in);
 
@@ -140,6 +142,7 @@ public class ClientBlobTest {
 
     out.write(42);
     out.close();
+    expectLastCall().atLeastOnce();
     replay(blob);
     replay(out);
 

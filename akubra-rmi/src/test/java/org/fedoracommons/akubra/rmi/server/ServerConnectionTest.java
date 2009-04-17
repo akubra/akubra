@@ -32,6 +32,8 @@ import static org.easymock.classextension.EasyMock.verify;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 
 import java.io.IOException;
 
@@ -163,7 +165,9 @@ public class ServerConnectionTest {
     con.close();
     replay(con);
 
+    assertNotNull(sc.getExported());
     sc.close();
+    assertNull(sc.getExported());
     verify(con);
   }
 
@@ -175,7 +179,9 @@ public class ServerConnectionTest {
     con.close();
     replay(con);
 
+    assertNotNull(sc.getExported());
     sc.unreferenced();
+    assertNull(sc.getExported());
     verify(con);
   }
 }

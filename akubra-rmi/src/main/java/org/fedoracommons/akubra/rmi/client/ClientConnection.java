@@ -75,19 +75,24 @@ class ClientConnection extends AbstractBlobStoreConnection {
       try {
         remote.close();
       } catch (IOException e) {
-        super.closed = false;
         log.warn("Failed to close connection on remote server.", e);
       }
     }
   }
 
   public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
+    if (isClosed())
+      throw new IOException("Connection closed");
+
     return new ClientBlob(this, streamManager, remote.getBlob(blobId, hints), hints);
   }
 
   @Override
   public Blob getBlob(InputStream in, long estimatedSize, Map<String, String> hints)
                throws IOException {
+    if (isClosed())
+      throw new IOException("Connection closed");
+
     Exporter          exporter = getExporter();
     ServerInputStream ri       = new ServerInputStream(in, exporter);
 
@@ -99,6 +104,9 @@ class ClientConnection extends AbstractBlobStoreConnection {
   }
 
   public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
+    if (isClosed())
+      throw new IOException("Connection closed");
+
     RemoteIterator<URI> ri = remote.listBlobIds(filterPrefix);
 
     return new ClientIterator<URI>(ri, ITERATOR_BATCH_SIZE);

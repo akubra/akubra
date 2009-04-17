@@ -40,8 +40,8 @@ import org.apache.commons.logging.LogFactory;
 public abstract class Exportable extends RemoteServer {
   private static final Log log = LogFactory.getLog(Exportable.class);
   private static final long serialVersionUID = 1L;
-  private final Exporter              exporter;
-  private final WeakReference<Remote> exported;
+  private final Exporter        exporter;
+  private WeakReference<Remote> exported;
 
   /**
    * Creates a new Exportable object.
@@ -70,6 +70,9 @@ public abstract class Exportable extends RemoteServer {
    * @param force if true, will abort all current in progress calls
    */
   public void unExport(boolean force) {
+    if (getExported() == null)
+      return;
+
     if (log.isDebugEnabled()) {
       String client = getClient();
 
@@ -78,12 +81,15 @@ public abstract class Exportable extends RemoteServer {
       else
         log.debug("Unexporting " + this);
     }
+
     try {
       getExporter().unexportObject(this, force);
     } catch (NoSuchObjectException e) {
       if (log.isDebugEnabled())
         log.debug(this + " was already unexported (or was not exported)", e);
     }
+
+    exported = null;
   }
 
   /**
@@ -101,7 +107,7 @@ public abstract class Exportable extends RemoteServer {
    * @return the exported stub
    */
   public Remote getExported() {
-    return exported.get();
+    return (exported == null) ? null : exported.get();
   }
 
   @Override

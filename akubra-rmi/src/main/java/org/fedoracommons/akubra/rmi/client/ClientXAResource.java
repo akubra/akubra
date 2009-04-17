@@ -148,8 +148,4 @@ public class ClientXAResource implements XAResource {
     return ((xid == null) || (xid instanceof Serializable)) ? xid : new SerializedXid(xid);
   }
 
-  // for testing
-  RemoteXAResource getRemote() {
-    return remote;
-  }
 }

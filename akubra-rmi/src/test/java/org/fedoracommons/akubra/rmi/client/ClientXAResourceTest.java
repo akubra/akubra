@@ -96,7 +96,7 @@ public class ClientXAResourceTest {
     // exported txn gets converted to txn by the akubra-server
     ClientTransaction ct = new ClientTransaction((RemoteTransaction) st.getExported(), exporter);
 
-    /* 
+    /*
      * A resource enlists with this txn on the akubra-server side.
      * this should trigger an enlist all the way to the akubra-client side
      */
@@ -121,10 +121,6 @@ public class ClientXAResourceTest {
     st.unExport(false);
   }
 
-  @Test
-  public void testGetRemote() {
-    assertEquals(sx, cx.getRemote());
-  }
 
   @Test
   public void testCommit() throws XAException {

@@ -61,7 +61,7 @@ public class ServerBlobCreator extends ServerOutputStream implements RemoteBlobC
                     throws IOException {
     super(new PipedOutputStream(), exporter);
 
-    final InputStream in = new PipedInputStream((PipedOutputStream) out, 8192);
+    final InputStream in = new PipedInputStream((PipedOutputStream) out);
 
     blob =
       Executors.newSingleThreadExecutor(new ThreadFactory() {

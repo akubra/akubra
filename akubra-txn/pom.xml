@@ -36,6 +36,15 @@
     <version>0.1-SNAPSHOT</version>
   </parent>
 
+  <repositories>
+    <!-- for derby 10.5.1.1 - remove when we upgrade to 10.5.2.0 -->
+    <repository>
+      <id>fc-thirdparty</id>
+      <name>Fedora Third-party Libraries</name>
+      <url>https://fedora-commons.org/m2/content/repositories/thirdparty</url>
+    </repository>
+  </repositories>
+
   <dependencies>
     <dependency>
       <groupId>org.fedoracommons</groupId>
@@ -46,7 +55,7 @@
     <dependency>
       <groupId>org.apache.derby</groupId>
       <artifactId>derby</artifactId>
-      <version>10.4.2.0</version>
+      <version>10.5.1.1</version>
     </dependency>
 
     <dependency>

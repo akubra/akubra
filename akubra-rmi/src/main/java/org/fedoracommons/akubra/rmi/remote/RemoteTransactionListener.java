@@ -144,27 +144,4 @@ public interface RemoteTransactionListener extends RemoteCallListener {
       return rs;
     }
   }
-
-  public static class TakeConnection implements Operation<Void> {
-    private static final long serialVersionUID = 1L;
-    private final RemoteConnection con;
-
-    /**
-     * Creates a TakeConnection instance.
-     *
-     * @param con a server connection
-     */
-    public TakeConnection(RemoteConnection con) {
-      this.con = con;
-    }
-
-    /**
-     * Gets the server side Connection object.
-     *
-     * @return the server connection object
-     */
-    public RemoteConnection getConnection() {
-      return con;
-    }
-  }
 }

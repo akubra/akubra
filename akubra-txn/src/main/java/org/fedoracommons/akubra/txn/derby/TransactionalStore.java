@@ -119,6 +119,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
 
   private final EmbeddedXADataSource dataSource;
   private final Set<Long>            activeTxns = new HashSet<Long>();
+  private final Set<URI>             uriLocks = new HashSet<URI>();
   private final boolean              singleWriter;
   private       long                 nextVersion;
   private       long                 writeVersion = -1;
@@ -359,6 +360,38 @@ public class TransactionalStore extends AbstractTransactionalStore {
 
     writeLockHolder = -1;
     notifyAll();
+  }
+
+  /**
+   * Acquire a lock on the given URI. Each lock for each URI is a simple, non-reentrant lock and
+   * each lock for each URI is independent of the others. If the lock is already held this will
+   * block until it is free.
+   *
+   * @param uri the URI for which to acquire the lock
+   * @throws InterruptedException if waiting for the lock was interrupted
+   */
+  void acquireUriLock(URI uri) throws InterruptedException {
+    synchronized (uriLocks) {
+      while (uriLocks.contains(uri))
+        uriLocks.wait();
+
+      uriLocks.add(uri);
+    }
+  }
+
+  /**
+   * Release the lock on the given URI.
+   *
+   * @param uri the URI for which to release the lock
+   * @throws IllegalStateException if the lock was not held
+   */
+  void releaseUriLock(URI uri) throws IllegalStateException {
+    synchronized (uriLocks) {
+      if (!uriLocks.remove(uri))
+        throw new IllegalStateException("Uri lock for <" + uri + "> was not held");
+
+      uriLocks.notify();
+    }
   }
 
   /**

@@ -112,7 +112,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
       del_upd = con.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 
       // detect update conflicts
-      sql = "SELECT version, committed, deleted FROM " + TransactionalStore.NAME_TABLE +
+      sql = "SELECT version, committed FROM " + TransactionalStore.NAME_TABLE +
             " WHERE appId = ? ORDER BY version DESC";
       nam_cfl = con.prepareStatement(sql);
       nam_cfl.setMaxRows(1);
@@ -268,27 +268,6 @@ public class TransactionalConnection extends SQLTransactionalConnection {
 
   private void updNameEntry(URI ourId, URI storeId, boolean delete) throws IOException {
     try {
-      boolean useUpdate = false;
-
-      // check for conflicts
-      nam_cfl.setString(1, ourId.toString());
-      ResultSet rs = nam_cfl.executeQuery();
-      try {
-        if (rs.next()) {
-          long v = rs.getLong(1);
-          if (v > version ||
-              v < version && !rs.getBoolean(2) ||
-              rs.getBoolean(3) == delete)
-            throw new ConcurrentBlobUpdateException(ourId, "Conflict detected: '" + ourId +
-                                  "' is already being modified in another transaction");
-
-          if (v == version)
-            useUpdate = true;
-        }
-      } finally {
-        rs.close();
-      }
-
       // hack to serialize writers if desired (because of Derby locking issues)
       if (numMods == 0 && ((TransactionalStore) owner).singleWriter()) {
         try {
@@ -298,26 +277,58 @@ public class TransactionalConnection extends SQLTransactionalConnection {
         }
       }
 
-      numMods++;
+      /* this lock avoids a race-condition due to the conflict check and the name-table update
+       * being two separate operations.
+       */
+      try {
+        ((TransactionalStore) owner).acquireUriLock(ourId);
+      } catch (InterruptedException ie) {
+        throw (IOException) new IOException("Interrupted waiting for uri lock").initCause(ie);
+      }
 
-      // add-to/update the name-map and deleted-list
-      if (useUpdate) {
-        if (logger.isTraceEnabled())
-          logger.trace("Updating existing name-entry");
+      try {
+        boolean useUpdate = false;
 
-        nam_upd.setString(1, ourId.toString());
-        nam_upd.setLong(2, version);
-        doUpdate(nam_upd, storeId.toString(), delete);
-      } else {
-        if (logger.isTraceEnabled())
-          logger.trace("Inserting new name-entry");
+        // check for conflicts
+        nam_cfl.setString(1, ourId.toString());
+        ResultSet rs = nam_cfl.executeQuery();
+        try {
+          if (rs.next()) {
+            long v = rs.getLong(1);
+            if (v > version || v < version && !rs.getBoolean(2))
+              throw new ConcurrentBlobUpdateException(ourId, "Conflict detected: '" + ourId +
+                                    "' is already being modified in another transaction");
 
-        nam_ins.setString(1, ourId.toString());
-        nam_ins.setString(2, storeId.toString());
-        nam_ins.setLong(3, version);
-        nam_ins.setBoolean(4, delete);
-        nam_ins.setBoolean(5, false);
-        nam_ins.executeUpdate();
+            if (v == version)
+              useUpdate = true;
+          }
+        } finally {
+          rs.close();
+        }
+
+        numMods++;
+
+        // add-to/update the name-map and deleted-list
+        if (useUpdate) {
+          if (logger.isTraceEnabled())
+            logger.trace("Updating existing name-entry");
+
+          nam_upd.setString(1, ourId.toString());
+          nam_upd.setLong(2, version);
+          doUpdate(nam_upd, storeId.toString(), delete);
+        } else {
+          if (logger.isTraceEnabled())
+            logger.trace("Inserting new name-entry");
+
+          nam_ins.setString(1, ourId.toString());
+          nam_ins.setString(2, storeId.toString());
+          nam_ins.setLong(3, version);
+          nam_ins.setBoolean(4, delete);
+          nam_ins.setBoolean(5, false);
+          nam_ins.executeUpdate();
+        }
+      } finally {
+        ((TransactionalStore) owner).releaseUriLock(ourId);
       }
 
       if (delete) {

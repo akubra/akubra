@@ -76,8 +76,16 @@ class ClientBlob extends AbstractBlob {
     if (getConnection().isClosed())
       throw new IOException("Connection closed");
 
-    return streamMgr.manageOutputStream(getConnection(),
-                                        new ClientOutputStream(remote.openOutputStream(estSize)));
+    if (!streamMgr.lockUnquiesced()) {
+      throw new IOException("Interrupted waiting for writable state");
+    }
+    try {
+      return streamMgr.manageOutputStream(getConnection(),
+                                          new ClientOutputStream(remote.openOutputStream(estSize)));
+
+    } finally {
+      streamMgr.unlockState();
+    }
   }
 
   public long getSize() throws IOException {

@@ -28,17 +28,19 @@ import java.io.OutputStream;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.apache.commons.io.IOUtils;
 
 import org.fedoracommons.akubra.BlobStoreConnection;
 
 /**
  * Utility class that tracks the open streams of a <code>BlobStore</code> in order to provide a
- * <code>setQuiescent</code> implementation with the correct blocking behavior as well as to 
+ * <code>setQuiescent</code> implementation with the correct blocking behavior as well as to
  * ensure that streams that belong to a <code>BlobStoreConnection</code> are closed when the
  * connection is closed.
  *
@@ -50,15 +52,18 @@ public class StreamManager {
   /** Exclusive lock on the quiescent state. */
   private final ReentrantLock stateLock = new ReentrantLock(true);
 
+  /** Used to await and signal when quiescent state changes to false. */
+  private final Condition becameUnquiescent = stateLock.newCondition();
+
   /** Listens to close events. */
   private final CloseListener listener;
 
   /** The set of open <code>OutputStream</code>s managed by this instance. */
-  private Set<ManagedOutputStream> openStreams
+  private final Set<ManagedOutputStream> openStreams
       = Collections.synchronizedSet(new HashSet<ManagedOutputStream>());
 
   /** The set of open <code>InputStream</code>s managed by this instance. */
-  private Set<ManagedInputStream> openInputStreams
+  private final Set<ManagedInputStream> openInputStreams
       = Collections.synchronizedSet(new HashSet<ManagedInputStream>());
 
   /** The current quiescent state. */
@@ -90,23 +95,18 @@ public class StreamManager {
    * @see #unlockState
    */
   public boolean lockUnquiesced() {
-    boolean waited = false;
     try {
-      while (true) {
-        stateLock.lockInterruptibly();
-        if (!quiescent) {
-          if (waited)
-            log.info("lockUnquiesced: Wait is over.");
-          if (log.isDebugEnabled())
-            log.debug("Aquired the unquiescent lock");
-          return true;
-        }
-        stateLock.unlock();
-        log.info("lockUquiesced: Waiting ...");
-        Thread.sleep(500);
-        waited = true;
+      stateLock.lockInterruptibly();
+      if (quiescent) {
+        log.info("lockUnquiesced: Waiting...");
+        becameUnquiescent.await();
+        log.info("lockUnquiesced: Wait is over.");
       }
+      log.debug("Aquired the unquiescent lock");
+      return true;
     } catch (InterruptedException e) {
+      if (stateLock.isHeldByCurrentThread())
+        stateLock.unlock();
       return false;
     }
   }
@@ -118,9 +118,8 @@ public class StreamManager {
    */
   public void unlockState() {
     stateLock.unlock();
-    if (log.isDebugEnabled())
-      log.debug("Released the unquiescent lock");
- }
+    log.debug("Released the unquiescent lock");
+  }
 
   /**
    * Sets the quiescent state.
@@ -134,42 +133,59 @@ public class StreamManager {
   public boolean setQuiescent(boolean quiescent) {
     try {
       stateLock.lockInterruptibly();
-      try {
-        if (quiescent && !this.quiescent) {
-          while (!openStreams.isEmpty()) {
-            log.info("setQuiescent: Waiting for " + openStreams.size() + " output streams to close...");
-            Thread.sleep(500);
-          }
-          log.info("setQuiescent: No open output streams. Entering quiescent state.");
+      if (quiescent && !this.quiescent) {
+        while (!openStreams.isEmpty()) {
+          log.info("setQuiescent: Waiting for " + openStreams.size() + " output streams to close...");
+          Thread.sleep(500);
         }
-        if (!quiescent && this.quiescent)
-          log.info("setQuiescent: Exiting quiescent state.");
-
-        this.quiescent = quiescent;
-        return true;
-      } finally {
-        stateLock.unlock();
+        log.info("setQuiescent: No open output streams. Entering quiescent state.");
       }
+      if (!quiescent && this.quiescent) {
+        log.info("setQuiescent: Exiting quiescent state.");
+        becameUnquiescent.signal();
+      }
+      this.quiescent = quiescent;
+      return true;
     } catch (InterruptedException e) {
       return false;
+    } finally {
+      if (stateLock.isHeldByCurrentThread())
+        stateLock.unlock();
     }
   }
 
   /**
-   * Provides a tracked wrapper around a given OutputStream.
+   * Provides a tracked wrapper around a given OutputStream. The current thread must own the
+   * stateLock or an exception will be thrown.
+   * <p>
+   * Callers should generally get a managed OutputStream in the following way:
+   * <pre>
+   * if (!streamManager.lockUnquiesced()) { // obtain the stateLock
+   *   throw new IOException("Interrupted waiting for writable state");
+   * }
+   * try {
+   *   stream = ...
+   *   return streamManager.manageOutputStream(getConnection(), stream);
+   * } finally {
+   *   streamManager.unlockState();
+   * }
+   * </pre>
    *
-   * @param con the connection that trac.
+   * @param con the connection from which the stream originated.
    * @param stream the stream to wrap.
    * @return the wrapped version of the stream.
+   * @throws IllegalStateException if the state lock is not held by the current thread.
    */
   public OutputStream manageOutputStream(BlobStoreConnection con, OutputStream stream) {
+    if (!stateLock.isHeldByCurrentThread())
+      throw new IllegalStateException("State lock not held by current thread");
     ManagedOutputStream managed = new ManagedOutputStream(listener, stream, con);
     openStreams.add(managed);
     return managed;
   }
 
   /**
-   * Provides a tracked wrapper around a given OutputStream.
+   * Provides a tracked wrapper around a given InputStream.
    *
    * @param con the connection that trac.
    * @param stream the stream to wrap.

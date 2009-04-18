@@ -63,7 +63,13 @@ public class TestStreamManager {
    */
   @Test
   public void testManageOutputStream() throws Exception {
-    OutputStream managed = manager.manageOutputStream(null, new ByteArrayOutputStream());
+    OutputStream managed = null;
+    assertTrue(manager.lockUnquiesced());
+    try {
+      managed = manager.manageOutputStream(null, new ByteArrayOutputStream());
+    } finally {
+      manager.unlockState();
+    }
     assertEquals(manager.getOpenCount(), 1);
     managed.close();
     assertEquals(manager.getOpenCount(), 0);
@@ -74,7 +80,13 @@ public class TestStreamManager {
    */
   @Test
   public void testManageInputStream() throws Exception {
-    InputStream managed = manager.manageInputStream(null, new ByteArrayInputStream(new byte[0]));
+    InputStream managed = null;
+    assertTrue(manager.lockUnquiesced());
+    try {
+      managed = manager.manageInputStream(null, new ByteArrayInputStream(new byte[0]));
+    } finally {
+      manager.unlockState();
+    }
     assertEquals(manager.getOpenInputStreamCount(), 1);
     managed.close();
     assertEquals(manager.getOpenInputStreamCount(), 0);
@@ -87,24 +99,28 @@ public class TestStreamManager {
   public void testTrackedConnectionCloses() throws Exception {
     BlobStoreConnection con1 = new MockConnection(manager);
     BlobStoreConnection con2 = new MockConnection(manager);
+    assertTrue(manager.lockUnquiesced());
+    try {
+      manager.manageInputStream(con1, new ByteArrayInputStream(new byte[0]));
+      manager.manageOutputStream(con1, new ByteArrayOutputStream());
+      assertEquals(manager.getOpenInputStreamCount(), 1);
+      assertEquals(manager.getOpenCount(), 1);
 
-    manager.manageInputStream(con1, new ByteArrayInputStream(new byte[0]));
-    manager.manageOutputStream(con1, new ByteArrayOutputStream());
-    assertEquals(manager.getOpenInputStreamCount(), 1);
-    assertEquals(manager.getOpenCount(), 1);
+      manager.manageInputStream(con2, new ByteArrayInputStream(new byte[0]));
+      manager.manageOutputStream(con2, new ByteArrayOutputStream());
+      assertEquals(manager.getOpenInputStreamCount(), 2);
+      assertEquals(manager.getOpenCount(), 2);
 
-    manager.manageInputStream(con2, new ByteArrayInputStream(new byte[0]));
-    manager.manageOutputStream(con2, new ByteArrayOutputStream());
-    assertEquals(manager.getOpenInputStreamCount(), 2);
-    assertEquals(manager.getOpenCount(), 2);
+      con1.close();
+      assertEquals(manager.getOpenInputStreamCount(), 1);
+      assertEquals(manager.getOpenCount(), 1);
 
-    con1.close();
-    assertEquals(manager.getOpenInputStreamCount(), 1);
-    assertEquals(manager.getOpenCount(), 1);
-
-    con2.close();
-    assertEquals(manager.getOpenInputStreamCount(), 0);
-    assertEquals(manager.getOpenCount(), 0);
+      con2.close();
+      assertEquals(manager.getOpenInputStreamCount(), 0);
+      assertEquals(manager.getOpenCount(), 0);
+    } finally {
+      manager.unlockState();
+    }
   }
 
   /**
@@ -129,7 +145,13 @@ public class TestStreamManager {
    */
   @Test
   public void testGoQuiescentOpenStreamBlocking() throws Exception {
-    OutputStream managed = manager.manageOutputStream(null, new ByteArrayOutputStream());
+    OutputStream managed = null;
+    assertTrue(manager.lockUnquiesced());
+    try {
+      managed = manager.manageOutputStream(null, new ByteArrayOutputStream());
+    } finally {
+      manager.unlockState();
+    }
     GoQuiescentThread thread = new GoQuiescentThread(manager);
     thread.start();
     Thread.sleep(100);
@@ -137,7 +159,7 @@ public class TestStreamManager {
     managed.close();
     thread.join();                // thread will now terminate; wait for it
     assertTrue(thread.getReturnValue());
-    manager.setQuiescent(false);
+    assertTrue(manager.setQuiescent(false));
   }
 
   /**
@@ -146,7 +168,13 @@ public class TestStreamManager {
    */
   @Test
   public void testGoQuiescentOpenStreamInterrupted() throws Exception {
-    OutputStream managed = manager.manageOutputStream(null, new ByteArrayOutputStream());
+    OutputStream managed = null;
+    assertTrue(manager.lockUnquiesced());
+    try {
+      managed = manager.manageOutputStream(null, new ByteArrayOutputStream());
+    } finally {
+      manager.unlockState();
+    }
     GoQuiescentThread thread = new GoQuiescentThread(manager);
     thread.start();
     Thread.sleep(100);
@@ -155,7 +183,7 @@ public class TestStreamManager {
     thread.join();                // thread will now terminate; wait for it
     assertFalse(thread.getReturnValue());
     managed.close();
-    manager.setQuiescent(false);
+    assertTrue(manager.setQuiescent(false));
   }
 
   /**
@@ -164,15 +192,18 @@ public class TestStreamManager {
    */
   @Test
   public void testGoQuiescentStateLockBlocking() throws Exception {
-    manager.lockUnquiesced();
     GoQuiescentThread thread = new GoQuiescentThread(manager);
-    thread.start();
-    Thread.sleep(100);
-    assertTrue(thread.isAlive()); // thread should be blocking
-    manager.unlockState();
+    assertTrue(manager.lockUnquiesced());
+    try {
+      thread.start();
+      Thread.sleep(100);
+      assertTrue(thread.isAlive()); // thread should be blocking
+    } finally {
+      manager.unlockState();
+    }
     thread.join();                // thread will now terminate; wait for it
     assertTrue(thread.getReturnValue());
-    manager.setQuiescent(false);
+    assertTrue(manager.setQuiescent(false));
   }
 
   /**
@@ -181,16 +212,19 @@ public class TestStreamManager {
    */
   @Test
   public void testGoQuiescentStateLockInterrupted() throws Exception {
-    manager.lockUnquiesced();
-    GoQuiescentThread thread = new GoQuiescentThread(manager);
-    thread.start();
-    Thread.sleep(100);
-    assertTrue(thread.isAlive()); // thread should be blocking
-    thread.interrupt();
-    thread.join();                // thread will now terminate; wait for it
-    assertFalse(thread.getReturnValue());
-    manager.unlockState();
-    manager.setQuiescent(false);
+    assertTrue(manager.lockUnquiesced());
+    try {
+      GoQuiescentThread thread = new GoQuiescentThread(manager);
+      thread.start();
+      Thread.sleep(100);
+      assertTrue(thread.isAlive()); // thread should be blocking
+      thread.interrupt();
+      thread.join();                // thread will now terminate; wait for it
+      assertFalse(thread.getReturnValue());
+    } finally {
+      manager.unlockState();
+    }
+    assertTrue(manager.setQuiescent(false));
   }
 
   /**
@@ -199,12 +233,12 @@ public class TestStreamManager {
    */
   @Test
   public void testGoUnquiescentBlocking() throws Exception {
-    manager.setQuiescent(true);
+    assertTrue(manager.setQuiescent(true));
     LockUnquiescedThread thread = new LockUnquiescedThread(manager);
     thread.start();
     Thread.sleep(100);
     assertTrue(thread.isAlive()); // thread should be blocking
-    manager.setQuiescent(false);
+    assertTrue(manager.setQuiescent(false));
     thread.join();                // thread will now terminate; wait for it
     assertTrue(thread.getReturnValue());
   }
@@ -214,7 +248,7 @@ public class TestStreamManager {
    */
   @Test
   public void testGoUnquiescentInterrupted() throws Exception {
-    manager.setQuiescent(true);
+    assertTrue(manager.setQuiescent(true));
     LockUnquiescedThread thread = new LockUnquiescedThread(manager);
     thread.start();
     Thread.sleep(100);
@@ -222,7 +256,7 @@ public class TestStreamManager {
     thread.interrupt();
     thread.join();                // thread will now terminate; wait for it
     assertFalse(thread.getReturnValue());
-    manager.setQuiescent(false);
+    assertTrue(manager.setQuiescent(false));
   }
 
   private static class GoQuiescentThread extends Thread {

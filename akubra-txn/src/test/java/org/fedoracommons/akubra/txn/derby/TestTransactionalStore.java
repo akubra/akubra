@@ -614,78 +614,126 @@ public class TestTransactionalStore {
         };
 
     // test create-create conflict
-    testConflict(createNoBody, createNoBody, id2);
-    getBlob(id2, "", true);
-    deleteBlob(id2, "", true);
+    testConflict(createNoBody, createNoBody, id2, new ERunnable() {
+      public void erun() throws Exception {
+        getBlob(id2, "", true);
+        deleteBlob(id2, "", true);
+      }
+    });
 
-    testConflict(createWithBody, createNoBody, id2);
-    getBlob(id2, body2, true);
-    deleteBlob(id2, body2, true);
+    testConflict(createWithBody, createNoBody, id2, new ERunnable() {
+      public void erun() throws Exception {
+        getBlob(id2, body2, true);
+        deleteBlob(id2, body2, true);
+      }
+    });
 
-    testConflict(createWithBody, createWithBody, id2);
-    getBlob(id2, body2, true);
-    deleteBlob(id2, body2, true);
+    testConflict(createWithBody, createWithBody, id2, new ERunnable() {
+      public void erun() throws Exception {
+        getBlob(id2, body2, true);
+        deleteBlob(id2, body2, true);
+      }
+    });
 
-    testConflict(createNoBody, createWithBody, id2);
-    getBlob(id2, "", true);
-    deleteBlob(id2, "", true);
+    testConflict(createNoBody, createWithBody, id2, new ERunnable() {
+      public void erun() throws Exception {
+        getBlob(id2, "", true);
+        deleteBlob(id2, "", true);
+      }
+    });
 
     // test delete-delete conflict
-    testConflict(delete1, delete1, id1);
-    getBlob(id1, null, true);
-    createBlob(id1, body1, true);
+    testConflict(delete1, delete1, id1, new ERunnable() {
+      public void erun() throws Exception {
+        getBlob(id1, null, true);
+        createBlob(id1, body1, true);
+      }
+    });
 
     // test delete-modify conflict
-    testConflict(delete1, modify1, id1);
-    getBlob(id1, null, true);
-    createBlob(id1, body1, true);
+    testConflict(delete1, modify1, id1, new ERunnable() {
+      public void erun() throws Exception {
+        getBlob(id1, null, true);
+        createBlob(id1, body1, true);
+      }
+    });
 
-    testConflict(modify1, delete1, id1);
-    getBlob(id1, body11, true);
-    setBlob(id1, body1, true);
+    testConflict(modify1, delete1, id1, new ERunnable() {
+      public void erun() throws Exception {
+        getBlob(id1, body11, true);
+        setBlob(id1, body1, true);
+      }
+    });
 
     // test modify-modify conflict
-    testConflict(modify1, modify1, id1);
-    getBlob(id1, body11, true);
-    setBlob(id1, body1, true);
+    testConflict(modify1, modify1, id1, new ERunnable() {
+      public void erun() throws Exception {
+        getBlob(id1, body11, true);
+        setBlob(id1, body1, true);
+      }
+    });
 
     // test rename-rename conflict
-    testConflict(rename12, rename12, id1);
-    getBlob(id2, body1, true);
-    renameBlob(id2, id1, body1, true);
+    testConflict(rename12, rename12, id1, new ERunnable() {
+      public void erun() throws Exception {
+        getBlob(id2, body1, true);
+        renameBlob(id2, id1, body1, true);
+      }
+    });
 
     // test rename-modify conflict
-    testConflict(rename12, modify1, id1);
-    getBlob(id2, body1, true);
-    renameBlob(id2, id1, body1, true);
+    testConflict(rename12, modify1, id1, new ERunnable() {
+      public void erun() throws Exception {
+        getBlob(id2, body1, true);
+        renameBlob(id2, id1, body1, true);
+      }
+    });
 
-    testConflict(modify1, rename12, id1);
-    getBlob(id1, body11, true);
-    setBlob(id1, body1, true);
+    testConflict(modify1, rename12, id1, new ERunnable() {
+      public void erun() throws Exception {
+        getBlob(id1, body11, true);
+        setBlob(id1, body1, true);
+      }
+    });
 
     // test rename-create conflict
-    testConflict(rename12, createNoBody, id2);
-    getBlob(id2, body1, true);
-    renameBlob(id2, id1, body1, true);
+    testConflict(rename12, createNoBody, id2, new ERunnable() {
+      public void erun() throws Exception {
+        getBlob(id2, body1, true);
+        renameBlob(id2, id1, body1, true);
+      }
+    });
 
-    testConflict(createNoBody, rename12, id2);
-    getBlob(id1, body1, true);
-    getBlob(id2, "", true);
-    deleteBlob(id2, "", true);
+    testConflict(createNoBody, rename12, id2, new ERunnable() {
+      public void erun() throws Exception {
+        getBlob(id1, body1, true);
+        getBlob(id2, "", true);
+        deleteBlob(id2, "", true);
+      }
+    });
 
-    testConflict(createWithBody, rename12, id2);
-    getBlob(id1, body1, true);
-    getBlob(id2, body2, true);
-    deleteBlob(id2, body2, true);
+    testConflict(createWithBody, rename12, id2, new ERunnable() {
+      public void erun() throws Exception {
+        getBlob(id1, body1, true);
+        getBlob(id2, body2, true);
+        deleteBlob(id2, body2, true);
+      }
+    });
 
     // test rename-delete conflict
-    testConflict(rename12, delete1, id1);
-    getBlob(id2, body1, true);
-    renameBlob(id2, id1, body1, true);
+    testConflict(rename12, delete1, id1, new ERunnable() {
+      public void erun() throws Exception {
+        getBlob(id2, body1, true);
+        renameBlob(id2, id1, body1, true);
+      }
+    });
 
-    testConflict(delete1, rename12, id1);
-    getBlob(id1, null, true);
-    createBlob(id1, body1, true);
+    testConflict(delete1, rename12, id1, new ERunnable() {
+      public void erun() throws Exception {
+        getBlob(id1, null, true);
+        createBlob(id1, body1, true);
+      }
+    });
 
     // clean up
 
@@ -695,11 +743,13 @@ public class TestTransactionalStore {
     assertNoBlobs("urn:blobConflict");
   }
 
-  private void testConflict(final Action first, final Action second, final URI id) throws Exception {
+  private void testConflict(final Action first, final Action second, final URI id,
+                            final ERunnable reset) throws Exception {
     final boolean[] cv     = new boolean[] { false };
     final boolean[] failed = new boolean[] { false };
     Thread[] threads = new Thread[2];
 
+    // Test two threads, both operations occurring while the other hasn't committed yet
     threads[0] = doInThread(new ERunnable() {
       @Override
       public void erun() throws Exception {
@@ -742,6 +792,56 @@ public class TestTransactionalStore {
       threads[t].join();
 
     assertFalse(failed[0]);
+
+    reset.erun();
+
+    /* Test two threads, both starting, then the first doing its operation and comitting, then the
+     * second doing its operation.
+     */
+    cv[0] = false;
+
+    threads[0] = doInThread(new ERunnable() {
+      @Override
+      public void erun() throws Exception {
+        notifyAndWait(cv, true);
+
+        doInTxn(new Action() {
+            public void run(BlobStoreConnection con) throws Exception {
+              notifyAndWait(cv, true);
+              first.run(con);
+            }
+        }, true);
+
+        TestTransactionalStore.notify(cv, true);
+      }
+    }, failed);
+
+    threads[1] = doInThread(new ERunnable() {
+      @Override
+      public void erun() throws Exception {
+        waitFor(cv, true, 0);
+        notifyAndWait(cv, false);
+
+        doInTxn(new Action() {
+            public void run(BlobStoreConnection con) throws Exception {
+              notifyAndWait(cv, false);
+              try {
+                second.run(con);
+                fail("Did not get expected ConcurrentBlobUpdateException");
+              } catch (ConcurrentBlobUpdateException cbue) {
+                assertEquals(cbue.getBlobId(), id);
+              }
+            }
+        }, false);
+      }
+    }, failed);
+
+    for (int t = 0; t < threads.length; t++)
+      threads[t].join();
+
+    assertFalse(failed[0]);
+
+    reset.erun();
   }
 
   /**

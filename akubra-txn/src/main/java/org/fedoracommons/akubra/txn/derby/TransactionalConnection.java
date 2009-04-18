@@ -291,7 +291,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
 
         // check for conflicts
         nam_cfl.setString(1, ourId.toString());
-        ResultSet rs = nam_cfl.executeQuery();
+        ResultSet rs = nam_cfl.executeQuery();          // NOPMD
         try {
           if (rs.next()) {
             long v = rs.getLong(1);

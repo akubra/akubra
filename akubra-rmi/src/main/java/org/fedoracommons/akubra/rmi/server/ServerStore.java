@@ -65,7 +65,7 @@ public class ServerStore extends Exportable implements RemoteStore {
     return store.setQuiescent(quiescent);
   }
 
-  public RemoteTransactionListener startTransactionListener(boolean stopOnOpen) throws RemoteException {
-    return new ServerTransactionListener(store, stopOnOpen, getExporter());
+  public RemoteTransactionListener startTransactionListener() throws RemoteException {
+    return new ServerTransactionListener(store, getExporter());
   }
 }

@@ -70,13 +70,12 @@ public interface RemoteStore extends Remote {
   public boolean setQuiescent(boolean quiescent) throws RemoteException, IOException;
 
   /**
-   * Starts a Transaction listener on remote.
-   *
-   * @param stopOnOpen if true, stop accepting calls after a connection is opened
+   * Starts a Transaction listener on remote. The listener will stop after
+   * opening a connection to the BlobStore.
    *
    * @return a newly allocated transaction listener
    *
    * @throws RemoteException on an RMI communication failure
    */
-  public RemoteTransactionListener startTransactionListener(boolean stopOnOpen) throws RemoteException;
+  public RemoteTransactionListener startTransactionListener() throws RemoteException;
 }

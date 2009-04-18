@@ -111,7 +111,7 @@ public class ServerStoreTest {
     expect(store.openConnection(isA(Transaction.class))).andReturn(con);
     replay(store);
 
-    RemoteTransactionListener rtl = ss.startTransactionListener(true);
+    RemoteTransactionListener rtl = ss.startTransactionListener();
     Operation<?> op = rtl.getNextOperation();
     assertTrue(op instanceof Result);
 

@@ -21,18 +21,15 @@
  */
 package org.fedoracommons.akubra.rmi.server;
 
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
 import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.makeThreadSafe;
-import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.verify;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
+import java.io.IOException;
+import java.net.URI;
 import java.rmi.RemoteException;
 
 import java.util.concurrent.Callable;
@@ -50,6 +47,7 @@ import javax.transaction.xa.XAResource;
 
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
+import org.fedoracommons.akubra.impl.AbstractBlobStore;
 import org.fedoracommons.akubra.rmi.remote.RemoteCallListener.Operation;
 import org.fedoracommons.akubra.rmi.remote.RemoteCallListener.Result;
 import org.fedoracommons.akubra.rmi.remote.RemoteConnection;
@@ -72,29 +70,60 @@ import org.testng.annotations.Test;
  *
  * @author Pradeep Krishnan
  */
+@Test(sequential=true)
 public class ServerTransactionListenerTest {
   private Exporter                  exporter;
   private ServerTransactionListener st;
   private ExecutorService           executor;
+  private BlobStoreConnection       con;
 
   /**
    * Setup for all tests.
    *
    */
-  @SuppressWarnings("unchecked")
   @BeforeSuite
   public void setUp() throws Exception {
     exporter = new Exporter(0);
+    con   = createMock(BlobStoreConnection.class);
 
-    BlobStore           store = createMock(BlobStore.class);
-    BlobStoreConnection con   = createMock(BlobStoreConnection.class);
+    BlobStore           store = new AbstractBlobStore(URI.create("urn:test")) {
 
-    expect(store.openConnection(isA(Transaction.class))).andReturn(con);
-    makeThreadSafe(store, true);
-    replay(store);
+      public BlobStoreConnection openConnection(Transaction tx)
+          throws UnsupportedOperationException, IOException {
+        /*
+         * The st object is usable for tests till openConnection succeeds.
+         * So block open connection till we complete our tests.
+         */
+        synchronized(con) {
+          try {
+            con.wait();
+          } catch (InterruptedException e) {
+            throw new RuntimeException("interrupted", e);
+          }
+        }
+        return con;
+      }
 
-    st = new ServerTransactionListener(store, false, exporter);
+      public boolean setQuiescent(boolean quiescent) throws IOException {
+        return false;
+      }
 
+    };
+
+    executor = Executors.newSingleThreadExecutor();
+    st = new ServerTransactionListener(store, exporter);
+  }
+
+  /**
+   * Tear down after all tests.
+   *
+   */
+  @SuppressWarnings("unchecked")
+  @AfterSuite
+  public void tearDown() throws Exception {
+    synchronized(con) {
+      con.notify();
+    }
     Operation<?> op = st.getNextOperation();
     assertTrue(op instanceof Result);
 
@@ -102,19 +131,12 @@ public class ServerTransactionListenerTest {
     assertTrue(rc instanceof ServerConnection);
     assertEquals(con, ((ServerConnection) rc).getConnection());
 
-    verify(store);
-
-    executor = Executors.newSingleThreadExecutor();
-  }
-
-  /**
-   * Tear down after all tests.
-   *
-   */
-  @AfterSuite
-  public void tearDown() throws Exception {
-    st.unExport(false);
     executor.shutdownNow();
+
+    for (int i = 1; (i <= 10) && (st.getExported() != null); i++)
+      Thread.sleep(Exporter.RETRY_DELAY * i);
+
+    assertNull(st.getExported());
   }
 
   /**

@@ -73,7 +73,7 @@ public class ClientStore extends AbstractBlobStore {
   public BlobStoreConnection openConnection(Transaction tx)
                                      throws UnsupportedOperationException, IOException {
     RemoteConnection con = (tx == null) ? server.openConnection()
-        : new ClientTransactionListener(server.startTransactionListener(true), tx).getConnection();
+        : new ClientTransactionListener(server.startTransactionListener(), tx).getConnection();
 
     return new ClientConnection(this, streamManager, con);
   }

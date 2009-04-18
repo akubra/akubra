@@ -60,7 +60,6 @@ public class ServerTransactionListener extends UnicastExportable
   private static final long serialVersionUID = 1L;
 
   // For call forwarding
-  private volatile boolean                     stopCallbacks = false;
   private final SynchronousQueue<Operation<?>> operations    = new SynchronousQueue<Operation<?>>();
   private final SynchronousQueue<Result<?>>    results       = new SynchronousQueue<Result<?>>();
 
@@ -75,7 +74,7 @@ public class ServerTransactionListener extends UnicastExportable
    * @param exporter exporter for exporting XAResource and Synchronization
    * @throws RemoteException on an error in export
    */
-  public ServerTransactionListener(final BlobStore store, final boolean stopCallbacks,
+  public ServerTransactionListener(final BlobStore store,
                                    Exporter exporter) throws RemoteException {
     super(exporter);
     Executors.newSingleThreadExecutor(new ThreadFactory() {
@@ -88,15 +87,16 @@ public class ServerTransactionListener extends UnicastExportable
       }).submit(new Runnable() {
         public void run() {
           try {
-            openConnection(store, stopCallbacks);
+            openConnection(store);
           } catch (Throwable t) {
             log.warn("Uncaught exception in open-connection", t);
+            unExport(false);
           }
         }
       });
   }
 
-  private void openConnection(BlobStore store, boolean stopCallbacks) {
+  private void openConnection(BlobStore store) {
     Result<RemoteConnection> result;
 
     ServerConnection         con = null;
@@ -106,18 +106,33 @@ public class ServerTransactionListener extends UnicastExportable
       con      = new ServerConnection(res, getExporter());
       result   = new Result<RemoteConnection>(con);
     } catch (Throwable t) {
+      if (log.isDebugEnabled())
+        log.debug("openConnection failed. Sending an error result ...", t);
+
       result = new Result<RemoteConnection>(t);
     }
 
-    this.stopCallbacks = stopCallbacks;
-
     try {
       operations.put(result);
-    } catch (InterruptedException e) {
-      unExport(false);
+    } catch (Throwable t) {
+      log.warn("Failed to send results of openConnection back to client", t);
 
-      if (con != null)
-        con.close();
+      try {
+        if (con != null)
+          con.close();
+      } catch (Throwable e) {
+        log.warn("Failed to close", e);
+      }
+
+    } finally {
+      /*
+       * Note with posting of the openConnection results we are done and
+       * so this object can be unExported. Because of the SynchronousQueue
+       * usage we know that the client side has received the results. But
+       * in case the put(result) failed, the unExport will cause the client
+       * to abort.
+       */
+      unExport(false);
     }
   }
 
@@ -141,9 +156,6 @@ public class ServerTransactionListener extends UnicastExportable
   @SuppressWarnings("unchecked")
   private <T> T executeOnClient(Operation<T> operation)
                         throws ExecutionException, SystemException {
-    if (stopCallbacks)
-      throw new IllegalStateException("Only allowed during openConnection()");
-
     if (getExported() == null)
       throw new IllegalStateException("No longer referenced by any clients.");
 

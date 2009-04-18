@@ -390,7 +390,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
       if (!uriLocks.remove(uri))
         throw new IllegalStateException("Uri lock for <" + uri + "> was not held");
 
-      uriLocks.notify();
+      uriLocks.notifyAll();
     }
   }
 

@@ -53,7 +53,7 @@ public class TestStreamManager {
    */
   @Test
   public void testInitialState() {
-    assertEquals(manager.getOpenCount(), 0);
+    assertEquals(manager.getOpenOutputStreamCount(), 0);
     assertEquals(manager.getOpenInputStreamCount(), 0);
     assertFalse(manager.isQuiescent());
   }
@@ -70,9 +70,9 @@ public class TestStreamManager {
     } finally {
       manager.unlockState();
     }
-    assertEquals(manager.getOpenCount(), 1);
+    assertEquals(manager.getOpenOutputStreamCount(), 1);
     managed.close();
-    assertEquals(manager.getOpenCount(), 0);
+    assertEquals(manager.getOpenOutputStreamCount(), 0);
   }
 
   /**
@@ -104,20 +104,20 @@ public class TestStreamManager {
       manager.manageInputStream(con1, new ByteArrayInputStream(new byte[0]));
       manager.manageOutputStream(con1, new ByteArrayOutputStream());
       assertEquals(manager.getOpenInputStreamCount(), 1);
-      assertEquals(manager.getOpenCount(), 1);
+      assertEquals(manager.getOpenOutputStreamCount(), 1);
 
       manager.manageInputStream(con2, new ByteArrayInputStream(new byte[0]));
       manager.manageOutputStream(con2, new ByteArrayOutputStream());
       assertEquals(manager.getOpenInputStreamCount(), 2);
-      assertEquals(manager.getOpenCount(), 2);
+      assertEquals(manager.getOpenOutputStreamCount(), 2);
 
       con1.close();
       assertEquals(manager.getOpenInputStreamCount(), 1);
-      assertEquals(manager.getOpenCount(), 1);
+      assertEquals(manager.getOpenOutputStreamCount(), 1);
 
       con2.close();
       assertEquals(manager.getOpenInputStreamCount(), 0);
-      assertEquals(manager.getOpenCount(), 0);
+      assertEquals(manager.getOpenOutputStreamCount(), 0);
     } finally {
       manager.unlockState();
     }

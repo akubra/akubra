@@ -59,7 +59,7 @@ public class StreamManager {
   private final CloseListener listener;
 
   /** The set of open <code>OutputStream</code>s managed by this instance. */
-  private final Set<ManagedOutputStream> openStreams
+  private final Set<ManagedOutputStream> openOutputStreams
       = Collections.synchronizedSet(new HashSet<ManagedOutputStream>());
 
   /** The set of open <code>InputStream</code>s managed by this instance. */
@@ -75,10 +75,14 @@ public class StreamManager {
   public StreamManager() {
     listener = new CloseListener() {
       public void notifyClosed(Closeable closeable) {
-        if (closeable instanceof InputStream)
+        if (closeable instanceof InputStream) {
           openInputStreams.remove(closeable);
-        else
-          openStreams.remove(closeable);
+        } else {
+          synchronized (openOutputStreams) {
+            openOutputStreams.remove(closeable);
+            openOutputStreams.notify();
+          }
+        }
       }
     };
   }
@@ -134,9 +138,11 @@ public class StreamManager {
     try {
       stateLock.lockInterruptibly();
       if (quiescent && !this.quiescent) {
-        while (!openStreams.isEmpty()) {
-          log.info("setQuiescent: Waiting for " + openStreams.size() + " output streams to close...");
-          Thread.sleep(500);
+        synchronized (openOutputStreams) {
+          while (!openOutputStreams.isEmpty()) {
+            log.info("setQuiescent: Waiting for " + openOutputStreams.size() + " output streams to close...");
+            openOutputStreams.wait(); // wake up when next one is closed
+          }
         }
         log.info("setQuiescent: No open output streams. Entering quiescent state.");
       }
@@ -180,7 +186,7 @@ public class StreamManager {
     if (!stateLock.isHeldByCurrentThread())
       throw new IllegalStateException("State lock not held by current thread");
     ManagedOutputStream managed = new ManagedOutputStream(listener, stream, con);
-    openStreams.add(managed);
+    openOutputStreams.add(managed);
     return managed;
   }
 
@@ -204,8 +210,8 @@ public class StreamManager {
    */
   public void connectionClosed(BlobStoreConnection con) {
     Set<Closeable> closeables = new HashSet<Closeable>();
-    synchronized (openStreams) {
-      for (ManagedOutputStream c : openStreams)
+    synchronized (openOutputStreams) {
+      for (ManagedOutputStream c : openOutputStreams)
         if (c.getConnection().equals(con))
           closeables.add(c);
     }
@@ -227,9 +233,9 @@ public class StreamManager {
     }
   }
 
-  // how many streams are open?
-  int getOpenCount() {
-    return openStreams.size();
+  // how many output streams are open?
+  int getOpenOutputStreamCount() {
+    return openOutputStreams.size();
   }
 
   // how many input streams are open?

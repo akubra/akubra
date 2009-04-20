@@ -137,7 +137,7 @@ class FSBlobIdIterator implements Iterator<URI> {
 
     URI getURI() {
       try {
-        return new URI(FSBlob.uriPrefix + path);
+        return new URI(FSBlob.scheme + ":" + path);
       } catch (URISyntaxException e) {
         throw new RuntimeException(e);
       }

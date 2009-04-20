@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.DuplicateBlobException;
@@ -38,12 +39,13 @@ import org.fedoracommons.akubra.impl.AbstractBlob;
 import org.fedoracommons.akubra.impl.StreamManager;
 
 /**
- * File-backed Blob implementation.
+ * Filesystem-backed Blob implementation.
  *
  * @author Chris Wilper
  */
 class FSBlob extends AbstractBlob {
-  static final String uriPrefix = "file:";
+  static final String scheme = "file";
+  private final URI canonicalId;
   private final File file;
   private final StreamManager manager;
 
@@ -51,14 +53,21 @@ class FSBlob extends AbstractBlob {
    * Create a file based blob
    *
    * @param connection the blob store connection
+   * @param baseDir the baseDir of the store
    * @param blobId the identifier for the blob
-   * @param file the file associated with the blob
    * @param manager the stream manager
    */
-  FSBlob(FSBlobStoreConnection connection, URI blobId, File file, StreamManager manager) {
+  FSBlob(FSBlobStoreConnection connection, File baseDir, URI blobId, StreamManager manager)
+      throws UnsupportedIdException {
     super(connection, blobId);
-    this.file = file;
+    this.canonicalId = validateId(blobId);
+    this.file = new File(baseDir, canonicalId.getSchemeSpecificPart());
     this.manager = manager;
+  }
+
+  @Override
+  public URI getCanonicalId() {
+    return canonicalId;
   }
 
   //@Override
@@ -179,22 +188,25 @@ class FSBlob extends AbstractBlob {
     }
   }
 
-  static void validateId(URI blobId) throws UnsupportedIdException {
+  static URI validateId(URI blobId) throws UnsupportedIdException {
     if (blobId == null)
-      throw new NullPointerException("Blob id cannot be null");
-    String str = blobId.toString();
-    if (!str.startsWith(uriPrefix))
-      throw new UnsupportedIdException(blobId, "Blob id must start with " + uriPrefix);
-    if (str.charAt(uriPrefix.length()) == '/')
-      throw new UnsupportedIdException(blobId, "Blob id cannot specify an absolute file path");
-    if (str.endsWith("/"))
-      throw new UnsupportedIdException(blobId, "Blob id cannot end with /");
-    for (String seg: str.substring(uriPrefix.length()).split("\\/")) {
-      if (seg.length() == 0)
-        throw new UnsupportedIdException(blobId, "Blob id cannot contain //");
-      if (seg.equals("..")) {
-        throw new UnsupportedIdException(blobId, "Blob id cannot contain path navigation elements");
-      }
+      throw new NullPointerException("Id cannot be null");
+    if (!blobId.getScheme().equalsIgnoreCase(scheme))
+      throw new UnsupportedIdException(blobId, "Id must be in " + scheme + " scheme");
+    String path = blobId.getSchemeSpecificPart();
+    if (path.startsWith("/"))
+      throw new UnsupportedIdException(blobId, "Id must specify a relative path");
+    try {
+      // insert a '/' so java.net.URI normalization works
+      URI tmp = new URI(scheme + ":/" + path);
+      String nPath = tmp.normalize().getSchemeSpecificPart().substring(1);
+      if (nPath.equals("..") || nPath.startsWith("../"))
+        throw new UnsupportedIdException(blobId, "Id cannot be outside top-level directory");
+      if (nPath.endsWith("/"))
+        throw new UnsupportedIdException(blobId, "Id cannot specify a directory");
+      return new URI(scheme + ":" + nPath);
+    } catch (URISyntaxException wontHappen) {
+      throw new Error(wontHappen);
     }
   }
 

@@ -51,6 +51,15 @@ public interface Blob {
   URI getId();
 
   /**
+   * Gets the canonical id of the blob, if known. The definition of what is canonical is
+   * up to the individual store implementation. When available, the canonical id should be
+   * used in caches and other indexes where duplication is undesirable.
+   *
+   * @return the canonical id, if known.
+   */
+  URI getCanonicalId();
+
+  /**
    * Opens a new InputStream for reading the content.
    *
    * @return the input stream.

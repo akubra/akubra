@@ -59,6 +59,11 @@ public abstract class AbstractBlob implements Blob {
     return id;
   }
 
+  //@Override
+  public URI getCanonicalId() {
+    return null;
+  }
+
   /**
    * Indicates whether some other object is "equal to" this one. For the other object to
    * be considered equal, it must be an instance of Blob and it must have the same id

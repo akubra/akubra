@@ -25,13 +25,13 @@ import java.io.File;
 import java.io.IOException;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import java.util.Iterator;
 import java.util.Map;
 
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
-import org.fedoracommons.akubra.UnsupportedIdException;
 import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
 import org.fedoracommons.akubra.impl.StreamManager;
 import org.fedoracommons.akubra.util.PathAllocator;
@@ -58,7 +58,16 @@ class FSBlobStoreConnection extends AbstractBlobStoreConnection {
     if (isClosed())
       throw new IllegalStateException("Connection closed.");
 
-    return new FSBlob(this, blobId, getFile(blobId, hints), streamManager);
+    if (blobId == null) {
+      String path = pAlloc.allocate(null, null);
+      try {
+        blobId = new URI(FSBlob.scheme + ":" + path);
+      } catch (URISyntaxException wontHappen) {
+        throw new Error(wontHappen);
+      }
+    }
+
+    return new FSBlob(this, baseDir, blobId, streamManager);
   }
 
   //@Override
@@ -67,18 +76,6 @@ class FSBlobStoreConnection extends AbstractBlobStoreConnection {
       throw new IllegalStateException("Connection closed.");
 
     return new FSBlobIdIterator(baseDir, filterPrefix);
-  }
-
-  // gets the File for the given id, or allocates one if null
-  private File getFile(URI blobId, Map<String, String> hints) throws UnsupportedIdException {
-    if (blobId == null) {
-      // create
-      String path = pAlloc.allocate(blobId, hints);
-      return new File(baseDir, path);
-    }
-
-    FSBlob.validateId(blobId);
-    return new File(baseDir, blobId.getRawPath());
   }
 
 }

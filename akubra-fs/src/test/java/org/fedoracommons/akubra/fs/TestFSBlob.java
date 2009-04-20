@@ -34,8 +34,9 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertNull;
 
 /**
  * Unit tests for {@link FSBlob}.
@@ -70,70 +71,78 @@ public class TestFSBlob {
    */
   @Test
   public void testExistsFalse() throws Exception {
-    assertFalse(getFSBlob("nonExistingPath").exists());
-    assertFalse(getFSBlob("nonExistingPath/nonExistingPath").exists());
+    assertFalse(getFSBlob("file:nonExistingPath").exists());
+    assertFalse(getFSBlob("file:nonExistingPath/nonExistingPath").exists());
   }
 
   /**
-   * Test that various valid blob ids validate correctly.
+   * Test that various valid blob ids are canonicalized correctly.
    */
   @Test
-  public void testValidateGoodIds() {
-    assertTrue(isValidId("file:foo"));
-    assertTrue(isValidId("file:foo/bar"));
-    assertTrue(isValidId("file:..."));
-    assertTrue(isValidId("file:.../foo"));
-    assertTrue(isValidId("file:foo/..."));
-    assertTrue(isValidId("file:foo/.../bar"));
+  public void testGetCanonicalId() {
+    assertCanonical("file:foo");
+    assertCanonical("file:foo/bar");
+
+    assertCanonical("file:...");
+    assertCanonical("file:.../foo");
+    assertCanonical("file:foo/...");
+    assertCanonical("file:foo/.../bar");
+
+    assertCanonical("file:foo/../bar", "file:bar");
+    assertCanonical("file:foo/bar/../../baz", "file:baz");
+    assertCanonical("file:foo/../bar/../qux", "file:qux");
+
+    assertCanonical("file:./foo", "file:foo");
+    assertCanonical("file:foo/./bar", "file:foo/bar");
+    assertCanonical("file:foo/bar/././baz", "file:foo/bar/baz");
+    assertCanonical("file:foo/./bar/./qux", "file:foo/bar/qux");
+
+    assertCanonical("FILE:foo", "file:foo");
+    assertCanonical("file:foo//bar", "file:foo/bar");
+    assertCanonical("file:foo///bar", "file:foo/bar");
   }
 
   /**
-   * Test that various invalid blob ids fail validation.
+   * Test that various invalid blob ids fail at construction time.
    */
   @Test
-  public void testValidateBadIds() {
-    assertFalse(isValidId(null));
-    assertFalse(isValidId("urn:foo"));
-    assertFalse(isValidId("file:/foo"));
-    assertFalse(isValidId("file://foo"));
-    assertFalse(isValidId("file:///foo"));
-    assertFalse(isValidId("file:foo//bar"));
-    assertFalse(isValidId("file:foo/bar/"));
-    assertFalse(isValidId("file:foo/bar//"));
-    assertFalse(isValidId("file:.."));
-    assertFalse(isValidId("file:../foo"));
-    assertFalse(isValidId("file:foo/.."));
-    assertFalse(isValidId("file:foo/../bar"));
+  public void testConstructWithBadId() {
+    assertNull(getFSBlob(null));
+    assertNull(getFSBlob("urn:foo"));
+    assertNull(getFSBlob("file:/foo"));
+    assertNull(getFSBlob("file://foo"));
+    assertNull(getFSBlob("file:///foo"));
+    assertNull(getFSBlob("file:foo/"));
+    assertNull(getFSBlob("file:.."));
+    assertNull(getFSBlob("file:../"));
+    assertNull(getFSBlob("file:foo/../../bar"));
   }
 
-  private static FSBlob getFSBlob(String path) {
-    URI blobId;
-    try {
-      blobId = new URI("file:" + path);
-    } catch (URISyntaxException e) {
-      throw new RuntimeException(e);
-    }
-    return new FSBlob(conn,
-                      blobId,
-                      new File(baseDir, path),
-                      mgr);
-  }
-
-  private static boolean isValidId(String id) {
+  private static FSBlob getFSBlob(String id) {
     try {
       URI uri = null;
-      if (id != null) {
+      if (id != null)
         uri = new URI(id);
-      }
-      FSBlob.validateId(uri);
-      return true;
+      return new FSBlob(conn, baseDir, uri, mgr);
     } catch (URISyntaxException e) {
       throw new RuntimeException(e);
     } catch (NullPointerException e) {
-      return false;
+      return null;
     } catch (UnsupportedIdException e) {
-      return false;
+      return null;
     }
+  }
+
+  private static void assertCanonical(String origId) {
+    assertEquals(getCanonicalId(origId), origId);
+  }
+
+  private static void assertCanonical(String origId, String canonicalId) {
+    assertEquals(getCanonicalId(origId), canonicalId);
+  }
+
+  private static String getCanonicalId(String id) {
+    return getFSBlob(id).getCanonicalId().toString();
   }
 
 }

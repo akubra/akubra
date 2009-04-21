@@ -55,7 +55,7 @@ import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.UnsupportedIdException;
 import org.fedoracommons.akubra.mem.MemBlobStore;
-import org.fedoracommons.akubra.txn.BtmUtils;
+import org.fedoracommons.akubra.tck.TCKTestSuite;
 import org.fedoracommons.akubra.txn.ConcurrentBlobUpdateException;
 
 /**
@@ -63,48 +63,50 @@ import org.fedoracommons.akubra.txn.ConcurrentBlobUpdateException;
  *
  * @author Ronald Tschalär
  */
-public class TestTransactionalStore {
-  private URI                storeId;
-  private File               dbDir;
-  private TransactionalStore store;
-  private BlobStore          blobStore;
-  private TransactionManager tm;
-  private boolean            singleWriter;
+public class TestTransactionalStore extends TCKTestSuite {
+  private final File      dbDir;
+  private final boolean   singleWriter;
+  private       BlobStore blobStore;
 
-  @BeforeSuite(alwaysRun=true)
-  public void init() throws Exception {
+  public TestTransactionalStore() throws Exception {
+    super(getStore(), getStoreId(), true, false);
+
+    dbDir        = getDbDir();
+    singleWriter = ((TransactionalStore) store).singleWriter();
+
     /*
     java.util.logging.LogManager.getLogManager().readConfiguration(
         new java.io.FileInputStream("/tmp/jdklog.properties"));
     */
+  }
 
-    // set up store
-    storeId = new URI("urn:example:txnstore");
+  private static URI getStoreId() {
+    return URI.create("urn:example:txnstore");
+  }
 
+  private static File getDbDir() throws Exception {
     File base = new File(System.getProperty("basedir"), "target");
+    return new File(base, "txn-db");
+  }
 
-    dbDir = new File(base, "txn-db");
+  private static TransactionalStore getStore() throws Exception {
+    File dbDir = getDbDir();
     FileUtils.deleteDirectory(dbDir);
     dbDir.getParentFile().mkdirs();
 
+    File base = new File(System.getProperty("basedir"), "target");
     System.setProperty("derby.stream.error.file", new File(base, "derby.log").toString());
-    store = new TransactionalStore(storeId, dbDir.getAbsolutePath());
-    singleWriter = store.singleWriter();
-
-    // set up transaction manager
-    tm = BtmUtils.getTM();
+    return new TransactionalStore(getStoreId(), dbDir.getAbsolutePath());
   }
 
-  @AfterSuite
-  public void destroy() {
-  }
+  protected URI getInvalidId() {
+    // one too long
+    StringBuilder uri = new StringBuilder("urn:blobIdValidation");
+    for (int idx = 0; idx < 98; idx++)
+      uri.append("oooooooooo");
+    uri.append("x");
 
-  /**
-   * Store id should be what it was initialized with.
-   */
-  @Test
-  public void testGetId() {
-    assertEquals(store.getId(), storeId);
+    return URI.create(uri.toString() + "x");
   }
 
   /**
@@ -143,88 +145,6 @@ public class TestTransactionalStore {
   }
 
   /**
-   * Request to open a connection without a transaction should fail.
-   */
-  @Test(dependsOnGroups={ "init" }, expectedExceptions={ IOException.class })
-  public void testOpenConnectionNoTransaction() throws IOException {
-    store.openConnection(null);
-  }
-
-  /**
-   * Request to open a connection with a transaction.
-   */
-  @Test(dependsOnGroups={ "init" })
-  public void testOpenConnectionWithTransaction() throws Exception {
-    tm.begin();
-    try {
-      store.openConnection(tm.getTransaction());
-    } finally {
-      tm.rollback();
-    }
-  }
-
-  /**
-   * Test closing a connection.
-   */
-  @Test(groups={ "blobs" }, dependsOnGroups={ "init" })
-  public void testCloseConnection() throws Exception {
-    URI id = URI.create("urn:blobCloseConn1");
-
-    // no operations, commit, close
-    doInTxn(new Action() {
-        public void run(BlobStoreConnection con) throws Exception {
-        }
-    }, true);
-
-    // no operations, roll back, close
-    doInTxn(new Action() {
-        public void run(BlobStoreConnection con) throws Exception {
-        }
-    }, false);
-
-    // no operations, close before commit
-    tm.begin();
-    store.openConnection(tm.getTransaction()).close();
-    tm.commit();
-
-    // no operations, close before roll back
-    tm.begin();
-    store.openConnection(tm.getTransaction()).close();
-    tm.rollback();
-
-    // one operation, close before commit
-    tm.begin();
-    BlobStoreConnection con = store.openConnection(tm.getTransaction());
-    Blob b = getBlob(con, id, null);
-    createBlob(con, b, null);
-    con.close();
-    tm.commit();
-
-    // one operation, close before roll back
-    tm.begin();
-    con = store.openConnection(tm.getTransaction());
-    b = getBlob(con, id, "");
-    deleteBlob(con, b);
-    con.close();
-    tm.rollback();
-
-    // one operation, commit then close
-    deleteBlob(id, "", true);
-  }
-
-  /**
-   * Request to go quiescent and non-quiescent (even when already in those
-   * states) should be supported.
-   */
-  @Test(dependsOnGroups={ "init" })
-  public void testSetQuiescent() throws IOException {
-    assertTrue(store.setQuiescent(true));
-    assertTrue(store.setQuiescent(true));
-    assertTrue(store.setQuiescent(false));
-    assertTrue(store.setQuiescent(false));
-  }
-
-  /**
    * Should return 1 entry.
    */
   @Test(dependsOnGroups={ "init" })
@@ -260,119 +180,12 @@ public class TestTransactionalStore {
     assertEquals(caps.size(), 0);
   }
 
-  /**
-   * Basic create, get, rename, delete.
-   */
-  @Test(groups={ "blobs" }, dependsOnGroups={ "init" })
-  public void testBasicCommit() throws Exception {
-    URI id = URI.create("urn:blobBasicCommit1");
-
-    createBlob(id, "hello", true);
-    getBlob(id, "hello", true);
-
-    URI id2 = URI.create("urn:blobBasicCommit2");
-    renameBlob(id, id2, "hello", true);
-    getBlob(id, null, true);
-    getBlob(id2, "hello", true);
-
-    setBlob(id2, "bye bye", true);
-    getBlob(id2, "bye bye", true);
-
-    deleteBlob(id2, "bye bye", true);
-    getBlob(id2, null, true);
-
-    assertNoBlobs("urn:blobBasicCommit");
-  }
-
-  /**
-   * Basic create, get, rename, delete with rollbacks.
-   */
-  @Test(groups={ "blobs" }, dependsOnGroups={ "init" })
-  public void testBasicRollback() throws Exception {
-    URI id = URI.create("urn:blobBasicRollback1");
-
-    // roll back a create
-    createBlob(id, "hello", false);
-    getBlob(id, null, false);
-
-    // create, roll back a rename
-    createBlob(id, "hello", true);
-    getBlob(id, "hello", true);
-
-    URI id2 = URI.create("urn:blobBasicRollback2");
-    renameBlob(id, id2, "hello", false);
-
-    getBlob(id, "hello", true);
-    getBlob(id2, null, true);
-
-    // update and roll back
-    setBlob(id, "bye bye", false);
-    getBlob(id, "hello", true);
-
-    // roll back a delete
-    deleteBlob(id, "hello", false);
-    getBlob(id, "hello", true);
-
-    // delete
-    deleteBlob(id, "hello", true);
-    getBlob(id, null, true);
-
-    assertNoBlobs("urn:blobBasicRollback");
-  }
-
-  /**
-   * Test id validation..
-   */
-  @Test(groups={ "blobs" }, dependsOnGroups={ "init" })
-  public void testIdValidation() throws Exception {
-    // just long enough (1000 chars)
-    StringBuilder uri = new StringBuilder("urn:blobIdValidation");
-    for (int idx = 0; idx < 98; idx++)
-      uri.append("oooooooooo");
-    URI id = URI.create(uri.toString());
-
-    createBlob(id, null, true);
-    deleteBlob(id, "", true);
-
-    // one too long
-    id = URI.create(uri.toString() + "x");
-    try {
-      createBlob(id, null, true);
-      fail("Did not get expected UnsupportedIdException");
-    } catch (UnsupportedIdException uie) {
-      assertEquals(uie.getBlobId(), id);
-    }
-  }
-
-  /**
-   * Test changing a blob's value.
-   */
-  @Test(groups={ "blobs" }, dependsOnGroups={ "init" })
-  public void testBlobUpdate() throws Exception {
-    final URI id = URI.create("urn:blobBlobUpdate1");
-
-    doInTxn(new Action() {
-        public void run(BlobStoreConnection con) throws Exception {
-          Blob b = getBlob(con, id, null);
-          createBlob(con, b, null);
-          setBlob(con, b, "value1");
-          setBlob(con, b, "value2");
-          setBlob(con, b, "value3");
-        }
-    }, true);
-
-    doInTxn(new Action() {
-        public void run(BlobStoreConnection con) throws Exception {
-          Blob b = getBlob(con, id, "value3");
-          setBlob(con, b, "value4");
-          setBlob(con, b, "value5");
-        }
-    }, true);
-
-    deleteBlob(id, "value5", true);
-    getBlob(id, null, true);
-
-    assertNoBlobs("urn:blobBlobUpdate");
+  public void testSetQuiescent() throws Exception {
+    // not properly implemented yet - so test just the calls themselves
+    assertTrue(store.setQuiescent(true));
+    assertTrue(store.setQuiescent(true));
+    assertTrue(store.setQuiescent(false));
+    assertTrue(store.setQuiescent(false));
   }
 
   /**
@@ -386,7 +199,7 @@ public class TestTransactionalStore {
     final String body = "value";
 
     // create-delete in one txn
-    doInTxn(new Action() {
+    doInTxn(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           Blob b = getBlob(con, id, null);
           createBlob(con, b, null);
@@ -395,7 +208,7 @@ public class TestTransactionalStore {
     }, true);
 
     // create-delete-create in one txn
-    doInTxn(new Action() {
+    doInTxn(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           Blob b = getBlob(con, id, null);
           createBlob(con, b, null);
@@ -405,7 +218,7 @@ public class TestTransactionalStore {
     }, true);
 
     // delete-create-delete in one txn
-    doInTxn(new Action() {
+    doInTxn(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           Blob b = getBlob(con, id, "");
           deleteBlob(con, b);
@@ -415,7 +228,7 @@ public class TestTransactionalStore {
     }, true);
 
     // create-delete-create-delete in one txn
-    doInTxn(new Action() {
+    doInTxn(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           Blob b = getBlob(con, id, null);
           createBlob(con, b, null);
@@ -426,7 +239,7 @@ public class TestTransactionalStore {
     }, true);
 
     // create-update-delete-create-update-delete in one txn
-    doInTxn(new Action() {
+    doInTxn(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           Blob b = getBlob(con, id, null);
           createBlob(con, b, body);
@@ -443,7 +256,7 @@ public class TestTransactionalStore {
     // create in one, delete + create in another
     createBlob(id, body, true);
 
-    doInTxn(new Action() {
+    doInTxn(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           Blob b = getBlob(con, id, body);
           deleteBlob(con, b);
@@ -452,7 +265,7 @@ public class TestTransactionalStore {
     }, true);
 
     // delete + create + update in one
-    doInTxn(new Action() {
+    doInTxn(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           Blob b = getBlob(con, id, "");
           deleteBlob(con, b);
@@ -461,7 +274,7 @@ public class TestTransactionalStore {
     }, true);
 
     // update + delete + create + update in one
-    doInTxn(new Action() {
+    doInTxn(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           Blob b = getBlob(con, id, body);
           setBlob(con, b, "foo");
@@ -471,7 +284,7 @@ public class TestTransactionalStore {
     }, true);
 
     // delete + create + update + delete in one
-    doInTxn(new Action() {
+    doInTxn(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           Blob b = getBlob(con, id, body);
           deleteBlob(con, b);
@@ -481,7 +294,7 @@ public class TestTransactionalStore {
     }, true);
 
     // create-move-delete in one txn
-    doInTxn(new Action() {
+    doInTxn(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           Blob b  = getBlob(con, id, null);
           Blob b2 = getBlob(con, id2, null);
@@ -495,7 +308,7 @@ public class TestTransactionalStore {
     // create in one, move-delete in another txn
     createBlob(id, body, true);
 
-    doInTxn(new Action() {
+    doInTxn(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           Blob b  = getBlob(con, id, body);
           Blob b2 = getBlob(con, id2, null);
@@ -506,7 +319,7 @@ public class TestTransactionalStore {
     }, true);
 
     // create-move-delete-create-move in one txn
-    doInTxn(new Action() {
+    doInTxn(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           Blob b  = getBlob(con, id, null);
           Blob b2 = getBlob(con, id2, null);
@@ -521,7 +334,7 @@ public class TestTransactionalStore {
     }, true);
 
     // move-delete-create-move-again-yada-yada...
-    doInTxn(new Action() {
+    doInTxn(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           Blob b  = getBlob(con, id, body);
           Blob b2 = getBlob(con, id2, null);
@@ -570,42 +383,42 @@ public class TestTransactionalStore {
     createBlob(id1, body1, true);
 
     // create a set of actions
-    Action createNoBody = new Action() {
+    ConAction createNoBody = new ConAction() {
             public void run(BlobStoreConnection con) throws Exception {
               Blob b = getBlob(con, id2, null);
               createBlob(con, b, null);
             }
         };
 
-    Action createWithBody = new Action() {
+    ConAction createWithBody = new ConAction() {
             public void run(BlobStoreConnection con) throws Exception {
               Blob b = getBlob(con, id2, null);
               createBlob(con, b, body2);
             }
         };
 
-    Action delete1 = new Action() {
+    ConAction delete1 = new ConAction() {
             public void run(BlobStoreConnection con) throws Exception {
               Blob b = getBlob(con, id1, body1);
               deleteBlob(con, b);
             }
         };
 
-    Action delete2 = new Action() {
+    ConAction delete2 = new ConAction() {
             public void run(BlobStoreConnection con) throws Exception {
               Blob b = getBlob(con, id2, body2);
               deleteBlob(con, b);
             }
         };
 
-    Action modify1 = new Action() {
+    ConAction modify1 = new ConAction() {
             public void run(BlobStoreConnection con) throws Exception {
               Blob b = getBlob(con, id1, body1);
               setBlob(con, b, body11);
             }
         };
 
-    Action rename12 = new Action() {
+    ConAction rename12 = new ConAction() {
             public void run(BlobStoreConnection con) throws Exception {
               Blob b1 = getBlob(con, id1, body1);
               Blob b2 = getBlob(con, id2, null);
@@ -743,7 +556,7 @@ public class TestTransactionalStore {
     assertNoBlobs("urn:blobConflict");
   }
 
-  private void testConflict(final Action first, final Action second, final URI id,
+  private void testConflict(final ConAction first, final ConAction second, final URI id,
                             final ERunnable reset) throws Exception {
     final boolean[] cv     = new boolean[] { false };
     final boolean[] failed = new boolean[] { false };
@@ -753,7 +566,7 @@ public class TestTransactionalStore {
     threads[0] = doInThread(new ERunnable() {
       @Override
       public void erun() throws Exception {
-        doInTxn(new Action() {
+        doInTxn(new ConAction() {
             public void run(BlobStoreConnection con) throws Exception {
               notifyAndWait(cv, true);
 
@@ -770,7 +583,7 @@ public class TestTransactionalStore {
     threads[1] = doInThread(new ERunnable() {
       @Override
       public void erun() throws Exception {
-        doInTxn(new Action() {
+        doInTxn(new ConAction() {
             public void run(BlobStoreConnection con) throws Exception {
               waitFor(cv, true, 0);
               notifyAndWait(cv, false);
@@ -805,7 +618,7 @@ public class TestTransactionalStore {
       public void erun() throws Exception {
         notifyAndWait(cv, true);
 
-        doInTxn(new Action() {
+        doInTxn(new ConAction() {
             public void run(BlobStoreConnection con) throws Exception {
               notifyAndWait(cv, true);
               first.run(con);
@@ -822,7 +635,7 @@ public class TestTransactionalStore {
         waitFor(cv, true, 0);
         notifyAndWait(cv, false);
 
-        doInTxn(new Action() {
+        doInTxn(new ConAction() {
             public void run(BlobStoreConnection con) throws Exception {
               notifyAndWait(cv, false);
               try {
@@ -842,29 +655,6 @@ public class TestTransactionalStore {
     assertFalse(failed[0]);
 
     reset.erun();
-  }
-
-  /**
-   * Test listing blobs.
-   */
-  @Test(groups={ "blobs" }, dependsOnGroups={ "init" })
-  public void testListBlobs() throws Exception {
-    URI id1 = URI.create("urn:blobBasicList1");
-    URI id2 = URI.create("urn:blobBasicList2");
-
-    listBlobs("urn:blobBasicList", new URI[] { });
-
-    createBlob(id1, "hello", true);
-    listBlobs("urn:blobBasicList", new URI[] { id1 });
-
-    createBlob(id2, "bye", true);
-    listBlobs("urn:blobBasicList", new URI[] { id1, id2 });
-
-    deleteBlob(id1, "hello", true);
-    listBlobs("urn:blobBasicList", new URI[] { id2 });
-
-    deleteBlob(id2, "bye", true);
-    listBlobs("urn:blobBasicList", new URI[] { });
   }
 
   /**
@@ -893,7 +683,7 @@ public class TestTransactionalStore {
     createBlob(id1, body1, true);
 
     // first start txn1, then run a bunch of other transactions while txn1 is active
-    doInTxn(new Action() {
+    doInTxn(new ConAction() {
         public void run(final BlobStoreConnection con) throws Exception {
           // check our snapshot
           getBlob(con, id1, body1);
@@ -1013,7 +803,7 @@ public class TestTransactionalStore {
           Thread t = doInThread(new ERunnable() {
             @Override
             public void erun() throws Exception {
-              doInTxn(new Action() {
+              doInTxn(new ConAction() {
                 public void run(BlobStoreConnection c2) throws Exception {
                   Blob b = getBlob(c2, id4, null);
                   createBlob(c2, b, body4);
@@ -1105,7 +895,7 @@ public class TestTransactionalStore {
         @Override
         public void erun() throws Exception {
           // create two blobs
-          doInTxn(new Action() {
+          doInTxn(new ConAction() {
               public void run(final BlobStoreConnection con) throws Exception {
                 getBlob(con, id1, false);
                 getBlob(con, id2, false);
@@ -1135,7 +925,7 @@ public class TestTransactionalStore {
           notifyAndWait(cv, !cvVal);
 
           // exchange the two blobs
-          doInTxn(new Action() {
+          doInTxn(new ConAction() {
               public void run(final BlobStoreConnection con) throws Exception {
                 getBlob(con, id1, body1);
                 getBlob(con, id2, body2);
@@ -1163,7 +953,7 @@ public class TestTransactionalStore {
           notifyAndWait(cv, !cvVal);
 
           // delete the two blobs
-          doInTxn(new Action() {
+          doInTxn(new ConAction() {
               public void run(final BlobStoreConnection con) throws Exception {
                 getBlob(con, id1, body2);
                 getBlob(con, id2, body1);
@@ -1216,7 +1006,7 @@ public class TestTransactionalStore {
     for (int b = 0; b < numFillers / 1000; b++) {
       final int start = b * 1000;
 
-      doInTxn(new Action() {
+      doInTxn(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           for (int idx = start; idx < start + 1000; idx++) {
             Blob b = con.getBlob(URI.create("urn:blobStressTestFiller" + idx), null);
@@ -1249,7 +1039,7 @@ public class TestTransactionalStore {
           for (int r = 0; r < numRounds; r++) {
             final int off = start + r * numObjects;
 
-            doInTxn(new Action() {
+            doInTxn(new ConAction() {
               public void run(BlobStoreConnection con) throws Exception {
                 for (int o = 0; o < numObjects; o++) {
                   int    idx = off + o;
@@ -1266,7 +1056,7 @@ public class TestTransactionalStore {
               highId[0] = Math.max(highId[0], off + numObjects);
             }
 
-            doInTxn(new Action() {
+            doInTxn(new ConAction() {
               public void run(BlobStoreConnection con) throws Exception {
                 for (int o = 0; o < numObjects; o++) {
                   int    idx = off + o;
@@ -1314,7 +1104,7 @@ public class TestTransactionalStore {
               continue;
             }
 
-            doInTxn(new Action() {
+            doInTxn(new ConAction() {
               public void run(BlobStoreConnection con) throws Exception {
                 for (int o = 0; o < numObjects; o++) {
                   int    idx = rng.nextInt(high - low) + low;
@@ -1354,7 +1144,7 @@ public class TestTransactionalStore {
     for (int b = 0; b < numFillers / 1000; b++) {
       final int start = b * 1000;
 
-      doInTxn(new Action() {
+      doInTxn(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           for (int idx = start; idx < start + 1000; idx++)
             con.getBlob(URI.create("urn:blobStressTestFiller" + idx), null).delete();
@@ -1376,9 +1166,8 @@ public class TestTransactionalStore {
    * Test that things get cleaned up. This runs after all other tests that create or otherwise
    * manipulate blobs.
    */
-  @Test(groups={ "post" }, dependsOnGroups={ "blobs" })
   public void testCleanup() throws Exception {
-    assertNoBlobs(null);
+    super.testCleanup();
 
     // verify that the tables are truly empty
     Connection connection = DriverManager.getConnection("jdbc:derby:" + dbDir);
@@ -1390,171 +1179,7 @@ public class TestTransactionalStore {
     assertFalse(rs.next(), "unexpected entries in deleted-list table;");
   }
 
-  /*
-   * simple helpers that do an operation and assert things went fine
-   */
-
-  private Blob getBlob(BlobStoreConnection con, URI id, boolean exists) throws Exception {
-    Blob b = con.getBlob(id, null);
-    assertEquals(b.getId(), id);
-    assertEquals(b.exists(), exists);
-    return b;
-  }
-
-  private Blob getBlob(BlobStoreConnection con, URI id, String body) throws Exception {
-    Blob b = getBlob(con, id, body != null);
-
-    if (body != null)
-      assertEquals(getBody(b), body);
-
-    return b;
-  }
-
-  private void createBlob(BlobStoreConnection con, Blob b, String body) throws Exception {
-    b.create();
-    assertTrue(b.exists());
-    assertTrue(con.getBlob(b.getId(), null).exists());
-
-    assertEquals(getBody(b), "");
-    assertEquals(getBody(con.getBlob(b.getId(), null)), "");
-
-    if (body != null)
-      setBlob(con, b, body);
-  }
-
-  private void setBlob(BlobStoreConnection con, Blob b, String body) throws Exception {
-    setBody(b, body);
-    assertEquals(getBody(b), body);
-    assertEquals(getBody(con.getBlob(b.getId(), null)), body);
-  }
-
-  private void deleteBlob(BlobStoreConnection con, Blob b) throws Exception {
-    b.delete();
-    assertFalse(b.exists());
-    assertFalse(con.getBlob(b.getId(), null).exists());
-  }
-
-  private void moveBlob(BlobStoreConnection con, Blob ob, Blob nb, String body) throws Exception {
-    ob.moveTo(nb);
-    assertFalse(ob.exists());
-    assertFalse(con.getBlob(ob.getId(), null).exists());
-    assertTrue(nb.exists());
-    assertTrue(con.getBlob(nb.getId(), null).exists());
-
-    if (body != null) {
-      assertEquals(getBody(nb), body);
-      assertEquals(getBody(con.getBlob(nb.getId(), null)), body);
-    }
-  }
-
-  private void listBlobs(BlobStoreConnection con, String prefix, URI[] expected) throws Exception {
-    Set<URI> exp = new HashSet<URI>(Arrays.asList(expected));
-    URI id;
-
-    for (Iterator<URI> iter = con.listBlobIds(prefix); iter.hasNext(); )
-      assertTrue(exp.remove(id = iter.next()), "unexpected blob '" + id + "' found;");
-
-    assertTrue(exp.isEmpty(), "expected blobs not found for prefix '" + prefix + "': " + exp + ";");
-  }
-
-  /*
-   * versions of the simple helpers that run in a transaction
-   */
-
-  private void createBlob(final URI id, final String val, boolean commit) throws Exception {
-    doInTxn(new Action() {
-        public void run(BlobStoreConnection con) throws Exception {
-          Blob b = getBlob(con, id, null);
-          createBlob(con, b, val);
-        }
-    }, commit);
-  }
-
-  private void deleteBlob(final URI id, final String body, final boolean commit) throws Exception {
-    doInTxn(new Action() {
-        public void run(BlobStoreConnection con) throws Exception {
-          Blob b = getBlob(con, id, body);
-          deleteBlob(con, b);
-        }
-    }, commit);
-  }
-
-  private void getBlob(final URI id, final String val, boolean commit) throws Exception {
-    doInTxn(new Action() {
-        public void run(BlobStoreConnection con) throws Exception {
-          getBlob(con, id, val);
-        }
-    }, commit);
-  }
-
-  private void setBlob(final URI id, final String val, boolean commit) throws Exception {
-    doInTxn(new Action() {
-        public void run(BlobStoreConnection con) throws Exception {
-          Blob b = getBlob(con, id, true);
-          setBlob(con, b, val);
-        }
-    }, commit);
-  }
-
-  private void renameBlob(final URI oldId, final URI newId, final String val, boolean commit)
-      throws Exception {
-    doInTxn(new Action() {
-        public void run(BlobStoreConnection con) throws Exception {
-          Blob ob = getBlob(con, oldId, val);
-          Blob nb = getBlob(con, newId, null);
-          moveBlob(con, ob, nb, val);
-        }
-    }, commit);
-  }
-
-  private void listBlobs(final String prefix, final URI[] expected) throws Exception {
-    doInTxn(new Action() {
-        public void run(BlobStoreConnection con) throws Exception {
-          listBlobs(con, prefix, expected);
-        }
-    }, true);
-  }
-
-  private void assertNoBlobs(final String prefix) throws Exception {
-    doInTxn(new Action() {
-        public void run(BlobStoreConnection con) throws Exception {
-          assertFalse(con.listBlobIds(prefix).hasNext(),
-                      "unexpected blobs found for prefix '" + prefix + "';");
-        }
-    }, true);
-
-    BlobStoreConnection con = blobStore.openConnection(null);
-    try {
-      assertFalse(con.listBlobIds(prefix).hasNext(),
-                  "unexpected blobs found for prefix '" + prefix + "';");
-    } finally {
-      con.close();
-    }
-  }
-
-  /*
-   * Other helpers
-   */
-
-  private static String getBody(Blob b) throws IOException {
-    InputStream is = b.openInputStream();
-    try {
-      return IOUtils.toString(is);
-    } finally {
-      is.close();
-    }
-  }
-
-  private static void setBody(Blob b, String data) throws IOException {
-    OutputStream os = b.openOutputStream(-1);
-    try {
-      os.write(data.getBytes());
-    } finally {
-      os.close();
-    }
-  }
-
-  private void doInTxn(Action a, boolean commit) throws Exception {
+  private void doInTxn(ConAction a, boolean commit) throws Exception {
     tm.begin();
     BlobStoreConnection con = store.openConnection(tm.getTransaction());
 
@@ -1576,66 +1201,5 @@ public class TestTransactionalStore {
 
       con.close();
     }
-  }
-
-  private static Thread doInThread(Runnable r) throws Exception {
-    return doInThread(r, null);
-  }
-
-  private static Thread doInThread(Runnable r, final boolean[] failed) throws Exception {
-    Thread t = new Thread(r);
-
-    t.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-      public void uncaughtException(Thread t, Throwable e) {
-        if (failed != null) {
-          synchronized (failed) {
-            failed[0] = true;
-          }
-        }
-
-        e.printStackTrace();
-      }
-    });
-
-    t.start();
-    return t;
-  }
-
-  private static void waitFor(boolean[] cv, boolean val, long to) throws InterruptedException {
-    long t0 = System.currentTimeMillis();
-    synchronized (cv) {
-      while (cv[0] != val && (to == 0 || (System.currentTimeMillis() - t0) < to))
-        cv.wait(to);
-    }
-  }
-
-  private static void notify(boolean[] cv, boolean val) {
-    synchronized (cv) {
-      cv[0] = val;
-      cv.notify();
-    }
-  }
-
-  private static void notifyAndWait(boolean[] cv, boolean val) throws InterruptedException {
-    synchronized (cv) {
-      notify(cv, val);
-      waitFor(cv, !val, 0);
-    }
-  }
-
-  private static interface Action {
-    public void run(BlobStoreConnection con) throws Exception;
-  }
-
-  private static abstract class ERunnable implements Runnable {
-    public void run() {
-      try {
-        erun();
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }
-    }
-
-    public abstract void erun() throws Exception;
   }
 }

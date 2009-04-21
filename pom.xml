@@ -150,6 +150,7 @@
     <module>akubra-www</module>
     <module>akubra-rmi</module>
     <module>akubra-mux</module>
+    <module>akubra-tck</module>
   </modules>
 
   <properties>
@@ -189,6 +190,13 @@
         <groupId>javax.transaction</groupId>
         <artifactId>jta</artifactId>
         <version>1.0.1B</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.fedoracommons</groupId>
+        <artifactId>akubra-tck</artifactId>
+        <version>${pom.version}</version>
+        <scope>test</scope>
       </dependency>
 
       <dependency>

@@ -148,7 +148,7 @@ public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection 
       return null;
 
     if (cons == null)
-      throw new IOException("Connection closed.");
+      throw new IllegalStateException("Connection closed.");
 
     BlobStoreConnection con = cons.get(store.getId());
 

@@ -27,10 +27,6 @@ import java.net.URI;
 
 import java.util.ArrayList;
 
-import javax.transaction.Synchronization;
-import javax.transaction.Transaction;
-import javax.transaction.xa.XAResource;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -38,8 +34,6 @@ import org.testng.annotations.Test;
 import org.fedoracommons.akubra.BlobStore;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
 /**
  * Unit tests for {@link FSBlobStore}.
@@ -62,46 +56,6 @@ public class TestFSBlobStore {
   @AfterClass
   public static void destroy() {
     FSTestUtil.rmdir(tmpDir);
-  }
-
-  /**
-   * Store id should be what it was initialized with.
-   */
-  @Test
-  public void testGetId() {
-    assertEquals(store.getId(), id);
-  }
-
-  /**
-   * Request to open a connection without a transaction should succeed.
-   */
-  @Test
-  public void testOpenConnectionNoTransaction() {
-    try {
-      store.openConnection(null);
-    } catch (UnsupportedOperationException e) {
-      fail("failed to open non-transactional connection");
-    }
-  }
-
-  /**
-   * Request to open a connection with a transaction is unsupported.
-   */
-  @Test (expectedExceptions={ UnsupportedOperationException.class })
-  public void testOpenConnectionWithTransaction() {
-    store.openConnection(new MockTransaction());
-  }
-
-  /**
-   * Request to go quiescent and non-quiescent (even when already in those
-   * states) should be supported.
-   */
-  @Test
-  public void testSetQuiescent() {
-    assertTrue(store.setQuiescent(true));
-    assertTrue(store.setQuiescent(true));
-    assertTrue(store.setQuiescent(false));
-    assertTrue(store.setQuiescent(false));
   }
 
   /**
@@ -136,15 +90,5 @@ public class TestFSBlobStore {
   public void testGetCapabilities() {
     assertEquals(store.getCapabilities().size(), 1);
     assertEquals(store.getCapabilities().iterator().next(), BlobStore.GENERATE_ID_CAPABILITY);
-  }
-
-  private static class MockTransaction implements Transaction {
-    public void commit() { }
-    public boolean delistResource(XAResource xaRes, int flag) { return false; }
-    public boolean enlistResource(XAResource xaRes) { return false; }
-    public int getStatus() { return 0; }
-    public void registerSynchronization(Synchronization sync) { }
-    public void rollback() { }
-    public void setRollbackOnly() { }
   }
 }

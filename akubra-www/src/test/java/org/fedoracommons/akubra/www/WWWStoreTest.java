@@ -27,14 +27,6 @@ import java.net.URI;
 
 import java.util.ArrayList;
 
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.RollbackException;
-import javax.transaction.Synchronization;
-import javax.transaction.SystemException;
-import javax.transaction.Transaction;
-import javax.transaction.xa.XAResource;
-
 import org.fedoracommons.akubra.BlobStore;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -103,36 +95,6 @@ public class WWWStoreTest {
   }
 
   /**
-   * Test the normal case of openConnection.
-   */
-  @Test
-  public void testOpenConnectionWithNullTxn() {
-    try {
-      store.openConnection(null).close();
-    } catch (UnsupportedOperationException e) {
-      fail("openConnection() failed", e);
-    } catch (IOException e) {
-      fail("openConnection() failed", e);
-    }
-  }
-
-  /**
-   * Test the error case of openConnection.
-   *
-   * @throws UnsupportedOperationException the expected exception
-   */
-  @Test(expectedExceptions =  {
-    UnsupportedOperationException.class}
-  )
-  public void testOpenConnectionWithTxn() throws UnsupportedOperationException {
-    try {
-      store.openConnection(new TestTransaction());
-    } catch (IOException e) {
-      fail("openConnection() failed", e);
-    }
-  }
-
-  /**
    * Test the setQuiescent operation.
    */
   @Test
@@ -159,36 +121,5 @@ public class WWWStoreTest {
   @Test
   public void testCapabilities() {
     assertEquals(0, store.getCapabilities().size());
-  }
-
-  private static class TestTransaction implements Transaction {
-    public void commit()
-                throws RollbackException, HeuristicMixedException, HeuristicRollbackException,
-                       SecurityException, IllegalStateException, SystemException {
-    }
-
-    public boolean delistResource(XAResource arg0, int arg1)
-                           throws IllegalStateException, SystemException {
-      return false;
-    }
-
-    public boolean enlistResource(XAResource arg0)
-                           throws RollbackException, IllegalStateException, SystemException {
-      return false;
-    }
-
-    public int getStatus() throws SystemException {
-      return 0;
-    }
-
-    public void registerSynchronization(Synchronization arg0)
-                                 throws RollbackException, IllegalStateException, SystemException {
-    }
-
-    public void rollback() throws IllegalStateException, SystemException {
-    }
-
-    public void setRollbackOnly() throws IllegalStateException, SystemException {
-    }
   }
 }

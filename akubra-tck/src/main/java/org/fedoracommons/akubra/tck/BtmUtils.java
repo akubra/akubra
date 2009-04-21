@@ -20,7 +20,7 @@
  * limitations under the License.
  */
 
-package org.fedoracommons.akubra.txn;
+package org.fedoracommons.akubra.tck;
 
 import java.lang.ref.WeakReference;
 import java.util.Date;
@@ -55,7 +55,7 @@ public class BtmUtils {
   }
 
   static {
-    System.setProperty("bitronix.tm.serverId", "akubra-txn-test");
+    System.setProperty("bitronix.tm.serverId", "akubra-tck-test");
     System.setProperty("bitronix.tm.journal", "null");
     System.setProperty("bitronix.tm.disableJmx", "true");
     System.setProperty("bitronix.tm.timer.gracefulShutdownInterval", "10");
@@ -72,10 +72,15 @@ public class BtmUtils {
     return TransactionManagerServices.getTransactionManager();
   }
 
-  @SuppressWarnings("serial")
   private static class SimpleXAResourceProducer implements XAResourceProducer {
-    private final Map<XAResource, WeakReference<XAResourceHolder>> xaresHolders =
+    private static final long serialVersionUID = 1L;
+    private transient Map<XAResource, WeakReference<XAResourceHolder>> xaresHolders =
                                     new WeakHashMap<XAResource, WeakReference<XAResourceHolder>>();
+
+    private Object readResolve() {
+      xaresHolders = new WeakHashMap<XAResource, WeakReference<XAResourceHolder>>();
+      return this;
+    }
 
     public void init() {
     }
@@ -175,7 +180,7 @@ public class BtmUtils {
 
       public Xid[] recover(int flag) {
         // recovery not supported (yet)
-        return null;
+        return new Xid[0];
       }
 
       public void forget(Xid xid) {

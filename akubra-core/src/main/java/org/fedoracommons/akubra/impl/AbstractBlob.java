@@ -21,6 +21,7 @@
  */
 package org.fedoracommons.akubra.impl;
 
+import java.io.IOException;
 import java.net.URI;
 
 import org.fedoracommons.akubra.Blob;
@@ -60,7 +61,7 @@ public abstract class AbstractBlob implements Blob {
   }
 
   //@Override
-  public URI getCanonicalId() {
+  public URI getCanonicalId() throws IOException {
     return null;
   }
 

@@ -55,9 +55,10 @@ public interface Blob {
    * up to the individual store implementation. When available, the canonical id should be
    * used in caches and other indexes where duplication is undesirable.
    *
-   * @return the canonical id, if known.
+   * @return the canonical id, if known; null otherwise.
+   * @throws IOException if an error occurred
    */
-  URI getCanonicalId();
+  URI getCanonicalId() throws IOException;
 
   /**
    * Opens a new InputStream for reading the content.

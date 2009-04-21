@@ -123,12 +123,12 @@ public interface Blob {
    *
    * @param blob the blob to move to
    *
-   * @throws NullPointerException if the blob is null
-   * @throws UnsupportedIdException if the blob is not recognized in this store
+   * @throws NullPointerException if <var>blob</var> is null
+   * @throws IllegalArgumentException if <var>blob</var> is not recognized in this store
    * @throws MissingBlobException if this blob does not exist
-   * @throws DuplicateBlobException if a blob with new blob-id already exists
+   * @throws DuplicateBlobException if <var>blob</var> already exists
    * @throws IOException if an error occurs while attempting the operation
    */
   void moveTo(Blob blob) throws DuplicateBlobException, IOException, MissingBlobException,
-                                NullPointerException, UnsupportedIdException;
+                                NullPointerException, IllegalArgumentException;
 }

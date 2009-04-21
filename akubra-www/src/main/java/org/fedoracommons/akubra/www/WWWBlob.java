@@ -36,6 +36,7 @@ import org.apache.commons.logging.LogFactory;
 
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStoreConnection;
+import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.MissingBlobException;
 import org.fedoracommons.akubra.impl.AbstractBlob;
 
@@ -168,7 +169,9 @@ class WWWBlob extends AbstractBlob {
   }
 
   public void create() throws IOException {
-    throw new UnsupportedOperationException();
+    if (exists())
+      throw new DuplicateBlobException(id);
+    openOutputStream(0).close();
   }
 
   public void delete() throws IOException {

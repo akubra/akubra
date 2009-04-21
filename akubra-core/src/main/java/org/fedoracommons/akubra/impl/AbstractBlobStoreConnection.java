@@ -26,6 +26,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.apache.commons.io.IOUtils;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
@@ -37,6 +40,8 @@ import org.fedoracommons.akubra.BlobStoreConnection;
  * @author Pradeep Krishnan
  */
 public abstract class AbstractBlobStoreConnection implements BlobStoreConnection {
+  private static final Log log = LogFactory.getLog(AbstractBlobStoreConnection.class);
+
   protected final BlobStore owner;
   protected final StreamManager streamManager;
   protected boolean closed = false;
@@ -60,17 +65,30 @@ public abstract class AbstractBlobStoreConnection implements BlobStoreConnection
             throws IOException, UnsupportedOperationException {
     Blob blob = getBlob(null, hints);
 
-    if (!blob.exists())
-      blob.create();
-
-    OutputStream out = null;
+    boolean success = false;
     try {
-      IOUtils.copyLarge(content, out = blob.openOutputStream(estimatedSize));
-      out.close();
-      out = null;
+      if (!blob.exists())
+        blob.create();
+
+      OutputStream out = null;
+      try {
+        IOUtils.copyLarge(content, out = blob.openOutputStream(estimatedSize));
+        out.close();
+        out = null;
+      } finally {
+        if (out != null)
+          IOUtils.closeQuietly(out);
+      }
+
+      success = true;
     } finally {
-      if (out != null)
-        IOUtils.closeQuietly(out);
+      if (!success) {
+        try {
+          blob.delete();
+        } catch (Throwable t) {
+          log.error("Error deleting blob after blob-creation failure", t);
+        }
+      }
     }
 
     return blob;

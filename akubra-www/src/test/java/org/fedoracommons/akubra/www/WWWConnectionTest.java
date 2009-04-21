@@ -96,19 +96,17 @@ public class WWWConnectionTest {
   /**
    * Test the listBlobIds operation.
    */
-  @Test
-  public void testListBlobIds() {
-    //nothing to test
+  @Test(expectedExceptions =  { UnsupportedOperationException.class })
+  public void testListBlobIds() throws IOException {
+    con.listBlobIds(null);
   }
 
   /**
    * Test the close operation.
    *
-   * @throws IOException the expected exception on a getBlob() from a closed Connection
+   * @throws IllegalStateException the expected exception on a getBlob() from a closed Connection
    */
-  @Test(expectedExceptions =  {
-    IOException.class}
-  )
+  @Test(expectedExceptions =  { IllegalStateException.class })
   public void testClose() throws IOException {
     closeableCon.close();
     closeableCon.getBlob(URI.create("http://www.google.com"), null);

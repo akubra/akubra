@@ -76,7 +76,7 @@ class WWWConnection extends AbstractBlobStoreConnection {
    */
   WWWBlob getWWWBlob(URI blobId, boolean create) throws IOException {
     if (blobs == null)
-      throw new IOException("Connection closed.");
+      throw new IllegalStateException("Connection closed.");
 
     if (blobId == null)
       throw new UnsupportedOperationException("Must supply a valid URL as the blob-id. " + 
@@ -101,8 +101,7 @@ class WWWConnection extends AbstractBlobStoreConnection {
     return getWWWBlob(blobId, true);
   }
 
-  public Iterator<URI> listBlobIds(String filterPrefix)
-                            throws IOException {
-    return null;
+  public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
+    throw new UnsupportedOperationException("blob-id listing not supported");
   }
 }

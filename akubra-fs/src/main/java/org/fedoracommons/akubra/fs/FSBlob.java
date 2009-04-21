@@ -170,16 +170,14 @@ class FSBlob extends AbstractBlob {
         throw new IllegalArgumentException("Blob must be an instance of " + FSBlob.class);
 
       File other = ((FSBlob)blob).file;
+      if (other.exists())
+        throw new DuplicateBlobException(blob.getId());
 
       makeParentDirs(other);
 
       if (!file.renameTo(other)) {
-
         if (!file.exists())
           throw new MissingBlobException(getId());
-
-        if (other.exists())
-          throw new DuplicateBlobException(blob.getId());
 
         throw new IOException("Rename failed for an unknown reason.");
       }

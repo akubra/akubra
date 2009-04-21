@@ -144,7 +144,7 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
 
   private Object[] createBlob(URI blobId, Map<String, String> hints) throws IOException {
     if (blobId == null)
-      throw new UnsupportedIdException(null, "id-generation is not currently supported");
+      throw new UnsupportedOperationException("id-generation is not currently supported");
 
     if (logger.isDebugEnabled())
       logger.debug("creating blob '" + blobId + "' (" + this + ")");
@@ -382,6 +382,10 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
     //@Override
     public void moveTo(Blob blob) throws IOException {
       check(true, false);
+      if (blob == null)
+        throw new NullPointerException("Cannot move to null blob");
+      if (!(blob instanceof TxnBlob))
+        throw new IllegalArgumentException("blob " + blob + " is not a " + TxnBlob.class);
 
       renameBlob(getId(), blob.getId(), storeId);
 

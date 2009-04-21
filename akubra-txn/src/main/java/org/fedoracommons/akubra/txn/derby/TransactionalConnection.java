@@ -142,6 +142,9 @@ public class TransactionalConnection extends SQLTransactionalConnection {
 
   //@Override
   public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
+    if (isClosed())
+      throw new IllegalStateException("Connection closed.");
+
     if (logger.isDebugEnabled())
       logger.debug("listing blob-ids with prefix '" + filterPrefix + "' (" + this + ")");
 

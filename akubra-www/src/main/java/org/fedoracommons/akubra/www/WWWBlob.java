@@ -21,6 +21,7 @@
  */
 package org.fedoracommons.akubra.www;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -30,8 +31,12 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStoreConnection;
+import org.fedoracommons.akubra.MissingBlobException;
 import org.fedoracommons.akubra.impl.AbstractBlob;
 
 /**
@@ -40,9 +45,13 @@ import org.fedoracommons.akubra.impl.AbstractBlob;
  * @author Pradeep Krishnan
  */
 class WWWBlob extends AbstractBlob {
+  private static final Log logger = LogFactory.getLog(WWWBlob.class);
+
   private final URL           url;
   private Long                size;
+  private Boolean             exists;
   private URLConnection       urlc;
+  private InputStream         content;
 
   /**
    * Creates a new WWWBlob object.
@@ -52,7 +61,7 @@ class WWWBlob extends AbstractBlob {
    */
   public WWWBlob(URL url, BlobStoreConnection conn) {
     super(conn, toURI(url));
-    this.url    = url;
+    this.url = url;
   }
 
   private static URI toURI(URL url) {
@@ -68,6 +77,16 @@ class WWWBlob extends AbstractBlob {
    */
   void closed() {
     urlc   = null;
+    exists = null;
+    size   = null;
+
+    if (content != null) {
+      try {
+        content.close();
+      } catch (IOException ioe) {
+        logger.warn("Error closing input-stream for '" + id + "'", ioe);
+      }
+    }
   }
 
   private URLConnection connect(boolean input, boolean cache) throws IOException {
@@ -89,20 +108,33 @@ class WWWBlob extends AbstractBlob {
     }
 
     if (input) {
-      size   = (long) con.getContentLength();
+      try {
+        content = con.getInputStream();
+        exists = true;
+      } catch (FileNotFoundException fnfe) {
+        logger.debug("blob doesn't exist for '" + id + "'", fnfe);
+        exists = false;
+        size   = null;
+        urlc   = null;
+        throw new MissingBlobException(id);
+      }
+
+      size = (long) con.getContentLength();
 
       /*
        * close() on the InputStream will disconnect.
        * So the connection should not be cached in that case.
        * For getSize(), the caching the connection is a valid option.
        */
-      urlc   = cache ? con : null;
+      urlc = cache ? con : null;
     }
 
     return con;
   }
 
   public long getSize() throws IOException {
+    if (exists != null && !exists)
+      throw new MissingBlobException(id);
     if (size == null)
       connect(true, true);
 
@@ -110,20 +142,29 @@ class WWWBlob extends AbstractBlob {
   }
 
   public InputStream openInputStream() throws IOException {
-    URLConnection con = connect(true, false);
+    connect(true, false);
 
-    return con.getInputStream();
+    return content;
   }
 
-  public OutputStream openOutputStream(long estimatedSize)
-                                throws IOException {
+  public OutputStream openOutputStream(long estimatedSize) throws IOException {
     URLConnection con = connect(false, false);
 
-    return con.getOutputStream();
+    OutputStream os = con.getOutputStream();
+    exists = true;
+    return os;
   }
 
   public boolean exists() throws IOException {
-    return true;
+    if (exists == null) {
+      try {
+        connect(true, true);
+      } catch (MissingBlobException mbe) {
+        logger.trace("blob doesn't exist for '" + id + "'", mbe);
+        return false;
+      }
+    }
+    return exists;
   }
 
   public void create() throws IOException {

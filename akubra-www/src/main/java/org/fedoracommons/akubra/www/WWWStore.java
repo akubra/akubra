@@ -24,6 +24,9 @@ package org.fedoracommons.akubra.www;
 import java.io.IOException;
 
 import java.net.URI;
+import java.net.URLStreamHandler;
+
+import java.util.Map;
 
 import javax.transaction.Transaction;
 
@@ -38,13 +41,27 @@ import org.fedoracommons.akubra.impl.AbstractBlobStore;
  * @author Pradeep Krishnan
  */
 public class WWWStore extends AbstractBlobStore {
+  private final Map<String, URLStreamHandler> handlers;
+
   /**
    * Creates a new WWWStore object.
    *
    * @param id an identifier for this store
    */
   public WWWStore(URI id) {
+    this(id, null);
+  }
+
+  /**
+   * Creates a new WWWStore object.
+   *
+   * @param id       an identifier for this store
+   * @param handlers the url stream-handlers (keyed by uri scheme) to use; if a handler is not
+   *                 found then the java default one is used. May be null.
+   */
+  public WWWStore(URI id, Map<String, URLStreamHandler> handlers) {
     super(id);
+    this.handlers = handlers;
   }
 
   public BlobStoreConnection openConnection(Transaction tx)
@@ -52,7 +69,7 @@ public class WWWStore extends AbstractBlobStore {
     if (tx != null)
       throw new UnsupportedOperationException("Transactions not supported");
 
-    return new WWWConnection(this);
+    return new WWWConnection(this, handlers);
   }
 
   public boolean setQuiescent(boolean quiescent) throws IOException {

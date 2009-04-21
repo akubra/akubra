@@ -25,6 +25,8 @@ import java.io.IOException;
 
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
+import java.net.URLStreamHandler;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -40,15 +42,20 @@ import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
  * @author Pradeep Krishnan
  */
 class WWWConnection extends AbstractBlobStoreConnection {
-  private Map<URI, WWWBlob> blobs = new HashMap<URI, WWWBlob>();
+  private final Map<String, URLStreamHandler> handlers = new HashMap<String, URLStreamHandler>();
+  private       Map<URI, WWWBlob>             blobs = new HashMap<URI, WWWBlob>();
 
   /**
    * Creates a new WWWStoreConnection object.
    *
-   * @param store the BlobStore
+   * @param store    the BlobStore
+   * @param handlers the url stream-handlers (keyed by uri scheme) to use; if a handler is not
+   *                 found then the java default one is used. May be null.
    */
-  public WWWConnection(WWWStore store) {
+  public WWWConnection(WWWStore store, Map<String, URLStreamHandler> handlers) {
     super(store);
+    if (handlers != null)
+      this.handlers.putAll(handlers);
   }
 
   public void close() {
@@ -86,7 +93,8 @@ class WWWConnection extends AbstractBlobStoreConnection {
 
     if ((blob == null) && create) {
       try {
-        blob = new WWWBlob(blobId.toURL(), this);
+        URL url = new URL(null, blobId.toString(), handlers.get(blobId.getScheme()));
+        blob = new WWWBlob(url, this);
       } catch (MalformedURLException e) {
         throw new UnsupportedIdException(blobId,  " must be a valid URL", e);
       }

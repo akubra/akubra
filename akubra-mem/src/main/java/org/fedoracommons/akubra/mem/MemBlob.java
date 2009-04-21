@@ -58,6 +58,11 @@ class MemBlob extends AbstractBlob {
     this.streamMgr = streamMgr;
   }
 
+  @Override
+  public URI getCanonicalId() {
+    return getId();
+  }
+
   //@Override
   public boolean exists() throws IOException {
     checkClosed();

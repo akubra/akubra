@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import java.net.URI;
+
 import java.rmi.RemoteException;
 
 import java.util.HashMap;
@@ -62,6 +64,14 @@ class ClientBlob extends AbstractBlob {
     this.streamMgr   = streamMgr;
     this.remote      = remote;
     this.hints       = (hints == null) ? null : new HashMap<String, String>(hints);
+  }
+
+  @Override
+  public URI getCanonicalId() throws IOException {
+    if (getConnection().isClosed())
+      throw new IOException("Connection closed");
+
+    return remote.getCanonicalId();
   }
 
   public InputStream openInputStream() throws IOException {

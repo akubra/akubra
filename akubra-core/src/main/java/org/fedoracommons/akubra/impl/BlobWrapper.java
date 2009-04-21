@@ -81,6 +81,11 @@ public class BlobWrapper extends AbstractBlob {
     this.delegate = delegate;
   }
 
+  @Override
+  public URI getCanonicalId() throws IOException {
+    return delegate.getCanonicalId();
+  }
+
   public InputStream openInputStream() throws IOException {
     if (getConnection().isClosed())
       throw new IllegalStateException("Connection closed.");

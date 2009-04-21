@@ -49,6 +49,16 @@ public interface RemoteBlob extends Remote {
   URI getId() throws RemoteException;
 
   /**
+   * Gets the canonical id of the blob, if known.
+   *
+   * @return the canonical id, if known; null otherwise.
+   *
+   * @throws RemoteException on an error in rmi transport
+   * @throws IOException if an error occurred
+   */
+  URI getCanonicalId() throws RemoteException, IOException;
+
+  /**
    * Tests if this blob exists on remote.
    *
    * @return the size

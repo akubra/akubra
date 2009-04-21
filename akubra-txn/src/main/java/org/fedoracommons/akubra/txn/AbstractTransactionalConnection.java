@@ -358,6 +358,11 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
       isNew   = (storeId == null);
     }
 
+    @Override
+    public URI getCanonicalId() {
+      return getId();
+    }
+
     //@Override
     public boolean exists() throws IOException {
       check(false, false);

@@ -60,6 +60,10 @@ public class ServerBlob extends UnicastExportable implements RemoteBlob {
     return blob.getId();
   }
 
+  public URI getCanonicalId() throws IOException {
+    return blob.getCanonicalId();
+  }
+
   public boolean exists() throws IOException {
     return blob.exists();
   }

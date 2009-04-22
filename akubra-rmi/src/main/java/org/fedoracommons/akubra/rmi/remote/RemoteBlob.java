@@ -80,15 +80,6 @@ public interface RemoteBlob extends Remote {
   long getSize() throws RemoteException, IOException, MissingBlobException;
 
   /**
-   * Creates a blob on the remote.
-   *
-   * @throws RemoteException on an error in rmi transport
-   * @throws DuplicateBlobException error reported by the remote
-   * @throws IOException error reported by the remote
-   */
-  void create() throws RemoteException, DuplicateBlobException, IOException;
-
-  /**
    * Deletes a blob on the remote.
    *
    * @throws RemoteException on an error in rmi transport
@@ -127,13 +118,15 @@ public interface RemoteBlob extends Remote {
    * Create a stream to write to the blob on the remote.
    *
    * @param estimatedSize the estimated size of this blob when the  write is complete
+   * @param overwrite     if false and this blob already exists then do not overwrite the contents
+   *                      but throw an exception instead
    *
    * @return a new stream to write to the remote server blob
    *
    * @throws RemoteException on an error in rmi transport
    * @throws IOException error reported by remote
-   * @throws MissingBlobException error reported by remote
+   * @throws DuplicateBlobException error reported by remote
    */
-  RemoteOutputStream openOutputStream(long estimatedSize)
-                               throws RemoteException, IOException, MissingBlobException;
+  RemoteOutputStream openOutputStream(long estimatedSize, boolean overwrite)
+                               throws RemoteException, IOException, DuplicateBlobException;
 }

@@ -24,7 +24,8 @@ package org.fedoracommons.akubra;
 import java.net.URI;
 
 /**
- * This exception is thrown by a blob store in case in of missing blob in store.
+ * This exception is thrown by a blob store in case of an attempt to overwrite an existing blob in
+ * the store.
  *
  * @author Chris Wilper
  * @author Pradeep Krishnan

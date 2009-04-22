@@ -78,7 +78,7 @@ public abstract class TCKTestSuite extends AbstractTests {
   protected final URI     storeId;
   protected final boolean isIdGenSupp;
   protected final boolean isListIdsSupp;
-  protected final boolean isCreateSupp;
+  protected final boolean isOutputSupp;
   protected final boolean isDeleteSupp;
   protected final boolean isMoveToSupp;
 
@@ -104,18 +104,18 @@ public abstract class TCKTestSuite extends AbstractTests {
    * @param isTransactional if the store is transactional
    * @param isIdGenSupp     true if id generation (<code>getBlob(null, ...)</code>) is supported
    * @param isListIdsSupp   true if <code>con.listBlobIds()</code> is supported
-   * @param isCreateSupp    true if <var>Blob.create()</var> is supported
+   * @param isOutputSupp    true if <var>Blob.openOutputStream()</var> is supported
    * @param isDeleteSupp    true if <var>Blob.delete()</var> is supported
    * @param isMoveToSupp    true if <var>Blob.moveTo()</var> is supported
    */
   protected TCKTestSuite(BlobStore store, URI storeId, boolean isTransactional, boolean isIdGenSupp,
-                         boolean isListIdsSupp, boolean isCreateSupp, boolean isDeleteSupp,
+                         boolean isListIdsSupp, boolean isOutputSupp, boolean isDeleteSupp,
                          boolean isMoveToSupp) {
     super(store, isTransactional);
     this.storeId       = storeId;
     this.isIdGenSupp   = isIdGenSupp;
     this.isListIdsSupp = isListIdsSupp;
-    this.isCreateSupp  = isCreateSupp;
+    this.isOutputSupp  = isOutputSupp;
     this.isDeleteSupp  = isDeleteSupp;
     this.isMoveToSupp  = isMoveToSupp;
   }
@@ -158,8 +158,6 @@ public abstract class TCKTestSuite extends AbstractTests {
    *         are valid)
    */
   protected abstract URI getInvalidId();
-
-  // FIXME: respect isCreateSupp/isDeleteSupp
 
   @Test(groups={ "init" })
   public void testInit() {
@@ -264,10 +262,10 @@ public abstract class TCKTestSuite extends AbstractTests {
             }
           }, 100, true);
 
-          if (isCreateSupp) {
+          if (isOutputSupp) {
             doWithTimeout(new ERunnable() {
               public void erun() throws Exception {
-                b1.openOutputStream(-1);
+                b1.openOutputStream(-1, true);
               }
             }, 10, false);
           }
@@ -276,14 +274,6 @@ public abstract class TCKTestSuite extends AbstractTests {
             doWithTimeout(new ERunnable() {
               public void erun() throws Exception {
                 b1.delete();
-              }
-            }, 10, false);
-          }
-
-          if (isCreateSupp) {
-            doWithTimeout(new ERunnable() {
-              public void erun() throws Exception {
-                b2.create();
               }
             }, 10, false);
           }
@@ -301,12 +291,12 @@ public abstract class TCKTestSuite extends AbstractTests {
     }, true);
 
     // going quiescent should wait for in-progress write operations to complete
-    if (isCreateSupp) {
+    if (isOutputSupp) {
       runTests(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           final Blob b1 = getBlob(con, id1, "bar");
 
-          OutputStream os = b1.openOutputStream(-1);
+          OutputStream os = b1.openOutputStream(-1, true);
 
           final boolean[] failed = new boolean[] { false };
 
@@ -526,16 +516,10 @@ public abstract class TCKTestSuite extends AbstractTests {
         assertEquals(b.getConnection(), con);
         assertEquals(b.getId(), id1);
 
-        shouldFail(new ERunnable() {
-          public void erun() throws Exception {
-            b.openInputStream();
-          }
-        }, IllegalStateException.class, null);
-
-        if (isCreateSupp) {
+        if (isOutputSupp) {
           shouldFail(new ERunnable() {
             public void erun() throws Exception {
-              b.openOutputStream(-1);
+              b.openOutputStream(-1, true);
             }
           }, IllegalStateException.class, null);
         }
@@ -545,14 +529,6 @@ public abstract class TCKTestSuite extends AbstractTests {
             b.exists();
           }
         }, IllegalStateException.class, null);
-
-        if (isCreateSupp) {
-          shouldFail(new ERunnable() {
-            public void erun() throws Exception {
-              b.create();
-            }
-          }, IllegalStateException.class, null);
-        }
       }
     });
 
@@ -575,10 +551,10 @@ public abstract class TCKTestSuite extends AbstractTests {
           }
         }, IllegalStateException.class, null);
 
-        if (isCreateSupp) {
+        if (isOutputSupp) {
           shouldFail(new ERunnable() {
             public void erun() throws Exception {
-              b.openOutputStream(-1);
+              b.openOutputStream(-1, true);
             }
           }, IllegalStateException.class, null);
         }
@@ -782,43 +758,6 @@ public abstract class TCKTestSuite extends AbstractTests {
     });
   }
 
-
-  /**
-   * Test id validation.
-   */
-  @Test(groups={ "blob", "manipulatesBlobs" }, dependsOnGroups={ "init" })
-  public void testCreate() throws Exception {
-    // set up
-    final URI id1 = createId("blobCreate1");
-
-    // check if create is supported
-    if (!isCreateSupp) {
-      shouldFail(new ConAction() {
-        public void run(BlobStoreConnection con) throws Exception {
-          Blob b = getBlob(con, id1, false);
-          createBlob(con, b, "foo");
-        }
-      }, UnsupportedOperationException.class, null);
-
-      return;
-    }
-
-    // create of a non-existent blob
-    createBlob(id1, null, true);
-
-    // create of an existing blob should fail
-    shouldFail(new ConAction() {
-      public void run(BlobStoreConnection con) throws Exception {
-        Blob b = getBlob(con, id1, "");
-        createBlob(con, b, "foo");
-      }
-    }, DuplicateBlobException.class, id1);
-
-    // clean up
-    deleteBlob(id1, "", true);
-    assertNoBlobs(getPrefixFor("blobCreate"));
-  }
-
   /**
    * Test id validation.
    */
@@ -919,11 +858,11 @@ public abstract class TCKTestSuite extends AbstractTests {
   @Test(groups={ "blob", "manipulatesBlobs" }, dependsOnGroups={ "init" })
   public void testOutputStream() throws Exception {
     // check if create is supported
-    if (!isCreateSupp) {
+    if (!isOutputSupp) {
       shouldFail(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           Blob b = getBlob(con, createId("blobOutputStream1"), false);
-          b.openOutputStream(-1).close();
+          b.openOutputStream(-1, true).close();
         }
       }, UnsupportedOperationException.class, null);
 
@@ -958,18 +897,34 @@ public abstract class TCKTestSuite extends AbstractTests {
       throws Exception {
     runTests(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
-          Blob b = getBlob(con, id, null);
-          createBlob(con, b, null);
-          if (body != null) {
-            setBody(b, body, estSize);
-            assertEquals(getBody(b), body);
-          } else {
-            b.openOutputStream(estSize).close();
-            assertEquals(getBody(b), "");
-          }
+          final Blob b = getBlob(con, id, null);
+
+          testOutputStream(b, body, estSize, true);     // test create
+          testOutputStream(b, body, estSize, true);     // test overwrite
+
+          deleteBlob(con, b);
+
+          testOutputStream(b, body, estSize, false);    // test create
+          shouldFail(new ERunnable() {                  // test !overwrite
+            public void erun() throws Exception {
+              testOutputStream(b, body, estSize, false);
+            }
+          }, DuplicateBlobException.class, id);
+
           deleteBlob(con, b);
         }
     });
+  }
+
+  protected void testOutputStream(Blob b, String body, long estSize, boolean overwrite)
+      throws Exception {
+    if (body != null) {
+      setBody(b, body, estSize, overwrite);
+      assertEquals(getBody(b), body);
+    } else {
+      b.openOutputStream(estSize, overwrite).close();
+      assertEquals(getBody(b), "");
+    }
   }
 
   /**
@@ -1096,7 +1051,7 @@ public abstract class TCKTestSuite extends AbstractTests {
         return null;
       }
 
-      public OutputStream openOutputStream(long estimatedSize) {
+      public OutputStream openOutputStream(long estimatedSize, boolean overwrite) {
         return null;
       }
 
@@ -1106,9 +1061,6 @@ public abstract class TCKTestSuite extends AbstractTests {
 
       public boolean exists() {
         return false;
-      }
-
-      public void create() {
       }
 
       public void delete() {

@@ -158,9 +158,6 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
       res = bStoreCon.getBlob(null, hints);
     }
 
-    if (!res.exists())
-      res.create();
-
     boolean added = false;
     try {
       addNameEntry(blobId, res.getId());
@@ -340,13 +337,13 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
 
   /**
    * A transactional blob implementation. This blob caches underlying infos such as the
-   * store-id and the store-blob, and hence only works properly in conjuction with the
+   * store-id and the store-blob, and hence only works properly in conjunction with the
    * blob-cache which guarantees only one instance of this class per blob-id at any given
    * time.
    */
   protected class TxnBlob extends AbstractBlob {
     private final Map<String, String> hints;
-    private       boolean isNew;
+    private       boolean needToCopy;
     private       URI     storeId;
     private       Blob    storeBlob = null;
 
@@ -354,8 +351,8 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
       super(AbstractTransactionalConnection.this, blobId);
       this.hints = hints;
 
-      storeId = getRealId(blobId);
-      isNew   = (storeId == null);
+      storeId    = getRealId(blobId);
+      needToCopy = true;
     }
 
     @Override
@@ -367,13 +364,6 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
     public boolean exists() throws IOException {
       check(false, false);
       return (storeId != null);
-    }
-
-    //@Override
-    public void create() throws IOException, DuplicateBlobException {
-      check(false, true);
-      storeBlob = (Blob) createBlob(getId(), hints)[1];
-      storeId   = storeBlob.getId();
     }
 
     //@Override
@@ -413,18 +403,22 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
     }
 
     //@Override
-    public OutputStream openOutputStream(long estimatedSize) throws IOException {
-      check(true, false);
+    public OutputStream openOutputStream(long estimatedSize, boolean overwrite)
+        throws IOException, DuplicateBlobException {
+      check(false, !overwrite);
 
-      if (!isNew) {
-        removeBlob(getId(), storeId);
-        storeBlob = (Blob) createBlob(getId(), hints)[1];
-        storeId   = storeBlob.getId();
+      if (needToCopy || storeId == null) {
+        if (storeId != null)
+          removeBlob(getId(), storeId);
+
+        storeBlob  = (Blob) createBlob(getId(), hints)[1];
+        storeId    = storeBlob.getId();
+        needToCopy = false;
       } else {
         getStoreBlob();
       }
 
-      return storeBlob.openOutputStream(estimatedSize);
+      return storeBlob.openOutputStream(estimatedSize, true);
     }
 
     private void getStoreBlob() throws IOException, MissingBlobException {
@@ -433,13 +427,13 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
         storeBlob = bStoreCon.getBlob(storeId, hints);
     }
 
-    private void check(boolean needBlob, boolean noBlob)
+    private void check(boolean mustExist, boolean mustNotExist)
         throws IllegalStateException, MissingBlobException, DuplicateBlobException {
       if (isClosed())
         throw new IllegalStateException("Connection closed.");
-      if (needBlob && storeId == null)
+      if (mustExist && storeId == null)
         throw new MissingBlobException(getId());
-      if (noBlob && storeId != null)
+      if (mustNotExist && storeId != null)
         throw new DuplicateBlobException(getId());
     }
   }

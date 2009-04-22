@@ -126,7 +126,7 @@ public class WWWBlobTest {
   @Test
   public void testOpenOutputStream() {
     try {
-      assertNotNull(blob.openOutputStream(-1));
+      assertNotNull(blob.openOutputStream(-1, true));
     } catch (IOException e) {
       fail("openOutputStream() failed", e);
     }

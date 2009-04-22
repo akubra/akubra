@@ -70,16 +70,21 @@ public interface Blob {
   InputStream openInputStream() throws IOException, MissingBlobException;
 
   /**
-   * Opens a new OutputStream for writing the content.
+   * Opens a new OutputStream for writing the content. If the blob does not exist it is created
+   * with the data written to the stream as the content; else if <var>overwrite</var> is true the
+   * existing content is replaced with the new data.
    *
    * @param estimatedSize the estimated size of the data if known (or -1 if unknown).
    *                      This can allow for the implementation to make better decisions
    *                      on buffering or reserving space.
+   * @param overwrite     if false and this blob already exists then do not overwrite the contents
+   *                      but throw an exception instead
    * @return the output stream.
-   * @throws MissingBlobException if the blob does not {@link #exists exist}.
+   * @throws DuplicateBlobException if this blob exists and <var>overwrite</var> is false
    * @throws IOException if the stream cannot be opened for any other reason.
    */
-  OutputStream openOutputStream(long estimatedSize) throws IOException, MissingBlobException;
+  OutputStream openOutputStream(long estimatedSize, boolean overwrite)
+      throws IOException, DuplicateBlobException;
 
   /**
    * Gets the size of the blob, in bytes.
@@ -96,19 +101,10 @@ public interface Blob {
    * @return true if the blob denoted by this id exists; false otherwise.
    *
    * @throws IOException if an error occurred during existence check
-   * @see #create
+   * @see #openOutputStream
    * @see #delete
    */
   boolean exists() throws IOException;
-
-  /**
-   * Creates a new empty blob. This operation is not idempotent and will
-   * throw an exception if the blob already {@link #exists}.
-   *
-   * @throws DuplicateBlobException if a blob with the given id already exists
-   * @throws IOException if the blob cannot be created for any other reason
-   */
-  void create() throws DuplicateBlobException, IOException;
 
   /**
    * Removes this blob from the store. This operation is idempotent and does

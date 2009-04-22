@@ -146,8 +146,7 @@ public class MemStoreConnectionTest {
 
     Blob b1 = con.getBlob(null, null);
 
-    if (!b1.exists())
-      b1.create();
+    b1.openOutputStream(0, true).close();
 
     Iterator<URI> it = con.listBlobIds(null);
     assertTrue(it.hasNext());
@@ -165,8 +164,7 @@ public class MemStoreConnectionTest {
     Blob b1 = con.getBlob(null, null);
     Blob b2 = con.getBlob(null, null);
 
-    if (!b1.exists())
-      b1.create();
+    b1.openOutputStream(0, true).close();
 
     if (b2.exists())
       b2.delete();
@@ -184,7 +182,7 @@ public class MemStoreConnectionTest {
     assertTrue(b1.exists());
     assertFalse(b2.exists());
 
-    b2.create();
+    b2.openOutputStream(0, true).close();
     assertTrue(b2.exists());
 
     try {

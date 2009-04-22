@@ -148,7 +148,10 @@ class WWWBlob extends AbstractBlob {
     return content;
   }
 
-  public OutputStream openOutputStream(long estimatedSize) throws IOException {
+  public OutputStream openOutputStream(long estimatedSize, boolean overwrite) throws IOException {
+    if (!overwrite && exists())
+      throw new DuplicateBlobException(id);
+
     URLConnection con = connect(false, false);
 
     OutputStream os = con.getOutputStream();
@@ -166,12 +169,6 @@ class WWWBlob extends AbstractBlob {
       }
     }
     return exists;
-  }
-
-  public void create() throws IOException {
-    if (exists())
-      throw new DuplicateBlobException(id);
-    openOutputStream(0).close();
   }
 
   public void delete() throws IOException {

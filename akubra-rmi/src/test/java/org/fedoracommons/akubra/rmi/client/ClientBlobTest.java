@@ -137,8 +137,8 @@ public class ClientBlobTest {
 
     reset(blob);
     makeThreadSafe(blob, true);
-    expect(blob.openOutputStream(42L)).andReturn(out);
-    expect(blob.openOutputStream(-1L)).andThrow(new MissingBlobException(id));
+    expect(blob.openOutputStream(42L, true)).andReturn(out);
+    expect(blob.openOutputStream(-1L, true)).andThrow(new MissingBlobException(id));
 
     out.write(42);
     out.close();
@@ -146,13 +146,13 @@ public class ClientBlobTest {
     replay(blob);
     replay(out);
 
-    OutputStream co = cb.openOutputStream(42L);
+    OutputStream co = cb.openOutputStream(42L, true);
     assertNotNull(co);
     co.write(42);
     co.close();
 
     try {
-      cb.openOutputStream(-1L);
+      cb.openOutputStream(-1L, true);
       fail("Failed to rcv expected exception");
     } catch (MissingBlobException e) {
       assertEquals(id, e.getBlobId());
@@ -179,16 +179,6 @@ public class ClientBlobTest {
     replay(blob);
 
     assertTrue(cb.exists());
-    verify(blob);
-  }
-
-  @Test
-  public void testCreate() throws IOException {
-    reset(blob);
-    blob.create();
-    replay(blob);
-
-    cb.create();
     verify(blob);
   }
 

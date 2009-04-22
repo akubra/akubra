@@ -82,7 +82,7 @@ class FSBlob extends AbstractBlob {
   }
 
   //@Override
-  public OutputStream openOutputStream(long estimatedSize) throws IOException {
+  public OutputStream openOutputStream(long estimatedSize, boolean overwrite) throws IOException {
     if (getConnection().isClosed())
       throw new IllegalStateException("Connection closed.");
 
@@ -90,9 +90,10 @@ class FSBlob extends AbstractBlob {
       throw new IOException("Interrupted waiting for writable state");
 
     try {
-      if (!file.exists())
-        throw new MissingBlobException(getId());
+      if (!overwrite && file.exists())
+        throw new DuplicateBlobException(getId());
 
+      makeParentDirs(file);
       return manager.manageOutputStream(getConnection(), new FileOutputStream(file));
     } finally {
       manager.unlockState();
@@ -116,24 +117,6 @@ class FSBlob extends AbstractBlob {
       throw new IllegalStateException("Connection closed.");
 
     return file.exists();
-  }
-
-  //@Override
-  public void create() throws IOException {
-    if (getConnection().isClosed())
-      throw new IllegalStateException("Connection closed.");
-
-    if (!manager.lockUnquiesced())
-      throw new IOException("Interrupted waiting for writable state");
-
-    try {
-      makeParentDirs(file);
-
-      if (!file.createNewFile())
-        throw new DuplicateBlobException(getId(), file + " exists");
-    } finally {
-      manager.unlockState();
-    }
   }
 
   //@Override

@@ -82,7 +82,7 @@ class ClientBlob extends AbstractBlob {
                                        new ClientInputStream(remote.openInputStream()));
   }
 
-  public OutputStream openOutputStream(long estSize) throws IOException {
+  public OutputStream openOutputStream(long estSize, boolean overwrite) throws IOException {
     if (getConnection().isClosed())
       throw new IOException("Connection closed");
 
@@ -91,7 +91,7 @@ class ClientBlob extends AbstractBlob {
     }
     try {
       return streamMgr.manageOutputStream(getConnection(),
-                                          new ClientOutputStream(remote.openOutputStream(estSize)));
+                              new ClientOutputStream(remote.openOutputStream(estSize, overwrite)));
 
     } finally {
       streamMgr.unlockState();
@@ -110,13 +110,6 @@ class ClientBlob extends AbstractBlob {
       throw new IOException("Connection closed");
 
     return remote.exists();
-  }
-
-  public void create() throws IOException {
-    if (getConnection().isClosed())
-      throw new IOException("Connection closed");
-
-    remote.create();
   }
 
   public void delete() throws IOException {

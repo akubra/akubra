@@ -223,10 +223,9 @@ public class TransactionalStoreTest {
                   byte[] buf = new byte[4096];
                   Blob b;
                   b = con.getBlob(id, null);
-                  if (!b.exists())
-                    b.create();
                   OutputStream out;
-                  IOUtils.copyLarge(new ByteArrayInputStream(buf), out = b.openOutputStream(buf.length));
+                  IOUtils.copyLarge(new ByteArrayInputStream(buf),
+                                    out = b.openOutputStream(buf.length, true));
                   out.close();
 
                   InputStream in;
@@ -250,9 +249,7 @@ public class TransactionalStoreTest {
     doInTxn(new Action() {
         public void run(BlobStoreConnection con) throws Exception {
           Blob b = con.getBlob(id, null);
-          if (!b.exists())
-            b.create();
-          b.openOutputStream(-1).write(val.getBytes());
+          b.openOutputStream(-1, true).write(val.getBytes());
           assertEquals(val, IOUtils.toString(con.getBlob(id, null).openInputStream()));
         }
     }, commit);

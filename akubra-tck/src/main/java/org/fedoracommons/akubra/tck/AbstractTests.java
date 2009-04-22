@@ -97,15 +97,10 @@ public abstract class AbstractTests {
   }
 
   protected void createBlob(BlobStoreConnection con, Blob b, String body) throws Exception {
-    b.create();
+    setBlob(con, b, (body != null) ? body : "");
+
     assertTrue(b.exists());
     assertTrue(con.getBlob(b.getId(), null).exists());
-
-    assertEquals(getBody(b), "");
-    assertEquals(getBody(con.getBlob(b.getId(), null)), "");
-
-    if (body != null)
-      setBlob(con, b, body);
   }
 
   protected void setBlob(BlobStoreConnection con, Blob b, String body) throws Exception {
@@ -230,11 +225,11 @@ public abstract class AbstractTests {
   }
 
   protected void setBody(Blob b, String data) throws IOException {
-    setBody(b, data, data.length());
+    setBody(b, data, data.length(), true);
   }
 
-  protected void setBody(Blob b, String data, long estSize) throws IOException {
-    OutputStream os = b.openOutputStream(estSize);
+  protected void setBody(Blob b, String data, long estSize, boolean overwrite) throws IOException {
+    OutputStream os = b.openOutputStream(estSize, overwrite);
     try {
       os.write(data.getBytes("UTF-8"));
     } finally {

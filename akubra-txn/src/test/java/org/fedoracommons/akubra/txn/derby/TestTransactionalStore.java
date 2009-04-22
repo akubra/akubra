@@ -1010,7 +1010,6 @@ public class TestTransactionalStore extends TCKTestSuite {
         public void run(BlobStoreConnection con) throws Exception {
           for (int idx = start; idx < start + 1000; idx++) {
             Blob b = con.getBlob(URI.create("urn:blobStressTestFiller" + idx), null);
-            b.create();
             setBody(b, "v" + idx);
           }
         }

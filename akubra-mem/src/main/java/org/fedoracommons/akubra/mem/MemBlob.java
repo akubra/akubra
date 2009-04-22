@@ -72,24 +72,6 @@ class MemBlob extends AbstractBlob {
   }
 
   //@Override
-  public void create() throws IOException {
-    checkClosed();
-    if (!streamMgr.lockUnquiesced())
-      throw new IOException("Interrupted waiting for writable state");
-
-    try {
-      synchronized (blobs) {
-        if (blobs.containsKey(id))
-          throw new DuplicateBlobException(id);
-
-        blobs.put(id, new MemData(0));
-      }
-    } finally {
-      streamMgr.unlockState();
-    }
-  }
-
-  //@Override
   public void delete() throws IOException {
     checkClosed();
     if (!streamMgr.lockUnquiesced())
@@ -140,22 +122,27 @@ class MemBlob extends AbstractBlob {
   }
 
   //@Override
-  public OutputStream openOutputStream(long estimatedSize) throws IOException {
+  public OutputStream openOutputStream(long estimatedSize, boolean overwrite) throws IOException {
     checkClosed();
     if (!streamMgr.lockUnquiesced())
       throw new IOException("Interrupted waiting for writable state");
 
     try {
-      MemData data = getData();
+      MemData data;
 
-      if (estimatedSize > data.bufferSize()) {
-        data = new MemData((int) Math.min(estimatedSize, Integer.MAX_VALUE));
-        synchronized (blobs) {
+      synchronized (blobs) {
+        data = blobs.get(id);
+        if (!overwrite && data != null)
+          throw new DuplicateBlobException(getId(), "Blob already exists");
+
+        if (data == null || estimatedSize > data.bufferSize()) {
+          data = new MemData(Math.max((int) Math.min(estimatedSize, Integer.MAX_VALUE), 1024));
           blobs.put(id, data);
+        } else {
+          data.reset();
         }
       }
 
-      data.reset();
       return streamMgr.manageOutputStream(getConnection(), data);
     } finally {
       streamMgr.unlockState();

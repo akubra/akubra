@@ -67,12 +67,9 @@ public abstract class AbstractBlobStoreConnection implements BlobStoreConnection
 
     boolean success = false;
     try {
-      if (!blob.exists())
-        blob.create();
-
-      OutputStream out = null;
+      OutputStream out = blob.openOutputStream(estimatedSize, true);
       try {
-        IOUtils.copyLarge(content, out = blob.openOutputStream(estimatedSize));
+        IOUtils.copyLarge(content, out);
         out.close();
         out = null;
       } finally {

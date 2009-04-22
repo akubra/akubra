@@ -67,8 +67,8 @@ public interface BlobStoreConnection {
 
   /**
    * Creates a blob with the given content. For Content Addressible Storage (CAS) systems,
-   * this is the only way to create a Blob. For other stores, there is also the {@link Blob#create
-   * create}
+   * this is the only way to create a Blob; for all other stores there is also {@link #getBlob(URI,
+   * Map) getBlob}.{@link Blob#openOutputStream openOutputStream}.
    *
    * @param content the contents of the blob
    * @param estimatedSize the estimated size of the data if known (or -1 if unknown).

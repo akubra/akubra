@@ -72,10 +72,6 @@ public class ServerBlob extends UnicastExportable implements RemoteBlob {
     return blob.getSize();
   }
 
-  public void create() throws IOException {
-    blob.create();
-  }
-
   public void delete() throws IOException {
     blob.delete();
   }
@@ -91,8 +87,9 @@ public class ServerBlob extends UnicastExportable implements RemoteBlob {
     return new ServerInputStream(blob.openInputStream(), getExporter());
   }
 
-  public RemoteOutputStream openOutputStream(long estimatedSize) throws IOException {
-    return new ServerOutputStream(blob.openOutputStream(estimatedSize), getExporter());
+  public RemoteOutputStream openOutputStream(long estimatedSize, boolean overwrite)
+      throws IOException {
+    return new ServerOutputStream(blob.openOutputStream(estimatedSize, overwrite), getExporter());
   }
 
   // for tests

@@ -108,16 +108,6 @@ public class ServerBlobTest {
   }
 
   @Test
-  public void testCreate() throws IOException {
-    reset(blob);
-    blob.create();
-    replay(blob);
-
-    sb.create();
-    verify(blob);
-  }
-
-  @Test
   public void testDelete() throws IOException {
     reset(blob);
     blob.delete();
@@ -192,16 +182,16 @@ public class ServerBlobTest {
     URI          id  = URI.create("foo:bar");
     OutputStream out = createMock(OutputStream.class);
     reset(blob);
-    expect(blob.openOutputStream(42L)).andReturn(out);
-    expect(blob.openOutputStream(-1L)).andThrow(new MissingBlobException(id));
+    expect(blob.openOutputStream(42L, true)).andReturn(out);
+    expect(blob.openOutputStream(-1L, true)).andThrow(new MissingBlobException(id));
     replay(blob);
 
-    RemoteOutputStream ro = sb.openOutputStream(42L);
+    RemoteOutputStream ro = sb.openOutputStream(42L, true);
     assertTrue(ro instanceof ServerOutputStream);
     assertEquals(((ServerOutputStream) ro).getOutputStream(), out);
 
     try {
-      sb.openOutputStream(-1L);
+      sb.openOutputStream(-1L, true);
       fail("Failed to rcv expected exception");
     } catch (MissingBlobException e) {
       assertEquals(id, e.getBlobId());

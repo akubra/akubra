@@ -152,11 +152,8 @@ public class AbstractMuxConnectionTest {
     Blob b3 = store1.openConnection(null).getBlob(b1.getId(), s1Hint);
     Blob b4 = store2.openConnection(null).getBlob(b2.getId(), s2Hint);
 
-    if (!b1.exists())
-      b1.create();
-
-    if (!b2.exists())
-      b2.create();
+    b1.openOutputStream(0, true).close();
+    b2.openOutputStream(0, true).close();
 
     assertTrue(b3.exists());
     assertTrue(b4.exists());
@@ -179,11 +176,8 @@ public class AbstractMuxConnectionTest {
     Blob b1 = con.getBlob(null, s1Hint);
     Blob b2 = con.getBlob(null, s2Hint);
 
-    if (!b1.exists())
-      b1.create();
-
-    if (!b2.exists())
-      b2.create();
+    b1.openOutputStream(0, true).close();
+    b2.openOutputStream(0, true).close();
 
     Set<Blob> blobs = new HashSet<Blob>();
 
@@ -215,11 +209,8 @@ public class AbstractMuxConnectionTest {
     Blob b3 = store1.openConnection(null).getBlob(b1.getId(), s1Hint);
     Blob b4 = store2.openConnection(null).getBlob(b2.getId(), s2Hint);
 
-    if (!b1.exists())
-      b1.create();
-
-    if (!b2.exists())
-      b2.create();
+    b1.openOutputStream(0, true).close();
+    b2.openOutputStream(0, true).close();
 
     assertTrue(b3.exists());
     assertTrue(b4.exists());

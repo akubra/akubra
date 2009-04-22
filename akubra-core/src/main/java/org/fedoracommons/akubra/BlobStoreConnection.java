@@ -38,7 +38,7 @@ import java.util.Map;
  */
 public interface BlobStoreConnection {
   /**
-   * Gets the blob store associated with this session.
+   * Gets the blob store associated with this connection.
    *
    * @return the blob store.
    */
@@ -47,15 +47,17 @@ public interface BlobStoreConnection {
   /**
    * Gets the blob with the given id.
    *
-   * @param blobId the blob id
+   * @param blobId the blob id; may be null if the store supports id-generation
    * @param hints A set of hints to allow the implementation to optimize the operation (can be
    *              null)
    *
-   * @return the blob. Cannot be null and must have the passed in blobId. If the passed in blobId
-   *         is null, an id must be generated if the store is capable of generating ids. There is
-   *         no requirement that the returned blob must {@link Blob#exists exist}. However there
-   *         is a requirement that the {@link Blob#getConnection getConnection()} method of the
-   *         returned Blob must return this connection object.
+   * @return the blob. Cannot be null and must have the passed in blobId if blobId is not null. If
+   *         the passed in blobId is null, a new and unique (for the store) id must be generated if
+   *         the store is capable of generating ids; the thus returned blob may exist, in which
+   *         case it will have an empty content. In either case there is no requirement that the
+   *         returned blob must {@link Blob#exists exist}. However there is a requirement that the
+   *         {@link Blob#getConnection getConnection()} method of the returned Blob must return
+   *         this connection object.
    *
    * @throws IOException for IO errors
    * @throws UnsupportedIdException if blobId is not in a recognized/usable pattern by this store
@@ -90,15 +92,22 @@ public interface BlobStoreConnection {
   /**
    * Gets an iterator over the ids of all blobs in this store.
    *
-   * @param filterPrefix If provided, the list will be limited to those blob-ids beginning with this prefix
+   * @param filterPrefix If not null, the list will be limited to those blob-ids beginning with
+   *                     this prefix.
    *
-   * @return The iterator of blob-ids.
+   * @return The iterator over the blob-ids.
    * @throws IOException if an error occurred getting the list of blob ids
    */
   Iterator<URI> listBlobIds(String filterPrefix) throws IOException;
 
   /**
-   * Close the connection to the blob store
+   * Close the connection to the blob store. After this, all Blob and BlobStoreConnection
+   * operations except for {@link #getBlobStore getBlobStore}, {@link #isClosed isClosed},
+   * {@link #close close}, {@link Blob#getId Blob.getId}, and {@link Blob#getConnection
+   * Blob.getConnection} will throw an {@link java.lang.IllegalStateException
+   * IllegalStateException}.
+   *
+   * <p>This method is idempotent and may be called multiple times.
    */
   void close();
 
@@ -106,6 +115,7 @@ public interface BlobStoreConnection {
    * Tests if the connection to the blob store is closed.
    *
    * @return true if the connection is closed.
+   * @see #close
    */
   boolean isClosed();
 }

@@ -105,6 +105,11 @@ public class WWWTCKTest extends TCKTestSuite {
     return URI.create("urn:foo");
   }
 
+  /** we can't determine aliases */
+  protected URI[] getAliases(URI uri) {
+    return null;
+  }
+
   /** Blob.delete is not supported, so delete the file "manually" */
   protected void deleteBlob(BlobStoreConnection con, Blob b) throws Exception {
     File f = new File(b.getId());

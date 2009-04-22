@@ -66,4 +66,12 @@ public class TestFSBlobStoreTCK extends TCKTestSuite {
   protected URI getInvalidId() {
     return URI.create("urn:foo");
   }
+
+  protected URI[] getAliases(URI uri) {
+    return new URI[] {
+      uri,
+      URI.create("file:foo/../" + uri.getSchemeSpecificPart()),
+      URI.create("file:./" + uri.getSchemeSpecificPart()),
+    };
+  }
 }

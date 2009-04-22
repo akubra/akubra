@@ -105,6 +105,11 @@ public class MuxStoreTCKTest {
       return null;      // all ids are valid
     }
 
+    /** all URI's are distinct */
+    protected URI[] getAliases(URI uri) {
+      return new URI[] { uri };
+    }
+
     public void testOpenConnectionWithTransaction() {
       // backend connections are opened lazily
     }

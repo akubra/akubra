@@ -109,6 +109,11 @@ public class TestTransactionalStore extends TCKTestSuite {
     return URI.create(uri.toString() + "x");
   }
 
+  /** all URI's are distinct */
+  protected URI[] getAliases(URI uri) {
+    return new URI[] { uri };
+  }
+
   /**
    * A single backing store must be set.
    */

@@ -34,6 +34,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertSame;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
@@ -158,6 +159,12 @@ public abstract class TCKTestSuite extends AbstractTests {
    *         are valid)
    */
   protected abstract URI getInvalidId();
+
+  /**
+   * @param uri the uri for which to get a list of aliases
+   * @return an array of aliases, or null if getCanonicalId() returns null
+   */
+  protected abstract URI[] getAliases(URI uri);
 
   @Test(groups={ "init" })
   public void testInit() {
@@ -678,6 +685,31 @@ public abstract class TCKTestSuite extends AbstractTests {
             deleteBlob(con, b);
         }
     }, false);
+  }
+
+  /**
+   * Test canonical-id.
+   */
+  @Test(groups={ "blob", "manipulatesBlobs" }, dependsOnGroups={ "init" })
+  public void testCanonicalId() throws Exception {
+    // set up
+    final URI   id      = createId("blobCanonicalId");
+    final URI[] aliases = getAliases(id);
+
+    // test
+    runTests(new ConAction() {
+      public void run(BlobStoreConnection con) throws Exception {
+        if (aliases == null) {
+          Blob b = getBlob(con, id, false);
+          assertNull(b.getCanonicalId());
+        } else {
+          for (URI alias : aliases) {
+            Blob b = getBlob(con, alias, false);
+            assertEquals(b.getCanonicalId(), id);
+          }
+        }
+      }
+    });
   }
 
   /**

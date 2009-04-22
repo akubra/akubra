@@ -57,6 +57,11 @@ public class MemStoreTest {
       return null;
     }
 
+    /** all URI's are distinct */
+    protected URI[] getAliases(URI uri) {
+      return new URI[] { uri };
+    }
+
     /** test expansion of data buffer */
     @Test(groups={ "blob", "manipulatesBlobs" }, dependsOnGroups={ "init" })
     public void testBufferExpansion() throws Exception {

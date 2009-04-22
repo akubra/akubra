@@ -458,11 +458,17 @@ public abstract class TCKTestSuite extends AbstractTests {
     final URI id1 = createId("blobClosedConn1");
     final URI id2 = createId("blobClosedConn2");
 
-    // test con.isClosed()
+    // test con.isClosed() and idempotence of con.close()
     runTests(new Action() {
       public void run(Transaction txn) throws Exception {
         BlobStoreConnection con = store.openConnection(txn);
         assertFalse(con.isClosed());
+
+        con.close();
+        assertTrue(con.isClosed());
+
+        con.close();
+        assertTrue(con.isClosed());
 
         con.close();
         assertTrue(con.isClosed());
@@ -473,41 +479,44 @@ public abstract class TCKTestSuite extends AbstractTests {
     runTests(new Action() {
       public void run(Transaction txn) throws Exception {
         final BlobStoreConnection con = store.openConnection(txn);
-        con.close();
-        assertTrue(con.isClosed());
 
-        assertEquals(con.getBlobStore(), store);
+        for (int idx = 0; idx < 3; idx++) {
+          con.close();
+          assertTrue(con.isClosed());
 
-        shouldFail(new ERunnable() {
-          public void erun() throws Exception {
-            con.getBlob(id1, null);
-          }
-        }, IllegalStateException.class, null);
+          assertEquals(con.getBlobStore(), store);
 
-        shouldFail(new ERunnable() {
-          public void erun() throws Exception {
-            con.getBlob(null, null);
-          }
-        }, IllegalStateException.class, null);
-
-        shouldFail(new ERunnable() {
-          public void erun() throws Exception {
-            con.getBlob(new ByteArrayInputStream(new byte[0]), -1, null);
-          }
-        }, IllegalStateException.class, null);
-
-        if (isListIdsSupp) {
           shouldFail(new ERunnable() {
             public void erun() throws Exception {
-              con.listBlobIds("foo");
+              con.getBlob(id1, null);
             }
           }, IllegalStateException.class, null);
 
           shouldFail(new ERunnable() {
             public void erun() throws Exception {
-              con.listBlobIds(null);
+              con.getBlob(null, null);
             }
           }, IllegalStateException.class, null);
+
+          shouldFail(new ERunnable() {
+            public void erun() throws Exception {
+              con.getBlob(new ByteArrayInputStream(new byte[0]), -1, null);
+            }
+          }, IllegalStateException.class, null);
+
+          if (isListIdsSupp) {
+            shouldFail(new ERunnable() {
+              public void erun() throws Exception {
+                con.listBlobIds("foo");
+              }
+            }, IllegalStateException.class, null);
+
+            shouldFail(new ERunnable() {
+              public void erun() throws Exception {
+                con.listBlobIds(null);
+              }
+            }, IllegalStateException.class, null);
+          }
         }
       }
     });
@@ -517,25 +526,28 @@ public abstract class TCKTestSuite extends AbstractTests {
       public void run(Transaction txn) throws Exception {
         final BlobStoreConnection con = store.openConnection(txn);
         final Blob b = getBlob(con, id1, false);
-        con.close();
-        assertTrue(con.isClosed());
 
-        assertEquals(b.getConnection(), con);
-        assertEquals(b.getId(), id1);
+        for (int idx = 0; idx < 3; idx++) {
+          con.close();
+          assertTrue(con.isClosed());
 
-        if (isOutputSupp) {
+          assertEquals(b.getConnection(), con);
+          assertEquals(b.getId(), id1);
+
+          if (isOutputSupp) {
+            shouldFail(new ERunnable() {
+              public void erun() throws Exception {
+                b.openOutputStream(-1, true);
+              }
+            }, IllegalStateException.class, null);
+          }
+
           shouldFail(new ERunnable() {
             public void erun() throws Exception {
-              b.openOutputStream(-1, true);
+              b.exists();
             }
           }, IllegalStateException.class, null);
         }
-
-        shouldFail(new ERunnable() {
-          public void erun() throws Exception {
-            b.exists();
-          }
-        }, IllegalStateException.class, null);
       }
     });
 
@@ -546,52 +558,55 @@ public abstract class TCKTestSuite extends AbstractTests {
         final Blob b  = getBlob(con, id1, false);
         final Blob b2 = getBlob(con, id2, false);
         createBlob(con, b, "foo");
-        con.close();
-        assertTrue(con.isClosed());
 
-        assertEquals(b.getConnection(), con);
-        assertEquals(b.getId(), id1);
+        for (int idx = 0; idx < 3; idx++) {
+          con.close();
+          assertTrue(con.isClosed());
 
-        shouldFail(new ERunnable() {
-          public void erun() throws Exception {
-            b.openInputStream();
-          }
-        }, IllegalStateException.class, null);
+          assertEquals(b.getConnection(), con);
+          assertEquals(b.getId(), id1);
 
-        if (isOutputSupp) {
           shouldFail(new ERunnable() {
             public void erun() throws Exception {
-              b.openOutputStream(-1, true);
+              b.openInputStream();
             }
           }, IllegalStateException.class, null);
-        }
 
-        shouldFail(new ERunnable() {
-          public void erun() throws Exception {
-            b.getSize();
+          if (isOutputSupp) {
+            shouldFail(new ERunnable() {
+              public void erun() throws Exception {
+                b.openOutputStream(-1, true);
+              }
+            }, IllegalStateException.class, null);
           }
-        }, IllegalStateException.class, null);
 
-        shouldFail(new ERunnable() {
-          public void erun() throws Exception {
-            b.exists();
-          }
-        }, IllegalStateException.class, null);
-
-        if (isDeleteSupp) {
           shouldFail(new ERunnable() {
             public void erun() throws Exception {
-              b.delete();
+              b.getSize();
             }
           }, IllegalStateException.class, null);
-        }
 
-        if (isMoveToSupp) {
           shouldFail(new ERunnable() {
             public void erun() throws Exception {
-              b.moveTo(b2);
+              b.exists();
             }
           }, IllegalStateException.class, null);
+
+          if (isDeleteSupp) {
+            shouldFail(new ERunnable() {
+              public void erun() throws Exception {
+                b.delete();
+              }
+            }, IllegalStateException.class, null);
+          }
+
+          if (isMoveToSupp) {
+            shouldFail(new ERunnable() {
+              public void erun() throws Exception {
+                b.moveTo(b2);
+              }
+            }, IllegalStateException.class, null);
+          }
         }
       }
     });

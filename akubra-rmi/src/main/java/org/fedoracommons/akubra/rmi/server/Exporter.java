@@ -114,7 +114,7 @@ public class Exporter {
    * stub, but the Exportable itself) so that the exported object remains in scope and does not
    * get garbage collected. (This is something that the RMI spec claims to provide, but in reality
    * does not. The sun.rmi.transport.ObjectTable only keeps weak references.) So this means, all
-   * exported objects using this exporter must be {@link #unExportObject un-exported} using this
+   * exported objects using this exporter must be {@link #unexportObject un-exported} using this
    * so that the reference held here is cleared. Failure to do so will result in memory leaks.
    *
    * @param object the remote object to be exported

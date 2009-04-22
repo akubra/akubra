@@ -70,7 +70,6 @@ public class ServerTransactionListener extends UnicastExportable
    * Creates a new ServerTransactionListener
    *
    * @param store the store to open a connection to
-   * @param stopCallbacks whether to stop further relaying of calls on this transaction to clients
    * @param exporter exporter for exporting XAResource and Synchronization
    * @throws RemoteException on an error in export
    */

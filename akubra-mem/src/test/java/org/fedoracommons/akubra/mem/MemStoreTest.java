@@ -25,6 +25,7 @@ package org.fedoracommons.akubra.mem;
 import java.net.URI;
 
 import org.testng.annotations.Factory;
+import org.testng.annotations.Test;
 
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.tck.TCKTestSuite;
@@ -46,13 +47,38 @@ public class MemStoreTest {
     };
   }
 
-  private static class MemStoreTestSuite extends TCKTestSuite {
+  public static class MemStoreTestSuite extends TCKTestSuite {
     public MemStoreTestSuite(BlobStore store, URI storeId) {
       super(store, storeId, false, true);
     }
 
+    /** all URI's are valid */
     protected URI getInvalidId() {
       return null;
+    }
+
+    /** test expansion of data buffer */
+    @Test(groups={ "blob", "manipulatesBlobs" }, dependsOnGroups={ "init" })
+    public void testBufferExpansion() throws Exception {
+      // basic buffer
+      URI id = createId("blobBufferExpansion1");
+      createBlob(id, "Abandon all hope ye who enter here!", true);
+
+      // first expansion
+      StringBuilder sb = new StringBuilder(4000);
+      sb.append("A tale told by an idiot, full of sound and fury, signifying nothing. ");
+      for (int idx = 0; idx < 4; idx++)
+        sb.append(sb.toString());
+
+      setBlob(id, sb.toString(), true);
+
+      // second expansion
+      sb.append(sb.toString());
+      setBlob(id, sb.toString(), true);
+
+      // clean up
+      deleteBlob(id, sb.toString(), true);
+      assertNoBlobs(getPrefixFor("blobBufferExpansion"));
     }
   }
 }

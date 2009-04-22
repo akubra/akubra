@@ -621,6 +621,18 @@ public abstract class TCKTestSuite extends AbstractTests {
    */
   @Test(groups={ "connection", "manipulatesBlobs" }, dependsOnGroups={ "init" })
   public void testListBlobs() throws Exception {
+    // check if list-ids is supported
+    if (!isListIdsSupp) {
+      shouldFail(new ConAction() {
+        public void run(BlobStoreConnection con) throws Exception {
+          con.listBlobIds(null);
+        }
+      }, UnsupportedOperationException.class, null);
+
+      return;
+    }
+
+    // run the tests
     URI id1 = createId("blobBasicList1");
     URI id2 = createId("blobBasicList2");
 

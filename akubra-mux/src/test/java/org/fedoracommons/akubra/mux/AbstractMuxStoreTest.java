@@ -28,7 +28,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -86,7 +85,6 @@ public class AbstractMuxStoreTest {
   @Test
   public void testAbstractMuxStore() {
     assertEquals(storeId, store.getId());
-    assertTrue(store.getDeclaredCapabilities().isEmpty());
   }
 
   /**
@@ -96,25 +94,20 @@ public class AbstractMuxStoreTest {
   public void testBackingStores() {
     store.setBackingStores(new ArrayList<BlobStore>());
     assertTrue(store.getBackingStores().isEmpty());
-    assertTrue(store.getCapabilities().isEmpty());
 
     BlobStore store1               = createMockStore(URI.create("urn:store:1"));
     store.setBackingStores(Collections.singletonList(store1));
     assertEquals(1, store.getBackingStores().size());
     assertEquals(store1, store.getBackingStores().get(0));
-    assertTrue(store.getCapabilities().isEmpty());
 
-    BlobStore store2 = createMockStore(URI.create("urn:store:2"), BlobStore.TXN_CAPABILITY);
-    BlobStore store3 = createMockStore(URI.create("urn:store:3"), BlobStore.GENERATE_ID_CAPABILITY);
+    BlobStore store2 = createMockStore(URI.create("urn:store:2"));
+    BlobStore store3 = createMockStore(URI.create("urn:store:3"));
 
     store.setBackingStores(Arrays.asList(store1, store2, store3));
     assertEquals(3, store.getBackingStores().size());
     assertEquals(store1, store.getBackingStores().get(0));
     assertEquals(store2, store.getBackingStores().get(1));
     assertEquals(store3, store.getBackingStores().get(2));
-    assertTrue(store.getCapabilities()
-                     .equals(new HashSet<URI>(Arrays.asList(BlobStore.TXN_CAPABILITY,
-                                                             BlobStore.GENERATE_ID_CAPABILITY))));
 
     try {
       store.setBackingStores(Arrays.asList(store1, store2, store3, store1));
@@ -169,8 +162,8 @@ public class AbstractMuxStoreTest {
       assertFalse(bs.qs);
   }
 
-  private MockBlobStore createMockStore(URI id, URI... decCaps) {
-    return new MockBlobStore(id, decCaps);
+  private MockBlobStore createMockStore(URI id) {
+    return new MockBlobStore(id);
   }
 
   private static final class MockBlobStore extends AbstractBlobStore {
@@ -178,8 +171,8 @@ public class AbstractMuxStoreTest {
     private boolean     ret  = true;
     private IOException fake;
 
-    private MockBlobStore(URI id, URI... decCaps) {
-      super(id, decCaps);
+    private MockBlobStore(URI id) {
+      super(id);
     }
 
     public BlobStoreConnection openConnection(Transaction tx)

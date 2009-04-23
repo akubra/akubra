@@ -24,9 +24,6 @@ package org.fedoracommons.akubra;
 import java.io.IOException;
 import java.net.URI;
 
-import java.util.List;
-import java.util.Set;
-
 import javax.transaction.Transaction;
 
 /**
@@ -37,47 +34,12 @@ import javax.transaction.Transaction;
  * @author Ronald Tschalär
  */
 public interface BlobStore {
-  /** The URI representing the id of the transactional capability */
-  public static final URI TXN_CAPABILITY =
-                        URI.create("http://fedoracommons.org/akubra/capabilities/transactions");
-  /**
-   * The URI representing the id generation capability. Indicates this store can generate an
-   * identifier for blobs when an identifier is not supplied.
-   */
-  public static final URI GENERATE_ID_CAPABILITY =
-                        URI.create("http://fedoracommons.org/akubra/capabilities/generateIds");
-  /**
-   * The URI representing the id accept capability. Indicates this store can accept any valid
-   * absolute URI supplied by the application as a blob identifier.
-   */
-  public static final URI ACCEPT_APP_ID_CAPABILITY =
-                        URI.create("http://fedoracommons.org/akubra/capabilities/acceptAppIds");
-
   /**
    * Return the identifier associated with the store
    *
    * @return the URI identifying the blob store
    */
   URI getId();
-
-  /**
-   * Return the list of stores underlying this store
-   *
-   * @return list of underlying blob stores
-   */
-  List<? extends BlobStore> getBackingStores();
-
-  /**
-   * Set the list of back stores.
-   *
-   * @param stores the list of backing store
-   * @throws UnsupportedOperationException if setting the backing stores is
-   *     not supported by this blob store.
-   * @throws IllegalStateException TODO: Document conditions under which this
-   *     is thrown.  Also: is it thrown by other methods?
-   */
-  void setBackingStores(List<? extends BlobStore> stores)
-    throws UnsupportedOperationException, IllegalStateException;
 
   /**
    * Opens a connection to the blob store.
@@ -117,19 +79,4 @@ public interface BlobStore {
    * @throws IOException if an error occurred trying to quiesce the store.
    */
   boolean setQuiescent(boolean quiescent) throws IOException;
-
-  /**
-   * Get capabilities of this blob store instance only.
-   *
-   * @return the declared capabilities of this store
-   */
-  Set<URI> getDeclaredCapabilities();
-
-  /**
-   * Return capabilities of this store plus underlying blob stores, that is of the blob stack
-   * starting at this level.
-   *
-   * @return the effective capabilities of this store
-   */
-  Set<URI> getCapabilities();
 }

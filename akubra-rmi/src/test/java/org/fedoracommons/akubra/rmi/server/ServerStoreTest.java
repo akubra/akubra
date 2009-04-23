@@ -34,12 +34,6 @@ import static org.testng.Assert.fail;
 
 import java.io.IOException;
 
-import java.net.URI;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.transaction.Transaction;
 
 import org.fedoracommons.akubra.BlobStore;
@@ -119,20 +113,6 @@ public class ServerStoreTest {
     assertTrue(rc instanceof ServerConnection);
     assertEquals(con, ((ServerConnection)rc).getConnection());
 
-    verify(store);
-  }
-
-
-  @Test
-  public void testGetCapabilities() {
-    Set<URI> caps =
-      new HashSet<URI>(Arrays.asList(BlobStore.TXN_CAPABILITY, BlobStore.GENERATE_ID_CAPABILITY));
-
-    reset(store);
-    expect(store.getCapabilities()).andReturn(caps);
-    replay(store);
-
-    assertEquals(caps, ss.getCapabilities());
     verify(store);
   }
 

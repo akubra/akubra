@@ -69,7 +69,7 @@ public class MuxStoreTCKTest {
   }
 
   private BlobStore createMuxStore(URI storeId, List<? extends BlobStore> stores) {
-    BlobStore store =
+    AbstractMuxStore store =
       new AbstractMuxStore(storeId) {
           public BlobStoreConnection openConnection(Transaction tx)
                                              throws UnsupportedOperationException, IOException {
@@ -89,8 +89,7 @@ public class MuxStoreTCKTest {
 
     System.setProperty("derby.stream.error.file", new File(base, "derby.log").toString());
 
-    BlobStore store = new TransactionalStore(URI.create("urn:" + name), dbDir.getPath());
-    store.setBackingStores(Arrays.asList(backingStore));
+    BlobStore store = new TransactionalStore(URI.create("urn:" + name), backingStore, dbDir.getPath());
     return store;
   }
 
@@ -101,23 +100,28 @@ public class MuxStoreTCKTest {
       super(store, storeId, isTransactional, supportsIdGen);
     }
 
+    @Override
     protected URI getInvalidId() {
       return null;      // all ids are valid
     }
 
     /** all URI's are distinct */
+    @Override
     protected URI[] getAliases(URI uri) {
       return new URI[] { uri };
     }
 
+    @Override
     public void testOpenConnectionWithTransaction() {
       // backend connections are opened lazily
     }
 
+    @Override
     public void testOpenConnectionNoTransaction() {
       // backend connections are opened lazily
     }
 
+    @Override
     public void testSetQuiescent() throws Exception {
       if (!isTransactional)             // txn store does not implement set-quiescent currently
         super.testSetQuiescent();
@@ -137,15 +141,15 @@ public class MuxStoreTCKTest {
                        throws IOException, UnsupportedIdException {
       // see if this blob belongs to a specific store
       if (blobId != null) {
-        for (BlobStore s : getBlobStore().getBackingStores())
+        for (BlobStore s : ((AbstractMuxStore) getBlobStore()).getBackingStores())
           if (getConnection(s).listBlobIds(blobId.toString()).hasNext()
                && (getConnection(s).getBlob(blobId, hints) != null))
             return s;
       }
 
       // nope, so pick the next store in a round-robin fashion
-      int numStores = getBlobStore().getBackingStores().size();
-      return getBlobStore().getBackingStores().get(cntr++ % numStores);
+      int numStores = ((AbstractMuxStore) getBlobStore()).getBackingStores().size();
+      return ((AbstractMuxStore) getBlobStore()).getBackingStores().get(cntr++ % numStores);
     }
   }
 }

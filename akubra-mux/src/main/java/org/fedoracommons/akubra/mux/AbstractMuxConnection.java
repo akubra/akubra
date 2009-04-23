@@ -113,7 +113,7 @@ public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection 
    * @return the set of stores matching the blobId prefix
    */
   public Set<BlobStore> getStores(String prefix) {
-    return new HashSet<BlobStore>(getBlobStore().getBackingStores());
+    return new HashSet<BlobStore>(((AbstractMuxStore) getBlobStore()).getBackingStores());
   }
 
   /**
@@ -141,6 +141,7 @@ public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection 
    * @return the backing store connection or null
    *
    * @throws IOException on an error in opening a connection to the backing store
+   * @throws UnsupportedOperationException on an error in opening a connection to the backing store
    */
   protected BlobStoreConnection getConnection(BlobStore store)
                                        throws IOException {
@@ -153,16 +154,7 @@ public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection 
     BlobStoreConnection con = cons.get(store.getId());
 
     if (con == null) {
-      Transaction t = store.getCapabilities().contains(BlobStore.TXN_CAPABILITY) ? txn : null;
-
-      try {
-        con = store.openConnection(t);
-      } catch (UnsupportedOperationException e) {
-        IOException ioe = new IOException("Failed to openConnection to " + store.getId());
-        ioe.initCause(e);
-        throw ioe;
-      }
-
+      con = store.openConnection(txn);
       cons.put(store.getId(), con);
     }
 

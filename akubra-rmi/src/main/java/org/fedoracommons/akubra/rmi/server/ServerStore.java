@@ -22,9 +22,8 @@
 package org.fedoracommons.akubra.rmi.server;
 
 import java.io.IOException;
-import java.net.URI;
+
 import java.rmi.RemoteException;
-import java.util.Set;
 
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.rmi.remote.RemoteConnection;
@@ -55,10 +54,6 @@ public class ServerStore extends Exportable implements RemoteStore {
 
   public RemoteConnection openConnection() throws IOException {
     return new ServerConnection(store.openConnection(null), getExporter());
-  }
-
-  public Set<URI> getCapabilities() {
-    return store.getCapabilities();
   }
 
   public boolean setQuiescent(boolean quiescent) throws IOException {

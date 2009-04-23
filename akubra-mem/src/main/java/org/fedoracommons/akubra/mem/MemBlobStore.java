@@ -67,7 +67,7 @@ public class MemBlobStore extends AbstractBlobStore {
    * @param id the store id
    */
   public MemBlobStore(URI id) {
-    super(id, GENERATE_ID_CAPABILITY, ACCEPT_APP_ID_CAPABILITY);
+    super(id);
   }
 
   //@Override

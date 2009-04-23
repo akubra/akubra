@@ -243,13 +243,13 @@ public class AbstractMuxConnectionTest {
       }
 
       if (blobId != null) {
-        for (BlobStore s : getBlobStore().getBackingStores())
+        for (BlobStore s : ((AbstractMuxStore) getBlobStore()).getBackingStores())
           if (getConnection(s).listBlobIds(blobId.toString()).hasNext()
                && (getConnection(s).getBlob(blobId, hints) != null))
             return s;
       }
 
-      for (BlobStore s : getBlobStore().getBackingStores()) {
+      for (BlobStore s : ((AbstractMuxStore) getBlobStore()).getBackingStores()) {
         try {
           if (getConnection(s).getBlob(blobId, hints) != null)
             return s;

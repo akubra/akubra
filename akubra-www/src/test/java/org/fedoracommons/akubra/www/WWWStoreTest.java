@@ -25,12 +25,9 @@ import java.io.IOException;
 
 import java.net.URI;
 
-import java.util.ArrayList;
-
 import org.fedoracommons.akubra.BlobStore;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import org.testng.annotations.AfterSuite;
@@ -74,27 +71,6 @@ public class WWWStoreTest {
   }
 
   /**
-   * Test the getBackingStores operation.
-   */
-  @Test
-  public void testGetBackingStores() {
-    assertTrue(store.getBackingStores().isEmpty());
-  }
-
-  /**
-   * Test the setBackingStores operation.
-   *
-   * @throws UnsupportedOperationException DOCUMENT ME!
-   */
-  @Test(expectedExceptions =  {
-    UnsupportedOperationException.class}
-  )
-  public void testSetBackingStores() throws UnsupportedOperationException {
-    store.setBackingStores(new ArrayList<BlobStore>());
-    fail("setBackingStores() failed");
-  }
-
-  /**
    * Test the setQuiescent operation.
    */
   @Test
@@ -105,21 +81,5 @@ public class WWWStoreTest {
     } catch (IOException e) {
       fail("setQuiescent() failed", e);
     }
-  }
-
-  /**
-   * Test getDeclaredCapabilities
-   */
-  @Test
-  public void testDeclaredCapabilities() {
-    assertEquals(0, store.getDeclaredCapabilities().size());
-  }
-
-  /**
-   * Test getCapabilities
-   */
-  @Test
-  public void testCapabilities() {
-    assertEquals(0, store.getCapabilities().size());
   }
 }

@@ -25,6 +25,7 @@ import java.io.IOException;
 
 import java.net.URI;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -38,19 +39,22 @@ import org.fedoracommons.akubra.impl.AbstractBlobStore;
 
 /**
  * An abstract base class for store implementations that multiplexes its backing stores to give
- * a unified view. The capabilities of this store is a union of all backing store capabilities.<p>This
- * store allows transactional and non transactional stores to be multiplexed together. If at least
- * one of the backing stores is transactional, this store appears as a transactional store. In
- * that case the passed in transaction for an openConnection() is only used for the backing
- * transactional stores. All other non transactional stores will be opened without a transaction
- * being passed in.</p>
- *  <p>For any operation involving a blobId, this store selects a backing store as the target
+ * a unified view.
+ *
+ * <p>For any operation involving a blobId, this store selects a backing store as the target
  * for that operation. This selection is made based on a sub-class's implementation of {@link
  * AbstractMuxConnection#getStore}. It is expected that the store selection made by this method
  * will also take the store capability into consideration.</p>
- *  <p>Renames across BlobStores is implemented as a copy. Note that any error during that
+ *
+ * <p>Renames across BlobStores is implemented as a copy. Note that any error during that
  * process may leave partially completed blobs if the underlying blobs are non transactional.</p>
- *  <p>Iterations and quiescenting etc. are performed across all stores.</p>
+ *
+ * <p>Iterations and quiescenting etc. are performed across all stores.</p>
+
+ * <p><em>Note</em>: For multiplexing non-transactional stores along with transactional stores
+ * (eg. accessing www resources along with other transactional stores), the non-transactional
+ * store must be wrapped such that {@link #openConnection(javax.transaction.Transaction)}
+ * does not throw an exception. See {@link TransactionNeutralStoreWrapper} for use in such cases.
  *
  * @author Pradeep Krishnan
  */
@@ -71,29 +75,28 @@ public abstract class AbstractMuxStore extends AbstractBlobStore {
    * Creates a new AbstractMuxStore object.
    *
    * @param id an identifier for this store
+   * @param stores the list of stores to multiplex
    */
-  protected AbstractMuxStore(URI id) {
+  protected AbstractMuxStore(URI id, BlobStore ... stores) {
     super(id);
+    setBackingStores(Arrays.asList(stores));
   }
 
   /**
-   * Create a new AbstractMuxStore object.
+   * Gets the list of backing stores.
    *
-   * @param id the store's id
-   * @param decCaps declared capabilities of this store
+   * @return the stores that are being multiplexed
    */
-  protected AbstractMuxStore(URI id, URI... decCaps) {
-    super(id, decCaps);
-  }
-
-  @Override
   public List<?extends BlobStore> getBackingStores() {
     return backingStores;
   }
 
-  @Override
-  public void setBackingStores(List<?extends BlobStore> stores)
-                        throws UnsupportedOperationException, IllegalStateException {
+  /**
+   * Sets the list of backing stores.
+   *
+   * @param stores the list of stores to be multiplexed
+   */
+  public void setBackingStores(List<?extends BlobStore> stores) {
     Set<URI> ids               = new HashSet<URI>();
 
     for (BlobStore s : stores)

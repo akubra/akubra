@@ -21,13 +21,10 @@
  */
 package org.fedoracommons.akubra.rmi;
 
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.io.IOException;
-
-import java.util.Arrays;
 
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -74,43 +71,6 @@ public class MemStoreTest {
   public void tearDown() throws Exception {
     server.shutDown(true);
   }
-
-  /**
-   * Tests that store capabilities are exported as is.
-   */
-  @Test
-  public void testCapabilities() {
-    assertEquals(mem.getCapabilities(), store.getCapabilities());
-  }
-
-  /**
-   * Tests that there aren't any declared capabilities.
-   */
-  @Test
-  public void testDeclaredCapabilities() {
-    assertTrue(store.getDeclaredCapabilities().isEmpty());
-  }
-
-  /**
-   * Tests that there aren't any backing stores (akubra-rmi-client at bottom of stack).
-   */
-  @Test
-  public void testGetBackingStores() {
-    assertTrue(store.getBackingStores().isEmpty());
-  }
-
-  /**
-   * Tests that backing stores can't be set.
-   */
-  @Test
-  public void testSetBackingStores() {
-    try {
-      store.setBackingStores(Arrays.asList((BlobStore) new MemBlobStore()));
-      fail("Failed to get an expected exception");
-    } catch (UnsupportedOperationException e) {
-    }
-  }
-
   /**
    * Tests that quiescent state setting is sent across to the remote.
    *

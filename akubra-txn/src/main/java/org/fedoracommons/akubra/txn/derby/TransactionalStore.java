@@ -32,7 +32,6 @@ import java.sql.PreparedStatement;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import javax.sql.XAConnection;
@@ -126,18 +125,19 @@ public class TransactionalStore extends AbstractTransactionalStore {
   private       long                 writeLockHolder = -1;
   private       boolean              purgeInProgress = false;
   private       int                  numPurgesDelayed = 0;
+  private       boolean              started = false;
 
   /**
-   * Create a new transactional store. Exactly one backing store must be set before this can
-   * be used. The single-writer flag will be determined automatically depending on the version
-   * of derby being used.
+   * Create a new transactional store. The single-writer flag will be determined automatically
+   * depending on the version of derby being used.
    *
-   * @param id    the id of this store
-   * @param dbDir the directory to use to store the transaction information
+   * @param id           the id of this store
+   * @param wrappedStore the wrapped non-transactional store
+   * @param dbDir        the directory to use to store the transaction information
    * @throws IOException if there was an error initializing the db
    */
-  public TransactionalStore(URI id, String dbDir) throws IOException {
-    this(id, dbDir, needSingleWriter());
+  public TransactionalStore(URI id, BlobStore wrappedStore, String dbDir) throws IOException {
+    this(id, wrappedStore, dbDir, needSingleWriter());
   }
 
   private static boolean needSingleWriter() {
@@ -146,18 +146,19 @@ public class TransactionalStore extends AbstractTransactionalStore {
   }
 
   /**
-   * Create a new transactional store. Exactly one backing store must be set before this can
-   * be used.
+   * Create a new transactional store.
    *
    * @param id           the id of this store
+   * @param wrappedStore the wrapped non-transactional store
    * @param dbDir        the directory to use to store the transaction information
    * @param singleWriter if true, serialize all writers to avoid all locking issues with
    *                     Derby; if false, some transactions may fail sometimes due to
    *                     locks timing out
    * @throws IOException if there was an error initializing the db
    */
-  public TransactionalStore(URI id, String dbDir, boolean singleWriter) throws IOException {
-    super(id, TXN_CAPABILITY, ACCEPT_APP_ID_CAPABILITY);
+  public TransactionalStore(URI id, BlobStore wrappedStore,
+                            String dbDir, boolean singleWriter) throws IOException {
+    super(id, wrappedStore);
     this.singleWriter = singleWriter;
 
     //TODO: redirect logging to logger
@@ -247,14 +248,6 @@ public class TransactionalStore extends AbstractTransactionalStore {
     }, "Failed to find youngest version");
   }
 
-  @Override
-  public synchronized void setBackingStores(List<? extends BlobStore> stores)
-      throws IllegalStateException, IllegalArgumentException {
-    super.setBackingStores(stores);
-    if (!wrappedStore.getCapabilities().contains(GENERATE_ID_CAPABILITY))
-      throw new IllegalArgumentException("underlying store must support id-generation");
-  }
-
   /**
    * @throws IllegalStateException if no backing store has been set yet
    */
@@ -263,8 +256,6 @@ public class TransactionalStore extends AbstractTransactionalStore {
       throws IllegalStateException, IOException {
     long version;
     synchronized (this) {
-      if (wrappedStore == null)
-        throw new IllegalStateException("no backing store has been set yet");
 
       if (!started) {
         started = true;

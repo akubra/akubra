@@ -35,10 +35,7 @@ import java.net.URI;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -89,8 +86,7 @@ public class TransactionalStoreTest {
     dbDir.getParentFile().mkdirs();
 
     System.setProperty("derby.stream.error.file", new File(base, "derby.log").toString());
-    serverStore = new TransactionalStore(id, dbDir.getAbsolutePath());
-    serverStore.setBackingStores(Arrays.<BlobStore>asList(new MemBlobStore()));
+    serverStore = new TransactionalStore(id, new MemBlobStore(), dbDir.getAbsolutePath());
 
     // set up transaction manager
     tm = BtmUtils.getTM();
@@ -145,17 +141,6 @@ public class TransactionalStoreTest {
     assertTrue(store.setQuiescent(true));
     assertTrue(store.setQuiescent(false));
     assertTrue(store.setQuiescent(false));
-  }
-
-  /**
-   * Should return transactional capability.
-   */
-  @Test()
-  public void testGetCapabilities() {
-    Set<URI> caps = new HashSet<URI>(store.getCapabilities());
-    caps.removeAll(serverStore.getBackingStores().get(0).getCapabilities());
-    assertEquals(1, caps.size());
-    assertTrue(caps.contains(BlobStore.TXN_CAPABILITY));
   }
 
   /**

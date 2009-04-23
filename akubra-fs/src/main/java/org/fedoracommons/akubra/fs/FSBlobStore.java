@@ -84,9 +84,7 @@ public class FSBlobStore extends AbstractBlobStore {
    * @param baseDir the base storage directory.
    */
   public FSBlobStore(URI id, File baseDir) {
-    super(id, GENERATE_ID_CAPABILITY);
-    this.baseDir = baseDir;
-    pAlloc = new DefaultPathAllocator();
+    this(id, baseDir, new DefaultPathAllocator());
   }
 
   /**

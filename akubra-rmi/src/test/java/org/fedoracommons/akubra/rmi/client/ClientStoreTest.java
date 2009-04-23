@@ -36,10 +36,6 @@ import java.io.IOException;
 
 import java.net.URI;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.transaction.Transaction;
 
 import org.fedoracommons.akubra.BlobStore;
@@ -68,8 +64,6 @@ public class ClientStoreTest {
   public void setUp() throws Exception {
     exporter   = new Exporter(0);
     store      = createMock(BlobStore.class);
-    expect(store.getCapabilities()).andStubReturn(new HashSet<URI>());
-    replay(store);
 
     ss   = new ServerStore(store, exporter);
     cs   = new ClientStore(URI.create("urn:rmi-client"), (RemoteStore) ss.getExported());
@@ -78,19 +72,6 @@ public class ClientStoreTest {
   @AfterSuite
   public void tearDown() throws Exception {
     ss.unExport(false);
-  }
-
-  @Test
-  public void testGetCapabilities() {
-    Set<URI> caps =
-      new HashSet<URI>(Arrays.asList(BlobStore.TXN_CAPABILITY, BlobStore.GENERATE_ID_CAPABILITY));
-
-    reset(store);
-    expect(store.getCapabilities()).andReturn(caps);
-    replay(store);
-
-    assertTrue(caps.equals(cs.getCapabilities()));
-    verify(store);
   }
 
   @Test

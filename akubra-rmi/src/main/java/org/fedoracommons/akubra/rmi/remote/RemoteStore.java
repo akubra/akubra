@@ -23,12 +23,8 @@ package org.fedoracommons.akubra.rmi.remote;
 
 import java.io.IOException;
 
-import java.net.URI;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-
-import java.util.Set;
 
 /**
  * Represents a remote blob store.
@@ -46,16 +42,6 @@ public interface RemoteStore extends Remote {
    * @throws IllegalStateException if the remote is not ready to open up connections
    */
   public RemoteConnection openConnection() throws RemoteException, IOException, IllegalStateException;
-
-  /**
-   * Gets the capabilities of the remote blob-store
-   *
-   * @return the list of capabilities of the remote blob-store
-   *
-   * @throws RemoteException on an RMI communication failure
-   * @throws IllegalStateException if the remote is not ready yet
-   */
-  public Set<URI> getCapabilities() throws RemoteException, IllegalStateException;
 
   /**
    * Sets the remote store into a quiescent state.

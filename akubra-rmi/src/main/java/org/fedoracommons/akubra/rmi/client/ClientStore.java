@@ -25,13 +25,7 @@ import java.io.IOException;
 
 import java.net.URI;
 
-import java.util.Collections;
-import java.util.Set;
-
 import javax.transaction.Transaction;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.impl.AbstractBlobStore;
@@ -45,10 +39,8 @@ import org.fedoracommons.akubra.rmi.remote.RemoteStore;
  * @author Pradeep Krishnan
  */
 public class ClientStore extends AbstractBlobStore {
-  private static final Log    log           = LogFactory.getLog(ClientStore.class);
   private final StreamManager streamManager = new StreamManager();
   private final RemoteStore   server;
-  private Set<URI>            capabilities;
 
   /**
    * Creates a new ClientStore object.
@@ -61,13 +53,6 @@ public class ClientStore extends AbstractBlobStore {
   public ClientStore(URI localId, RemoteStore server) throws IOException {
     super(localId);
     this.server = server;
-
-    try {
-      capabilities = Collections.unmodifiableSet(server.getCapabilities());
-    } catch (Exception e) {
-      throw (IOException) new IOException("Failed to get server capabilites").initCause(e);
-    }
-
   }
 
   public BlobStoreConnection openConnection(Transaction tx)
@@ -80,16 +65,5 @@ public class ClientStore extends AbstractBlobStore {
 
   public boolean setQuiescent(boolean quiescent) throws IOException {
     return server.setQuiescent(quiescent);
-  }
-
-  @Override
-  public Set<URI> getCapabilities() {
-    try {
-      capabilities = Collections.unmodifiableSet(server.getCapabilities());
-    } catch (Exception e) {
-      log.warn("Failed to refresh capabilities from server. Serving cached capabilities", e);
-    }
-
-    return capabilities;
   }
 }

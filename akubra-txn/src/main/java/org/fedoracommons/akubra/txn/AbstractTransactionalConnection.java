@@ -149,10 +149,8 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
     if (logger.isDebugEnabled())
       logger.debug("creating blob '" + blobId + "' (" + this + ")");
 
-    boolean accAppId =
-        bStoreCon.getBlobStore().getCapabilities().contains(BlobStore.ACCEPT_APP_ID_CAPABILITY);
-    Blob res = bStoreCon.getBlob(accAppId ? blobId : null, hints);
-    if (accAppId && res.exists()) {
+    Blob res = bStoreCon.getBlob(blobId , hints);
+    if (res.exists()) {
       if (logger.isDebugEnabled())
         logger.debug("duplicate id - retrying with generated id");
       res = bStoreCon.getBlob(null, hints);

@@ -19,39 +19,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.fedoracommons.akubra.txn;
+package org.fedoracommons.akubra.mux;
 
 import java.io.IOException;
-import java.net.URI;
+
+import javax.transaction.Transaction;
 
 import org.fedoracommons.akubra.BlobStore;
+import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.impl.AbstractBlobStore;
 
 /**
- * A basic superclass for transactional stores.
+ * A BlobStore wrapper that allows mixing in non-transactional stores
+ * with transactional stores in a mux. Note that the returned BlobStoreConnection
+ * is not wrapped and therefore {@link BlobStoreConnection#getBlobStore()} will
+ * return the original wrapped store.
  *
- * <p>Subclasses must implement {@link BlobStore#openConnection openConnection}.
- *
- * @author Ronald Tschalär
+ * @author Pradeep Krishnan
  */
-public abstract class AbstractTransactionalStore extends AbstractBlobStore {
-  /** the underlying blob-store used for the actual storage */
-  protected final BlobStore wrappedStore;
-
+public class TransactionNeutralStoreWrapper extends AbstractBlobStore {
+  private final BlobStore store;
   /**
-   * Create a new transactional store.
+   * Creates a new TransactionNeutralStoreWrapper object.
    *
-   * @param id      the id of this store
-   * @param wrappedStore the wrapped non-transactional store
+   * @param store the wrapped non-transactional store
    */
-  protected AbstractTransactionalStore(URI id, BlobStore wrappedStore) throws IOException {
-    super(id);
-    this.wrappedStore = wrappedStore;
+  public TransactionNeutralStoreWrapper(BlobStore store) {
+    super(store.getId());
+    this.store = store;
   }
 
-  //@Override
+  public BlobStoreConnection openConnection(Transaction tx) throws UnsupportedOperationException,
+      IOException {
+    return store.openConnection(null);
+  }
+
   public boolean setQuiescent(boolean quiescent) throws IOException {
-    return wrappedStore.setQuiescent(quiescent);
+    return store.setQuiescent(quiescent);
   }
 }

@@ -21,8 +21,6 @@
  */
 package org.fedoracommons.akubra.rmi;
 
-import static org.testng.Assert.assertEquals;
-
 import java.io.IOException;
 
 import java.net.ServerSocket;
@@ -78,7 +76,7 @@ public class ServiceTest {
     AkubraRMIServer server = new AkubraRMIServer(mem);
     try {
       BlobStore store = AkubraRMIClient.create();
-      assertEquals(mem.getCapabilities(), store.getCapabilities());
+      store.openConnection(null).close();
     } finally {
       server.shutDown(false);
     }
@@ -94,7 +92,7 @@ public class ServiceTest {
 
     try {
       BlobStore store = AkubraRMIClient.create(reg);
-      assertEquals(mem.getCapabilities(), store.getCapabilities());
+      store.openConnection(null).close();
     } finally {
       server.shutDown(true);
     }
@@ -111,7 +109,7 @@ public class ServiceTest {
 
     try {
       BlobStore store = AkubraRMIClient.create("service-test-with-name-and-port", reg);
-      assertEquals(mem.getCapabilities(), store.getCapabilities());
+      store.openConnection(null).close();
     } finally {
       server.shutDown(true);
     }
@@ -129,7 +127,7 @@ public class ServiceTest {
 
     try {
       BlobStore store = AkubraRMIClient.create("test-with-name-and-alternate-ports", reg);
-      assertEquals(mem.getCapabilities(), store.getCapabilities());
+      store.openConnection(null).close();
     } finally {
       server.shutDown(true);
     }
@@ -147,7 +145,7 @@ public class ServiceTest {
     try {
       BlobStore store =
         AkubraRMIClient.create(URI.create("rmi://localhost:" + reg + "/test-uri-lookup"));
-      assertEquals(mem.getCapabilities(), store.getCapabilities());
+      store.openConnection(null).close();
     } finally {
       server.shutDown(false);
     }

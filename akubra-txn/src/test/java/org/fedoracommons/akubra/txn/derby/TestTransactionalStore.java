@@ -27,11 +27,7 @@ import java.net.URI;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 
@@ -42,7 +38,6 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import org.fedoracommons.akubra.Blob;
-import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.mem.MemBlobStore;
 import org.fedoracommons.akubra.tck.TCKTestSuite;
@@ -56,7 +51,6 @@ import org.fedoracommons.akubra.txn.ConcurrentBlobUpdateException;
 public class TestTransactionalStore extends TCKTestSuite {
   private final File      dbDir;
   private final boolean   singleWriter;
-  private       BlobStore blobStore;
 
   public TestTransactionalStore() throws Exception {
     super(getStore(), getStoreId(), true, false);
@@ -86,7 +80,7 @@ public class TestTransactionalStore extends TCKTestSuite {
 
     File base = new File(System.getProperty("basedir"), "target");
     System.setProperty("derby.stream.error.file", new File(base, "derby.log").toString());
-    return new TransactionalStore(getStoreId(), dbDir.getAbsolutePath());
+    return new TransactionalStore(getStoreId(), new MemBlobStore(), dbDir.getAbsolutePath());
   }
 
   @Override
@@ -104,77 +98,6 @@ public class TestTransactionalStore extends TCKTestSuite {
   @Override
   protected URI[] getAliases(URI uri) {
     return new URI[] { uri };
-  }
-
-  /**
-   * A single backing store must be set.
-   */
-  @Test(groups={ "init" })
-  public void testSetBackingStore() throws Exception {
-    try {
-      store.openConnection(null);
-      fail("Did not get expected IllegalStateException on unitialized store");
-    } catch (IllegalStateException ise) {
-    }
-
-    try {
-      store.setBackingStores(null);
-      fail("Did not get expected NullPointerException setting null stores");
-    } catch (NullPointerException npe) {
-    }
-
-    try {
-      store.setBackingStores(new ArrayList<BlobStore>());
-      fail("Did not get expected IllegalArgumentException setting 0 stores");
-    } catch (IllegalArgumentException iae) {
-    }
-
-    try {
-      store.setBackingStores(Arrays.<BlobStore>asList(new MemBlobStore(), new MemBlobStore()));
-      fail("Did not get expected IllegalArgumentException setting 2 stores");
-    } catch (IllegalArgumentException iae) {
-    }
-
-    blobStore = new MemBlobStore();
-    store.setBackingStores(Arrays.<BlobStore>asList(blobStore));
-
-    assertNoBlobs(null);
-  }
-
-  /**
-   * Should return 1 entry.
-   */
-  @Test(dependsOnGroups={ "init" })
-  public void testGetBackingStores() {
-    assertEquals(store.getBackingStores().size(), 1);
-  }
-
-  /**
-   * Should return transactional and accept-app-id capability.
-   */
-  @Test
-  public void testGetDeclaredCapabilities() {
-    Set<URI> caps = store.getDeclaredCapabilities();
-    assertEquals(caps.size(), 2);
-    assertTrue(caps.contains(BlobStore.TXN_CAPABILITY));
-    assertTrue(caps.contains(BlobStore.ACCEPT_APP_ID_CAPABILITY));
-  }
-
-  /**
-   * Should return the union of capabilities.
-   */
-  @Test(dependsOnGroups={ "init" })
-  public void testGetCapabilities() {
-    Set<URI> caps = new HashSet<URI>(store.getCapabilities());
-
-    for (URI cap : store.getDeclaredCapabilities())
-      assertTrue(caps.contains(cap));
-    for (URI cap : store.getBackingStores().get(0).getCapabilities())
-      assertTrue(caps.contains(cap));
-
-    caps.removeAll(store.getDeclaredCapabilities());
-    caps.removeAll(store.getBackingStores().get(0).getCapabilities());
-    assertEquals(caps.size(), 0);
   }
 
   @Override

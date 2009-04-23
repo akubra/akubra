@@ -118,6 +118,7 @@ public class BtmUtils {
       return resHolder;
     }
 
+    @SuppressWarnings("serial")
     private static XAResourceHolder createResHolder(XAResource xaResource) {
       ResourceBean rb = new ResourceBean() { };
       rb.setUniqueName(xaResource.getClass().getName() + System.identityHashCode(xaResource));

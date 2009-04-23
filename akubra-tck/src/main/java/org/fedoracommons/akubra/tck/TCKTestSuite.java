@@ -252,18 +252,21 @@ public abstract class TCKTestSuite extends AbstractTests {
 
           assertTrue(store.setQuiescent(true));
 
-          doWithTimeout(new ERunnable() { public void erun() throws Exception {
+          doWithTimeout(new ERunnable() { @Override
+          public void erun() throws Exception {
               assertTrue(b1.exists());
             }
           }, 100, true);
 
           doWithTimeout(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               assertFalse(b2.exists());
             }
           }, 100, true);
 
           doWithTimeout(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               assertEquals(getBody(b1), "bar");
             }
@@ -271,6 +274,7 @@ public abstract class TCKTestSuite extends AbstractTests {
 
           if (isOutputSupp) {
             doWithTimeout(new ERunnable() {
+              @Override
               public void erun() throws Exception {
                 b1.openOutputStream(-1, true);
               }
@@ -279,6 +283,7 @@ public abstract class TCKTestSuite extends AbstractTests {
 
           if (isDeleteSupp) {
             doWithTimeout(new ERunnable() {
+              @Override
               public void erun() throws Exception {
                 b1.delete();
               }
@@ -287,6 +292,7 @@ public abstract class TCKTestSuite extends AbstractTests {
 
           if (isMoveToSupp) {
             doWithTimeout(new ERunnable() {
+              @Override
               public void erun() throws Exception {
                 b1.moveTo(b2);
               }
@@ -308,6 +314,7 @@ public abstract class TCKTestSuite extends AbstractTests {
           final boolean[] failed = new boolean[] { false };
 
           Thread t = doInThread(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               assertTrue(store.setQuiescent(true));
             }
@@ -487,18 +494,21 @@ public abstract class TCKTestSuite extends AbstractTests {
           assertEquals(con.getBlobStore(), store);
 
           shouldFail(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               con.getBlob(id1, null);
             }
           }, IllegalStateException.class, null);
 
           shouldFail(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               con.getBlob(null, null);
             }
           }, IllegalStateException.class, null);
 
           shouldFail(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               con.getBlob(new ByteArrayInputStream(new byte[0]), -1, null);
             }
@@ -506,12 +516,14 @@ public abstract class TCKTestSuite extends AbstractTests {
 
           if (isListIdsSupp) {
             shouldFail(new ERunnable() {
+              @Override
               public void erun() throws Exception {
                 con.listBlobIds("foo");
               }
             }, IllegalStateException.class, null);
 
             shouldFail(new ERunnable() {
+              @Override
               public void erun() throws Exception {
                 con.listBlobIds(null);
               }
@@ -536,6 +548,7 @@ public abstract class TCKTestSuite extends AbstractTests {
 
           if (isOutputSupp) {
             shouldFail(new ERunnable() {
+              @Override
               public void erun() throws Exception {
                 b.openOutputStream(-1, true);
               }
@@ -543,6 +556,7 @@ public abstract class TCKTestSuite extends AbstractTests {
           }
 
           shouldFail(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               b.exists();
             }
@@ -567,6 +581,7 @@ public abstract class TCKTestSuite extends AbstractTests {
           assertEquals(b.getId(), id1);
 
           shouldFail(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               b.openInputStream();
             }
@@ -574,6 +589,7 @@ public abstract class TCKTestSuite extends AbstractTests {
 
           if (isOutputSupp) {
             shouldFail(new ERunnable() {
+              @Override
               public void erun() throws Exception {
                 b.openOutputStream(-1, true);
               }
@@ -581,12 +597,14 @@ public abstract class TCKTestSuite extends AbstractTests {
           }
 
           shouldFail(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               b.getSize();
             }
           }, IllegalStateException.class, null);
 
           shouldFail(new ERunnable() {
+            @Override
             public void erun() throws Exception {
               b.exists();
             }
@@ -594,6 +612,7 @@ public abstract class TCKTestSuite extends AbstractTests {
 
           if (isDeleteSupp) {
             shouldFail(new ERunnable() {
+              @Override
               public void erun() throws Exception {
                 b.delete();
               }
@@ -602,6 +621,7 @@ public abstract class TCKTestSuite extends AbstractTests {
 
           if (isMoveToSupp) {
             shouldFail(new ERunnable() {
+              @Override
               public void erun() throws Exception {
                 b.moveTo(b2);
               }
@@ -681,6 +701,7 @@ public abstract class TCKTestSuite extends AbstractTests {
     final URI invId = getInvalidId();
     if (invId != null) {
       shouldFail(new ERunnable() {
+        @Override
         public void erun() throws Exception {
           createBlob(invId, null, true);
         }
@@ -965,6 +986,7 @@ public abstract class TCKTestSuite extends AbstractTests {
 
           testOutputStream(b, body, estSize, false);    // test create
           shouldFail(new ERunnable() {                  // test !overwrite
+            @Override
             public void erun() throws Exception {
               testOutputStream(b, body, estSize, false);
             }

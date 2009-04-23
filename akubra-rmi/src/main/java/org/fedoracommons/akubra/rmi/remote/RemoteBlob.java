@@ -34,7 +34,7 @@ import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.MissingBlobException;
 
 /**
- * Reperesents a blob on the remote server.
+ * Represents a blob on the remote server.
  *
  * @author Pradeep Krishnan
  */

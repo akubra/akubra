@@ -84,6 +84,7 @@ public class WWWTCKTest extends TCKTestSuite {
     baseDir.mkdirs();
   }
 
+  @Override
   public void testSetQuiescent() throws Exception {
     // setQuiescent not implemented
   }
@@ -91,16 +92,19 @@ public class WWWTCKTest extends TCKTestSuite {
   // Overridden helpers
 
   /** @return file:///absolute/path/to/target/tck-scratch/name */
+  @Override
   protected URI createId(String name) {
     return new File(baseDir, name).toURI();
   }
 
   /** @return file:///absolute/path/to/target/tck-scratch/name */
+  @Override
   protected String getPrefixFor(String name) {
     return new File(baseDir, name).toURI().toString();
   }
 
   /** @return urn:foo */
+  @Override
   protected URI getInvalidId() {
     return URI.create("urn:foo");
   }
@@ -111,6 +115,7 @@ public class WWWTCKTest extends TCKTestSuite {
   }
 
   /** Blob.delete is not supported, so delete the file "manually" */
+  @Override
   protected void deleteBlob(BlobStoreConnection con, Blob b) throws Exception {
     File f = new File(b.getId());
     if (!f.delete())
@@ -123,14 +128,16 @@ public class WWWTCKTest extends TCKTestSuite {
   }
 
   /** con.listBlobIds is not supported, so list the files directly */
+  @Override
   protected void assertNoBlobs(String prefix) throws Exception {
     assertEquals(listFiles(prefix).length, 0);
   }
 
   /** con.listBlobIds is not supported, so list the files directly */
+  @Override
   protected void listBlobs(BlobStoreConnection con, String prefix, URI[] expected)
       throws Exception {
-    Set<URI> exp = new HashSet(Arrays.asList(expected));
+    Set<URI> exp = new HashSet<URI>(Arrays.asList(expected));
     URI id;
 
     for (String file : listFiles(prefix))
@@ -157,6 +164,7 @@ public class WWWTCKTest extends TCKTestSuite {
    * URLConnection.getOutputStream()).
    */
   private static class FileURLStreamHandler extends URLStreamHandler {
+    @Override
     protected URLConnection openConnection(URL url) throws IOException {
       return new FileURLConnection(url);
     }
@@ -173,13 +181,16 @@ public class WWWTCKTest extends TCKTestSuite {
         }
       }
 
+      @Override
       public void connect() {
       }
 
+      @Override
       public InputStream getInputStream() throws IOException {
         return new FileInputStream(file);
       }
 
+      @Override
       public OutputStream getOutputStream() throws IOException {
         return new FileOutputStream(file);
       }

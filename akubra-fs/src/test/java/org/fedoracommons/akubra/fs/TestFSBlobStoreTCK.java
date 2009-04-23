@@ -25,7 +25,6 @@ import java.io.File;
 import java.net.URI;
 
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
 
 import org.fedoracommons.akubra.tck.TCKTestSuite;
 
@@ -55,14 +54,17 @@ public class TestFSBlobStoreTCK extends TCKTestSuite {
     FSTestUtil.rmdir(baseDir);
   }
 
+  @Override
   protected URI createId(String name) {
     return URI.create("file:" + name);
   }
 
+  @Override
   protected String getPrefixFor(String name) {
     return "file:" + name;
   }
 
+  @Override
   protected URI getInvalidId() {
     return URI.create("urn:foo");
   }

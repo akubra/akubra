@@ -130,7 +130,7 @@ public abstract class AbstractTests {
 
   protected void listBlobs(BlobStoreConnection con, String prefix, URI[] expected)
       throws Exception {
-    Set<URI> exp = new HashSet(Arrays.asList(expected));
+    Set<URI> exp = new HashSet<URI>(Arrays.asList(expected));
     URI id;
 
     for (Iterator<URI> iter = con.listBlobIds(prefix); iter.hasNext(); )
@@ -322,6 +322,7 @@ public abstract class AbstractTests {
   protected void shouldFail(final ConAction test, Class<? extends Throwable> expExc, URI id)
       throws Exception {
     shouldFail(new ERunnable() {
+      @Override
       public void erun() throws Exception {
         runTests(test);
       }

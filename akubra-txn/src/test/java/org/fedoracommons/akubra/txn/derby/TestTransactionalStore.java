@@ -23,9 +23,6 @@
 package org.fedoracommons.akubra.txn.derby;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URI;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -33,17 +30,11 @@ import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
-import javax.transaction.TransactionManager;
-
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -53,7 +44,6 @@ import static org.testng.Assert.fail;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
-import org.fedoracommons.akubra.UnsupportedIdException;
 import org.fedoracommons.akubra.mem.MemBlobStore;
 import org.fedoracommons.akubra.tck.TCKTestSuite;
 import org.fedoracommons.akubra.txn.ConcurrentBlobUpdateException;
@@ -99,6 +89,7 @@ public class TestTransactionalStore extends TCKTestSuite {
     return new TransactionalStore(getStoreId(), dbDir.getAbsolutePath());
   }
 
+  @Override
   protected URI getInvalidId() {
     // one too long
     StringBuilder uri = new StringBuilder("urn:blobIdValidation");
@@ -110,6 +101,7 @@ public class TestTransactionalStore extends TCKTestSuite {
   }
 
   /** all URI's are distinct */
+  @Override
   protected URI[] getAliases(URI uri) {
     return new URI[] { uri };
   }
@@ -185,6 +177,7 @@ public class TestTransactionalStore extends TCKTestSuite {
     assertEquals(caps.size(), 0);
   }
 
+  @Override
   public void testSetQuiescent() throws Exception {
     // not properly implemented yet - so test just the calls themselves
     assertTrue(store.setQuiescent(true));
@@ -377,13 +370,9 @@ public class TestTransactionalStore extends TCKTestSuite {
 
     final URI id1 = URI.create("urn:blobConflict1");
     final URI id2 = URI.create("urn:blobConflict2");
-    final URI id3 = URI.create("urn:blobConflict3");
-
     final String body1  = "original blob";
     final String body11 = "modified blob";
     final String body2  = "create me";
-    final String body3  = "rename me";
-
     // create blob1
     createBlob(id1, body1, true);
 
@@ -409,13 +398,6 @@ public class TestTransactionalStore extends TCKTestSuite {
             }
         };
 
-    ConAction delete2 = new ConAction() {
-            public void run(BlobStoreConnection con) throws Exception {
-              Blob b = getBlob(con, id2, body2);
-              deleteBlob(con, b);
-            }
-        };
-
     ConAction modify1 = new ConAction() {
             public void run(BlobStoreConnection con) throws Exception {
               Blob b = getBlob(con, id1, body1);
@@ -433,6 +415,7 @@ public class TestTransactionalStore extends TCKTestSuite {
 
     // test create-create conflict
     testConflict(createNoBody, createNoBody, id2, new ERunnable() {
+      @Override
       public void erun() throws Exception {
         getBlob(id2, "", true);
         deleteBlob(id2, "", true);
@@ -440,6 +423,7 @@ public class TestTransactionalStore extends TCKTestSuite {
     });
 
     testConflict(createWithBody, createNoBody, id2, new ERunnable() {
+      @Override
       public void erun() throws Exception {
         getBlob(id2, body2, true);
         deleteBlob(id2, body2, true);
@@ -447,6 +431,7 @@ public class TestTransactionalStore extends TCKTestSuite {
     });
 
     testConflict(createWithBody, createWithBody, id2, new ERunnable() {
+      @Override
       public void erun() throws Exception {
         getBlob(id2, body2, true);
         deleteBlob(id2, body2, true);
@@ -454,6 +439,7 @@ public class TestTransactionalStore extends TCKTestSuite {
     });
 
     testConflict(createNoBody, createWithBody, id2, new ERunnable() {
+      @Override
       public void erun() throws Exception {
         getBlob(id2, "", true);
         deleteBlob(id2, "", true);
@@ -462,6 +448,7 @@ public class TestTransactionalStore extends TCKTestSuite {
 
     // test delete-delete conflict
     testConflict(delete1, delete1, id1, new ERunnable() {
+      @Override
       public void erun() throws Exception {
         getBlob(id1, null, true);
         createBlob(id1, body1, true);
@@ -470,6 +457,7 @@ public class TestTransactionalStore extends TCKTestSuite {
 
     // test delete-modify conflict
     testConflict(delete1, modify1, id1, new ERunnable() {
+      @Override
       public void erun() throws Exception {
         getBlob(id1, null, true);
         createBlob(id1, body1, true);
@@ -477,6 +465,7 @@ public class TestTransactionalStore extends TCKTestSuite {
     });
 
     testConflict(modify1, delete1, id1, new ERunnable() {
+      @Override
       public void erun() throws Exception {
         getBlob(id1, body11, true);
         setBlob(id1, body1, true);
@@ -485,6 +474,7 @@ public class TestTransactionalStore extends TCKTestSuite {
 
     // test modify-modify conflict
     testConflict(modify1, modify1, id1, new ERunnable() {
+      @Override
       public void erun() throws Exception {
         getBlob(id1, body11, true);
         setBlob(id1, body1, true);
@@ -493,6 +483,7 @@ public class TestTransactionalStore extends TCKTestSuite {
 
     // test rename-rename conflict
     testConflict(rename12, rename12, id1, new ERunnable() {
+      @Override
       public void erun() throws Exception {
         getBlob(id2, body1, true);
         renameBlob(id2, id1, body1, true);
@@ -501,6 +492,7 @@ public class TestTransactionalStore extends TCKTestSuite {
 
     // test rename-modify conflict
     testConflict(rename12, modify1, id1, new ERunnable() {
+      @Override
       public void erun() throws Exception {
         getBlob(id2, body1, true);
         renameBlob(id2, id1, body1, true);
@@ -508,6 +500,7 @@ public class TestTransactionalStore extends TCKTestSuite {
     });
 
     testConflict(modify1, rename12, id1, new ERunnable() {
+      @Override
       public void erun() throws Exception {
         getBlob(id1, body11, true);
         setBlob(id1, body1, true);
@@ -516,6 +509,7 @@ public class TestTransactionalStore extends TCKTestSuite {
 
     // test rename-create conflict
     testConflict(rename12, createNoBody, id2, new ERunnable() {
+      @Override
       public void erun() throws Exception {
         getBlob(id2, body1, true);
         renameBlob(id2, id1, body1, true);
@@ -523,6 +517,7 @@ public class TestTransactionalStore extends TCKTestSuite {
     });
 
     testConflict(createNoBody, rename12, id2, new ERunnable() {
+      @Override
       public void erun() throws Exception {
         getBlob(id1, body1, true);
         getBlob(id2, "", true);
@@ -531,6 +526,7 @@ public class TestTransactionalStore extends TCKTestSuite {
     });
 
     testConflict(createWithBody, rename12, id2, new ERunnable() {
+      @Override
       public void erun() throws Exception {
         getBlob(id1, body1, true);
         getBlob(id2, body2, true);
@@ -540,6 +536,7 @@ public class TestTransactionalStore extends TCKTestSuite {
 
     // test rename-delete conflict
     testConflict(rename12, delete1, id1, new ERunnable() {
+      @Override
       public void erun() throws Exception {
         getBlob(id2, body1, true);
         renameBlob(id2, id1, body1, true);
@@ -547,6 +544,7 @@ public class TestTransactionalStore extends TCKTestSuite {
     });
 
     testConflict(delete1, rename12, id1, new ERunnable() {
+      @Override
       public void erun() throws Exception {
         getBlob(id1, null, true);
         createBlob(id1, body1, true);
@@ -1170,6 +1168,7 @@ public class TestTransactionalStore extends TCKTestSuite {
    * Test that things get cleaned up. This runs after all other tests that create or otherwise
    * manipulate blobs.
    */
+  @Override
   public void testCleanup() throws Exception {
     super.testCleanup();
 

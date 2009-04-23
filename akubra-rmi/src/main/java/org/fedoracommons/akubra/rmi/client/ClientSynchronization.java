@@ -53,6 +53,7 @@ class ClientSynchronization implements Synchronization {
       remote.afterCompletion(status);
     } catch (RemoteException e) {
       log.warn("Failed to execute afterCompletion() on remote", e);
+      throw new RuntimeException("Failure to contact remote", e);
     }
   }
 
@@ -61,6 +62,7 @@ class ClientSynchronization implements Synchronization {
       remote.beforeCompletion();
     } catch (RemoteException e) {
       log.warn("Failed to execute beforeCompletion on remote", e);
+      throw new RuntimeException("Failure to contact remote", e);
     }
   }
 }

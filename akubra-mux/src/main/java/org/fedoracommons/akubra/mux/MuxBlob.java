@@ -96,10 +96,12 @@ public class MuxBlob extends BlobWrapper {
 
     InputStream  in      = openInputStream();
     OutputStream out     = null;
-    boolean      created = true;
+    boolean      created = false;
 
     try {
-      IOUtils.copy(in, out = blob.openOutputStream(getSize(), false));
+      out = blob.openOutputStream(getSize(), false);
+      created = true;
+      IOUtils.copy(in, out);
       out.close();
       out = null;
       in.close();

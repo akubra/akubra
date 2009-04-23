@@ -218,7 +218,7 @@ public class AbstractMuxConnectionTest {
     assertFalse(b2.exists());
     assertFalse(b4.exists());
 
-    b1.moveTo(b2);
+    assertEquals(b2, b1.moveTo(b2.getId(), s2Hint));
 
     assertFalse(b1.exists());
     assertFalse(b3.exists());

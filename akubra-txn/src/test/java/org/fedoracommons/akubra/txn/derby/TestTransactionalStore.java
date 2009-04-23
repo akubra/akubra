@@ -221,7 +221,7 @@ public class TestTransactionalStore extends TCKTestSuite {
           Blob b2 = getBlob(con, id2, null);
 
           createBlob(con, b, null);
-          moveBlob(con, b, b2, "");
+          moveBlob(con, b, id2, "");
           deleteBlob(con, b2);
         }
     }, true);
@@ -234,7 +234,7 @@ public class TestTransactionalStore extends TCKTestSuite {
           Blob b  = getBlob(con, id, body);
           Blob b2 = getBlob(con, id2, null);
 
-          moveBlob(con, b, b2, body);
+          moveBlob(con, b, id2, body);
           deleteBlob(con, b2);
         }
     }, true);
@@ -246,10 +246,10 @@ public class TestTransactionalStore extends TCKTestSuite {
           Blob b2 = getBlob(con, id2, null);
 
           createBlob(con, b, null);
-          moveBlob(con, b, b2, "");
+          moveBlob(con, b, id2, "");
           deleteBlob(con, b2);
           createBlob(con, b2, null);
-          moveBlob(con, b2, b, "");
+          moveBlob(con, b2, id, "");
           setBlob(con, b, body);
         }
     }, true);
@@ -260,16 +260,16 @@ public class TestTransactionalStore extends TCKTestSuite {
           Blob b  = getBlob(con, id, body);
           Blob b2 = getBlob(con, id2, null);
 
-          moveBlob(con, b, b2, body);
+          moveBlob(con, b, id2, body);
           deleteBlob(con, b2);
           createBlob(con, b, null);
-          moveBlob(con, b, b2, "");
-          moveBlob(con, b2, b, "");
+          moveBlob(con, b, id2, "");
+          moveBlob(con, b2, id, "");
           deleteBlob(con, b);
           createBlob(con, b2, null);
-          moveBlob(con, b2, b, "");
+          moveBlob(con, b2, id, "");
           setBlob(con, b, body);
-          moveBlob(con, b, b2, body);
+          moveBlob(con, b, id2, body);
           deleteBlob(con, b2);
           createBlob(con, b, body);
         }
@@ -331,8 +331,7 @@ public class TestTransactionalStore extends TCKTestSuite {
     ConAction rename12 = new ConAction() {
             public void run(BlobStoreConnection con) throws Exception {
               Blob b1 = getBlob(con, id1, body1);
-              Blob b2 = getBlob(con, id2, null);
-              moveBlob(con, b1, b2, body1);
+              moveBlob(con, b1, id2, body1);
             }
         };
 
@@ -868,8 +867,7 @@ public class TestTransactionalStore extends TCKTestSuite {
 
                 for (int idx = 0; idx < seq.length; idx++ ) {
                   Blob bs = getBlob(con, seq[idx][0], true);
-                  Blob bd = getBlob(con, seq[idx][1], false);
-                  moveBlob(con, bs, bd, null);
+                  moveBlob(con, bs, seq[idx][1], null);
 
                   notifyAndWait(cv, !cvVal);
                 }

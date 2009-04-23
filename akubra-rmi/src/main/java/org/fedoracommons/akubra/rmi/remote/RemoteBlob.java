@@ -93,13 +93,15 @@ public interface RemoteBlob extends Remote {
    * @param id the other blob
    * @param hints the hints to pass to the remote
    *
+   * @return the resulting Blob
+   *
    * @throws RemoteException on an error in rmi transport
    * @throws DuplicateBlobException error reported by remote
    * @throws MissingBlobException error reported by remote
    * @throws UnsupportedOperationException error reported by remote
    * @throws IOException error reported by the remote
    */
-  void moveTo(URI id, Map<String, String> hints)
+  RemoteBlob moveTo(URI id, Map<String, String> hints)
        throws RemoteException, DuplicateBlobException, MissingBlobException,
               UnsupportedOperationException, IOException;
 

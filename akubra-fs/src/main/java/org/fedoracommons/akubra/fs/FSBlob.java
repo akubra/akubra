@@ -30,6 +30,7 @@ import java.io.OutputStream;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.DuplicateBlobException;
@@ -136,7 +137,7 @@ class FSBlob extends AbstractBlob {
   }
 
   //@Override
-  public void moveTo(Blob blob) throws IOException {
+  public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
     if (getConnection().isClosed())
       throw new IllegalStateException("Connection closed.");
 
@@ -144,17 +145,11 @@ class FSBlob extends AbstractBlob {
       throw new IOException("Interrupted waiting for writable state");
 
     try {
-      if (blob == null)
-        throw new NullPointerException("Blob can't be null");
+      FSBlob dest = (FSBlob) getConnection().getBlob(blobId, hints);
 
-      FSBlob.validateId(blob.getId());
-
-      if (!(blob instanceof FSBlob))
-        throw new IllegalArgumentException("Blob must be an instance of " + FSBlob.class);
-
-      File other = ((FSBlob)blob).file;
+      File other = dest.file;
       if (other.exists())
-        throw new DuplicateBlobException(blob.getId());
+        throw new DuplicateBlobException(blobId);
 
       makeParentDirs(other);
 
@@ -164,6 +159,8 @@ class FSBlob extends AbstractBlob {
 
         throw new IOException("Rename failed for an unknown reason.");
       }
+
+      return dest;
     } finally {
       manager.unlockState();
     }

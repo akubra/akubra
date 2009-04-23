@@ -85,7 +85,7 @@ class ClientConnection extends AbstractBlobStoreConnection {
     if (isClosed())
       throw new IOException("Connection closed");
 
-    return new ClientBlob(this, streamManager, remote.getBlob(blobId, hints), hints);
+    return new ClientBlob(this, streamManager, remote.getBlob(blobId, hints));
   }
 
   @Override
@@ -99,7 +99,7 @@ class ClientConnection extends AbstractBlobStoreConnection {
     IOUtils.copyLarge(in, out);
     out.close();
 
-    return new ClientBlob(this, streamManager, bc.getBlob(), hints);
+    return new ClientBlob(this, streamManager, bc.getBlob());
   }
 
   public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {

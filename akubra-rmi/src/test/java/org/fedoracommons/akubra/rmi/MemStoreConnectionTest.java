@@ -172,12 +172,12 @@ public class MemStoreConnectionTest {
     assertTrue(b1.exists());
     assertFalse(b2.exists());
 
-    b1.moveTo(b2);
+    assertEquals(b2, b1.moveTo(b2.getId(), null));
 
     assertTrue(b2.exists());
     assertFalse(b1.exists());
 
-    b2.moveTo(b1);
+    assertEquals(b1, b2.moveTo(b1.getId(), null));
 
     assertTrue(b1.exists());
     assertFalse(b2.exists());
@@ -186,7 +186,7 @@ public class MemStoreConnectionTest {
     assertTrue(b2.exists());
 
     try {
-      b2.moveTo(b1);
+      b2.moveTo(b1.getId(), null);
       fail("Failed to rcv exepected exception");
     } catch (DuplicateBlobException e) {
     }
@@ -198,7 +198,7 @@ public class MemStoreConnectionTest {
     assertFalse(b2.exists());
 
     try {
-      b2.moveTo(b1);
+      b2.moveTo(b1.getId(), null);
       fail("Failed to rcv exepected exception");
     } catch (MissingBlobException e) {
     }

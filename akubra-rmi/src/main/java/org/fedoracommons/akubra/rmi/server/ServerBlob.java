@@ -76,11 +76,8 @@ public class ServerBlob extends UnicastExportable implements RemoteBlob {
     blob.delete();
   }
 
-  public void moveTo(URI other, Map<String, String> hints) throws IOException {
-    if (other == null)
-      blob.moveTo(null);
-    else
-      blob.moveTo(blob.getConnection().getBlob(other, hints));
+  public RemoteBlob moveTo(URI other, Map<String, String> hints) throws IOException {
+    return new ServerBlob(blob.moveTo(other, hints), getExporter());
   }
 
   public RemoteInputStream openInputStream() throws IOException {

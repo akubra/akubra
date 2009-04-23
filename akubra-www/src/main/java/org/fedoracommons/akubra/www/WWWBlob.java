@@ -30,6 +30,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -175,7 +176,7 @@ class WWWBlob extends AbstractBlob {
     throw new UnsupportedOperationException();
   }
 
-  public void moveTo(Blob blob) throws IOException {
+  public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
     throw new UnsupportedOperationException();
   }
 }

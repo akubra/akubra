@@ -87,22 +87,19 @@ class MemBlob extends AbstractBlob {
   }
 
   //@Override
-  public void moveTo(Blob dest) throws IOException, MissingBlobException, NullPointerException,
+  public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException, MissingBlobException, NullPointerException,
          IllegalArgumentException, DuplicateBlobException {
     checkClosed();
     if (!streamMgr.lockUnquiesced())
       throw new IOException("Interrupted waiting for writable state");
 
     try {
-      if (dest == null)
-        throw new NullPointerException("Destination blob may not be null");
-      if (!(dest instanceof MemBlob))
-        throw new IllegalArgumentException("Destination blob must be an instance of " +
-                                           MemBlob.class);
+      MemBlob dest = (MemBlob)getConnection().getBlob(blobId, hints);
+
 
       synchronized (blobs) {
         if (dest.exists())
-          throw new DuplicateBlobException(dest.getId(), "Destination blob already exists");
+          throw new DuplicateBlobException(blobId, "Destination blob already exists");
 
         MemData data = blobs.remove(id);
         if (data == null)
@@ -110,6 +107,8 @@ class MemBlob extends AbstractBlob {
 
         blobs.put(dest.getId(), data);
       }
+
+      return dest;
     } finally {
       streamMgr.unlockState();
     }

@@ -45,6 +45,7 @@ import java.util.Map;
 
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStoreConnection;
+import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.MissingBlobException;
 import org.fedoracommons.akubra.UnsupportedIdException;
 import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
@@ -88,7 +89,7 @@ public class ClientBlobTest {
         }
       };
 
-    cb = new ClientBlob(con, new StreamManager(), (RemoteBlob) sb.getExported(), null);
+    cb = new ClientBlob(con, new StreamManager(), (RemoteBlob) sb.getExported());
   }
 
   @AfterSuite
@@ -209,28 +210,33 @@ public class ClientBlobTest {
     expect(con.getBlob(id1, null)).andStubReturn(blob);
     expect(con.getBlob(id2, null)).andStubReturn(blob2);
 
-    blob.moveTo(blob);
-    blob.moveTo(blob2);
+    expect(blob.moveTo(id1, null)).andStubThrow(new DuplicateBlobException(id1));
+    expect(blob.moveTo(id2, null)).andStubReturn(blob2);
+    expect(blob.moveTo(null, null)).andStubThrow(new UnsupportedOperationException());
     replay(blob);
     replay(blob2);
     replay(con);
 
     ServerBlob sb  = new ServerBlob(blob, exporter);
     ClientBlob cb  =
-      new ClientBlob(this.cb.getConnection(), new StreamManager(), (RemoteBlob) sb.getExported(),
-                     null);
+      new ClientBlob(this.cb.getConnection(), new StreamManager(), (RemoteBlob) sb.getExported());
 
     ServerBlob sb2 = new ServerBlob(blob2, exporter);
     ClientBlob cb2 =
-      new ClientBlob(cb.getConnection(), new StreamManager(), (RemoteBlob) sb2.getExported(), null);
-
-    cb.moveTo(cb);
-    cb.moveTo(cb2);
+      new ClientBlob(cb.getConnection(), new StreamManager(), (RemoteBlob) sb2.getExported());
 
     try {
-      cb.moveTo(null);
+      cb.moveTo(cb.getId(), null);
       fail("Failed to rcv expected exception");
-    } catch (Exception e) {
+    } catch (DuplicateBlobException e) {
+    }
+
+    cb.moveTo(cb2.getId(), null);
+
+    try {
+      cb.moveTo(null, null);
+      fail("Failed to rcv expected exception");
+    } catch (UnsupportedOperationException e) {
     }
 
     verify(blob);

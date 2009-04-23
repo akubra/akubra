@@ -41,6 +41,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertSame;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
+import static org.testng.Assert.assertNotNull;
 
 import org.fedoracommons.akubra.AkubraBlobException;
 import org.fedoracommons.akubra.Blob;
@@ -115,16 +116,19 @@ public abstract class AbstractTests {
     assertFalse(con.getBlob(b.getId(), null).exists());
   }
 
-  protected void moveBlob(BlobStoreConnection con, Blob ob, Blob nb, String body) throws Exception {
-    ob.moveTo(nb);
+  protected void moveBlob(BlobStoreConnection con, Blob ob, URI nbId, String body) throws Exception {
+    Blob nb = ob.moveTo(nbId, null);
+    assertNotNull(nb);
+    assertEquals(nb.getId(), nbId);
+    assertEquals(nb.getConnection(), con);
+    assertTrue(nb.exists());
     assertFalse(ob.exists());
     assertFalse(con.getBlob(ob.getId(), null).exists());
-    assertTrue(nb.exists());
-    assertTrue(con.getBlob(nb.getId(), null).exists());
+    assertTrue(con.getBlob(nbId, null).exists());
 
     if (body != null) {
       assertEquals(getBody(nb), body);
-      assertEquals(getBody(con.getBlob(nb.getId(), null)), body);
+      assertEquals(getBody(con.getBlob(nbId, null)), body);
     }
   }
 
@@ -185,7 +189,7 @@ public abstract class AbstractTests {
         public void run(BlobStoreConnection con) throws Exception {
           Blob ob = getBlob(con, oldId, val);
           Blob nb = getBlob(con, newId, null);
-          moveBlob(con, ob, nb, val);
+          moveBlob(con, ob, nb.getId(), val);
         }
     }, commit);
   }

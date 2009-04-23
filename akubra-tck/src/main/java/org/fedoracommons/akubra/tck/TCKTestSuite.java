@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
+import java.util.Map;
 
 import javax.transaction.Transaction;
 
@@ -294,7 +295,7 @@ public abstract class TCKTestSuite extends AbstractTests {
             doWithTimeout(new ERunnable() {
               @Override
               public void erun() throws Exception {
-                b1.moveTo(b2);
+                b1.moveTo(b2.getId(), null);
               }
             }, 10, false);
           }
@@ -623,7 +624,7 @@ public abstract class TCKTestSuite extends AbstractTests {
             shouldFail(new ERunnable() {
               @Override
               public void erun() throws Exception {
-                b.moveTo(b2);
+                b.moveTo(b2.getId(), null);
               }
             }, IllegalStateException.class, null);
           }
@@ -1049,7 +1050,7 @@ public abstract class TCKTestSuite extends AbstractTests {
       shouldFail(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           Blob b = getBlob(con, createId("blobMoveTo1"), false);
-          b.moveTo(b);
+          b.moveTo(b.getId(), null);
         }
       }, UnsupportedOperationException.class, null);
 
@@ -1072,8 +1073,7 @@ public abstract class TCKTestSuite extends AbstractTests {
     shouldFail(new ConAction() {
       public void run(BlobStoreConnection con) throws Exception {
         Blob ob = getBlob(con, id1, false);
-        Blob nb = getBlob(con, id3, false);
-        ob.moveTo(nb);
+        ob.moveTo(id3, null);
       }
     }, MissingBlobException.class, id1);
 
@@ -1081,8 +1081,7 @@ public abstract class TCKTestSuite extends AbstractTests {
     shouldFail(new ConAction() {
       public void run(BlobStoreConnection con) throws Exception {
         Blob ob = getBlob(con, id2, "foo");
-        Blob nb = getBlob(con, id4, "bar");
-        ob.moveTo(nb);
+        ob.moveTo(id4, null);
       }
     }, DuplicateBlobException.class, id4);
 
@@ -1090,7 +1089,7 @@ public abstract class TCKTestSuite extends AbstractTests {
     shouldFail(new ConAction() {
       public void run(BlobStoreConnection con) throws Exception {
         Blob b = getBlob(con, id1, false);
-        b.moveTo(b);
+        b.moveTo(id1, null);
       }
     }, MissingBlobException.class, id1);
 
@@ -1098,58 +1097,46 @@ public abstract class TCKTestSuite extends AbstractTests {
     shouldFail(new ConAction() {
       public void run(BlobStoreConnection con) throws Exception {
         Blob b = getBlob(con, id2, "foo");
-        b.moveTo(b);
+        b.moveTo(id2, null);
       }
     }, DuplicateBlobException.class, id2);
 
-    // move to null should fail
-    shouldFail(new ConAction() {
-      public void run(BlobStoreConnection con) throws Exception {
-        Blob b = getBlob(con, id2, "foo");
-        b.moveTo(null);
-      }
-    }, NullPointerException.class, null);
+    if (!isIdGenSupp) {
+      // move to null should fail
+      shouldFail(new ConAction() {
+        public void run(BlobStoreConnection con) throws Exception {
+          Blob b = getBlob(con, id2, "foo");
+          b.moveTo(null, null);
+        }
+      }, UnsupportedOperationException.class, null);
+    } else {
+      // null id should work
+      runTests(new ConAction() {
+          public void run(BlobStoreConnection con) throws Exception {
+            Blob b = getBlob(con, id2, "foo");
+            Blob b2 = b.moveTo(null, null);
+            // undo for other tests
+            b2.moveTo(id2, null);
+          }
+      }, false);
+    }
 
     // move to incompatible blob should fail
-    shouldFail(new ConAction() {
-      public void run(BlobStoreConnection con) throws Exception {
-        Blob ob = getBlob(con, id2, "foo");
-        Blob nb = getIncompatibleBlob(con);
-        ob.moveTo(nb);
-      }
-    }, IllegalArgumentException.class, null);
+    final URI inv = getInvalidId();
+    if (inv != null) {
+      shouldFail(new ConAction() {
+        public void run(BlobStoreConnection con) throws Exception {
+          Blob ob = getBlob(con, id2, "foo");
+          ob.moveTo(inv, null);
+        }
+      }, UnsupportedIdException.class, inv);
+    }
 
     // clean up
     deleteBlob(id2, "foo", true);
     deleteBlob(id4, "bar", true);
 
     assertNoBlobs(getPrefixFor("blobMoveTo"));
-  }
-
-  protected Blob getIncompatibleBlob(BlobStoreConnection con) throws Exception {
-    return new AbstractBlob(con, createId("foobar")) {
-      public InputStream openInputStream() {
-        return null;
-      }
-
-      public OutputStream openOutputStream(long estimatedSize, boolean overwrite) {
-        return null;
-      }
-
-      public long getSize() {
-        return -1;
-      }
-
-      public boolean exists() {
-        return false;
-      }
-
-      public void delete() {
-      }
-
-      public void moveTo(Blob blob) {
-      }
-    };
   }
 
   /*

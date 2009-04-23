@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import java.net.URI;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -39,7 +40,7 @@ import org.fedoracommons.akubra.impl.BlobWrapper;
 /**
  * A wrapped blob for use by implementations of {@link AbstractMuxConnection}. This ensures
  * that {@link #getConnection()} returns the connection from the mux store layer rather than the
- * backing store. Additionally this supports {@link #moveTo(Blob)} across blob stores using {@link
+ * backing store. Additionally this supports {@link #moveTo(URI, Map)} across blob stores using {@link
  * #moveByCopy(Blob, URI, URI)}.
  *
  * @author Pradeep Krishnan
@@ -58,27 +59,21 @@ public class MuxBlob extends BlobWrapper {
   }
 
   @Override
-  public void moveTo(Blob blob) throws IOException {
-    if (blob == null)
-      throw new NullPointerException("blob cannot be null");
-
+  public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
+    MuxBlob dest   = (MuxBlob) getConnection().getBlob(blobId, hints);
     URI thisStore  = delegate.getConnection().getBlobStore().getId();
-    URI otherStore =
-      (blob instanceof MuxBlob) ? ((MuxBlob) blob).delegate.getConnection().getBlobStore().getId()
-      : ((AbstractMuxConnection) getConnection()).getStore(blob.getId(), null).getId();
+    URI otherStore = dest.delegate.getConnection().getBlobStore().getId();
 
     if (!thisStore.equals(otherStore))
-      moveByCopy(blob, thisStore, otherStore);
-    else if (blob instanceof MuxBlob)
-      delegate.moveTo(((MuxBlob) blob).delegate);
-    else {
-      // Unrecognized Blob class. Let the backing store deal with it.
-      delegate.moveTo(blob);
-    }
+      moveByCopy(dest, thisStore, otherStore);
+    else
+      delegate.moveTo(blobId, hints);
+
+    return dest;
   }
 
   /**
-   * Performs a {@link #moveTo(Blob)} operation by copy since the blobs are in different stores.
+   * Performs a {@link #moveTo(URI, Map)} operation by copy since the blobs are in different stores.
    *
    * @param blob the destination
    * @param thisStore the store where this Blob exists

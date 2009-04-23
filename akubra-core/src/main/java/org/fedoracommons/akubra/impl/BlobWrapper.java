@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
+import java.util.Map;
 
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStoreConnection;
@@ -116,9 +117,11 @@ public class BlobWrapper extends AbstractBlob {
     delegate.delete();
   }
 
-  public void moveTo(Blob blob) throws IOException {
+  public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
     if (getConnection().isClosed())
       throw new IllegalStateException("Connection closed.");
-    delegate.moveTo(blob);
+    delegate.moveTo(blobId, hints);
+
+    return getConnection().getBlob(blobId, hints);
   }
 }

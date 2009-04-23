@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import java.net.URI;
+import java.util.Map;
 
 /**
  * Interface to abstract the idea of a blob in the blob store.
@@ -118,14 +119,19 @@ public interface Blob {
    * Move this blob under the new id. Before the move, this blob must exist and the destination
    * blob must not. After the move, this blob will not exist but the destination blob will.
    *
-   * @param blob the blob to move to
+   * @param blobId the blob id; may be null if the store supports id-generation
+   * @param hints A set of hints to allow the implementation to optimize the operation (can be
+   *              null)
    *
-   * @throws NullPointerException if <var>blob</var> is null
-   * @throws IllegalArgumentException if <var>blob</var> is not recognized in this store
+   * @return the resulting Blob from the move
+   *
+   * @throws UnsupportedIdException if blobId is not in a recognized/usable pattern by this store
+   * @throws UnsupportedOperationException if <var>blobId</var> is null and this store is not
+   *                                       capable of generating ids.
    * @throws MissingBlobException if this blob does not exist
-   * @throws DuplicateBlobException if <var>blob</var> already exists
+   * @throws DuplicateBlobException if a blob with <var>blobId</var> already exists
    * @throws IOException if an error occurs while attempting the operation
    */
-  void moveTo(Blob blob) throws DuplicateBlobException, IOException, MissingBlobException,
+  Blob moveTo(URI blobId, Map<String, String> hints) throws DuplicateBlobException, IOException, MissingBlobException,
                                 NullPointerException, IllegalArgumentException;
 }

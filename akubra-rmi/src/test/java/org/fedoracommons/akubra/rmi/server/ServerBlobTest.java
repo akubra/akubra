@@ -22,7 +22,6 @@
 package org.fedoracommons.akubra.rmi.server;
 
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.reset;
@@ -40,6 +39,7 @@ import java.net.URI;
 
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStoreConnection;
+import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.MissingBlobException;
 import org.fedoracommons.akubra.rmi.remote.RemoteBlob;
 import org.fedoracommons.akubra.rmi.remote.RemoteInputStream;
@@ -134,21 +134,25 @@ public class ServerBlobTest {
     expect(con.getBlob(id1, null)).andStubReturn(blob);
     expect(con.getBlob(id2, null)).andStubReturn(blob2);
 
-    blob.moveTo(blob);
-    blob.moveTo(blob2);
-    blob.moveTo(null);
-    expectLastCall().andThrow(new NullPointerException());
+    expect(blob.moveTo(id1, null)).andStubThrow(new DuplicateBlobException(id1));
+    expect(blob.moveTo(id2, null)).andStubReturn(blob2);
+    expect(blob.moveTo(null, null)).andStubThrow(new UnsupportedOperationException());
     replay(blob);
     replay(blob2);
     replay(con);
 
-    sb.moveTo(blob.getId(), null);
+    try {
+      sb.moveTo(blob.getId(), null);
+      fail("Failed to rcv expected exception");
+    } catch (DuplicateBlobException e) {
+    }
+
     sb.moveTo(blob2.getId(), null);
 
     try {
       sb.moveTo(null, null);
       fail("Failed to rcv expected exception");
-    } catch (NullPointerException e) {
+    } catch (UnsupportedOperationException e) {
     }
 
     verify(blob);

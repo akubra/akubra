@@ -268,7 +268,7 @@ public class TransactionalStoreTest {
       throws Exception {
     doInTxn(new Action() {
         public void run(BlobStoreConnection con) throws Exception {
-          con.getBlob(oldId, null).moveTo(con.getBlob(newId, null));
+          con.getBlob(oldId, null).moveTo(newId, null);
           assertFalse(con.getBlob(oldId, null).exists());
 
           Blob b = con.getBlob(newId, null);

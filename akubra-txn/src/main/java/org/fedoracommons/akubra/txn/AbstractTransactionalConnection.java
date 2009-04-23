@@ -373,19 +373,17 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
     }
 
     //@Override
-    public void moveTo(Blob blob) throws IOException {
+    public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
       check(true, false);
-      if (blob == null)
-        throw new NullPointerException("Cannot move to null blob");
-      if (!(blob instanceof TxnBlob))
-        throw new IllegalArgumentException("blob " + blob + " is not a " + TxnBlob.class);
+      TxnBlob dest = (TxnBlob) getConnection().getBlob(blobId, hints);
 
-      renameBlob(getId(), blob.getId(), storeId);
+      renameBlob(getId(), blobId, storeId);
 
-      ((TxnBlob) blob).storeBlob = storeBlob;
-      ((TxnBlob) blob).storeId   = storeId;
+      dest.storeBlob = storeBlob;
+      dest.storeId = storeId;
       storeBlob = null;
       storeId   = null;
+      return dest;
     }
 
     //@Override

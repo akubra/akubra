@@ -29,7 +29,6 @@ import java.net.URI;
 
 import java.rmi.RemoteException;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.fedoracommons.akubra.Blob;
@@ -46,7 +45,6 @@ import org.fedoracommons.akubra.rmi.remote.RemoteBlob;
 class ClientBlob extends AbstractBlob {
   private final RemoteBlob          remote;
   private final StreamManager       streamMgr;
-  private final Map<String, String> hints;
 
   /**
    * Creates a new ClientBlob object.
@@ -54,16 +52,14 @@ class ClientBlob extends AbstractBlob {
    * @param con the connection
    * @param streamMgr the stream manager
    * @param remote stub for a remote blob
-   * @param hints hints used while creating this blob
    *
    * @throws RemoteException on an error in obtaining the blob-id from remote
    */
-  public ClientBlob(BlobStoreConnection con, StreamManager streamMgr, RemoteBlob remote,
-                    Map<String, String> hints) throws RemoteException {
+  public ClientBlob(BlobStoreConnection con, StreamManager streamMgr,
+                    RemoteBlob remote) throws RemoteException {
     super(con, remote.getId());
     this.streamMgr   = streamMgr;
     this.remote      = remote;
-    this.hints       = (hints == null) ? null : new HashMap<String, String>(hints);
   }
 
   @Override
@@ -119,17 +115,10 @@ class ClientBlob extends AbstractBlob {
     remote.delete();
   }
 
-  public void moveTo(Blob blob) throws IOException {
+  public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
     if (getConnection().isClosed())
       throw new IOException("Connection closed");
 
-    if ((blob == null) || (blob.getId() == null))
-      throw new NullPointerException("Blob and Blob#getId must be non-null");
-
-    if (!(blob instanceof ClientBlob))
-      throw new IllegalArgumentException("Blob must be an instance of '" + ClientBlob.class
-                                         + "' instead found " + blob.getClass());
-
-    remote.moveTo(blob.getId(), ((ClientBlob) blob).hints);
+    return new ClientBlob(getConnection(), streamMgr, remote.moveTo(blobId, hints));
   }
 }

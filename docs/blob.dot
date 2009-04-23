@@ -26,56 +26,22 @@ digraph blob {
   node [shape = doublecircle]; NotExists Exists Error;
   node [shape = circle];
 
-  NotExists -> NotExists [ label = "getConnection()::*" ];
-
-  NotExists -> NotExists [ label = "getId()::*" ];
-
-  NotExists -> NotExists [ label = "delete()::*" ];
-
-  NotExists -> Exists [ label = "create()::success" ];
-  NotExists -> NotExists [ style = dotted, label = "create()::others" ];
-  NotExists -> Error [ style = dotted, label = "create()::IOException" ];
-
-  NotExists -> NotExists [ label = "exists()::false" ];
-  NotExists -> Error [ style = dotted, label = "exists()::IOException" ];
-
+  NotExists -> Error [ style = dotted, label = "*::IOException" ];
+  NotExists -> NotExists [ label = "exists() == false, delete(), getId(), getConnection()::*" ];
   NotExists -> NotExists [ label = "openInputStream()::others" ];
-  NotExists -> Error [ style = dotted, label = "openInputStream()::IOException" ];
-
-  NotExists -> NotExists [ label = "openOutputStream()::others" ];
-  NotExists -> Error [ style = dotted, label = "openOutputStream()::IOException" ];
-
+  NotExists -> Exists [ label = "openOutputStream(*,false)::DuplicateBlobException" ];
+  NotExists -> Exists [ label = "openOutputStream(*,*)::none" ];
   NotExists -> NotExists [ label = "getSize()::others" ];
-  NotExists -> Error [ style = dotted, label = "getSize()::IOException" ];
-
   NotExists -> NotExists [ style = dotted, label = "moveTo()::others" ];
-  NotExists -> Error [ style = dotted, label = "moveTo()::IOException" ];
 
-  Exists -> Exists [ label = "getConnection()::*" ];
-
-  Exists -> Exists [ label = "getId()::*" ];
-
-  Exists -> NotExists [ label = "delete()::success" ];
-  Exists -> Error [ style = dotted, label = "delete()::IOException" ];
-
-  Exists -> Exists [ style = dotted, label = "create()::others" ];
-  Exists -> Error [ style = dotted, label = "create()::IOException" ];
-
-  Exists -> Exists [ label = "exists()::true" ];
-  Exists -> Error [ style = dotted, label = "exists()::IOException" ];
-
+  Exists -> Error [ style = dotted, label = "*::IOException" ];
+  Exists -> Exists [ label = "exists() == true, getId(), getConnection()::*" ];
+  Exists -> NotExists [ label = "delete()::void" ];
   Exists -> Exists [ label = "openInputStream()::others" ];
-  Exists -> Error [ style = dotted, label = "openInputStream()::IOException" ];
-
   Exists -> Exists [ label = "openOutputStream()::others" ];
-  Exists -> Error [ style = dotted, label = "openOutputStream()::IOException" ];
-
   Exists -> Exists [ label = "getSize()::success" ];
-  Exists -> Error [ style = dotted, label = "getSize()::IOException" ];
-
   Exists -> NotExists [ label = "moveTo()::sucess" ];
   Exists -> Exists [ style = dotted, label = "moveTo()::others" ];
-  Exists -> Error [ style = dotted, label = "moveTo()::IOException" ];
 
   Error -> Error [ label = "*::*" ];
 }

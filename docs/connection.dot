@@ -26,22 +26,14 @@ digraph connection {
   node [shape = doublecircle]; Open Closed Error;
   node [shape = circle];
 
-  Open -> Open [ label = "getBlobStore()::*" ];
-
-  Open -> Open [ label = "isClosed()::*" ];
-
-  Open -> Open [ label = "listBlobIds()::success" ];
-  Open -> Error [ style = dotted, label = "listBlobIds()::IOException" ];
-
-  Open -> Open [ label = "getBlob()::success" ];
-  Open -> Error [ style = dotted, label = "getBlob()::IOException" ];
-  Open -> Open [ style = dotted, label = "getBlob()::otherExceptions" ];
-
+  Open -> Error [ style = dotted, label = "*::IOException" ];
+  Open -> Open [ label = "isClosed(), getBlobStore()::*" ];
+  Open -> Open [ label = "listBlobIds()::none" ];
+  Open -> Open [ label = "getBlob()::others" ];
   Open -> Closed [ label = "close()::*" ];
 
-  Error -> Closed [ label = "close()::*" ];
-
-  Error -> Error [ label = "others::*" ];
-
   Closed -> Closed [ label = "*::*" ];
+
+  Error -> Closed [ label = "close()::*" ];
+  Error -> Error [ label = "others::*" ];
 }

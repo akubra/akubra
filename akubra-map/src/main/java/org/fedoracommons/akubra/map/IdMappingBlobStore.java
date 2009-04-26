@@ -19,54 +19,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fedoracommons.akubra.mapping;
+package org.fedoracommons.akubra.map;
 
 import java.io.IOException;
+
 import java.net.URI;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
-import javax.sql.DataSource;
 import javax.transaction.Transaction;
 
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.impl.AbstractBlobStore;
+import org.fedoracommons.akubra.impl.StreamManager;
 
 /**
- * A non-transactional wrapper that provides arbitrary, caller-specified blob
- * ids over an existing (non-transactional) BlobStore that only supports
- * store-generated ids.
+ * Wraps an existing {@link BlobStore} to provide a blob id mapping layer.
  *
  * @author Chris Wilper
  */
-public class MappingBlobStore extends AbstractBlobStore {
-  private final BlobStore wrappedStore;
-  private final DataSource dataSource;
-  private final String mapTable;
+public class IdMappingBlobStore extends AbstractBlobStore {
+  private final BlobStore store;
+  private final IdMapper mapper;
 
-  public MappingBlobStore(URI id, BlobStore wrappedStore, DataSource dataSource,
-                          String mapTable) {
+  /**
+   * Creates an instance.
+   *
+   * @param id the id associated with this store.
+   * @param store the store to wrap.
+   * @param mapper the mapper to use.
+   */
+  public IdMappingBlobStore(URI id, BlobStore store, IdMapper mapper) {
     super(id);
-    this.wrappedStore = wrappedStore;
-    this.dataSource = dataSource;
-    this.mapTable = mapTable;
+    this.store = store;
+    this.mapper = mapper;
   }
 
   //@Override
   public BlobStoreConnection openConnection(Transaction tx) throws IOException {
-    BlobStoreConnection bsConn = wrappedStore.openConnection(tx);
-    try {
-      Connection dbConn = dataSource.getConnection();
-      return new MappingBlobStoreConnection(this, bsConn, dbConn, mapTable);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
+    BlobStoreConnection connection = store.openConnection(tx);
+    return new IdMappingBlobStoreConnection(this, connection, mapper);
   }
 
-  //@Override
+  // TODO: remove after setQuiescent is removed from BlobStore interface
   public boolean setQuiescent(boolean quiescent) throws IOException {
-    return wrappedStore.setQuiescent(quiescent);
+    return store.setQuiescent(quiescent);
   }
+
 }

@@ -144,7 +144,7 @@
   <modules>
     <module>akubra-core</module>
     <module>akubra-fs</module>
-    <module>akubra-mapping</module>
+    <module>akubra-map</module>
     <module>akubra-mem</module>
     <module>akubra-txn</module>
     <module>akubra-www</module>

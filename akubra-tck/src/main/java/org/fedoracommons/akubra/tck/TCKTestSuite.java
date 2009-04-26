@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
-import java.util.Map;
 
 import javax.transaction.Transaction;
 
@@ -47,7 +46,6 @@ import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.UnsupportedIdException;
 import org.fedoracommons.akubra.MissingBlobException;
-import org.fedoracommons.akubra.impl.AbstractBlob;
 
 /**
  * A suite of unit tests for Akubra stores.

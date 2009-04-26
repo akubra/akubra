@@ -30,7 +30,6 @@ import javax.transaction.Transaction;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.impl.AbstractBlobStore;
-import org.fedoracommons.akubra.impl.StreamManager;
 
 /**
  * Wraps an existing {@link BlobStore} to provide a blob id mapping layer.

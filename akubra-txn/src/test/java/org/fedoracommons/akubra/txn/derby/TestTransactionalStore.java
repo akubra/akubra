@@ -109,6 +109,55 @@ public class TestTransactionalStore extends TCKTestSuite {
     assertTrue(store.setQuiescent(false));
   }
 
+  @Override
+  public void testListBlobs() throws Exception {
+    super.testListBlobs();
+
+    // test when there are old versions too
+    URI id1 = createId("blobBasicList1");
+    URI id2 = createId("blobBasicList2");
+    createBlob(id1, "hello", true);
+    createBlob(id2, "bye", true);
+
+    final boolean[] cv = new boolean[] { false };
+    doInThread(new ERunnable() {
+      @Override
+      public void erun() throws Exception {
+        doInTxn(new ConAction() {
+            public void run(BlobStoreConnection con) throws Exception {
+              waitFor(cv, true, 0);
+            }
+        }, false);
+      }
+    });
+
+    listBlobs(getPrefixFor("blobBasicList"), new URI[] { id1, id2 });
+    listBlobs(getPrefixFor("blobBasicLisT"), new URI[] { });
+    listBlobs(getPrefixFor("blobBasicList2"), new URI[] { id2 });
+
+    deleteBlob(id1, "hello", true);
+    listBlobs(getPrefixFor("blobBasicList"), new URI[] { id2 });
+    listBlobs(getPrefixFor("blobBasicLisT"), new URI[] { });
+    listBlobs(getPrefixFor("blobBasicList2"), new URI[] { id2 });
+
+    deleteBlob(id2, "bye", true);
+    listBlobs(getPrefixFor("blobBasicList"), new URI[] { });
+    listBlobs(getPrefixFor("blobBasicLisT"), new URI[] { });
+    listBlobs(getPrefixFor("blobBasicList2"), new URI[] { });
+
+    createBlob(id1, "hello2", true);
+    listBlobs(getPrefixFor("blobBasicList"), new URI[] { id1 });
+    listBlobs(getPrefixFor("blobBasicLisT"), new URI[] { });
+    listBlobs(getPrefixFor("blobBasicList1"), new URI[] { id1 });
+
+    deleteBlob(id1, "hello2", true);
+    listBlobs(getPrefixFor("blobBasicList"), new URI[] { });
+    listBlobs(getPrefixFor("blobBasicLisT"), new URI[] { });
+    listBlobs(getPrefixFor("blobBasicList1"), new URI[] { });
+
+    notify(cv, true);
+  }
+
   /**
    * Test deletions are done and cleaned up properly under various combinations of
    * creating/moving/deleting blobs.

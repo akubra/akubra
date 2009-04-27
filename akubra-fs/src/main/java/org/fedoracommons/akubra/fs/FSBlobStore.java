@@ -74,6 +74,12 @@ import org.fedoracommons.akubra.util.PathAllocator;
  * @author Chris Wilper
  */
 public class FSBlobStore extends AbstractBlobStore {
+  /**
+   * Connection hint indicating that the client will not call {@link BlobStoreConnection#sync}; the
+   * associated value must be "true" (case insesitive).
+   */
+  public static final String WILL_NOT_SYNC = "org.fedoracommons.akubra.will_not_sync";
+
   private final File baseDir;
   private final PathAllocator pAlloc;
   private final StreamManager manager = new StreamManager();
@@ -108,7 +114,9 @@ public class FSBlobStore extends AbstractBlobStore {
     if (tx != null) {
       throw new UnsupportedOperationException();
     }
-    return new FSBlobStoreConnection(this, baseDir, pAlloc, manager);
+
+    boolean no_sync = (hints != null) && Boolean.parseBoolean(hints.get(WILL_NOT_SYNC));
+    return new FSBlobStoreConnection(this, baseDir, pAlloc, manager, no_sync);
   }
 
   //@Override

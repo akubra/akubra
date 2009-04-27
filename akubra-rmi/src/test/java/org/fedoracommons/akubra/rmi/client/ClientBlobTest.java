@@ -87,6 +87,9 @@ public class ClientBlobTest {
                                   throws IOException {
           return null;
         }
+
+        public void sync() {
+        }
       };
 
     cb = new ClientBlob(con, new StreamManager(), (RemoteBlob) sb.getExported());

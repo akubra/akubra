@@ -22,13 +22,19 @@
 package org.fedoracommons.akubra.fs;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
@@ -42,14 +48,18 @@ import org.fedoracommons.akubra.util.PathAllocator;
  * @author Chris Wilper
  */
 class FSBlobStoreConnection extends AbstractBlobStoreConnection {
+  private static final Log log = LogFactory.getLog(FSBlobStoreConnection.class);
+
   private final File baseDir;
   private final PathAllocator pAlloc;
+  private final Set<File>     modified;
 
   FSBlobStoreConnection(BlobStore blobStore, File baseDir, PathAllocator pAlloc,
-                        StreamManager manager) {
+                        StreamManager manager, boolean noSync) {
     super(blobStore, manager);
     this.baseDir = baseDir;
     this.pAlloc = pAlloc;
+    this.modified = noSync ? null : new HashSet<File>();
   }
 
 
@@ -67,7 +77,7 @@ class FSBlobStoreConnection extends AbstractBlobStoreConnection {
       }
     }
 
-    return new FSBlob(this, baseDir, blobId, streamManager);
+    return new FSBlob(this, baseDir, blobId, streamManager, modified);
   }
 
   //@Override
@@ -78,4 +88,35 @@ class FSBlobStoreConnection extends AbstractBlobStoreConnection {
     return new FSBlobIdIterator(baseDir, filterPrefix);
   }
 
+  //@Override
+  public void sync() throws IOException {
+    if (isClosed())
+      throw new IllegalStateException("Connection closed.");
+
+    if (modified == null)
+      throw new UnsupportedOperationException("You promised you weren't going to call sync!");
+
+    for (File f : modified) {
+      try {
+        FileInputStream fis = new FileInputStream(f);
+        try {
+          fis.getFD().sync();
+        } finally {
+          fis.close();
+        }
+      } catch (IOException ioe) {
+        log.warn("Error sync'ing file '" + f + "'", ioe);
+      }
+    }
+
+    modified.clear();
+  }
+
+  @Override
+  public void close() {
+    if (modified != null)
+      modified.clear();
+
+    super.close();
+  }
 }

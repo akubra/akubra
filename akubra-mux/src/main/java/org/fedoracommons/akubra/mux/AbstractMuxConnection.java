@@ -37,6 +37,9 @@ import javax.transaction.Transaction;
 
 import com.google.common.collect.Iterators;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
@@ -61,6 +64,8 @@ import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
  * @see MuxBlob
  */
 public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection {
+  private static final Log log = LogFactory.getLog(AbstractBlobStoreConnection.class);
+
   /**
    * The transaction to pass to while opening connections to the backing stores. Note that
    * this transaction is only passed to transaction capable stores. A null is passed for
@@ -177,5 +182,29 @@ public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection 
       iterators.add(getConnection(store, null).listBlobIds(filterPrefix));
 
     return Iterators.concat(iterators.iterator());
+  }
+
+  //@Override
+  public void sync() throws IOException {
+    if (cons == null)
+      throw new IllegalStateException("Connection closed.");
+
+    Exception exc = null;
+
+    for (BlobStoreConnection con : cons.values()) {
+      try {
+        con.sync();
+      } catch (Exception e) {
+        if (exc == null)
+          exc = e;
+        else
+          log.warn("Error sync'ing connection " + con, e);
+      }
+    }
+
+    if (exc instanceof IOException)
+      throw (IOException) exc;
+    if (exc instanceof RuntimeException)
+      throw (RuntimeException) exc;
   }
 }

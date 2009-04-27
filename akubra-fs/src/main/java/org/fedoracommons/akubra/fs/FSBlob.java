@@ -31,6 +31,7 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.Set;
 
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.DuplicateBlobException;
@@ -42,6 +43,10 @@ import org.fedoracommons.akubra.impl.StreamManager;
 /**
  * Filesystem-backed Blob implementation.
  *
+ * <p>A note on syncing: in order for a newly created, deleted, or moved file to be properly
+ * sync'd the directory has to be fsync'd too; however, Java does not provide a way to do this.
+ * Hence it is possible to loose a complete file despite having sync'd.
+ *
  * @author Chris Wilper
  */
 class FSBlob extends AbstractBlob {
@@ -49,6 +54,7 @@ class FSBlob extends AbstractBlob {
   private final URI canonicalId;
   private final File file;
   private final StreamManager manager;
+  private final Set<File>     modified;
 
   /**
    * Create a file based blob
@@ -57,13 +63,15 @@ class FSBlob extends AbstractBlob {
    * @param baseDir the baseDir of the store
    * @param blobId the identifier for the blob
    * @param manager the stream manager
+   * @param modified the set of modified files in the connection; may be null
    */
-  FSBlob(FSBlobStoreConnection connection, File baseDir, URI blobId, StreamManager manager)
-      throws UnsupportedIdException {
+  FSBlob(FSBlobStoreConnection connection, File baseDir, URI blobId, StreamManager manager,
+         Set<File> modified) throws UnsupportedIdException {
     super(connection, blobId);
     this.canonicalId = validateId(blobId);
     this.file = new File(baseDir, canonicalId.getSchemeSpecificPart());
     this.manager = manager;
+    this.modified = modified;
   }
 
   @Override
@@ -95,6 +103,10 @@ class FSBlob extends AbstractBlob {
         throw new DuplicateBlobException(getId());
 
       makeParentDirs(file);
+
+      if (modified != null)
+        modified.add(file);
+
       return manager.manageOutputStream(getConnection(), new FileOutputStream(file));
     } finally {
       manager.unlockState();
@@ -131,6 +143,9 @@ class FSBlob extends AbstractBlob {
     try {
       if (!file.delete() && file.exists())
         throw new IOException("Failed to delete file: " + file);
+
+      if (modified != null)
+        modified.remove(file);
     } finally {
       manager.unlockState();
     }
@@ -159,6 +174,9 @@ class FSBlob extends AbstractBlob {
 
         throw new IOException("Rename failed for an unknown reason.");
       }
+
+      if (modified != null && modified.remove(file))
+        modified.add(other);
 
       return dest;
     } finally {

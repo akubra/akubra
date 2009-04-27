@@ -99,6 +99,11 @@ class IdMappingBlobStoreConnection implements BlobStoreConnection {
   }
 
   //@Override
+  public void sync() throws IOException {
+    connection.sync();
+  }
+
+  //@Override
   public void close() {
     if (!closed) {
       connection.close();

@@ -57,7 +57,7 @@ public class TestFSBlob {
     FSBlobStore store = new FSBlobStore(id, baseDir);
     PathAllocator pAlloc = new DefaultPathAllocator();
     mgr = new StreamManager();
-    conn = new FSBlobStoreConnection(store, baseDir, pAlloc, mgr);
+    conn = new FSBlobStoreConnection(store, baseDir, pAlloc, mgr, true);
   }
 
   @AfterClass
@@ -123,7 +123,7 @@ public class TestFSBlob {
       URI uri = null;
       if (id != null)
         uri = new URI(id);
-      return new FSBlob(conn, baseDir, uri, mgr);
+      return new FSBlob(conn, baseDir, uri, mgr, null);
     } catch (URISyntaxException e) {
       throw new RuntimeException(e);
     } catch (NullPointerException e) {

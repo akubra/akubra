@@ -81,6 +81,14 @@ public interface RemoteConnection extends Remote {
                            throws RemoteException, IOException;
 
   /**
+   * Flush all blobs associated with the remote connection and fsync.
+   *
+   * @throws RemoteException on an error in rmi transport
+   * @throws IOException error reported by remote server
+   */
+  void sync() throws RemoteException, IOException;
+
+  /**
    * Close this on the remote side.
    *
    * @throws RemoteException on an error in rmi transport

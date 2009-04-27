@@ -112,4 +112,9 @@ class WWWConnection extends AbstractBlobStoreConnection {
   public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
     throw new UnsupportedOperationException("blob-id listing not supported");
   }
+
+  //@Override
+  public void sync() throws IOException {
+    throw new UnsupportedOperationException("sync'ing not supported");
+  }
 }

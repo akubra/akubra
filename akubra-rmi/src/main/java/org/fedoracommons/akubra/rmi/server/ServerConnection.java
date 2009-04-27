@@ -74,6 +74,11 @@ public class ServerConnection extends UnicastExportable implements RemoteConnect
     return new ServerIterator<URI>(con.listBlobIds(filterPrefix), getExporter());
   }
 
+  //@Override
+  public void sync() throws IOException {
+    con.sync();
+  }
+
   public void close() {
     unExport(false);
     con.close();

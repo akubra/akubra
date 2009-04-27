@@ -101,6 +101,21 @@ public interface BlobStoreConnection {
   Iterator<URI> listBlobIds(String filterPrefix) throws IOException;
 
   /**
+   * Flush all blobs associated with this connection and fsync. After this method completes all
+   * data should be comitted to stable storage (for stores that are backed by stable storage).
+   * However, whether this is really the case will depend on the storage used by the store (e.g.
+   * for a local filesystem based store it'll depend on the OS config and hardware, i.e. whether
+   * the disk's write cache is flushed or not).
+   *
+   * <p>This may or may not flush any open output-streams. For reliable results ensure that all
+   * output streams are closed before calling sync.
+   *
+   * @throws IOException if any error occurred trying to flush and sync
+   * @throws UnsupportedOperationException if the store is not capable of syncing
+   */
+  void sync() throws IOException, UnsupportedOperationException;
+
+  /**
    * Close the connection to the blob store. After this, all Blob and BlobStoreConnection
    * operations except for {@link #getBlobStore getBlobStore}, {@link #isClosed isClosed},
    * {@link #close close}, {@link Blob#getId Blob.getId}, and {@link Blob#getConnection

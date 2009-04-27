@@ -111,4 +111,8 @@ class ClientConnection extends AbstractBlobStoreConnection {
     return new ClientIterator<URI>(ri, ITERATOR_BATCH_SIZE);
   }
 
+  //@Override
+  public void sync() throws IOException {
+    remote.sync();
+  }
 }

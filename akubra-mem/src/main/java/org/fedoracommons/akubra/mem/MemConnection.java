@@ -83,4 +83,10 @@ class MemConnection extends AbstractBlobStoreConnection {
       });
     }
   }
+
+  //@Override
+  public void sync() {
+    if (isClosed())
+      throw new IllegalStateException("Connection closed.");
+  }
 }

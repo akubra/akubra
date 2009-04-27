@@ -23,9 +23,15 @@ package org.fedoracommons.akubra.fs;
 
 import java.io.File;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.transaction.Transaction;
 
 import org.testng.annotations.AfterSuite;
 
+import org.fedoracommons.akubra.Blob;
+import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.tck.TCKTestSuite;
 
 /**
@@ -69,11 +75,52 @@ public class TestFSBlobStoreTCK extends TCKTestSuite {
     return URI.create("urn:foo");
   }
 
+  @Override
   protected URI[] getAliases(URI uri) {
     return new URI[] {
       uri,
       URI.create("file:foo/../" + uri.getSchemeSpecificPart()),
       URI.create("file:./" + uri.getSchemeSpecificPart()),
     };
+  }
+
+  @Override
+  public void testSync() throws Exception {
+    super.testSync();
+
+    // test will-not-sync hint = true
+    final Map<String, String> hints = new HashMap<String, String>();
+    hints.put(FSBlobStore.WILL_NOT_SYNC, "true");
+
+    shouldFail(new Action() {
+      public void run(Transaction txn) throws Exception {
+        BlobStoreConnection con = store.openConnection(txn, hints);
+        con.sync();
+      }
+    }, UnsupportedOperationException.class, null);
+
+    shouldFail(new Action() {
+      public void run(Transaction txn) throws Exception {
+        BlobStoreConnection con = store.openConnection(txn, hints);
+
+        Blob b = getBlob(con, createId("blobConSync3"), null);
+        createBlob(con, b, "foos");
+        b = moveBlob(con, b, createId("blobConSync4"), "foos");
+        deleteBlob(con, b);
+
+        con.sync();
+      }
+    }, UnsupportedOperationException.class, null);
+
+    // test will-not-sync hint = false
+    hints.put(FSBlobStore.WILL_NOT_SYNC, "false");
+
+    runTests(new Action() {
+      public void run(Transaction txn) throws Exception {
+        BlobStoreConnection con = store.openConnection(txn, hints);
+        con.sync();
+        con.close();
+      }
+    });
   }
 }

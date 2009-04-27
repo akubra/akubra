@@ -126,6 +126,14 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
     return b;
   }
 
+  //@Override
+  public void sync() throws IOException {
+    if (isClosed())
+      throw new IllegalStateException("Connection closed.");
+
+    bStoreCon.sync();
+  }
+
   private Object[] createBlob(URI blobId, Map<String, String> hints) throws IOException {
     if (blobId == null)
       throw new UnsupportedOperationException("id-generation is not currently supported");
@@ -263,6 +271,13 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
    * @see Synchronization#beforeCompletion
    */
   public void beforeCompletion() {
+    try {
+      bStoreCon.sync();
+    } catch (UnsupportedOperationException uoe) {
+      logger.warn("Sync'ing underlying connection '" + bStoreCon + "' not supported", uoe);
+    } catch (IOException ioe) {
+      throw new RuntimeException("Error sync'ing underlying connection " + bStoreCon, ioe);
+    }
   }
 
   /**

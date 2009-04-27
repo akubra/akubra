@@ -59,7 +59,7 @@ public class WWWTCKTest extends TCKTestSuite {
   private File baseDir;
 
   public WWWTCKTest() throws Exception {
-    super(createStore(), getStoreId(), false, false, false, true, false, false);
+    super(createStore(), getStoreId(), false, false, false, true, false, false, false);
   }
 
   private static URI getStoreId() throws Exception {

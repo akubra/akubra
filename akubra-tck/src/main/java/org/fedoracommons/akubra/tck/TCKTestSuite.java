@@ -81,6 +81,7 @@ public abstract class TCKTestSuite extends AbstractTests {
   protected final boolean isOutputSupp;
   protected final boolean isDeleteSupp;
   protected final boolean isMoveToSupp;
+  protected final boolean isSyncSupp;
 
   /**
    * Create a new test suite instance. This assumes a fully functional store, i.e. one that
@@ -93,7 +94,7 @@ public abstract class TCKTestSuite extends AbstractTests {
    */
   protected TCKTestSuite(BlobStore store, URI storeId, boolean isTransactional,
                          boolean isIdGenSupp) {
-    this(store, storeId, isTransactional, isIdGenSupp, true, true, true, true);
+    this(store, storeId, isTransactional, isIdGenSupp, true, true, true, true, true);
   }
 
   /**
@@ -107,10 +108,11 @@ public abstract class TCKTestSuite extends AbstractTests {
    * @param isOutputSupp    true if <var>Blob.openOutputStream()</var> is supported
    * @param isDeleteSupp    true if <var>Blob.delete()</var> is supported
    * @param isMoveToSupp    true if <var>Blob.moveTo()</var> is supported
+   * @param isSyncSupp      true if <var>con.sync()</var> is supported
    */
   protected TCKTestSuite(BlobStore store, URI storeId, boolean isTransactional, boolean isIdGenSupp,
                          boolean isListIdsSupp, boolean isOutputSupp, boolean isDeleteSupp,
-                         boolean isMoveToSupp) {
+                         boolean isMoveToSupp, boolean isSyncSupp) {
     super(store, isTransactional);
     this.storeId       = storeId;
     this.isIdGenSupp   = isIdGenSupp;
@@ -118,6 +120,7 @@ public abstract class TCKTestSuite extends AbstractTests {
     this.isOutputSupp  = isOutputSupp;
     this.isDeleteSupp  = isDeleteSupp;
     this.isMoveToSupp  = isMoveToSupp;
+    this.isSyncSupp    = isSyncSupp;
   }
 
   /**
@@ -529,6 +532,15 @@ public abstract class TCKTestSuite extends AbstractTests {
               }
             }, IllegalStateException.class, null);
           }
+
+          if (isSyncSupp) {
+            shouldFail(new ERunnable() {
+              @Override
+              public void erun() throws Exception {
+                con.sync();
+              }
+            }, IllegalStateException.class, null);
+          }
         }
       }
     });
@@ -679,6 +691,63 @@ public abstract class TCKTestSuite extends AbstractTests {
     listBlobs(getPrefixFor("blobBasicList"), new URI[] { });
     listBlobs(getPrefixFor("blobBasicLisT"), new URI[] { });
     listBlobs(getPrefixFor("blobBasicList2"), new URI[] { });
+  }
+
+  /**
+   * Test sync.
+   */
+  @Test(groups={ "connection", "manipulatesBlobs" }, dependsOnGroups={ "init" })
+  public void testSync() throws Exception {
+    // check if sync is supported
+    if (!isSyncSupp) {
+      shouldFail(new ConAction() {
+        public void run(BlobStoreConnection con) throws Exception {
+          con.sync();
+        }
+      }, UnsupportedOperationException.class, null);
+
+      return;
+    }
+
+    // nothing really to test, other than that it doesn't throw an exception
+    final URI id1 = createId("blobConSync1");
+    final URI id2 = createId("blobConSync2");
+
+    runTests(new ConAction() {
+        public void run(BlobStoreConnection con) throws Exception {
+          con.sync();
+        }
+    });
+
+    runTests(new ConAction() {
+        public void run(BlobStoreConnection con) throws Exception {
+          Blob b = getBlob(con, id1, null);
+          createBlob(con, b, "foos");
+          con.sync();
+          deleteBlob(con, b);
+        }
+    });
+
+    runTests(new ConAction() {
+        public void run(BlobStoreConnection con) throws Exception {
+          Blob b = getBlob(con, id1, null);
+          createBlob(con, b, "foos");
+          deleteBlob(con, b);
+          con.sync();
+        }
+    });
+
+    runTests(new ConAction() {
+        public void run(BlobStoreConnection con) throws Exception {
+          Blob b = getBlob(con, id1, null);
+          createBlob(con, b, "foos");
+          b = moveBlob(con, b, id2, "foos");
+          con.sync();
+          deleteBlob(con, b);
+        }
+    });
+
+    assertNoBlobs(getPrefixFor("blobConSync"));
   }
 
 

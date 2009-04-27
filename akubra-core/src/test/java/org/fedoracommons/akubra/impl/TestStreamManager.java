@@ -305,5 +305,9 @@ public class TestStreamManager {
     public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
       return null;
     }
+
+    //@Override
+    public void sync() throws IOException {
+    }
   }
 }

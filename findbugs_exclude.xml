@@ -21,10 +21,4 @@
     <Class name="org.fedoracommons.akubra.txn.derby.TransactionalStore$4" />
     <Method name="run" />
   </Match>
-
-  <Match>
-    <Bug pattern="IS2_INCONSISTENT_SYNC" />
-    <Class name="org.fedoracommons.akubra.txn.AbstractTransactionalStore" />
-    <Field name="wrappedStore" />
-  </Match>
 </FindBugsFilter>

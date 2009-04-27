@@ -38,11 +38,14 @@ import javax.transaction.Transaction;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
+import org.fedoracommons.akubra.DuplicateBlobException;
+import org.fedoracommons.akubra.MissingBlobException;
 import org.fedoracommons.akubra.UnsupportedIdException;
 import org.fedoracommons.akubra.mem.MemBlobStore;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -222,6 +225,32 @@ public class AbstractMuxConnectionTest {
 
     assertFalse(b1.exists());
     assertFalse(b3.exists());
+    assertTrue(b2.exists());
+    assertTrue(b4.exists());
+
+    try {
+      b1.moveTo(b2.getId(), s2Hint);
+      fail("Did not get expected MissingBlobException");
+    } catch (MissingBlobException mbe) {
+    }
+
+    assertFalse(b1.exists());
+    assertFalse(b3.exists());
+    assertTrue(b2.exists());
+    assertTrue(b4.exists());
+
+    b1.openOutputStream(0, true).close();
+    assertTrue(b1.exists());
+    assertTrue(b3.exists());
+
+    try {
+      b1.moveTo(b2.getId(), s2Hint);
+      fail("Did not get expected DuplicateBlobException");
+    } catch (DuplicateBlobException dbe) {
+    }
+
+    assertTrue(b1.exists());
+    assertTrue(b3.exists());
     assertTrue(b2.exists());
     assertTrue(b4.exists());
   }

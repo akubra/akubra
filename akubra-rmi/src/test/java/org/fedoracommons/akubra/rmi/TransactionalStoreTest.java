@@ -51,6 +51,7 @@ import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.mem.MemBlobStore;
+import org.fedoracommons.akubra.tck.BtmUtils;
 import org.fedoracommons.akubra.txn.derby.TransactionalStore;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;

@@ -116,7 +116,8 @@ public abstract class AbstractTests {
     assertFalse(con.getBlob(b.getId(), null).exists());
   }
 
-  protected void moveBlob(BlobStoreConnection con, Blob ob, URI nbId, String body) throws Exception {
+  protected Blob moveBlob(BlobStoreConnection con, Blob ob, URI nbId, String body)
+      throws Exception {
     Blob nb = ob.moveTo(nbId, null);
     assertNotNull(nb);
     assertEquals(nb.getId(), nbId);
@@ -130,6 +131,8 @@ public abstract class AbstractTests {
       assertEquals(getBody(nb), body);
       assertEquals(getBody(con.getBlob(nbId, null)), body);
     }
+
+    return nb;
   }
 
   protected void listBlobs(BlobStoreConnection con, String prefix, URI[] expected)
@@ -312,6 +315,16 @@ public abstract class AbstractTests {
         rethrow(t);
       }
     }
+  }
+
+  protected void shouldFail(final Action test, Class<? extends Throwable> expExc, URI id)
+      throws Exception {
+    shouldFail(new ERunnable() {
+      @Override
+      public void erun() throws Exception {
+        runTests(test);
+      }
+    }, expExc, id);
   }
 
   protected void shouldFail(final ConAction test, Class<? extends Throwable> expExc, URI id)

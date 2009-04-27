@@ -22,8 +22,6 @@
 package org.fedoracommons.akubra.map;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import java.net.URI;
 
@@ -33,34 +31,26 @@ import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.MissingBlobException;
+import org.fedoracommons.akubra.impl.BlobWrapper;
 
 /**
  * Wraps an existing {@Blob} to provide id mapping where appropriate.
  *
  * @author Chris Wilper
  */
-class IdMappingBlob implements Blob {
+class IdMappingBlob extends BlobWrapper {
   private final BlobStoreConnection connection;
   private final Blob blob;
   private final IdMapper mapper;
 
   public IdMappingBlob(BlobStoreConnection connection, Blob blob, IdMapper mapper) {
+    super(blob, connection);
     this.connection = connection;
     this.blob = blob;
     this.mapper = mapper;
   }
 
-  //@Override
-  public void delete() throws IOException {
-    blob.delete();
-  }
-
-  //@Override
-  public boolean exists() throws IOException {
-    return blob.exists();
-  }
-
-  //@Override
+  @Override
   public URI getCanonicalId() throws IOException {
     URI internalId = blob.getCanonicalId();
     if (internalId == null)
@@ -68,22 +58,12 @@ class IdMappingBlob implements Blob {
     return mapper.getExternalId(internalId);
   }
 
-  //@Override
-  public BlobStoreConnection getConnection() {
-    return connection;
-  }
-
-  //@Override
+  @Override
   public URI getId() {
     return mapper.getExternalId(blob.getId());
   }
 
-  //@Override
-  public long getSize() throws IOException, MissingBlobException {
-    return blob.getSize();
-  }
-
-  //@Override
+  @Override
   public Blob moveTo(URI blobId, Map<String, String> hints) throws DuplicateBlobException,
       IOException, MissingBlobException, NullPointerException, IllegalArgumentException {
     Blob internalBlob;
@@ -92,17 +72,6 @@ class IdMappingBlob implements Blob {
     else
       internalBlob = blob.moveTo(mapper.getInternalId(blobId), hints);
     return new IdMappingBlob(connection, internalBlob, mapper);
-  }
-
-  //@Override
-  public InputStream openInputStream() throws IOException, MissingBlobException {
-    return blob.openInputStream();
-  }
-
-  //@Override
-  public OutputStream openOutputStream(long estimatedSize, boolean overwrite) throws IOException,
-      DuplicateBlobException {
-    return blob.openOutputStream(estimatedSize, overwrite);
   }
 
 }

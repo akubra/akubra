@@ -165,40 +165,33 @@ public class TransactionalConnection extends SQLTransactionalConnection {
 
       ResultSet rs = query.executeQuery();              // NOPMD
       return new RSBlobIdIterator(rs, false) {
-        private String  lastId;
-        private boolean afterFirst;
-        private boolean notFinished;
+        private final RSBlobIdIterator idIterator = new RSBlobIdIterator(rs, false);
 
         @Override
-        protected boolean nextRow() throws SQLException {
-          if (!afterFirst) {
-            afterFirst  = true;
-            notFinished = rs.next();
-          }
+        protected URI getNextId() throws SQLException {
+          while (true) {
+            // see if we've reached the end of the result-set
+            if (!idIterator.hasNext())
+              return null;
 
-          boolean isDel = false;
-          do {
-            if (!notFinished)
-              return false;
+            // get all the rows with the same id; the one with the largest version determines isDel
+            long    maxVers = 0;
+            boolean isDel   = true;
+            URI     curId;
 
-            long maxVers = 0;
-
-            lastId = rs.getString(1);
             do {
+              curId = idIterator.next();
               long v = rs.getLong(2);
               if (v > maxVers) {
                 maxVers = v;
                 isDel   = rs.getBoolean(3);
               }
-            } while ((notFinished = rs.next()) && rs.getString(1).equals(lastId));
-          } while (isDel);
+            } while (idIterator.hasNext() && idIterator.peek().equals(curId));
 
-          return true;
-        }
-
-        @Override
-        protected String getId() throws SQLException {
-          return lastId;
+            // if this id wasn't deleted then we're golden
+            if (!isDel)
+              return curId;
+          }
         }
       };
     } catch (SQLException sqle) {

@@ -27,12 +27,13 @@ import java.net.URI;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 import javax.sql.XAConnection;
 import javax.transaction.Transaction;
+
+import com.google.common.collect.AbstractIterator;
+import com.google.common.collect.PeekingIterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -94,17 +95,17 @@ public abstract class SQLTransactionalConnection extends AbstractTransactionalCo
    *
    * @author Ronald Tschalär
    */
-  protected static class RSBlobIdIterator implements Iterator<URI> {
+  protected static class RSBlobIdIterator extends AbstractIterator<URI>
+        implements PeekingIterator<URI> {
     protected final ResultSet rs;
     private   final boolean   closeStmt;
-    private         boolean   hasNext;
 
     /**
      * Create a new iterator.
      *
-     * @param rs        the underlying result-set to use; the result-set must either have one
-     *                  column such that <code>rs.getString(1)</code> returns a URI, or you
-     *                  must override {@link #getId}.
+     * @param rs        the underlying result-set to use; the result-set must either have at least
+     *                  one column such that <code>rs.getString(1)</code> returns a URI, or you
+     *                  must override {@link #getNextId}.
      * @param closeStmt whether to close the associated statement when closing the result-set at
      *                  the end of the iteration.
      * @throws SQLException if thrown while attempting to advance to the first row
@@ -112,54 +113,32 @@ public abstract class SQLTransactionalConnection extends AbstractTransactionalCo
     public RSBlobIdIterator(ResultSet rs, boolean closeStmt) throws SQLException {
       this.rs        = rs;
       this.closeStmt = closeStmt;
-      this.hasNext   = nextRow();
     }
 
-    //@Override
-    public boolean hasNext() {
-      return hasNext;
-    }
-
-    //@Override
-    public URI next() throws NoSuchElementException {
-      if (!hasNext)
-        throw new NoSuchElementException();
-
+    @Override
+    protected URI computeNext() {
       try {
-        URI res = URI.create(getId());
-        hasNext = nextRow();
+        URI id = getNextId();
+        if (id != null)
+          return id;
 
-        if (!hasNext)
-          close();
-
-        return res;
+        close();
+        return endOfData();
       } catch (SQLException sqle) {
         throw new RuntimeException("error reading db results", sqle);
       }
     }
 
     /**
-     * Advance to the next result row. Override if it's necessary to skip rows. Defaults
-     * to <code>rs.next()</code>.
+     * Get the next id.
      *
-     * @return false if there are no more rows; true otherwise
+     * @return the next id, or null if there are none left
      */
-    protected boolean nextRow() throws SQLException {
-      return rs.next();
-    }
+    protected URI getNextId() throws SQLException {
+      if (!rs.next())
+        return null;
 
-    /**
-     * Get the id from the current row. Defaults to <code>rs.getString(1)</code>.
-     *
-     * @return the id; this must be a uri
-     */
-    protected String getId() throws SQLException {
-      return rs.getString(1);
-    }
-
-    //@Override
-    public void remove() throws UnsupportedOperationException {
-      throw new UnsupportedOperationException();
+      return URI.create(rs.getString(1));
     }
 
     /**

@@ -23,6 +23,7 @@ package org.fedoracommons.akubra.rmi.client;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
+import static org.easymock.EasyMock.isNull;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.makeThreadSafe;
 import static org.easymock.classextension.EasyMock.replay;
@@ -36,6 +37,7 @@ import java.io.IOException;
 
 import java.net.URI;
 
+import java.util.Map;
 import javax.transaction.Transaction;
 
 import org.fedoracommons.akubra.BlobStore;
@@ -81,17 +83,18 @@ public class ClientStoreTest {
 
     reset(store);
     makeThreadSafe(store, true);
-    expect(store.openConnection(null)).andThrow(new UnsupportedOperationException());
-    expect(store.openConnection(isA(ServerTransactionListener.class))).andReturn(con);
+    expect(store.openConnection(null, null)).andThrow(new UnsupportedOperationException());
+    expect(store.openConnection(isA(ServerTransactionListener.class), (Map) isNull())).
+        andReturn(con);
     replay(store);
 
     try {
-      cs.openConnection(null);
+      cs.openConnection(null, null);
       fail("Failed to rcv expected exception");
     } catch (UnsupportedOperationException e) {
     }
 
-    BlobStoreConnection rc = cs.openConnection(tx);
+    BlobStoreConnection rc = cs.openConnection(tx, null);
     assertTrue(rc instanceof ClientConnection);
 
     verify(store);

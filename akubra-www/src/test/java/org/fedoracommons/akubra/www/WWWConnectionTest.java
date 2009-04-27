@@ -54,8 +54,8 @@ public class WWWConnectionTest {
   @BeforeSuite
   public void setUp() throws Exception {
     store          = new WWWStore(URI.create("urn:www:test"));
-    con            = store.openConnection(null);
-    closeableCon   = store.openConnection(null);
+    con            = store.openConnection(null, null);
+    closeableCon   = store.openConnection(null, null);
   }
 
   /**

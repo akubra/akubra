@@ -32,6 +32,7 @@ import java.sql.PreparedStatement;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import javax.sql.XAConnection;
@@ -252,7 +253,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
    * @throws IllegalStateException if no backing store has been set yet
    */
   //@Override
-  public BlobStoreConnection openConnection(Transaction tx)
+  public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
       throws IllegalStateException, IOException {
     long version;
     synchronized (this) {
@@ -293,7 +294,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
       tx.enlistResource(xaCon.getXAResource());
 
       BlobStoreConnection bsc =
-          new TransactionalConnection(this, wrappedStore, xaCon, con, tx, version);
+          new TransactionalConnection(this, wrappedStore, xaCon, con, tx, hints, version);
 
       if (logger.isDebugEnabled())
         logger.debug("Opened connection, read-version=" + version);
@@ -544,7 +545,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
           int cntB = 0;
 
           try {
-            BlobStoreConnection bsc = wrappedStore.openConnection(null);
+            BlobStoreConnection bsc = wrappedStore.openConnection(null, null);
             try {
               while (rs.next()) {
                 cntB++;
@@ -597,7 +598,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
           try {
             int cntL = 0;
             if (logger.isTraceEnabled()) {
-              BlobStoreConnection bsc = wrappedStore.openConnection(null);
+              BlobStoreConnection bsc = wrappedStore.openConnection(null, null);
               for (Iterator<URI> iter = bsc.listBlobIds(null); iter.hasNext(); iter.next())
                 cntL++;
               bsc.close();

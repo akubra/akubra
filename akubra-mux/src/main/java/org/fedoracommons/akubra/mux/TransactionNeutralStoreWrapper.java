@@ -22,6 +22,7 @@
 package org.fedoracommons.akubra.mux;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.transaction.Transaction;
 
@@ -49,9 +50,9 @@ public class TransactionNeutralStoreWrapper extends AbstractBlobStore {
     this.store = store;
   }
 
-  public BlobStoreConnection openConnection(Transaction tx) throws UnsupportedOperationException,
-      IOException {
-    return store.openConnection(null);
+  public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
+      throws UnsupportedOperationException, IOException {
+    return store.openConnection(null, hints);
   }
 
   public boolean setQuiescent(boolean quiescent) throws IOException {

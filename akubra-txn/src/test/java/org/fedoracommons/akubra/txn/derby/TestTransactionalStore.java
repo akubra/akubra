@@ -1105,7 +1105,7 @@ public class TestTransactionalStore extends TCKTestSuite {
 
   private void doInTxn(ConAction a, boolean commit) throws Exception {
     tm.begin();
-    BlobStoreConnection con = store.openConnection(tm.getTransaction());
+    BlobStoreConnection con = store.openConnection(tm.getTransaction(), null);
 
     try {
       a.run(con);

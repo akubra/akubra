@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.rmi.RemoteException;
 
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -88,7 +89,7 @@ public class ServerTransactionListenerTest {
 
     BlobStore           store = new AbstractBlobStore(URI.create("urn:test")) {
 
-      public BlobStoreConnection openConnection(Transaction tx)
+      public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
           throws UnsupportedOperationException, IOException {
         /*
          * The st object is usable for tests till openConnection succeeds.
@@ -111,7 +112,7 @@ public class ServerTransactionListenerTest {
     };
 
     executor = Executors.newSingleThreadExecutor();
-    st = new ServerTransactionListener(store, exporter);
+    st = new ServerTransactionListener(store, null, exporter);
   }
 
   /**

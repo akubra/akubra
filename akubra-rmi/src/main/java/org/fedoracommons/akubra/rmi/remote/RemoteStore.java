@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import java.util.Map;
+
 /**
  * Represents a remote blob store.
  *
@@ -35,13 +37,16 @@ public interface RemoteStore extends Remote {
   /**
    * Open a non transactional connection on the remote blob-store.
    *
+   * @param hints A set of hints to allow the implementation to optimize the operation (can be
+   *              null)
    * @return a remote-connection handle
    *
    * @throws RemoteException on an RMI communication failure
    * @throws IOException on an error in opening a connection on the remote
    * @throws IllegalStateException if the remote is not ready to open up connections
    */
-  public RemoteConnection openConnection() throws RemoteException, IOException, IllegalStateException;
+  public RemoteConnection openConnection(Map<String, String> hints)
+      throws RemoteException, IOException, IllegalStateException;
 
   /**
    * Sets the remote store into a quiescent state.
@@ -59,9 +64,11 @@ public interface RemoteStore extends Remote {
    * Starts a Transaction listener on remote. The listener will stop after
    * opening a connection to the BlobStore.
    *
+   * @param hints A set of hints for <code>openConnection</code>
    * @return a newly allocated transaction listener
    *
    * @throws RemoteException on an RMI communication failure
    */
-  public RemoteTransactionListener startTransactionListener() throws RemoteException;
+  public RemoteTransactionListener startTransactionListener(Map<String, String> hints)
+      throws RemoteException;
 }

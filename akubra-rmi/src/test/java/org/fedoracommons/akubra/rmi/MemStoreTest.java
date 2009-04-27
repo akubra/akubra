@@ -87,7 +87,7 @@ public class MemStoreTest {
   @Test
   public void testOpenConnectionWithNullTxn() {
     try {
-      store.openConnection(null).close();
+      store.openConnection(null, null).close();
     } catch (UnsupportedOperationException e) {
       fail("openConnection() failed", e);
     } catch (IOException e) {
@@ -101,7 +101,7 @@ public class MemStoreTest {
   @Test
   public void testOpenConnectionWithTxn() {
     try {
-      store.openConnection(new MockTransaction());
+      store.openConnection(new MockTransaction(), null);
       fail("Failed to rcv an expected exceptio");
     } catch (UnsupportedOperationException e) {
     } catch (IOException e) {

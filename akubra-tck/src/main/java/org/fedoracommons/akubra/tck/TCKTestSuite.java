@@ -187,7 +187,7 @@ public abstract class TCKTestSuite extends AbstractTests {
   @Test(groups={ "store" }, dependsOnGroups={ "init" })
   public void testOpenConnectionNoTransaction() {
     try {
-      BlobStoreConnection con = store.openConnection(null);
+      BlobStoreConnection con = store.openConnection(null, null);
       if (isTransactional)
         fail("Did not get expected IOException initializing store without a transaction");
 
@@ -208,7 +208,7 @@ public abstract class TCKTestSuite extends AbstractTests {
     BlobStoreConnection con = null;
 
     try {
-      con = store.openConnection(tm.getTransaction());
+      con = store.openConnection(tm.getTransaction(), null);
       if (!isTransactional)
         fail("Did not get expected UnsupportedOperationException while initializing store with " +
              "a transaction");
@@ -422,21 +422,21 @@ public abstract class TCKTestSuite extends AbstractTests {
 
     // no operations, commit then close
     tm.begin();
-    BlobStoreConnection con = store.openConnection(tm.getTransaction());
+    BlobStoreConnection con = store.openConnection(tm.getTransaction(), null);
     tm.commit();
     con.close();
     assertTrue(con.isClosed());
 
     // no operations, roll back then close
     tm.begin();
-    con = store.openConnection(tm.getTransaction());
+    con = store.openConnection(tm.getTransaction(), null);
     tm.rollback();
     con.close();
     assertTrue(con.isClosed());
 
     // one operation, commit then close
     tm.begin();
-    con = store.openConnection(tm.getTransaction());
+    con = store.openConnection(tm.getTransaction(), null);
     Blob b = getBlob(con, id, null);
     createBlob(con, b, null);
     tm.commit();
@@ -445,7 +445,7 @@ public abstract class TCKTestSuite extends AbstractTests {
 
     // one operation, roll back then close
     tm.begin();
-    con = store.openConnection(tm.getTransaction());
+    con = store.openConnection(tm.getTransaction(), null);
     b = getBlob(con, id, "");
     deleteBlob(con, b);
     tm.rollback();
@@ -468,7 +468,7 @@ public abstract class TCKTestSuite extends AbstractTests {
     // test con.isClosed() and idempotence of con.close()
     runTests(new Action() {
       public void run(Transaction txn) throws Exception {
-        BlobStoreConnection con = store.openConnection(txn);
+        BlobStoreConnection con = store.openConnection(txn, null);
         assertFalse(con.isClosed());
 
         con.close();
@@ -485,7 +485,7 @@ public abstract class TCKTestSuite extends AbstractTests {
     // test connection operations on a closed connection
     runTests(new Action() {
       public void run(Transaction txn) throws Exception {
-        final BlobStoreConnection con = store.openConnection(txn);
+        final BlobStoreConnection con = store.openConnection(txn, null);
 
         for (int idx = 0; idx < 3; idx++) {
           con.close();
@@ -536,7 +536,7 @@ public abstract class TCKTestSuite extends AbstractTests {
     // test non-existent blob operations on a closed connection
     runTests(new Action() {
       public void run(Transaction txn) throws Exception {
-        final BlobStoreConnection con = store.openConnection(txn);
+        final BlobStoreConnection con = store.openConnection(txn, null);
         final Blob b = getBlob(con, id1, false);
 
         for (int idx = 0; idx < 3; idx++) {
@@ -568,7 +568,7 @@ public abstract class TCKTestSuite extends AbstractTests {
     // test existing blob operations on a closed connection
     runTests(new Action() {
       public void run(Transaction txn) throws Exception {
-        final BlobStoreConnection con = store.openConnection(txn);
+        final BlobStoreConnection con = store.openConnection(txn, null);
         final Blob b  = getBlob(con, id1, false);
         final Blob b2 = getBlob(con, id2, false);
         createBlob(con, b, "foo");

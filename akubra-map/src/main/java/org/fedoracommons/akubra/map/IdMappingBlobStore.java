@@ -25,6 +25,8 @@ import java.io.IOException;
 
 import java.net.URI;
 
+import java.util.Map;
+
 import javax.transaction.Transaction;
 
 import org.fedoracommons.akubra.BlobStore;
@@ -54,8 +56,8 @@ public class IdMappingBlobStore extends AbstractBlobStore {
   }
 
   //@Override
-  public BlobStoreConnection openConnection(Transaction tx) throws IOException {
-    BlobStoreConnection connection = store.openConnection(tx);
+  public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints) throws IOException {
+    BlobStoreConnection connection = store.openConnection(tx, hints);
     return new IdMappingBlobStoreConnection(this, connection, mapper);
   }
 

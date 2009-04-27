@@ -71,7 +71,7 @@ public class MuxStoreTCKTest {
   private BlobStore createMuxStore(URI storeId, List<? extends BlobStore> stores) {
     AbstractMuxStore store =
       new AbstractMuxStore(storeId) {
-          public BlobStoreConnection openConnection(Transaction tx)
+          public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
                                              throws UnsupportedOperationException, IOException {
             return new TestConnection(this, tx);
           }
@@ -142,8 +142,8 @@ public class MuxStoreTCKTest {
       // see if this blob belongs to a specific store
       if (blobId != null) {
         for (BlobStore s : ((AbstractMuxStore) getBlobStore()).getBackingStores())
-          if (getConnection(s).listBlobIds(blobId.toString()).hasNext()
-               && (getConnection(s).getBlob(blobId, hints) != null))
+          if (getConnection(s, null).listBlobIds(blobId.toString()).hasNext()
+               && (getConnection(s, null).getBlob(blobId, hints) != null))
             return s;
       }
 

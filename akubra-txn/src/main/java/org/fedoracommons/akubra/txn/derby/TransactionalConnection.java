@@ -30,6 +30,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.sql.XAConnection;
 import javax.transaction.Status;
@@ -74,13 +75,14 @@ public class TransactionalConnection extends SQLTransactionalConnection {
    * @param xaCon   the xa connection to use
    * @param con     the db connection to use
    * @param tx      the transaction we belong to
+   * @param hints   the hints to pass to <code>openConnection<code> on <var>bStore</var>
    * @param version the read version to use
    * @throws IOException if an error occurs initializing this connection
    */
   TransactionalConnection(BlobStore owner, BlobStore bStore, XAConnection xaCon, Connection con,
-                          Transaction tx, long version)
+                          Transaction tx, Map<String, String> hints, long version)
       throws IOException {
-    super(owner, bStore, xaCon, con, tx);
+    super(owner, bStore, xaCon, con, tx, hints);
     this.version = version;
 
     try {

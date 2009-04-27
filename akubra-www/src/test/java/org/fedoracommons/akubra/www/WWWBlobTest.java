@@ -53,7 +53,7 @@ public class WWWBlobTest {
   @BeforeSuite
   public void setUp() throws Exception {
     WWWStore store = new WWWStore(URI.create("urn:www:test"));
-    con      = store.openConnection(null);
+    con      = store.openConnection(null, null);
     blobId   = URI.create("http://www.google.com");
     blob     = con.getBlob(blobId, null);
   }

@@ -25,6 +25,8 @@ import java.io.IOException;
 
 import java.net.URI;
 
+import java.util.Map;
+
 import javax.transaction.Transaction;
 
 import org.fedoracommons.akubra.BlobStoreConnection;
@@ -55,10 +57,10 @@ public class ClientStore extends AbstractBlobStore {
     this.server = server;
   }
 
-  public BlobStoreConnection openConnection(Transaction tx)
+  public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
                                      throws UnsupportedOperationException, IOException {
-    RemoteConnection con = (tx == null) ? server.openConnection()
-        : new ClientTransactionListener(server.startTransactionListener(), tx).getConnection();
+    RemoteConnection con = (tx == null) ? server.openConnection(hints)
+        : new ClientTransactionListener(server.startTransactionListener(hints), tx).getConnection();
 
     return new ClientConnection(this, streamManager, con);
   }

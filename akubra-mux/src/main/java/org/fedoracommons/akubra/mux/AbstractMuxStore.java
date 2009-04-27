@@ -53,8 +53,9 @@ import org.fedoracommons.akubra.impl.AbstractBlobStore;
 
  * <p><em>Note</em>: For multiplexing non-transactional stores along with transactional stores
  * (eg. accessing www resources along with other transactional stores), the non-transactional
- * store must be wrapped such that {@link #openConnection(javax.transaction.Transaction)}
- * does not throw an exception. See {@link TransactionNeutralStoreWrapper} for use in such cases.
+ * store must be wrapped such that {@link #openConnection(javax.transaction.Transaction,
+ * java.util.Map)} does not throw an exception. See {@link TransactionNeutralStoreWrapper} for use
+ * in such cases.
  *
  * @author Pradeep Krishnan
  */

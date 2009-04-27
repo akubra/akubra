@@ -71,7 +71,8 @@ public class MemBlobStore extends AbstractBlobStore {
   }
 
   //@Override
-  public BlobStoreConnection openConnection(Transaction tx) throws UnsupportedOperationException {
+  public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
+      throws UnsupportedOperationException {
     if (tx != null)
       throw new UnsupportedOperationException("MemBlobStore does not support transactions");
 

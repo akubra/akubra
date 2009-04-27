@@ -70,10 +70,11 @@ public class ServerTransactionListener extends UnicastExportable
    * Creates a new ServerTransactionListener
    *
    * @param store the store to open a connection to
+   * @param hints A set of hints for openConnection
    * @param exporter exporter for exporting XAResource and Synchronization
    * @throws RemoteException on an error in export
    */
-  public ServerTransactionListener(final BlobStore store,
+  public ServerTransactionListener(final BlobStore store, final Map<String, String> hints,
                                    Exporter exporter) throws RemoteException {
     super(exporter);
     Executors.newSingleThreadExecutor(new ThreadFactory() {
@@ -86,7 +87,7 @@ public class ServerTransactionListener extends UnicastExportable
       }).submit(new Runnable() {
         public void run() {
           try {
-            openConnection(store);
+            openConnection(store, hints);
           } catch (Throwable t) {
             log.warn("Uncaught exception in open-connection", t);
             unExport(false);
@@ -95,13 +96,13 @@ public class ServerTransactionListener extends UnicastExportable
       });
   }
 
-  private void openConnection(BlobStore store) {
+  private void openConnection(BlobStore store, Map<String, String> hints) {
     Result<RemoteConnection> result;
 
     ServerConnection         con = null;
 
     try {
-      BlobStoreConnection res = store.openConnection(this);
+      BlobStoreConnection res = store.openConnection(this, hints);
       con      = new ServerConnection(res, getExporter());
       result   = new Result<RemoteConnection>(con);
     } catch (Throwable t) {

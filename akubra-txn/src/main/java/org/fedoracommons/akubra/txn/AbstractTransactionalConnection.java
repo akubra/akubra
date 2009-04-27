@@ -91,12 +91,14 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
    * @param owner   the blob-store we belong to
    * @param bStore  the underlying blob-store to use
    * @param tx      the transaction we belong to
+   * @param hints   A set of hints for the <code>openConnection</code> on the wrapped store
    * @throws IOException if an error occurs initializing this connection
    */
-  protected AbstractTransactionalConnection(BlobStore owner, BlobStore bStore, Transaction tx)
+  protected AbstractTransactionalConnection(BlobStore owner, BlobStore bStore, Transaction tx,
+                                            Map<String, String> hints)
       throws IOException {
     super(owner);
-    this.bStoreCon = bStore.openConnection(null);
+    this.bStoreCon = bStore.openConnection(null, hints);
     this.tx        = tx;
 
     try {

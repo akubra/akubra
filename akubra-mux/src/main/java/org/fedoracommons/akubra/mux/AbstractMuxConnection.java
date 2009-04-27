@@ -55,7 +55,7 @@ import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
  *
  * @see #getStore(URI, Map)
  * @see #getStores(String)
- * @see #getConnection(BlobStore)
+ * @see #getConnection(BlobStore, Map)
  * @see MuxBlob
  */
 public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection {
@@ -64,14 +64,14 @@ public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection 
    * this transaction is only passed to transaction capable stores. A null is passed for
    * non-transactional stores.
    *
-   * @see #getConnection(BlobStore)
+   * @see #getConnection(BlobStore, Map)
    */
   protected final Transaction txn;
 
   /**
    * A map of store-ids to connections.
    *
-   * @see #getConnection(BlobStore)
+   * @see #getConnection(BlobStore, Map)
    * @see #close()
    */
   protected Map<URI, BlobStoreConnection> cons = new HashMap<URI, BlobStoreConnection>();
@@ -118,7 +118,7 @@ public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection 
 
   /**
    * Closes this connection and all underlying connections created using {@link
-   * #getConnection(BlobStore)}.
+   * #getConnection(BlobStore, Map)}.
    */
   @Override
   public void close() {
@@ -137,13 +137,15 @@ public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection 
    * Lookup/Create a connection to the given backing store.
    *
    * @param store the backing store
+   * @param hints A set of hints to allow the implementation to optimize the operation (can be
+   *              null)
    *
    * @return the backing store connection or null
    *
    * @throws IOException on an error in opening a connection to the backing store
    * @throws UnsupportedOperationException on an error in opening a connection to the backing store
    */
-  protected BlobStoreConnection getConnection(BlobStore store)
+  protected BlobStoreConnection getConnection(BlobStore store, Map<String, String> hints)
                                        throws IOException {
     if (store == null)
       return null;
@@ -154,7 +156,7 @@ public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection 
     BlobStoreConnection con = cons.get(store.getId());
 
     if (con == null) {
-      con = store.openConnection(txn);
+      con = store.openConnection(txn, hints);
       cons.put(store.getId(), con);
     }
 
@@ -163,7 +165,7 @@ public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection 
 
   public Blob getBlob(URI blobId, Map<String, String> hints)
                throws IOException {
-    return new MuxBlob(getConnection(getStore(blobId, hints)).getBlob(blobId, hints), this);
+    return new MuxBlob(getConnection(getStore(blobId, hints), hints).getBlob(blobId, hints), this);
   }
 
   public Iterator<URI> listBlobIds(String filterPrefix)
@@ -171,7 +173,7 @@ public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection 
     List<Iterator<URI>> iterators = new ArrayList<Iterator<URI>>();
 
     for (BlobStore store : getStores(filterPrefix))
-      iterators.add(getConnection(store).listBlobIds(filterPrefix));
+      iterators.add(getConnection(store, null).listBlobIds(filterPrefix));
 
     final Iterator<Iterator<URI>> it = iterators.iterator();
 

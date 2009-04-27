@@ -23,6 +23,7 @@ package org.fedoracommons.akubra;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.Map;
 
 import javax.transaction.Transaction;
 
@@ -58,13 +59,15 @@ public interface BlobStore {
    * <p>
    * @param tx the transaction associated with this connection, or null if
    *     the blob store is not transactional
+   * @param hints A set of hints to allow the implementation to optimize the
+   *              operation (can be null)
    * @return the connection to the blob store
    * @throws UnsupportedOperationException if the blob store is transactional
    *     but a Transaction is not provided by the caller, or if the blob store
    *     is not transactional and a Transaction is provided by the caller.
    * @throws IOException if an error occurred trying to open the connection.
    */
-  BlobStoreConnection openConnection(Transaction tx)
+  BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
       throws UnsupportedOperationException, IOException;
 
   /**

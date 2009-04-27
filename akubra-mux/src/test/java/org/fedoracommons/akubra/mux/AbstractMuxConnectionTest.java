@@ -74,7 +74,7 @@ public class AbstractMuxConnectionTest {
 
     store =
       new AbstractMuxStore(URI.create("urn:store")) {
-          public BlobStoreConnection openConnection(Transaction tx)
+          public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
                                              throws UnsupportedOperationException, IOException {
             return new TestConnection(this, tx);
           }
@@ -86,7 +86,7 @@ public class AbstractMuxConnectionTest {
     s1Hint.put("store1", "store1");
     s2Hint.put("store2", "store2");
 
-    con = (TestConnection) store.openConnection(null);
+    con = (TestConnection) store.openConnection(null, null);
   }
 
   @AfterSuite
@@ -98,10 +98,10 @@ public class AbstractMuxConnectionTest {
    */
   @Test
   public void testClose() throws IOException {
-    TestConnection con = (TestConnection) store.openConnection(null);
+    TestConnection con = (TestConnection) store.openConnection(null, null);
     assertFalse(con.isClosed());
-    con.getConnection(store1);
-    con.getConnection(store2);
+    con.getConnection(store1, null);
+    con.getConnection(store2, null);
     assertEquals(2, con.getCons().size());
 
     Collection<BlobStoreConnection> cons = con.getCons().values();
@@ -136,13 +136,13 @@ public class AbstractMuxConnectionTest {
    */
   @Test
   public void testGetConnection() throws IOException {
-    BlobStoreConnection con1 = con.getConnection(store1);
-    BlobStoreConnection con2 = con.getConnection(store2);
+    BlobStoreConnection con1 = con.getConnection(store1, null);
+    BlobStoreConnection con2 = con.getConnection(store2, null);
     assertEquals(2, con.getCons().size());
     assertEquals(con.getCons().get(store1.getId()), con1);
     assertEquals(con.getCons().get(store2.getId()), con2);
-    assertEquals(con1, con.getConnection(store1));
-    assertEquals(con2, con.getConnection(store2));
+    assertEquals(con1, con.getConnection(store1, null));
+    assertEquals(con2, con.getConnection(store2, null));
   }
 
   /**
@@ -152,8 +152,8 @@ public class AbstractMuxConnectionTest {
   public void testGetBlobURIMapOfStringString() throws IOException {
     Blob b1 = con.getBlob(null, s1Hint);
     Blob b2 = con.getBlob(null, s2Hint);
-    Blob b3 = store1.openConnection(null).getBlob(b1.getId(), s1Hint);
-    Blob b4 = store2.openConnection(null).getBlob(b2.getId(), s2Hint);
+    Blob b3 = store1.openConnection(null, null).getBlob(b1.getId(), s1Hint);
+    Blob b4 = store2.openConnection(null, null).getBlob(b2.getId(), s2Hint);
 
     b1.openOutputStream(0, true).close();
     b2.openOutputStream(0, true).close();
@@ -209,8 +209,8 @@ public class AbstractMuxConnectionTest {
   public void testMoveTo() throws IOException {
     Blob b1 = con.getBlob(null, s1Hint);
     Blob b2 = con.getBlob(null, s2Hint);
-    Blob b3 = store1.openConnection(null).getBlob(b1.getId(), s1Hint);
-    Blob b4 = store2.openConnection(null).getBlob(b2.getId(), s2Hint);
+    Blob b3 = store1.openConnection(null, null).getBlob(b1.getId(), s1Hint);
+    Blob b4 = store2.openConnection(null, null).getBlob(b2.getId(), s2Hint);
 
     b1.openOutputStream(0, true).close();
     b2.openOutputStream(0, true).close();
@@ -273,14 +273,14 @@ public class AbstractMuxConnectionTest {
 
       if (blobId != null) {
         for (BlobStore s : ((AbstractMuxStore) getBlobStore()).getBackingStores())
-          if (getConnection(s).listBlobIds(blobId.toString()).hasNext()
-               && (getConnection(s).getBlob(blobId, hints) != null))
+          if (getConnection(s, null).listBlobIds(blobId.toString()).hasNext()
+               && (getConnection(s, null).getBlob(blobId, hints) != null))
             return s;
       }
 
       for (BlobStore s : ((AbstractMuxStore) getBlobStore()).getBackingStores()) {
         try {
-          if (getConnection(s).getBlob(blobId, hints) != null)
+          if (getConnection(s, null).getBlob(blobId, hints) != null)
             return s;
         } catch (UnsupportedIdException e) {
           // skip this one

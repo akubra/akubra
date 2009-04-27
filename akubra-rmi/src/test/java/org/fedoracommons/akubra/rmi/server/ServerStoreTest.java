@@ -23,6 +23,7 @@ package org.fedoracommons.akubra.rmi.server;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
+import static org.easymock.EasyMock.isNull;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.reset;
@@ -33,6 +34,8 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.io.IOException;
+
+import java.util.Map;
 
 import javax.transaction.Transaction;
 
@@ -79,16 +82,16 @@ public class ServerStoreTest {
   public void testOpenConnection() throws Exception {
     BlobStoreConnection con = createMock(BlobStoreConnection.class);
     reset(store);
-    expect(store.openConnection(null)).andReturn(con);
-    expect(store.openConnection(null)).andThrow(new UnsupportedOperationException());
+    expect(store.openConnection(null, null)).andReturn(con);
+    expect(store.openConnection(null, null)).andThrow(new UnsupportedOperationException());
     replay(store);
 
-    RemoteConnection rc = ss.openConnection();
+    RemoteConnection rc = ss.openConnection(null);
     assertTrue(rc instanceof ServerConnection);
     assertEquals(con, ((ServerConnection)rc).getConnection());
 
     try {
-      ss.openConnection();
+      ss.openConnection(null);
       fail("Failed to rcv expected exception");
     } catch (UnsupportedOperationException e) {
     }
@@ -102,10 +105,10 @@ public class ServerStoreTest {
     BlobStoreConnection con = createMock(BlobStoreConnection.class);
 
     reset(store);
-    expect(store.openConnection(isA(Transaction.class))).andReturn(con);
+    expect(store.openConnection(isA(Transaction.class), (Map) isNull())).andReturn(con);
     replay(store);
 
-    RemoteTransactionListener rtl = ss.startTransactionListener();
+    RemoteTransactionListener rtl = ss.startTransactionListener(null);
     Operation<?> op = rtl.getNextOperation();
     assertTrue(op instanceof Result);
 

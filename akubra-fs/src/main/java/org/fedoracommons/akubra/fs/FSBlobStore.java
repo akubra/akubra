@@ -25,6 +25,8 @@ import java.io.File;
 
 import java.net.URI;
 
+import java.util.Map;
+
 import javax.transaction.Transaction;
 
 import org.fedoracommons.akubra.Blob;
@@ -102,7 +104,7 @@ public class FSBlobStore extends AbstractBlobStore {
   }
 
   //@Override
-  public BlobStoreConnection openConnection(Transaction tx) {
+  public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints) {
     if (tx != null) {
       throw new UnsupportedOperationException();
     }

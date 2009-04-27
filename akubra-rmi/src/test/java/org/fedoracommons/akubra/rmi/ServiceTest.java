@@ -76,7 +76,7 @@ public class ServiceTest {
     AkubraRMIServer server = new AkubraRMIServer(mem);
     try {
       BlobStore store = AkubraRMIClient.create();
-      store.openConnection(null).close();
+      store.openConnection(null, null).close();
     } finally {
       server.shutDown(false);
     }
@@ -92,7 +92,7 @@ public class ServiceTest {
 
     try {
       BlobStore store = AkubraRMIClient.create(reg);
-      store.openConnection(null).close();
+      store.openConnection(null, null).close();
     } finally {
       server.shutDown(true);
     }
@@ -109,7 +109,7 @@ public class ServiceTest {
 
     try {
       BlobStore store = AkubraRMIClient.create("service-test-with-name-and-port", reg);
-      store.openConnection(null).close();
+      store.openConnection(null, null).close();
     } finally {
       server.shutDown(true);
     }
@@ -127,7 +127,7 @@ public class ServiceTest {
 
     try {
       BlobStore store = AkubraRMIClient.create("test-with-name-and-alternate-ports", reg);
-      store.openConnection(null).close();
+      store.openConnection(null, null).close();
     } finally {
       server.shutDown(true);
     }
@@ -145,7 +145,7 @@ public class ServiceTest {
     try {
       BlobStore store =
         AkubraRMIClient.create(URI.create("rmi://localhost:" + reg + "/test-uri-lookup"));
-      store.openConnection(null).close();
+      store.openConnection(null, null).close();
     } finally {
       server.shutDown(false);
     }

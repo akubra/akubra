@@ -115,7 +115,7 @@ public class TransactionalStoreTest {
    */
   @Test(expectedExceptions={ IOException.class })
   public void testOpenConnectionNoTransaction() throws IOException {
-    store.openConnection(null);
+    store.openConnection(null, null);
   }
 
   /**
@@ -125,7 +125,7 @@ public class TransactionalStoreTest {
   public void testOpenConnectionWithTransaction() throws Exception {
     tm.begin();
     try {
-      store.openConnection(tm.getTransaction());
+      store.openConnection(tm.getTransaction(), null);
     } finally {
       tm.rollback();
     }
@@ -282,7 +282,7 @@ public class TransactionalStoreTest {
 
   private void doInTxn(Action a, boolean commit) throws Exception {
     tm.begin();
-    BlobStoreConnection con = store.openConnection(tm.getTransaction());
+    BlobStoreConnection con = store.openConnection(tm.getTransaction(), null);
 
     try {
       a.run(con);

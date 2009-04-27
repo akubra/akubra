@@ -28,6 +28,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import javax.sql.XAConnection;
@@ -62,11 +63,13 @@ public abstract class SQLTransactionalConnection extends AbstractTransactionalCo
    * @param xaCon   the xa connection to use
    * @param con     the db connection to use
    * @param tx      the transaction we belong to
+   * @param hints   the hints to pass to <code>openConnection<code> on <var>bStore</var>
    * @throws IOException if an error occurs initializing this connection
    */
   protected SQLTransactionalConnection(BlobStore owner, BlobStore bStore, XAConnection xaCon,
-                                       Connection con, Transaction tx) throws IOException {
-    super(owner, bStore, tx);
+                                       Connection con, Transaction tx, Map<String, String> hints)
+      throws IOException {
+    super(owner, bStore, tx, hints);
     this.con   = con;
     this.xaCon = xaCon;
   }

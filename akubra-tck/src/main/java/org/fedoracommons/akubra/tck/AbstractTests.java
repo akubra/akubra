@@ -277,7 +277,7 @@ public abstract class AbstractTests {
   protected void runTests(final ConAction test, boolean commit) throws Exception {
     runTests(new Action() {
       public void run(Transaction txn) throws Exception {
-        BlobStoreConnection con = store.openConnection(txn);
+        BlobStoreConnection con = store.openConnection(txn, null);
         assertSame(con.getBlobStore(), store);
         assertFalse(con.isClosed());
 

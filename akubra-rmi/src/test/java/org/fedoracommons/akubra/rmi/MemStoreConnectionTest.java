@@ -68,7 +68,7 @@ public class MemStoreConnectionTest {
     server = new AkubraRMIServer(mem, reg);
 
     BlobStore store = AkubraRMIClient.create(reg);
-    con = store.openConnection(null);
+    con = store.openConnection(null, null);
     assertEquals(store, con.getBlobStore());
   }
 

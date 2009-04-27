@@ -290,13 +290,8 @@ public abstract class AbstractTests {
             con.close();
             assertTrue(con.isClosed());
           } catch (Throwable t) {
-            if (success) {
-              if (t instanceof Exception)
-                throw (Exception) t;
-              if (t instanceof Error)
-                throw (Error) t;
-              throw new Error("Who the heck subclassed Throwable directly?", t);
-            }
+            if (success)
+              rethrow(t);
             t.printStackTrace();
           }
         }
@@ -314,11 +309,7 @@ public abstract class AbstractTests {
         if (t instanceof AkubraBlobException)
           assertEquals(((AkubraBlobException) t).getBlobId(), id);
       } else {
-        if (t instanceof Exception)
-          throw (Exception) t;
-        if (t instanceof Error)
-          throw (Error) t;
-        throw new Error("Who the heck subclassed Throwable directly?", t);
+        rethrow(t);
       }
     }
   }
@@ -333,6 +324,14 @@ public abstract class AbstractTests {
     }, expExc, id);
   }
 
+  protected void rethrow(Throwable t) throws Exception {
+    if (t instanceof Exception)
+      throw (Exception) t;
+    if (t instanceof Error)
+      throw (Error) t;
+    throw new Error("Who the heck subclassed Throwable directly?", t);
+  }
+
   protected static interface Action {
     public void run(Transaction txn) throws Exception;
   }
@@ -345,6 +344,8 @@ public abstract class AbstractTests {
     public void run() {
       try {
         erun();
+      } catch (RuntimeException re) {
+        throw re;
       } catch (Exception e) {
         throw new RuntimeException(e);
       }

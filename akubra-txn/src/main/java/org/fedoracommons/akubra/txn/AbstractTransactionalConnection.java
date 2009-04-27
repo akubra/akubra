@@ -25,17 +25,16 @@ package org.fedoracommons.akubra.txn;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.IOException;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.WeakReference;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Status;
 import javax.transaction.Synchronization;
 import javax.transaction.Transaction;
+
+import com.google.common.collect.MapMaker;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -81,9 +80,8 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
   /** the list of underlying id's of deleted blobs */
   protected final List<URI>            delBlobs = new ArrayList<URI>();
   /** a cache of blobs */
-  protected final Map<URI, BlobRef>    blobCache = new HashMap<URI, BlobRef>();
-  /** a cache of blobs */
-  protected final ReferenceQueue<Blob> bcRefQueue = new ReferenceQueue<Blob>();
+  protected final Map<URI, Blob>       blobCache =
+                            new MapMaker().weakValues().concurrencyLevel(1).<URI, Blob>makeMap();
 
   /**
    * Create a new transactional connection.
@@ -121,26 +119,10 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
     else
       blobId = (URI) createBlob(null, hints)[0];
 
-    return getBlobInternal(blobId, hints);
-  }
+    Blob b = blobCache.get(blobId);
+    if (b == null)
+      blobCache.put(blobId, b = new TxnBlob(blobId, hints));
 
-  private Blob getBlobInternal(URI blobId, final Map<String, String> hints) throws IOException {
-    // clean out removed cached entries
-    BlobRef bref;
-    while ((bref = (BlobRef) bcRefQueue.poll()) != null)
-      blobCache.remove(bref.blobId);
-
-    // grab from cache if it's there
-    bref = blobCache.get(blobId);
-    if (bref != null) {
-      Blob b = bref.get();
-      if (b != null)
-        return b;
-    }
-
-    // not in cache, so create and cache
-    Blob b = new TxnBlob(blobId, hints);
-    blobCache.put(blobId, new BlobRef(blobId, b, bcRefQueue));
     return b;
   }
 
@@ -319,19 +301,6 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
       }
     } finally {
       bStoreCon.close();
-    }
-  }
-
-  /**
-   * A weak reference to a blob that also holds the blob-id so entries can be removed from
-   * the cache when the reference is cleared.
-   */
-  protected static class BlobRef extends WeakReference<Blob> {
-    public final URI blobId;
-
-    public BlobRef(URI blobId, Blob blob, ReferenceQueue<Blob> queue) {
-      super(blob, queue);
-      this.blobId = blobId;
     }
   }
 

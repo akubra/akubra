@@ -22,11 +22,9 @@
 
 package org.fedoracommons.akubra.tck;
 
-import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 import javax.naming.Reference;
 import javax.transaction.TransactionManager;
@@ -41,6 +39,9 @@ import bitronix.tm.resource.common.ResourceBean;
 import bitronix.tm.resource.common.XAResourceHolder;
 import bitronix.tm.resource.common.XAResourceProducer;
 import bitronix.tm.resource.common.XAStatefulHolder;
+
+import com.google.common.collect.MapMaker;
+import com.google.common.base.Function;
 
 /**
  * Utilities for dealing with the Bitronix Transaction Manager.
@@ -74,11 +75,20 @@ public class BtmUtils {
 
   private static class SimpleXAResourceProducer implements XAResourceProducer {
     private static final long serialVersionUID = 1L;
-    private transient Map<XAResource, WeakReference<XAResourceHolder>> xaresHolders =
-                                    new WeakHashMap<XAResource, WeakReference<XAResourceHolder>>();
+    private transient Map<XAResource, XAResourceHolder> xaresHolders = createXAResHoldersMap();
+
+    private static final Map<XAResource, XAResourceHolder> createXAResHoldersMap() {
+      return new MapMaker().weakKeys().weakValues().makeComputingMap(
+        new Function<XAResource, XAResourceHolder>() {
+          public XAResourceHolder apply(XAResource xares) {
+            return createResHolder(xares);
+          }
+        }
+      );
+    }
 
     private Object readResolve() {
-      xaresHolders = new WeakHashMap<XAResource, WeakReference<XAResourceHolder>>();
+      xaresHolders = createXAResHoldersMap();
       return this;
     }
 
@@ -108,14 +118,7 @@ public class BtmUtils {
     }
 
     public XAResourceHolder findXAResourceHolder(final XAResource xaResource) {
-      WeakReference<XAResourceHolder> resHolderRef = xaresHolders.get(xaResource);
-      XAResourceHolder resHolder = (resHolderRef != null) ? resHolderRef.get() : null;
-
-      if (resHolder == null)
-        xaresHolders.put(xaResource,
-                         new WeakReference<XAResourceHolder>(resHolder = createResHolder(xaResource)));
-
-      return resHolder;
+      return xaresHolders.get(xaResource);
     }
 
     @SuppressWarnings("serial")

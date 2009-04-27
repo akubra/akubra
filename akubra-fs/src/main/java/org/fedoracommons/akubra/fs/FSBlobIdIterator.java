@@ -25,51 +25,28 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URLEncoder;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import com.google.common.collect.AbstractIterator;
 
 /**
  * Iterates over all files in baseDir (respecting filterPrefix if provided).
  *
  * @author Chris Wilper
  */
-class FSBlobIdIterator implements Iterator<URI> {
+class FSBlobIdIterator extends AbstractIterator<URI> {
   private final File baseDir;
   private final String filterPrefix;
   private DirectoryNode currentDir;
-  private URI next;
 
   FSBlobIdIterator(File baseDir, String filterPrefix) {
     this.baseDir = baseDir;
     this.filterPrefix = filterPrefix;
     currentDir = new DirectoryNode(null, "");
-    next = getNext();
   }
 
-  //@Override
-  public boolean hasNext() {
-    return next != null;
-  }
-
-  //@Override
-  public URI next() {
-    if (next == null) {
-      throw new NoSuchElementException();
-    }
-    URI current = next;
-    next = getNext();
-    return current;
-  }
-
-  //@Override
-  public void remove() {
-    throw new UnsupportedOperationException();
-  }
-
-  private URI getNext() {
+  @Override
+  protected URI computeNext() {
     while (currentDir != null) {
       DirectoryNode child = currentDir.nextChild();
       if (child == null) {
@@ -86,7 +63,8 @@ class FSBlobIdIterator implements Iterator<URI> {
           }
       }
     }
-    return null; // exhausted
+
+    return endOfData(); // exhausted
   }
 
   private class DirectoryNode {
@@ -136,11 +114,7 @@ class FSBlobIdIterator implements Iterator<URI> {
     }
 
     URI getURI() {
-      try {
-        return new URI(FSBlob.scheme + ":" + path);
-      } catch (URISyntaxException e) {
-        throw new RuntimeException(e);
-      }
+      return URI.create(FSBlob.scheme + ":" + path);
     }
 
     boolean isDirectory() {

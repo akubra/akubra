@@ -29,6 +29,9 @@ import java.net.URI;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterators;
+
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
@@ -88,7 +91,11 @@ class IdMappingBlobStoreConnection implements BlobStoreConnection {
   //@Override
   public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
     Iterator<URI> iterator = connection.listBlobIds(filterPrefix);
-    return new IdMappingBlobIdIterator(iterator, mapper);
+    return Iterators.transform(iterator, new Function<URI, URI>() {
+      public URI apply(URI uri) {
+        return mapper.getExternalId(uri);
+      }
+    });
   }
 
   //@Override

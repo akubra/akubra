@@ -35,6 +35,8 @@ import java.util.Set;
 
 import javax.transaction.Transaction;
 
+import com.google.common.collect.Iterators;
+
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
@@ -168,36 +170,12 @@ public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection 
     return new MuxBlob(getConnection(getStore(blobId, hints), hints).getBlob(blobId, hints), this);
   }
 
-  public Iterator<URI> listBlobIds(String filterPrefix)
-                            throws IOException {
+  public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
     List<Iterator<URI>> iterators = new ArrayList<Iterator<URI>>();
 
     for (BlobStore store : getStores(filterPrefix))
       iterators.add(getConnection(store, null).listBlobIds(filterPrefix));
 
-    final Iterator<Iterator<URI>> it = iterators.iterator();
-
-    return new Iterator<URI>() {
-        private Iterator<URI> cur = null;
-
-        public boolean hasNext() {
-          while ((cur == null) || (cur.hasNext() == false)) {
-            if (!it.hasNext())
-              return false;
-
-            cur = it.next();
-          }
-
-          return true;
-        }
-
-        public URI next() {
-          return hasNext() ? cur.next() : null;
-        }
-
-        public void remove() {
-          throw new UnsupportedOperationException("remove() not supported");
-        }
-      };
+    return Iterators.concat(iterators.iterator());
   }
 }

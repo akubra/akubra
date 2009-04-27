@@ -231,6 +231,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
     }
   }
 
+  /* Debug helper
   static String dumpResults(ResultSet rs) throws SQLException {
     StringBuilder res = new StringBuilder(500);
     res.append("table dump (").append(rs.getMetaData().getTableName(1)).append(":\n");
@@ -252,6 +253,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
 
     return res.toString();
   }
+  */
 
   @Override
   protected void remNameEntry(URI ourId, URI storeId) throws IOException {

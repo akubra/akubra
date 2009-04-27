@@ -103,8 +103,8 @@ import org.fedoracommons.akubra.txn.AbstractTransactionalStore;
  * href="https://issues.apache.org/jira/browse/DERBY-2991">DERBY-2991</a>; testing with 10.5
  * indicates this issue has been resolved. For these reasons a flag is provided to restrict the
  * number of concurrent write-transactions to one, and the
- * {@link #TransactionalStore(URI, String) two-argument-constructor} will set this single-writer
- * flag to true for derby 10.4 and earlier.
+ * {@link #TransactionalStore(URI, BlobStore, String) three-argument-constructor} will set this
+ * single-writer flag to true for derby 10.4 and earlier.
  *
  * @author Ronald Tschalär
  */

@@ -187,6 +187,12 @@
       </dependency>
 
       <dependency>
+        <groupId>com.google.collections</groupId>
+        <artifactId>google-collections</artifactId>
+        <version>1.0-rc1</version>
+      </dependency>
+
+      <dependency>
         <groupId>javax.transaction</groupId>
         <artifactId>jta</artifactId>
         <version>1.0.1B</version>
@@ -284,6 +290,7 @@
             <link>http://jakarta.apache.org/commons/logging/apidocs</link>
             <link>http://java.sun.com/j2ee/1.4/docs/api</link>
             <link>http://commons.apache.org/io/api-1.4</link>
+            <link>http://google-collections.googlecode.com/svn/trunk/javadoc</link>
           </links>
         </configuration>
       </plugin>

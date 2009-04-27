@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.collections.Predicate;
-import org.apache.commons.collections.iterators.FilterIterator;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterators;
 
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
@@ -71,15 +71,14 @@ class MemConnection extends AbstractBlobStoreConnection {
   }
 
   //@Override
-  @SuppressWarnings("unchecked")
   public Iterator<URI> listBlobIds(final String filterPrefix) {
     if (isClosed())
       throw new IllegalStateException("Connection closed.");
 
     synchronized (blobs) {
-      return new FilterIterator(new ArrayList<URI>(blobs.keySet()).iterator(), new Predicate() {
-         public boolean evaluate(Object object) {
-           return ((filterPrefix == null) || object.toString().startsWith(filterPrefix));
+      return Iterators.filter(new ArrayList<URI>(blobs.keySet()).iterator(), new Predicate<URI>() {
+         public boolean apply(URI uri) {
+           return ((filterPrefix == null) || uri.toString().startsWith(filterPrefix));
          }
       });
     }

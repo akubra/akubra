@@ -251,8 +251,9 @@ public abstract class TCKTestSuite extends AbstractTests {
 
           assertTrue(store.setQuiescent(true));
 
-          doWithTimeout(new ERunnable() { @Override
-          public void erun() throws Exception {
+          doWithTimeout(new ERunnable() {
+            @Override
+            public void erun() throws Exception {
               assertTrue(b1.exists());
             }
           }, 100, true);

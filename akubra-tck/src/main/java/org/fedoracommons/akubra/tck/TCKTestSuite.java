@@ -855,6 +855,8 @@ public abstract class TCKTestSuite extends AbstractTests {
         }
       }, UnsupportedOperationException.class, null);
 
+      getBlob(id1, "", true);   // make sure it's still exists
+
       deleteBlob(id1, "", true);
       return;
     }
@@ -952,34 +954,34 @@ public abstract class TCKTestSuite extends AbstractTests {
     final URI id1 = createId("blobOutputStream1");
 
     // 0 length blob, no write
-    testOutputStream(id1, null, -1);
-    testOutputStream(id1, null, 0);
-    testOutputStream(id1, null, 20);
+    testOutputStream(id1, null, "a", -1);
+    testOutputStream(id1, null, "a", 0);
+    testOutputStream(id1, null, "a", 20);
 
     // 0 length blob, empty write
-    testOutputStream(id1, "", -1);
-    testOutputStream(id1, "", 0);
-    testOutputStream(id1, "", 20);
+    testOutputStream(id1, "", "a", -1);
+    testOutputStream(id1, "", "a", 0);
+    testOutputStream(id1, "", "a", 20);
 
     // >0 length blob
-    testOutputStream(id1, "foo bar", -1);
-    testOutputStream(id1, "foo bar", 0);
-    testOutputStream(id1, "foo bar", 5);
-    testOutputStream(id1, "foo bar", 7);
-    testOutputStream(id1, "foo bar", 17);
+    testOutputStream(id1, "foo bar", "a", -1);
+    testOutputStream(id1, "foo bar", "a", 0);
+    testOutputStream(id1, "foo bar", "a", 5);
+    testOutputStream(id1, "foo bar", "a", 7);
+    testOutputStream(id1, "foo bar", "a", 17);
 
     // clean up
     assertNoBlobs(getPrefixFor("blobOutputStream"));
   }
 
-  protected void testOutputStream(final URI id, final String body, final long estSize)
-      throws Exception {
+  protected void testOutputStream(final URI id, final String body, final String body2,
+                                  final long estSize) throws Exception {
     runTests(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
           final Blob b = getBlob(con, id, null);
 
           testOutputStream(b, body, estSize, true);     // test create
-          testOutputStream(b, body, estSize, true);     // test overwrite
+          testOutputStream(b, body2, estSize, true);    // test overwrite
 
           deleteBlob(con, b);
 
@@ -987,9 +989,11 @@ public abstract class TCKTestSuite extends AbstractTests {
           shouldFail(new ERunnable() {                  // test !overwrite
             @Override
             public void erun() throws Exception {
-              testOutputStream(b, body, estSize, false);
+              testOutputStream(b, body2, estSize, false);
             }
           }, DuplicateBlobException.class, id);
+
+          assertEquals(getBody(b), body != null ? body : "");
 
           deleteBlob(con, b);
         }
@@ -1075,6 +1079,9 @@ public abstract class TCKTestSuite extends AbstractTests {
       }
     }, MissingBlobException.class, id1);
 
+    getBlob(id1, null, true);
+    getBlob(id3, null, true);
+
     // move to existing blob should fail
     shouldFail(new ConAction() {
       public void run(BlobStoreConnection con) throws Exception {
@@ -1082,6 +1089,9 @@ public abstract class TCKTestSuite extends AbstractTests {
         ob.moveTo(id4, null);
       }
     }, DuplicateBlobException.class, id4);
+
+    getBlob(id2, "foo", true);
+    getBlob(id4, "bar", true);
 
     // move a non-existent blob onto itself should fail
     shouldFail(new ConAction() {
@@ -1091,6 +1101,8 @@ public abstract class TCKTestSuite extends AbstractTests {
       }
     }, MissingBlobException.class, id1);
 
+    getBlob(id1, null, true);
+
     // move an existing blob onto itself should fail
     shouldFail(new ConAction() {
       public void run(BlobStoreConnection con) throws Exception {
@@ -1099,6 +1111,9 @@ public abstract class TCKTestSuite extends AbstractTests {
       }
     }, DuplicateBlobException.class, id2);
 
+    getBlob(id2, "foo", true);
+
+    // move to null
     if (!isIdGenSupp) {
       // move to null should fail
       shouldFail(new ConAction() {
@@ -1107,6 +1122,8 @@ public abstract class TCKTestSuite extends AbstractTests {
           b.moveTo(null, null);
         }
       }, UnsupportedOperationException.class, null);
+
+      getBlob(id2, "foo", true);
     } else {
       // null id should work
       runTests(new ConAction() {
@@ -1129,6 +1146,8 @@ public abstract class TCKTestSuite extends AbstractTests {
         }
       }, UnsupportedIdException.class, inv);
     }
+
+    getBlob(id2, "foo", true);
 
     // clean up
     deleteBlob(id2, "foo", true);

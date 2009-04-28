@@ -253,56 +253,58 @@ public abstract class TCKTestSuite extends AbstractTests {
           final Blob b2 = getBlob(con, id2, false);
 
           assertTrue(store.setQuiescent(true));
-
-          doWithTimeout(new ERunnable() {
-            @Override
-            public void erun() throws Exception {
-              assertTrue(b1.exists());
-            }
-          }, 100, true);
-
-          doWithTimeout(new ERunnable() {
-            @Override
-            public void erun() throws Exception {
-              assertFalse(b2.exists());
-            }
-          }, 100, true);
-
-          doWithTimeout(new ERunnable() {
-            @Override
-            public void erun() throws Exception {
-              assertEquals(getBody(b1), "bar");
-            }
-          }, 100, true);
-
-          if (isOutputSupp) {
+          try {
             doWithTimeout(new ERunnable() {
               @Override
               public void erun() throws Exception {
-                b1.openOutputStream(-1, true);
+                assertTrue(b1.exists());
               }
-            }, 10, false);
-          }
+            }, 100, true);
 
-          if (isDeleteSupp) {
             doWithTimeout(new ERunnable() {
               @Override
               public void erun() throws Exception {
-                b1.delete();
+                assertFalse(b2.exists());
               }
-            }, 10, false);
-          }
+            }, 100, true);
 
-          if (isMoveToSupp) {
             doWithTimeout(new ERunnable() {
               @Override
               public void erun() throws Exception {
-                b1.moveTo(b2.getId(), null);
+                assertEquals(getBody(b1), "bar");
               }
-            }, 10, false);
-          }
+            }, 100, true);
 
-          assertTrue(store.setQuiescent(false));
+            if (isOutputSupp) {
+              doWithTimeout(new ERunnable() {
+                @Override
+                public void erun() throws Exception {
+                  b1.openOutputStream(-1, true);
+                }
+              }, 10, false);
+            }
+
+            if (isDeleteSupp) {
+              doWithTimeout(new ERunnable() {
+                @Override
+                public void erun() throws Exception {
+                  b1.delete();
+                }
+              }, 10, false);
+            }
+
+            if (isMoveToSupp) {
+              doWithTimeout(new ERunnable() {
+                @Override
+                public void erun() throws Exception {
+                  b1.moveTo(b2.getId(), null);
+                }
+              }, 10, false);
+            }
+
+          } finally {
+            assertTrue(store.setQuiescent(false));
+          }
         }
     }, true);
 
@@ -319,7 +321,11 @@ public abstract class TCKTestSuite extends AbstractTests {
           Thread t = doInThread(new ERunnable() {
             @Override
             public void erun() throws Exception {
-              assertTrue(store.setQuiescent(true));
+              try {
+                assertTrue(store.setQuiescent(true));
+              } finally {
+                assertTrue(store.setQuiescent(false));
+              }
             }
           }, failed);
           t.join(10);

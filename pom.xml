@@ -256,6 +256,9 @@
               <ignore>org.apache.commons.logging.*</ignore>
             </ignores>
           </instrumentation>
+          <check>
+            <haltOnFailure>false</haltOnFailure>
+          </check>
         </configuration>
       </plugin>
 

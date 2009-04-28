@@ -36,6 +36,7 @@ import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.UnsupportedIdException;
+import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
 
 /**
  * Wraps the internal {@link BlobStoreConnection} to provide id mapping where
@@ -43,12 +44,9 @@ import org.fedoracommons.akubra.UnsupportedIdException;
  *
  * @author Chris Wilper
  */
-class IdMappingBlobStoreConnection implements BlobStoreConnection {
-  private final BlobStore store;
+class IdMappingBlobStoreConnection extends AbstractBlobStoreConnection {
   private final BlobStoreConnection connection;
   private final IdMapper mapper;
-
-  private boolean closed = false;
 
   /**
    * Creates an instance.
@@ -60,14 +58,9 @@ class IdMappingBlobStoreConnection implements BlobStoreConnection {
   public IdMappingBlobStoreConnection(BlobStore store,
                                       BlobStoreConnection connection,
                                       IdMapper mapper) {
-    this.store = store;
+    super(store);
     this.connection = connection;
     this.mapper = mapper;
-  }
-
-  //@Override
-  public BlobStore getBlobStore() {
-    return store;
   }
 
   //@Override
@@ -105,15 +98,7 @@ class IdMappingBlobStoreConnection implements BlobStoreConnection {
 
   //@Override
   public void close() {
-    if (!closed) {
-      connection.close();
-      closed = true;
-    }
+    super.close();
+    connection.close();
   }
-
-  //@Override
-  public boolean isClosed() {
-    return closed;
-  }
-
 }

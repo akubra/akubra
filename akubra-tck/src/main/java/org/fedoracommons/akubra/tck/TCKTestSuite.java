@@ -281,7 +281,7 @@ public abstract class TCKTestSuite extends AbstractTests {
                 public void erun() throws Exception {
                   b1.openOutputStream(-1, true);
                 }
-              }, 10, false);
+              }, 100, false);
             }
 
             if (isDeleteSupp) {
@@ -290,7 +290,7 @@ public abstract class TCKTestSuite extends AbstractTests {
                 public void erun() throws Exception {
                   b1.delete();
                 }
-              }, 10, false);
+              }, 100, false);
             }
 
             if (isMoveToSupp) {
@@ -299,7 +299,7 @@ public abstract class TCKTestSuite extends AbstractTests {
                 public void erun() throws Exception {
                   b1.moveTo(b2.getId(), null);
                 }
-              }, 10, false);
+              }, 100, false);
             }
 
           } finally {
@@ -333,7 +333,7 @@ public abstract class TCKTestSuite extends AbstractTests {
 
           os.close();
 
-          t.join(10);
+          t.join(100);
           assertFalse(t.isAlive());
           assertFalse(failed[0]);
 

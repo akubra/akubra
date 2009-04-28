@@ -665,8 +665,8 @@ public abstract class TCKTestSuite extends AbstractTests {
     }
 
     // run the tests
-    URI id1 = createId("blobBasicList1");
-    URI id2 = createId("blobBasicList2");
+    final URI id1 = createId("blobBasicList1");
+    final URI id2 = createId("blobBasicList2");
 
     listBlobs(getPrefixFor("blobBasicList"), new URI[] { });
     listBlobs(getPrefixFor("blobBasicLisT"), new URI[] { });
@@ -691,6 +691,38 @@ public abstract class TCKTestSuite extends AbstractTests {
     listBlobs(getPrefixFor("blobBasicList"), new URI[] { });
     listBlobs(getPrefixFor("blobBasicLisT"), new URI[] { });
     listBlobs(getPrefixFor("blobBasicList2"), new URI[] { });
+
+    // test that blobs created/deleted as part of the current txn are properly shown
+    runTests(new ConAction() {
+        public void run(BlobStoreConnection con) throws Exception {
+          Blob b1 = getBlob(con, id1, null);
+          Blob b2 = getBlob(con, id2, null);
+
+          listBlobs(con, getPrefixFor("blobBasicList"), new URI[] { });
+          listBlobs(con, getPrefixFor("blobBasicLisT"), new URI[] { });
+          listBlobs(con, getPrefixFor("blobBasicList2"), new URI[] { });
+
+          createBlob(con, b1, "quibledyqwak");
+          listBlobs(con, getPrefixFor("blobBasicList"), new URI[] { id1 });
+          listBlobs(con, getPrefixFor("blobBasicLisT"), new URI[] { });
+          listBlobs(con, getPrefixFor("blobBasicList1"), new URI[] { id1 });
+
+          createBlob(con, b2, "waflebleeblegorm");
+          listBlobs(con, getPrefixFor("blobBasicList"), new URI[] { id1, id2 });
+          listBlobs(con, getPrefixFor("blobBasicLisT"), new URI[] { });
+          listBlobs(con, getPrefixFor("blobBasicList2"), new URI[] { id2 });
+
+          deleteBlob(con, b1);
+          listBlobs(con, getPrefixFor("blobBasicList"), new URI[] { id2 });
+          listBlobs(con, getPrefixFor("blobBasicLisT"), new URI[] { });
+          listBlobs(con, getPrefixFor("blobBasicList2"), new URI[] { id2 });
+
+          deleteBlob(con, b2);
+          listBlobs(con, getPrefixFor("blobBasicList"), new URI[] { });
+          listBlobs(con, getPrefixFor("blobBasicLisT"), new URI[] { });
+          listBlobs(con, getPrefixFor("blobBasicList1"), new URI[] { });
+        }
+    });
   }
 
   /**

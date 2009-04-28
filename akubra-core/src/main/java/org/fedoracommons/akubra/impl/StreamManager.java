@@ -102,13 +102,14 @@ public class StreamManager {
     try {
       stateLock.lockInterruptibly();
       if (quiescent) {
-        log.info("lockUnquiesced: Waiting...");
+        log.info("lockUnquiesced: Waiting...", new Throwable());
         becameUnquiescent.await(); // Note: releases the lock before the wait
         log.info("lockUnquiesced: Wait is over.");
       }
       log.debug("Aquired the unquiescent lock");
       return true;
     } catch (InterruptedException e) {
+      log.warn("lockUnquiesced: Failed", e);
       if (stateLock.isHeldByCurrentThread())
         stateLock.unlock();
       return false;
@@ -153,6 +154,10 @@ public class StreamManager {
       this.quiescent = quiescent;
       return true;
     } catch (InterruptedException e) {
+      if (quiescent)
+        log.warn("Failed to enter quiescent state", e);
+      else
+        log.warn("Failed to exit quiescent state", e);
       return false;
     } finally {
       if (stateLock.isHeldByCurrentThread())

@@ -43,7 +43,7 @@ public class TestFSBlobStoreTCK extends TCKTestSuite {
   private static File baseDir;
 
   public TestFSBlobStoreTCK() throws Exception {
-    super(getStore(), getStoreId(), false, true);
+    super(getStore(), getStoreId(), false, false);
   }
 
   private static URI getStoreId() throws Exception {

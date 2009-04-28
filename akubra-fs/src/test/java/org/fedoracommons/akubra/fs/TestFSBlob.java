@@ -28,8 +28,6 @@ import java.net.URISyntaxException;
 
 import org.fedoracommons.akubra.UnsupportedIdException;
 import org.fedoracommons.akubra.impl.StreamManager;
-import org.fedoracommons.akubra.util.DefaultPathAllocator;
-import org.fedoracommons.akubra.util.PathAllocator;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -55,9 +53,8 @@ public class TestFSBlob {
     id = new URI("urn:example:store");
     baseDir = FSTestUtil.createTempDir();
     FSBlobStore store = new FSBlobStore(id, baseDir);
-    PathAllocator pAlloc = new DefaultPathAllocator();
     mgr = new StreamManager();
-    conn = new FSBlobStoreConnection(store, baseDir, pAlloc, mgr, true);
+    conn = new FSBlobStoreConnection(store, baseDir, mgr, true);
   }
 
   @AfterClass

@@ -26,7 +26,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -40,7 +39,6 @@ import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
 import org.fedoracommons.akubra.impl.StreamManager;
-import org.fedoracommons.akubra.util.PathAllocator;
 
 /**
  * Filesystem-backed BlobStoreConnection implementation.
@@ -51,31 +49,21 @@ class FSBlobStoreConnection extends AbstractBlobStoreConnection {
   private static final Log log = LogFactory.getLog(FSBlobStoreConnection.class);
 
   private final File baseDir;
-  private final PathAllocator pAlloc;
   private final Set<File>     modified;
 
-  FSBlobStoreConnection(BlobStore blobStore, File baseDir, PathAllocator pAlloc,
-                        StreamManager manager, boolean noSync) {
+  FSBlobStoreConnection(BlobStore blobStore, File baseDir, StreamManager manager, boolean noSync) {
     super(blobStore, manager);
     this.baseDir = baseDir;
-    this.pAlloc = pAlloc;
     this.modified = noSync ? null : new HashSet<File>();
   }
-
 
   //@Override
   public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
     if (isClosed())
       throw new IllegalStateException("Connection closed.");
 
-    if (blobId == null) {
-      String path = pAlloc.allocate(null, null);
-      try {
-        blobId = new URI(FSBlob.scheme + ":" + path);
-      } catch (URISyntaxException wontHappen) {
-        throw new Error(wontHappen);
-      }
-    }
+    if (blobId == null)
+      throw new UnsupportedOperationException();
 
     return new FSBlob(this, baseDir, blobId, streamManager, modified);
   }

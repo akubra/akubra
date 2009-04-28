@@ -175,7 +175,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
               return null;
 
             // get all the rows with the same id; the one with the largest version determines isDel
-            long    maxVers = 0;
+            long    maxVers = -1;
             boolean isDel   = true;
             URI     curId;
 

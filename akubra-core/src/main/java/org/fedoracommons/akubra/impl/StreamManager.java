@@ -103,7 +103,7 @@ public class StreamManager {
       stateLock.lockInterruptibly();
       if (quiescent) {
         log.info("lockUnquiesced: Waiting...");
-        becameUnquiescent.await();
+        becameUnquiescent.await(); // Note: releases the lock before the wait
         log.info("lockUnquiesced: Wait is over.");
       }
       log.debug("Aquired the unquiescent lock");
@@ -148,7 +148,7 @@ public class StreamManager {
       }
       if (!quiescent && this.quiescent) {
         log.info("setQuiescent: Exiting quiescent state.");
-        becameUnquiescent.signal();
+        becameUnquiescent.signalAll();
       }
       this.quiescent = quiescent;
       return true;

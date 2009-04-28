@@ -83,6 +83,9 @@ public class TestFSBlob {
     assertCanonical("file:foo");
     assertCanonical("file:foo/bar");
 
+    // canonicalization should NOT unescape %-encoded chars
+    assertCanonical("file:6a/1b/1e/info%3Afoo%2Fbar.baz%2E");
+
     assertCanonical("file:...");
     assertCanonical("file:.../foo");
     assertCanonical("file:foo/...");

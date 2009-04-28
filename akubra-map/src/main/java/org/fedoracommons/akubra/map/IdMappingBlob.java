@@ -34,25 +34,21 @@ import org.fedoracommons.akubra.MissingBlobException;
 import org.fedoracommons.akubra.impl.BlobWrapper;
 
 /**
- * Wraps an existing {@Blob} to provide id mapping where appropriate.
+ * Wraps an existing {@link Blob} to provide id mapping where appropriate.
  *
  * @author Chris Wilper
  */
 class IdMappingBlob extends BlobWrapper {
-  private final BlobStoreConnection connection;
-  private final Blob blob;
   private final IdMapper mapper;
 
   public IdMappingBlob(BlobStoreConnection connection, Blob blob, IdMapper mapper) {
     super(blob, connection);
-    this.connection = connection;
-    this.blob = blob;
     this.mapper = mapper;
   }
 
   @Override
   public URI getCanonicalId() throws IOException {
-    URI internalId = blob.getCanonicalId();
+    URI internalId = delegate.getCanonicalId();
     if (internalId == null)
       return null;
     return mapper.getExternalId(internalId);
@@ -60,7 +56,7 @@ class IdMappingBlob extends BlobWrapper {
 
   @Override
   public URI getId() {
-    return mapper.getExternalId(blob.getId());
+    return mapper.getExternalId(delegate.getId());
   }
 
   @Override
@@ -68,10 +64,10 @@ class IdMappingBlob extends BlobWrapper {
       IOException, MissingBlobException, NullPointerException, IllegalArgumentException {
     Blob internalBlob;
     if (blobId == null)
-      internalBlob = blob.moveTo(null, hints);
+      internalBlob = delegate.moveTo(null, hints);
     else
-      internalBlob = blob.moveTo(mapper.getInternalId(blobId), hints);
-    return new IdMappingBlob(connection, internalBlob, mapper);
+      internalBlob = delegate.moveTo(mapper.getInternalId(blobId), hints);
+    return new IdMappingBlob(owner, internalBlob, mapper);
   }
 
 }

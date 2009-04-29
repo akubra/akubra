@@ -64,23 +64,20 @@ class ClientBlob extends AbstractBlob {
 
   @Override
   public URI getCanonicalId() throws IOException {
-    if (getConnection().isClosed())
-      throw new IOException("Connection closed");
+    chekState();
 
     return remote.getCanonicalId();
   }
 
   public InputStream openInputStream() throws IOException {
-    if (getConnection().isClosed())
-      throw new IOException("Connection closed");
+    chekState();
 
     return streamMgr.manageInputStream(getConnection(),
                                        new ClientInputStream(remote.openInputStream()));
   }
 
   public OutputStream openOutputStream(long estSize, boolean overwrite) throws IOException {
-    if (getConnection().isClosed())
-      throw new IOException("Connection closed");
+    chekState();
 
     if (!streamMgr.lockUnquiesced()) {
       throw new IOException("Interrupted waiting for writable state");
@@ -95,30 +92,30 @@ class ClientBlob extends AbstractBlob {
   }
 
   public long getSize() throws IOException {
-    if (getConnection().isClosed())
-      throw new IOException("Connection closed");
+    chekState();
 
     return remote.getSize();
   }
 
   public boolean exists() throws IOException {
-    if (getConnection().isClosed())
-      throw new IOException("Connection closed");
+    chekState();
 
     return remote.exists();
   }
 
   public void delete() throws IOException {
-    if (getConnection().isClosed())
-      throw new IOException("Connection closed");
-
+    chekState();
     remote.delete();
   }
 
   public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
-    if (getConnection().isClosed())
-      throw new IOException("Connection closed");
+    chekState();
 
     return new ClientBlob(getConnection(), streamMgr, remote.moveTo(blobId, hints));
+  }
+
+  private void chekState() {
+    if (getConnection().isClosed())
+      throw new IllegalStateException("Connection closed");
   }
 }

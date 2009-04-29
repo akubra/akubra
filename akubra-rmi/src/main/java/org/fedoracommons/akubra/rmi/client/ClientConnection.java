@@ -83,8 +83,7 @@ class ClientConnection extends AbstractBlobStoreConnection {
   }
 
   public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
-    if (isClosed())
-      throw new IOException("Connection closed");
+    checkState();
 
     return new ClientBlob(this, streamManager, remote.getBlob(blobId, hints));
   }
@@ -92,8 +91,7 @@ class ClientConnection extends AbstractBlobStoreConnection {
   @Override
   public Blob getBlob(InputStream in, long estimatedSize, Map<String, String> hints)
                throws IOException {
-    if (isClosed())
-      throw new IOException("Connection closed");
+    checkState();
 
     RemoteBlobCreator bc = remote.getBlobCreator(estimatedSize, hints);
     RemoteBlob rb = null;
@@ -118,8 +116,7 @@ class ClientConnection extends AbstractBlobStoreConnection {
   }
 
   public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
-    if (isClosed())
-      throw new IOException("Connection closed");
+    checkState();
 
     RemoteIterator<URI> ri = remote.listBlobIds(filterPrefix);
 
@@ -128,6 +125,12 @@ class ClientConnection extends AbstractBlobStoreConnection {
 
   //@Override
   public void sync() throws IOException {
+    checkState();
     remote.sync();
+  }
+
+  private void checkState() {
+    if (isClosed())
+      throw new IllegalStateException("Connection closed");
   }
 }

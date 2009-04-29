@@ -54,7 +54,7 @@ public class Exporter {
    * there is a bit of a back-off mechanism - each subsequent retry will use a multiple
    * of this delay.
    */
-  public static final int RETRY_DELAY = 10;
+  public static final long RETRY_DELAY = 10;
   private final int                          port;
   private final RMIClientSocketFactory       csf;
   private final RMIServerSocketFactory       ssf;

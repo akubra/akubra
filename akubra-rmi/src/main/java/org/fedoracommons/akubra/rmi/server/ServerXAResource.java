@@ -94,7 +94,7 @@ public class ServerXAResource extends UnicastExportable implements RemoteXAResou
     Xid[] ids = xaRes.recover(flag);
 
     if (ids == null)
-      return null;
+      return new Xid[0];
 
     for (int i = 0; i < ids.length; i++)
       if ((ids[i] != null) && !(ids[i] instanceof Serializable))

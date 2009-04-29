@@ -92,8 +92,7 @@ class WWWBlob extends AbstractBlob {
   }
 
   private URLConnection connect(boolean input, boolean cache) throws IOException {
-    if (((WWWConnection)getConnection()).isClosed())
-      throw new IllegalStateException("Connection closed.");
+    ensureOpen();
 
     URLConnection con;
 

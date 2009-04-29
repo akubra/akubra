@@ -66,6 +66,16 @@ public abstract class AbstractBlob implements Blob {
   }
 
   /**
+   * Helper that checks whether the connection is open and throws an exception if not.
+   *
+   * @throws IllegalStateException if the connection has been closed
+   */
+  protected void ensureOpen() throws IllegalStateException {
+    if (getConnection().isClosed())
+      throw new IllegalStateException("Connection closed.");
+  }
+
+  /**
    * Indicates whether some other object is "equal to" this one. For the other object to
    * be considered equal, it must be an instance of Blob and it must have the same id
    * as this Blob and it must also have the same owning BlobStoreConnection as this Blob.

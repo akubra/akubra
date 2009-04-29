@@ -65,7 +65,7 @@ class MemBlob extends AbstractBlob {
 
   //@Override
   public boolean exists() throws IOException {
-    checkClosed();
+    ensureOpen();
     synchronized (blobs) {
       return blobs.containsKey(id);
     }
@@ -73,7 +73,7 @@ class MemBlob extends AbstractBlob {
 
   //@Override
   public void delete() throws IOException {
-    checkClosed();
+    ensureOpen();
     if (!streamMgr.lockUnquiesced())
       throw new IOException("Interrupted waiting for writable state");
 
@@ -87,9 +87,10 @@ class MemBlob extends AbstractBlob {
   }
 
   //@Override
-  public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException, MissingBlobException, NullPointerException,
-         IllegalArgumentException, DuplicateBlobException {
-    checkClosed();
+  public Blob moveTo(URI blobId, Map<String, String> hints)
+        throws IOException, MissingBlobException, NullPointerException, IllegalArgumentException,
+               DuplicateBlobException {
+    ensureOpen();
     if (!streamMgr.lockUnquiesced())
       throw new IOException("Interrupted waiting for writable state");
 
@@ -116,13 +117,13 @@ class MemBlob extends AbstractBlob {
 
   //@Override
   public InputStream openInputStream() throws IOException {
-    checkClosed();
+    ensureOpen();
     return streamMgr.manageInputStream(getConnection(), getData().getInputStream());
   }
 
   //@Override
   public OutputStream openOutputStream(long estimatedSize, boolean overwrite) throws IOException {
-    checkClosed();
+    ensureOpen();
     if (!streamMgr.lockUnquiesced())
       throw new IOException("Interrupted waiting for writable state");
 
@@ -150,7 +151,7 @@ class MemBlob extends AbstractBlob {
 
   //@Override
   public long getSize() throws IOException {
-    checkClosed();
+    ensureOpen();
     return getData().size();
   }
 
@@ -161,10 +162,5 @@ class MemBlob extends AbstractBlob {
         throw new MissingBlobException(getId());
       return data;
     }
-  }
-
-  private void checkClosed() throws IllegalArgumentException {
-    if (owner.isClosed())
-      throw new IllegalStateException("Connection closed.");
   }
 }

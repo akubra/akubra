@@ -111,8 +111,7 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
 
   //@Override
   public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
-    if (isClosed())
-      throw new IllegalStateException("Connection closed.");
+    ensureOpen();
 
     if (blobId != null)
       validateId(blobId);
@@ -128,8 +127,7 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
 
   //@Override
   public void sync() throws IOException {
-    if (isClosed())
-      throw new IllegalStateException("Connection closed.");
+    ensureOpen();
 
     bStoreCon.sync();
   }
@@ -411,8 +409,7 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
 
     private void check(boolean mustExist, boolean mustNotExist)
         throws IllegalStateException, MissingBlobException, DuplicateBlobException {
-      if (isClosed())
-        throw new IllegalStateException("Connection closed.");
+      ensureOpen();
       if (mustExist && storeId == null)
         throw new MissingBlobException(getId());
       if (mustNotExist && storeId != null)

@@ -105,4 +105,14 @@ public abstract class AbstractBlobStoreConnection implements BlobStoreConnection
   public boolean isClosed() {
     return closed;
   }
+
+  /**
+   * Helper that checks whether the connection is open and throws an exception if not.
+   *
+   * @throws IllegalStateException if the connection has been closed
+   */
+  protected void ensureOpen() throws IllegalStateException {
+    if (isClosed())
+      throw new IllegalStateException("Connection closed.");
+  }
 }

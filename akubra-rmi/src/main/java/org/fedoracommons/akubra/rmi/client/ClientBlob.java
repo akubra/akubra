@@ -64,20 +64,20 @@ class ClientBlob extends AbstractBlob {
 
   @Override
   public URI getCanonicalId() throws IOException {
-    chekState();
+    ensureOpen();
 
     return remote.getCanonicalId();
   }
 
   public InputStream openInputStream() throws IOException {
-    chekState();
+    ensureOpen();
 
     return streamMgr.manageInputStream(getConnection(),
                                        new ClientInputStream(remote.openInputStream()));
   }
 
   public OutputStream openOutputStream(long estSize, boolean overwrite) throws IOException {
-    chekState();
+    ensureOpen();
 
     if (!streamMgr.lockUnquiesced()) {
       throw new IOException("Interrupted waiting for writable state");
@@ -92,30 +92,26 @@ class ClientBlob extends AbstractBlob {
   }
 
   public long getSize() throws IOException {
-    chekState();
+    ensureOpen();
 
     return remote.getSize();
   }
 
   public boolean exists() throws IOException {
-    chekState();
+    ensureOpen();
 
     return remote.exists();
   }
 
   public void delete() throws IOException {
-    chekState();
+    ensureOpen();
+
     remote.delete();
   }
 
   public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
-    chekState();
+    ensureOpen();
 
     return new ClientBlob(getConnection(), streamMgr, remote.moveTo(blobId, hints));
-  }
-
-  private void chekState() {
-    if (getConnection().isClosed())
-      throw new IllegalStateException("Connection closed");
   }
 }

@@ -59,8 +59,7 @@ class FSBlobStoreConnection extends AbstractBlobStoreConnection {
 
   //@Override
   public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
-    if (isClosed())
-      throw new IllegalStateException("Connection closed.");
+    ensureOpen();
 
     if (blobId == null)
       throw new UnsupportedOperationException();
@@ -70,16 +69,13 @@ class FSBlobStoreConnection extends AbstractBlobStoreConnection {
 
   //@Override
   public Iterator<URI> listBlobIds(String filterPrefix) {
-    if (isClosed())
-      throw new IllegalStateException("Connection closed.");
-
+    ensureOpen();
     return new FSBlobIdIterator(baseDir, filterPrefix);
   }
 
   //@Override
   public void sync() throws IOException {
-    if (isClosed())
-      throw new IllegalStateException("Connection closed.");
+    ensureOpen();
 
     if (modified == null)
       throw new UnsupportedOperationException("You promised you weren't going to call sync!");

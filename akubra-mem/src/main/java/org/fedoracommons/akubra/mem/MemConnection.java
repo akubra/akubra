@@ -56,8 +56,7 @@ class MemConnection extends AbstractBlobStoreConnection {
 
   //@Override
   public Blob getBlob(URI blobId, Map<String, String> hints) {
-    if (isClosed())
-      throw new IllegalStateException("Connection closed.");
+    ensureOpen();
 
     if (blobId == null) {
       synchronized (blobs) {
@@ -72,8 +71,7 @@ class MemConnection extends AbstractBlobStoreConnection {
 
   //@Override
   public Iterator<URI> listBlobIds(final String filterPrefix) {
-    if (isClosed())
-      throw new IllegalStateException("Connection closed.");
+    ensureOpen();
 
     synchronized (blobs) {
       return Iterators.filter(new ArrayList<URI>(blobs.keySet()).iterator(), new Predicate<URI>() {
@@ -86,7 +84,6 @@ class MemConnection extends AbstractBlobStoreConnection {
 
   //@Override
   public void sync() {
-    if (isClosed())
-      throw new IllegalStateException("Connection closed.");
+    ensureOpen();
   }
 }

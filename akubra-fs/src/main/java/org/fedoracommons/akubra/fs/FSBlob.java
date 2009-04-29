@@ -69,7 +69,7 @@ class FSBlob extends AbstractBlob {
          Set<File> modified) throws UnsupportedIdException {
     super(connection, blobId);
     this.canonicalId = validateId(blobId);
-    this.file = new File(baseDir, getPath(canonicalId));
+    this.file = new File(baseDir, canonicalId.getRawSchemeSpecificPart());
     this.manager = manager;
     this.modified = modified;
   }
@@ -189,13 +189,13 @@ class FSBlob extends AbstractBlob {
       throw new NullPointerException("Id cannot be null");
     if (!blobId.getScheme().equalsIgnoreCase(scheme))
       throw new UnsupportedIdException(blobId, "Id must be in " + scheme + " scheme");
-    String path = getPath(blobId);
+    String path = blobId.getRawSchemeSpecificPart();
     if (path.startsWith("/"))
       throw new UnsupportedIdException(blobId, "Id must specify a relative path");
     try {
       // insert a '/' so java.net.URI normalization works
       URI tmp = new URI(scheme + ":/" + path);
-      String nPath = getPath(tmp.normalize()).substring(1);
+      String nPath = tmp.normalize().getRawSchemeSpecificPart().substring(1);
       if (nPath.equals("..") || nPath.startsWith("../"))
         throw new UnsupportedIdException(blobId, "Id cannot be outside top-level directory");
       if (nPath.endsWith("/"))
@@ -204,11 +204,6 @@ class FSBlob extends AbstractBlob {
     } catch (URISyntaxException wontHappen) {
       throw new Error(wontHappen);
     }
-  }
-
-  static String getPath(URI fileURI) {
-    // don't use fileURI.getSchemeSpecificPart because it unescapes %-encoded chars
-    return fileURI.toString().substring(scheme.length() + 1);
   }
 
   private static void makeParentDirs(File file) throws IOException {

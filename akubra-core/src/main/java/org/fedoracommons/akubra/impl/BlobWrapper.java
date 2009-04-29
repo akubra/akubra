@@ -115,7 +115,7 @@ public class BlobWrapper extends AbstractBlob {
   public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
     ensureOpen();
 
-    delegate.moveTo(blobId, hints);
-    return getConnection().getBlob(blobId, hints);
+    Blob nb = delegate.moveTo(blobId, hints);
+    return getConnection().getBlob(nb.getId(), hints);
   }
 }

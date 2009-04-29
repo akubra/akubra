@@ -34,6 +34,8 @@ import java.util.Set;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
 
+import com.google.common.collect.Iterators;
+
 import org.apache.commons.io.IOUtils;
 
 import static org.testng.Assert.assertEquals;
@@ -208,8 +210,9 @@ public abstract class AbstractTests {
   protected void assertNoBlobs(final String prefix) throws Exception {
     runTests(new ConAction() {
         public void run(BlobStoreConnection con) throws Exception {
-          assertFalse(con.listBlobIds(prefix).hasNext(),
-                      "unexpected blobs found for prefix '" + prefix + "';");
+          Iterator<URI> iter = con.listBlobIds(prefix);
+          if (iter.hasNext())
+            fail("unexpected blobs found for prefix '" + prefix + "': " + Iterators.toString(iter));
         }
     }, true);
   }

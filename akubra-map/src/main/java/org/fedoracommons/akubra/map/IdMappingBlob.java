@@ -41,8 +41,8 @@ import org.fedoracommons.akubra.impl.BlobWrapper;
 class IdMappingBlob extends BlobWrapper {
   private final IdMapper mapper;
 
-  public IdMappingBlob(BlobStoreConnection connection, Blob blob, IdMapper mapper) {
-    super(blob, connection);
+  public IdMappingBlob(BlobStoreConnection connection, Blob delegate, IdMapper mapper) {
+    super(delegate, connection);
     this.mapper = mapper;
   }
 

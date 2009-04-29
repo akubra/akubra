@@ -55,7 +55,7 @@ public interface IdMapper {
    * Implementations should provide this information whenever possible
    * because it supports a more efficient implementation of
    * {@link BlobStoreConnection#listBlobIds(String)} when a
-   * <var>filterPrefix</code> is specified.
+   * <var>filterPrefix</var> is specified.
    *
    * @param externalPrefix the external prefix, never <code>null</code>.
    * @return the internal prefix, or <code>null</code> if unknown.

@@ -49,11 +49,19 @@ public class IdMappingBlobStoreConnectionTest {
   private static final URI blobId2 = URI.create("urn:blob:2");
   private static final URI blobId3 = URI.create("info:blob:2");
 
+  /**
+   * Listing blobs with and without prefix filters should behave as expected
+   * when the prefix is mappable.
+   */
   @Test
   public void testListBlobsPrefixMappable() throws Exception {
     testListBlobs(getTestConnection(true));
   }
 
+  /**
+   * Listing blobs with and without prefix filters should behave as expected
+   * when the prefix is NOT mappable.
+   */
   @Test
   public void testListBlobsPrefixNotMappable() throws Exception {
     testListBlobs(getTestConnection(false));

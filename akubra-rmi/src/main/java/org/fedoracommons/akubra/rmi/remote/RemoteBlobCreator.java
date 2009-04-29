@@ -33,14 +33,16 @@ import java.rmi.RemoteException;
  */
 public interface RemoteBlobCreator extends RemoteOutputStream {
   /**
-   * Gets the Blob that was created. Note that this will block till {@link
-   * RemoteOutputStream#close()} has been called. Also note that the server side may un-export
-   * this object at the end of this call.
+   * Shuts down this blob-creator and gets the Blob that was created. Note that if this is not
+   * an abortive shutdown, this call will block till {@link RemoteOutputStream#close()} has been
+   * called. Also note that the server side will un-export this object at the end of this call.
+   *
+   * @param abort if set to true, all attempts are made to abort the blob creation
    *
    * @return the remote blob handle
    *
    * @throws RemoteException on an error in rmi transport
    * @throws IOException error reported by the remote server
    */
-  RemoteBlob getBlob() throws RemoteException, IOException;
+  RemoteBlob shutDown(boolean abort) throws RemoteException, IOException;
 }

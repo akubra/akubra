@@ -129,13 +129,14 @@ public class ServerConnectionTest {
        .andThrow(new UnsupportedOperationException());
 
     replay(con);
-    RemoteBlobCreator rb = sc.getBlobCreator(42L, hints);
-    assertTrue(rb instanceof ServerBlobCreator);
-    assertTrue(rb.getBlob() instanceof ServerBlob);
-    assertEquals(blob, ((ServerBlob)rb.getBlob()).getBlob());
+    RemoteBlobCreator rbc = sc.getBlobCreator(42L, hints);
+    assertTrue(rbc instanceof ServerBlobCreator);
+    RemoteBlob rb = rbc.shutDown(false);
+    assertTrue(rb instanceof ServerBlob);
+    assertEquals(blob, ((ServerBlob)rb).getBlob());
 
     try {
-      sc.getBlobCreator(-1L, hints).getBlob();
+      sc.getBlobCreator(-1L, hints).shutDown(false);
       fail("Failed to rcv expected exception");
     } catch (UnsupportedOperationException e) {
     }

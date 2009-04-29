@@ -38,6 +38,7 @@ import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
 import org.fedoracommons.akubra.impl.StreamManager;
+import org.fedoracommons.akubra.rmi.remote.RemoteBlob;
 import org.fedoracommons.akubra.rmi.remote.RemoteBlobCreator;
 import org.fedoracommons.akubra.rmi.remote.RemoteConnection;
 import org.fedoracommons.akubra.rmi.remote.RemoteIterator;
@@ -95,11 +96,25 @@ class ClientConnection extends AbstractBlobStoreConnection {
       throw new IOException("Connection closed");
 
     RemoteBlobCreator bc = remote.getBlobCreator(estimatedSize, hints);
-    OutputStream out = new ClientOutputStream(bc);
-    IOUtils.copyLarge(in, out);
-    out.close();
+    RemoteBlob rb = null;
+    try {
+      OutputStream out = new ClientOutputStream(bc);
+      IOUtils.copyLarge(in, out);
+      out.close();
+      rb = bc.shutDown(false);
+    } finally {
+      try {
+        if (rb == null)
+          bc.shutDown(true);
+      } catch (Throwable t) {
+        log.warn("Failed to shutdown remote blob creator", t);
+      }
+    }
 
-    return new ClientBlob(this, streamManager, bc.getBlob());
+    if (rb == null)
+      throw new NullPointerException();
+
+    return new ClientBlob(this, streamManager, rb);
   }
 
   public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {

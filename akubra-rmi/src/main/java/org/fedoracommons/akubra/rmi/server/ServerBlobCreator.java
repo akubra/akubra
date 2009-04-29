@@ -34,6 +34,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.rmi.remote.PartialBuffer;
 import org.fedoracommons.akubra.rmi.remote.RemoteBlob;
@@ -45,9 +48,11 @@ import org.fedoracommons.akubra.rmi.remote.RemoteBlobCreator;
  * @author Pradeep Krishnan
  */
 public class ServerBlobCreator extends UnicastExportable implements RemoteBlobCreator {
+  private static final Log         log              = LogFactory.getLog(ServerBlobCreator.class);
   private static final long        serialVersionUID = 1L;
-  private final Future<RemoteBlob> reader;
+  private final ExecutorService    readerService;
   private final ExecutorService    writerService;
+  private final Future<RemoteBlob> reader;
   private final PipedOutputStream  out;
 
   /**
@@ -66,8 +71,8 @@ public class ServerBlobCreator extends UnicastExportable implements RemoteBlobCr
     super(exporter);
     out = new PipedOutputStream();
 
-    final InputStream in       = new PipedInputStream(out);
-    ExecutorService   executor =
+    final InputStream in = new PipedInputStream(out);
+    readerService =
       Executors.newSingleThreadExecutor(new ThreadFactory() {
           public Thread newThread(Runnable r) {
             Thread t = new Thread(r, "akubra-rmi-blob-creator");
@@ -78,12 +83,20 @@ public class ServerBlobCreator extends UnicastExportable implements RemoteBlobCr
         });
 
     reader =
-      executor.submit(new Callable<RemoteBlob>() {
+      readerService.submit(new Callable<RemoteBlob>() {
           public RemoteBlob call() throws Exception {
+            if (log.isDebugEnabled())
+              log.debug("Started blob creator");
+
             return new ServerBlob(con.getBlob(in, estimatedSize, hints), getExporter());
           }
         });
 
+    /*
+     * Note: there needs to be a single thread that writes to PipedOutputStream.
+     * See PipedOutputStream and PipedInputStream source. So all rmi calls for the
+     * stream are scheduled on this single-threaded execution service.
+     */
     writerService =
       Executors.newSingleThreadExecutor(new ThreadFactory() {
           public Thread newThread(Runnable r) {
@@ -93,12 +106,16 @@ public class ServerBlobCreator extends UnicastExportable implements RemoteBlobCr
             return t;
           }
         });
+
+    if (log.isDebugEnabled())
+      log.debug("Server blob creator is ready");
   }
 
-  public RemoteBlob getBlob() throws IOException {
-    unExport(false);
-
+  private RemoteBlob getBlob() throws IOException {
     try {
+      if (log.isDebugEnabled())
+        log.debug("Waiting for Server blob ...");
+
       return reader.get();
     } catch (InterruptedException e) {
       throw (IOException) new IOException("Interrupted while waiting for reader").initCause(e);
@@ -115,6 +132,23 @@ public class ServerBlobCreator extends UnicastExportable implements RemoteBlobCr
     }
   }
 
+  public RemoteBlob shutDown(boolean abort) throws IOException {
+    if (log.isDebugEnabled())
+      log.debug(abort ? "Aborting server blob creator" : "Shuting down server blob creator");
+
+    unExport(abort);
+
+    if (abort)
+      reader.cancel(abort);
+
+    RemoteBlob rb = abort ? null : getBlob();
+
+    readerService.shutdownNow();
+    writerService.shutdownNow();
+
+    return rb;
+  }
+
   public void close() throws IOException {
     execute(new Callable<Void>() {
         public Void call() throws Exception {
@@ -127,12 +161,11 @@ public class ServerBlobCreator extends UnicastExportable implements RemoteBlobCr
 
   @Override
   public void unreferenced() {
-    if (!reader.isDone())
-      reader.cancel(true);
-
-    writerService.shutdownNow();
-
-    unExport(true);
+    try {
+      shutDown(true);
+    } catch (IOException e) {
+      log.warn("Error during abort", e);
+    }
   }
 
   public void flush() throws IOException {

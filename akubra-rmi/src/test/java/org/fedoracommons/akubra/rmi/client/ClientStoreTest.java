@@ -76,6 +76,7 @@ public class ClientStoreTest {
     ss.unExport(false);
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void testOpenConnection() throws IOException {
     BlobStoreConnection con = createMock(BlobStoreConnection.class);

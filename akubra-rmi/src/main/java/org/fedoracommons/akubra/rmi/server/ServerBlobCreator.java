@@ -29,11 +29,13 @@ import java.io.PipedOutputStream;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 
 import org.fedoracommons.akubra.BlobStoreConnection;
+import org.fedoracommons.akubra.rmi.remote.PartialBuffer;
 import org.fedoracommons.akubra.rmi.remote.RemoteBlob;
 import org.fedoracommons.akubra.rmi.remote.RemoteBlobCreator;
 
@@ -42,9 +44,11 @@ import org.fedoracommons.akubra.rmi.remote.RemoteBlobCreator;
  *
  * @author Pradeep Krishnan
  */
-public class ServerBlobCreator extends ServerOutputStream implements RemoteBlobCreator {
+public class ServerBlobCreator extends UnicastExportable implements RemoteBlobCreator {
   private static final long        serialVersionUID = 1L;
-  private final Future<RemoteBlob> blob;
+  private final Future<RemoteBlob> reader;
+  private final ExecutorService    writerService;
+  private final PipedOutputStream  out;
 
   /**
    * Creates a new ServerBlobCreator object.
@@ -59,11 +63,11 @@ public class ServerBlobCreator extends ServerOutputStream implements RemoteBlobC
   public ServerBlobCreator(final BlobStoreConnection con, final long estimatedSize,
                            final Map<String, String> hints, Exporter exporter)
                     throws IOException {
-    super(new PipedOutputStream(), exporter);
+    super(exporter);
+    out = new PipedOutputStream();
 
-    final InputStream in = new PipedInputStream((PipedOutputStream) out);
-
-    blob =
+    final InputStream in       = new PipedInputStream(out);
+    ExecutorService   executor =
       Executors.newSingleThreadExecutor(new ThreadFactory() {
           public Thread newThread(Runnable r) {
             Thread t = new Thread(r, "akubra-rmi-blob-creator");
@@ -71,9 +75,22 @@ public class ServerBlobCreator extends ServerOutputStream implements RemoteBlobC
 
             return t;
           }
-        }).submit(new Callable<RemoteBlob>() {
+        });
+
+    reader =
+      executor.submit(new Callable<RemoteBlob>() {
           public RemoteBlob call() throws Exception {
             return new ServerBlob(con.getBlob(in, estimatedSize, hints), getExporter());
+          }
+        });
+
+    writerService =
+      Executors.newSingleThreadExecutor(new ThreadFactory() {
+          public Thread newThread(Runnable r) {
+            Thread t = new Thread(r, "akubra-rmi-blob-writer");
+            t.setDaemon(true);
+
+            return t;
           }
         });
   }
@@ -82,9 +99,9 @@ public class ServerBlobCreator extends ServerOutputStream implements RemoteBlobC
     unExport(false);
 
     try {
-      return blob.get();
+      return reader.get();
     } catch (InterruptedException e) {
-      throw (IOException) new IOException("Interrupted while waiting for blob").initCause(e);
+      throw (IOException) new IOException("Interrupted while waiting for reader").initCause(e);
     } catch (ExecutionException e) {
       Throwable t = e.getCause();
 
@@ -94,28 +111,85 @@ public class ServerBlobCreator extends ServerOutputStream implements RemoteBlobC
       if (t instanceof RuntimeException)
         throw (RuntimeException) t;
 
-      throw (IOException) new IOException("Unexpected exception in create-blob").initCause(t);
+      throw (IOException) new IOException("Unexpected exception in reader").initCause(t);
     }
   }
 
-  /**
-   * Overrides from ServerOutputStream so that this is not unexported.
-   *
-   * @throws IOException on an error in stream close
-   */
-  @Override
   public void close() throws IOException {
-    out.close();
+    execute(new Callable<Void>() {
+        public Void call() throws Exception {
+          out.close();
+
+          return null;
+        }
+      });
   }
 
-  /**
-   * Overrides from ServerOutputStream so that the worker thread is aborted.
-   */
   @Override
   public void unreferenced() {
-    if (!blob.isDone())
-      blob.cancel(true);
+    if (!reader.isDone())
+      reader.cancel(true);
+
+    writerService.shutdownNow();
 
     unExport(true);
+  }
+
+  public void flush() throws IOException {
+    execute(new Callable<Void>() {
+        public Void call() throws Exception {
+          out.flush();
+
+          return null;
+        }
+      });
+  }
+
+  public void write(final byte[] b) throws IOException {
+    execute(new Callable<Void>() {
+        public Void call() throws Exception {
+          out.write(b);
+
+          return null;
+        }
+      });
+  }
+
+  public void write(final int b) throws IOException {
+    execute(new Callable<Void>() {
+        public Void call() throws Exception {
+          out.write(b);
+
+          return null;
+        }
+      });
+  }
+
+  public void write(final PartialBuffer b) throws IOException {
+    execute(new Callable<Void>() {
+        public Void call() throws Exception {
+          out.write(b.getBuffer(), b.getOffset(), b.getLength());
+
+          return null;
+        }
+      });
+  }
+
+  private <T> T execute(Callable<T> action) throws IOException {
+    try {
+      return writerService.submit(action).get();
+    } catch (InterruptedException e) {
+      throw (IOException) new IOException("Interrupted while waiting for writer").initCause(e);
+    } catch (ExecutionException e) {
+      Throwable t = e.getCause();
+
+      if (t instanceof IOException)
+        throw (IOException) t;
+
+      if (t instanceof RuntimeException)
+        throw (RuntimeException) t;
+
+      throw (IOException) new IOException("Unexpected exception in writer").initCause(t);
+    }
   }
 }

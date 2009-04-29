@@ -32,16 +32,27 @@ import java.net.URI;
  */
 public class MockIdMapper implements IdMapper {
   private final String uriPrefix;
+  private final boolean prefixMappable;
 
   public MockIdMapper() {
-    this(null);
+    this(null, true);
   }
 
-  public MockIdMapper(String uriPrefix) {
+  /**
+   * Creates an instance.
+   *
+   * @param uriPrefix the uriPrefix to use for internal ids, "" or <code>null</code>
+   *        if no prefix should be used.
+   * @param prefixMappable for the purpose of testing, whether prefixes should
+   *        be considered mappable or not. If <code>false</code>, requests
+   *        to {@link #getInternalPrefix} will always return <code>null</code>.
+   */
+  public MockIdMapper(String uriPrefix, boolean prefixMappable) {
     if (uriPrefix == null)
       this.uriPrefix = "";
     else
       this.uriPrefix = uriPrefix;
+    this.prefixMappable = prefixMappable;
   }
 
   public URI getExternalId(URI internalId) throws NullPointerException {
@@ -56,6 +67,15 @@ public class MockIdMapper implements IdMapper {
     if (externalId == null)
       throw new NullPointerException();
     return URI.create(uriPrefix + externalId);
+  }
+
+  public String getInternalPrefix(String externalPrefix) throws NullPointerException {
+    if (externalPrefix == null)
+      throw new NullPointerException();
+    if (prefixMappable)
+      return uriPrefix + externalPrefix;
+    else
+      return null;
   }
 
 }

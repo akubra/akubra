@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 
 import org.fedoracommons.akubra.Blob;
@@ -75,6 +76,7 @@ class IdMappingBlobStoreConnection extends AbstractBlobStoreConnection {
   }
 
   //@Override
+  @Override
   public Blob getBlob(InputStream content, long estimatedSize, Map<String, String> hints)
       throws IOException, UnsupportedOperationException {
     Blob internalBlob = connection.getBlob(content, estimatedSize, hints);
@@ -82,13 +84,35 @@ class IdMappingBlobStoreConnection extends AbstractBlobStoreConnection {
   }
 
   //@Override
-  public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
-    Iterator<URI> iterator = connection.listBlobIds(filterPrefix);
-    return Iterators.transform(iterator, new Function<URI, URI>() {
+  public Iterator<URI> listBlobIds(final String filterPrefix) throws IOException {
+    // list the appropriate internal ids
+    String intPrefix = null;
+    Iterator<URI> intIterator;
+    if (filterPrefix == null) {
+      intIterator = connection.listBlobIds(null);
+    } else {
+      intPrefix = mapper.getInternalPrefix(filterPrefix);
+      intIterator = connection.listBlobIds(intPrefix);
+    }
+
+    // transform internal ids to external form on the way out
+    Iterator<URI> extIterator = Iterators.transform(intIterator, new Function<URI, URI>() {
       public URI apply(URI uri) {
         return mapper.getExternalId(uri);
       }
     });
+
+    if (filterPrefix != null && intPrefix == null) {
+      // also need to post-filter
+      return Iterators.filter(extIterator, new Predicate<URI>() {
+        public boolean apply(URI uri) {
+          return uri.toString().startsWith(filterPrefix);
+        }
+      });
+    } else {
+      // no need to filter
+      return extIterator;
+    }
   }
 
   //@Override
@@ -97,6 +121,7 @@ class IdMappingBlobStoreConnection extends AbstractBlobStoreConnection {
   }
 
   //@Override
+  @Override
   public void close() {
     super.close();
     connection.close();

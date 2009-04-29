@@ -56,5 +56,4 @@ public class IdMappingBlobStoreTCKTest extends TCKTestSuite {
     return null;
   }
 
-
 }

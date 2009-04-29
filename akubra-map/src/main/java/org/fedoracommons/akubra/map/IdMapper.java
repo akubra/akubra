@@ -23,6 +23,8 @@ package org.fedoracommons.akubra.map;
 
 import java.net.URI;
 
+import org.fedoracommons.akubra.BlobStoreConnection;
+
 /**
  * Maps internal blob ids to external blob ids and vice-versa.
  *
@@ -47,5 +49,18 @@ public interface IdMapper {
    * @throws NullPointerException if <var>externalId</var> is <code>null</code>.
    */
   URI getInternalId(URI externalId) throws NullPointerException;
+
+  /**
+   * Gets the internal id prefix for an external id prefix, if known.
+   * Implementations should provide this information whenever possible
+   * because it supports a more efficient implementation of
+   * {@link BlobStoreConnection#listBlobIds(String)} when a
+   * <var>filterPrefix</code> is specified.
+   *
+   * @param externalPrefix the external prefix, never <code>null</code>.
+   * @return the internal prefix, or <code>null</code> if unknown.
+   * @throws NullPointerException if <var>externalPrefix</var> is <code>null</code>.
+   */
+  String getInternalPrefix(String externalPrefix) throws NullPointerException;
 
 }

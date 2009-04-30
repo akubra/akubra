@@ -92,6 +92,8 @@ class ClientConnection extends AbstractBlobStoreConnection {
   public Blob getBlob(InputStream in, long estimatedSize, Map<String, String> hints)
                throws IOException {
     ensureOpen();
+    if (in == null)
+      throw new NullPointerException();
 
     RemoteBlobCreator bc = remote.getBlobCreator(estimatedSize, hints);
     RemoteBlob rb = null;
@@ -100,9 +102,10 @@ class ClientConnection extends AbstractBlobStoreConnection {
       IOUtils.copyLarge(in, out);
       out.close();
       rb = bc.shutDown(false);
+      bc = null;
     } finally {
       try {
-        if (rb == null)
+        if (bc != null)
           bc.shutDown(true);
       } catch (Throwable t) {
         log.warn("Failed to shutdown remote blob creator", t);

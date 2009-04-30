@@ -21,7 +21,6 @@
  */
 package org.fedoracommons.akubra.rmi;
 
-import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.io.IOException;

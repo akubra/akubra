@@ -21,14 +21,10 @@
  */
 package org.fedoracommons.akubra.www;
 
-import java.io.IOException;
-
 import java.net.URI;
 
 import org.fedoracommons.akubra.BlobStore;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.fail;
 
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;

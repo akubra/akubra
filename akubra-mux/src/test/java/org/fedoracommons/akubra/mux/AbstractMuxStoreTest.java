@@ -28,7 +28,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transaction;
@@ -38,7 +37,6 @@ import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.UnsupportedIdException;
 import org.fedoracommons.akubra.impl.AbstractBlobStore;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
@@ -121,10 +119,6 @@ public class AbstractMuxStoreTest {
   }
 
   private static final class MockBlobStore extends AbstractBlobStore {
-    private boolean     qs;
-    private boolean     ret  = true;
-    private IOException fake;
-
     private MockBlobStore(URI id) {
       super(id);
     }

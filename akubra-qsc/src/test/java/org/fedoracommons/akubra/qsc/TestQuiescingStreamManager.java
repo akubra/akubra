@@ -22,26 +22,15 @@
 
 package org.fedoracommons.akubra.qsc;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URI;
-import java.util.Iterator;
-import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
-
-import org.fedoracommons.akubra.Blob;
-import org.fedoracommons.akubra.BlobStoreConnection;
-import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
 
 /**
  * Unit Tests for {@link QuiescingStreamManager}.

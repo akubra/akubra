@@ -67,12 +67,12 @@ public class StreamManager {
         if (closeable instanceof InputStream) {
           synchronized (openInputStreams) {
             openInputStreams.remove(closeable);
-            openInputStreams.notify();
+            openInputStreams.notifyAll();
           }
         } else {
           synchronized (openOutputStreams) {
             openOutputStreams.remove(closeable);
-            openOutputStreams.notify();
+            openOutputStreams.notifyAll();
           }
         }
       }

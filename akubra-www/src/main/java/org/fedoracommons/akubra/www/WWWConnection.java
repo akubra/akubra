@@ -61,6 +61,7 @@ class WWWConnection extends AbstractBlobStoreConnection {
       this.handlers.putAll(handlers);
   }
 
+  @Override
   public void close() {
     if (blobs != null) {
       for (WWWBlob blob : blobs.values())
@@ -77,7 +78,7 @@ class WWWConnection extends AbstractBlobStoreConnection {
    * guaranteed for the same connection.
    *
    * @param blobId the blob identifier
-   * @param create wether to create new blob instances
+   * @param create whether to create new blob instances
    *
    * @return the WWWBlob instance
    *
@@ -89,7 +90,7 @@ class WWWConnection extends AbstractBlobStoreConnection {
       throw new IllegalStateException("Connection closed.");
 
     if (blobId == null)
-      throw new UnsupportedOperationException("Must supply a valid URL as the blob-id. " + 
+      throw new UnsupportedOperationException("Must supply a valid URL as the blob-id. " +
           "This store has no id generation capability.");
 
     WWWBlob blob = blobs.get(blobId);

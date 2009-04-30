@@ -60,10 +60,10 @@ class QuiescingStreamManager extends StreamManager {
   private boolean quiescent;
 
   /** the list of open, transactional connections */
-  private Set<QuiescingBlobStoreConnection> txnCons = new HashSet<QuiescingBlobStoreConnection>();
+  private final Set<QuiescingBlobStoreConnection> txnCons = new HashSet<QuiescingBlobStoreConnection>();
 
   /** the list of open, non-transactional connections */
-  private Set<QuiescingBlobStoreConnection> rawCons = new HashSet<QuiescingBlobStoreConnection>();
+  private final Set<QuiescingBlobStoreConnection> rawCons = new HashSet<QuiescingBlobStoreConnection>();
 
   void register(final QuiescingBlobStoreConnection con, Transaction tx) throws IOException {
     Set<QuiescingBlobStoreConnection> cons;
@@ -107,8 +107,6 @@ class QuiescingStreamManager extends StreamManager {
    * reached.  When obtained, the caller is responsible for releasing the state
    * lock as soon as possible.
    *
-   * @return <code>true</code> if successful, or <code>false</code> if the
-   *     current thread is interrupted while waiting for the lock.
    * @see #unlockState
    */
   public void lockUnquiesced() throws IOException {

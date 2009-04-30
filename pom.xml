@@ -290,9 +290,10 @@
         <configuration>
           <encoding>UTF-8</encoding>
           <links>
+            <!-- j2ee must precede j2se so javax.transaction is picked up correctly -->
+            <link>http://java.sun.com/j2ee/1.4/docs/api</link>
             <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
             <link>http://jakarta.apache.org/commons/logging/apidocs</link>
-            <link>http://java.sun.com/j2ee/1.4/docs/api</link>
             <link>http://commons.apache.org/io/api-1.4</link>
             <link>http://google-collections.googlecode.com/svn/trunk/javadoc</link>
           </links>

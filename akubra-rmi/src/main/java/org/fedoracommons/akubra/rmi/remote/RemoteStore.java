@@ -49,18 +49,6 @@ public interface RemoteStore extends Remote {
       throws RemoteException, IOException, IllegalStateException;
 
   /**
-   * Sets the remote store into a quiescent state.
-   *
-   * @param quiescent the state to switch the remote state
-   *
-   * @return the response value from remote
-   *
-   * @throws RemoteException on an RMI communication failure
-   * @throws IOException on an error from the remote
-   */
-  public boolean setQuiescent(boolean quiescent) throws RemoteException, IOException;
-
-  /**
    * Starts a Transaction listener on remote. The listener will stop after
    * opening a connection to the BlobStore.
    *

@@ -79,16 +79,8 @@ class ClientBlob extends AbstractBlob {
   public OutputStream openOutputStream(long estSize, boolean overwrite) throws IOException {
     ensureOpen();
 
-    if (!streamMgr.lockUnquiesced()) {
-      throw new IOException("Interrupted waiting for writable state");
-    }
-    try {
-      return streamMgr.manageOutputStream(getConnection(),
-                              new ClientOutputStream(remote.openOutputStream(estSize, overwrite)));
-
-    } finally {
-      streamMgr.unlockState();
-    }
+    return streamMgr.manageOutputStream(getConnection(),
+                            new ClientOutputStream(remote.openOutputStream(estSize, overwrite)));
   }
 
   public long getSize() throws IOException {

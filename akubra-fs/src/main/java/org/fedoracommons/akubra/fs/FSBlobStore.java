@@ -98,10 +98,4 @@ public class FSBlobStore extends AbstractBlobStore {
     boolean no_sync = (hints != null) && Boolean.parseBoolean(hints.get(WILL_NOT_SYNC));
     return new FSBlobStoreConnection(this, baseDir, manager, no_sync);
   }
-
-  //@Override
-  public boolean setQuiescent(boolean quiescent) {
-    return manager.setQuiescent(quiescent);
-  }
-
 }

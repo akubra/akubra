@@ -74,15 +74,9 @@ class MemBlob extends AbstractBlob {
   //@Override
   public void delete() throws IOException {
     ensureOpen();
-    if (!streamMgr.lockUnquiesced())
-      throw new IOException("Interrupted waiting for writable state");
 
-    try {
-      synchronized (blobs) {
-        blobs.remove(id);
-      }
-    } finally {
-      streamMgr.unlockState();
+    synchronized (blobs) {
+      blobs.remove(id);
     }
   }
 
@@ -91,28 +85,21 @@ class MemBlob extends AbstractBlob {
         throws IOException, MissingBlobException, NullPointerException, IllegalArgumentException,
                DuplicateBlobException {
     ensureOpen();
-    if (!streamMgr.lockUnquiesced())
-      throw new IOException("Interrupted waiting for writable state");
 
-    try {
-      MemBlob dest = (MemBlob)getConnection().getBlob(blobId, hints);
+    MemBlob dest = (MemBlob)getConnection().getBlob(blobId, hints);
 
+    synchronized (blobs) {
+      if (dest.exists())
+        throw new DuplicateBlobException(blobId, "Destination blob already exists");
 
-      synchronized (blobs) {
-        if (dest.exists())
-          throw new DuplicateBlobException(blobId, "Destination blob already exists");
+      MemData data = blobs.remove(id);
+      if (data == null)
+        throw new MissingBlobException(getId());
 
-        MemData data = blobs.remove(id);
-        if (data == null)
-          throw new MissingBlobException(getId());
-
-        blobs.put(dest.getId(), data);
-      }
-
-      return dest;
-    } finally {
-      streamMgr.unlockState();
+      blobs.put(dest.getId(), data);
     }
+
+    return dest;
   }
 
   //@Override
@@ -124,29 +111,23 @@ class MemBlob extends AbstractBlob {
   //@Override
   public OutputStream openOutputStream(long estimatedSize, boolean overwrite) throws IOException {
     ensureOpen();
-    if (!streamMgr.lockUnquiesced())
-      throw new IOException("Interrupted waiting for writable state");
 
-    try {
-      MemData data;
+    MemData data;
 
-      synchronized (blobs) {
-        data = blobs.get(id);
-        if (!overwrite && data != null)
-          throw new DuplicateBlobException(getId(), "Blob already exists");
+    synchronized (blobs) {
+      data = blobs.get(id);
+      if (!overwrite && data != null)
+        throw new DuplicateBlobException(getId(), "Blob already exists");
 
-        if (data == null || estimatedSize > data.bufferSize()) {
-          data = new MemData(Math.max((int) Math.min(estimatedSize, Integer.MAX_VALUE), 1024));
-          blobs.put(id, data);
-        } else {
-          data.reset();
-        }
+      if (data == null || estimatedSize > data.bufferSize()) {
+        data = new MemData(Math.max((int) Math.min(estimatedSize, Integer.MAX_VALUE), 1024));
+        blobs.put(id, data);
+      } else {
+        data.reset();
       }
-
-      return streamMgr.manageOutputStream(getConnection(), data);
-    } finally {
-      streamMgr.unlockState();
     }
+
+    return streamMgr.manageOutputStream(getConnection(), data);
   }
 
   //@Override

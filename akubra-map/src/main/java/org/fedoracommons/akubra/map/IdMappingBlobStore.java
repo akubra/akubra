@@ -60,10 +60,4 @@ public class IdMappingBlobStore extends AbstractBlobStore {
     BlobStoreConnection connection = store.openConnection(tx, hints);
     return new IdMappingBlobStoreConnection(this, connection, mapper);
   }
-
-  // TODO: remove after setQuiescent is removed from BlobStore interface
-  public boolean setQuiescent(boolean quiescent) throws IOException {
-    return store.setQuiescent(quiescent);
-  }
-
 }

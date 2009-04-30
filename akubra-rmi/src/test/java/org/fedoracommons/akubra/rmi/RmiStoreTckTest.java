@@ -125,10 +125,5 @@ public class RmiStoreTckTest {
     protected URI[] getAliases(URI uri) {
       return new URI[] { uri };
     }
-
-    @Override
-    public void testSetQuiescent() throws Exception {
-      // rmi threads are not interruptible. So skip this test
-    }
   }
 }

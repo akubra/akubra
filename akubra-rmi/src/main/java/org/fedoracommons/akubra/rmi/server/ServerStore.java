@@ -56,10 +56,6 @@ public class ServerStore extends Exportable implements RemoteStore {
     return new ServerConnection(store.openConnection(null, hints), getExporter());
   }
 
-  public boolean setQuiescent(boolean quiescent) throws IOException {
-    return store.setQuiescent(quiescent);
-  }
-
   public RemoteTransactionListener startTransactionListener(Map<String, String> hints)
       throws RemoteException {
     return new ServerTransactionListener(store, hints, getExporter());

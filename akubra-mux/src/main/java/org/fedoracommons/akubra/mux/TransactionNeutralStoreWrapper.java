@@ -54,8 +54,4 @@ public class TransactionNeutralStoreWrapper extends AbstractBlobStore {
       throws UnsupportedOperationException, IOException {
     return store.openConnection(null, hints);
   }
-
-  public boolean setQuiescent(boolean quiescent) throws IOException {
-    return store.setQuiescent(quiescent);
-  }
 }

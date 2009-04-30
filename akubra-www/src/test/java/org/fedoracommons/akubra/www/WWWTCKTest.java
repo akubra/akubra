@@ -84,11 +84,6 @@ public class WWWTCKTest extends TCKTestSuite {
     baseDir.mkdirs();
   }
 
-  @Override
-  public void testSetQuiescent() throws Exception {
-    // setQuiescent not implemented
-  }
-
   // Overridden helpers
 
   /** @return file:///absolute/path/to/target/tck-scratch/name */

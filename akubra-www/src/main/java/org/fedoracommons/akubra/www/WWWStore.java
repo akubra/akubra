@@ -36,7 +36,6 @@ import org.fedoracommons.akubra.impl.AbstractBlobStore;
 /**
  * A store that represents the World Wide Web. Blob ids are URLs. As expected, the store is
  * non-transactional. Also the iterator or deletion or rename are all meaningless operations.
- * Neither can you make the store quiescent for backups.
  *
  * @author Pradeep Krishnan
  */
@@ -70,9 +69,5 @@ public class WWWStore extends AbstractBlobStore {
       throw new UnsupportedOperationException("Transactions not supported");
 
     return new WWWConnection(this, handlers);
-  }
-
-  public boolean setQuiescent(boolean quiescent) throws IOException {
-    return false;
   }
 }

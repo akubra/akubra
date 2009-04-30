@@ -69,17 +69,4 @@ public class WWWStoreTest {
   public void testGetId() {
     assertEquals(id, store.getId());
   }
-
-  /**
-   * Test the setQuiescent operation.
-   */
-  @Test
-  public void testSetQuiescent() {
-    try {
-      assertFalse(store.setQuiescent(true));
-      assertFalse(store.setQuiescent(false));
-    } catch (IOException e) {
-      fail("setQuiescent() failed", e);
-    }
-  }
 }

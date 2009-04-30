@@ -104,11 +104,6 @@ public class ServerTransactionListenerTest {
         }
         return con;
       }
-
-      public boolean setQuiescent(boolean quiescent) throws IOException {
-        return false;
-      }
-
     };
 
     executor = Executors.newSingleThreadExecutor();

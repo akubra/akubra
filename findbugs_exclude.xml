@@ -42,4 +42,16 @@
     <Class name="org.fedoracommons.akubra.rmi.client.ClientConnection" />
     <Method name="getBlob" />
   </Match>
+
+  <Match>
+    <Bug pattern="OBL_UNSATISFIED_OBLIGATION"/>
+    <Class name="org.fedoracommons.akubra.fs.FSBlob" />
+    <Method name="openOutputStream" />
+  </Match>
+
+  <Match>
+    <Bug pattern="OBL_UNSATISFIED_OBLIGATION"/>
+    <Class name="org.fedoracommons.akubra.fs.FSBlob" />
+    <Method name="openInputStream" />
+  </Match>
 </FindBugsFilter>

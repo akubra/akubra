@@ -116,52 +116,6 @@ public class AbstractMuxStoreTest {
     }
   }
 
-  /**
-   * Tests the quiescent state management.
-   */
-  @SuppressWarnings("unchecked")
-  @Test
-  public void testSetQuiescent() throws IOException {
-    MockBlobStore store1 = createMockStore(URI.create("urn:store:1"));
-    MockBlobStore store2 = createMockStore(URI.create("urn:store:2"));
-    MockBlobStore store3 = createMockStore(URI.create("urn:store:3"));
-
-    store.setBackingStores(Arrays.asList(store1, store2, store3));
-
-    for (MockBlobStore bs : (List<MockBlobStore>) store.getBackingStores())
-      assertFalse(bs.qs);
-
-    for (boolean f : new boolean[] { true, true, false, false }) {
-      store.setQuiescent(f);
-
-      for (MockBlobStore bs : (List<MockBlobStore>) store.getBackingStores())
-        assertEquals(f, bs.qs);
-    }
-
-    // Fail if one of them fails
-    store2.ret = false;
-
-    for (boolean f : new boolean[] { true, true, false, false }) {
-      store.setQuiescent(f);
-
-      for (MockBlobStore bs : (List<MockBlobStore>) store.getBackingStores())
-        assertFalse(bs.qs);
-    }
-
-    // Fail if one of them throws an exception
-    store2.fake = new IOException("Fake a failure");
-
-    try {
-      store.setQuiescent(true);
-      fail("Failed to get expected exception.");
-    } catch (IOException e) {
-      assertEquals(store2.fake, e);
-    }
-
-    for (MockBlobStore bs : (List<MockBlobStore>) store.getBackingStores())
-      assertFalse(bs.qs);
-  }
-
   private MockBlobStore createMockStore(URI id) {
     return new MockBlobStore(id);
   }
@@ -178,16 +132,6 @@ public class AbstractMuxStoreTest {
     public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
                                        throws UnsupportedOperationException, IOException {
       return null;
-    }
-
-    public boolean setQuiescent(boolean quiescent) throws IOException {
-      if (quiescent && (fake != null))
-        throw fake;
-
-      if (ret)
-        qs = quiescent;
-
-      return ret;
     }
   }
 }

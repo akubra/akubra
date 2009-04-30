@@ -64,8 +64,4 @@ public class ClientStore extends AbstractBlobStore {
 
     return new ClientConnection(this, streamManager, con);
   }
-
-  public boolean setQuiescent(boolean quiescent) throws IOException {
-    return server.setQuiescent(quiescent);
-  }
 }

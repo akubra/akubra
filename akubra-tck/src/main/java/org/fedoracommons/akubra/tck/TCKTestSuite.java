@@ -25,7 +25,6 @@ package org.fedoracommons.akubra.tck;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URI;
 
 import javax.transaction.Transaction;
@@ -39,7 +38,6 @@ import static org.testng.Assert.assertSame;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
-import org.fedoracommons.akubra.AkubraException;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
@@ -227,157 +225,6 @@ public abstract class TCKTestSuite extends AbstractTests {
       if (con != null)
         con.close();
     }
-  }
-
-  /**
-   * Request to go quiescent and non-quiescent (even when already in those
-   * states) should be supported.
-   */
-  @Test(groups={ "store" }, dependsOnGroups={ "init" })
-  public void testSetQuiescent() throws Exception {
-    // basic set (non-)quiescent
-    assertTrue(store.setQuiescent(true));
-    assertTrue(store.setQuiescent(true));
-    assertTrue(store.setQuiescent(false));
-    assertTrue(store.setQuiescent(false));
-
-    // in quiescent state: read-only should proceed, write should block
-    final URI id1 = createId("blobSetQuiescent1");
-    final URI id2 = createId("blobSetQuiescent2");
-
-    createBlob(id1, "bar", true);
-
-    runTests(new ConAction() {
-        public void run(BlobStoreConnection con) throws Exception {
-          final Blob b1 = getBlob(con, id1, "bar");
-          final Blob b2 = getBlob(con, id2, false);
-
-          assertTrue(store.setQuiescent(true));
-          try {
-            doWithTimeout(new ERunnable() {
-              @Override
-              public void erun() throws Exception {
-                assertTrue(b1.exists());
-              }
-            }, 100, true);
-
-            doWithTimeout(new ERunnable() {
-              @Override
-              public void erun() throws Exception {
-                assertFalse(b2.exists());
-              }
-            }, 100, true);
-
-            doWithTimeout(new ERunnable() {
-              @Override
-              public void erun() throws Exception {
-                assertEquals(getBody(b1), "bar");
-              }
-            }, 100, true);
-
-            if (isOutputSupp) {
-              doWithTimeout(new ERunnable() {
-                @Override
-                public void erun() throws Exception {
-                  b1.openOutputStream(-1, true);
-                }
-              }, 100, false);
-            }
-
-            if (isDeleteSupp) {
-              doWithTimeout(new ERunnable() {
-                @Override
-                public void erun() throws Exception {
-                  b1.delete();
-                }
-              }, 100, false);
-            }
-
-            if (isMoveToSupp) {
-              doWithTimeout(new ERunnable() {
-                @Override
-                public void erun() throws Exception {
-                  b1.moveTo(b2.getId(), null);
-                }
-              }, 100, false);
-            }
-
-          } finally {
-            assertTrue(store.setQuiescent(false));
-          }
-        }
-    }, true);
-
-    // going quiescent should wait for in-progress write operations to complete
-    if (isOutputSupp) {
-      runTests(new ConAction() {
-        public void run(BlobStoreConnection con) throws Exception {
-          final Blob b1 = getBlob(con, id1, "bar");
-
-          OutputStream os = b1.openOutputStream(-1, true);
-
-          final boolean[] failed = new boolean[] { false };
-
-          Thread t = doInThread(new ERunnable() {
-            @Override
-            public void erun() throws Exception {
-              try {
-                assertTrue(store.setQuiescent(true));
-              } finally {
-                assertTrue(store.setQuiescent(false));
-              }
-            }
-          }, failed);
-          t.join(10);
-          assertTrue(t.isAlive());
-
-          os.close();
-
-          t.join(100);
-          assertFalse(t.isAlive());
-          assertFalse(failed[0]);
-
-          assertTrue(store.setQuiescent(false));
-        }
-      }, true);
-    }
-
-    // clean up
-    assertTrue(store.setQuiescent(false));
-    deleteBlob(id1, "", true);
-    assertNoBlobs(getPrefixFor("blobSetQuiescent"));
-  }
-
-  protected void doWithTimeout(final ERunnable test, final long timeout, final boolean expSucc)
-      throws Exception {
-    boolean[] failed = new boolean[] { false };
-
-    Thread t = doInThread(new Runnable() {
-      public void run() {
-        try {
-          test.erun();
-          if (!expSucc)
-            fail("Did not get expected exception");
-        } catch (IOException ioe) {
-          if (expSucc || ioe instanceof AkubraException)
-            throw new RuntimeException(ioe);
-        } catch (Exception e) {
-          throw new RuntimeException(e);
-        }
-      }
-    }, failed);
-
-    t.join(timeout);
-    if (expSucc) {
-      assertFalse(t.isAlive());
-    } else {
-      assertTrue(t.isAlive());
-      t.interrupt();
-      t.join(timeout);
-      assertFalse(t.isAlive(), "operation failed to return after interrupt");
-    }
-
-    assertFalse(failed[0]);
   }
 
   /*

@@ -118,14 +118,4 @@ public class ServerStoreTest {
 
     verify(store);
   }
-
-  @Test
-  public void testSetQuiescent() throws IOException {
-    reset(store);
-    expect(store.setQuiescent(true)).andReturn(true);
-    replay(store);
-
-    assertTrue(ss.setQuiescent(true));
-    verify(store);
-  }
 }

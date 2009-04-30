@@ -133,18 +133,6 @@ public class TransactionalStoreTest {
   }
 
   /**
-   * Request to go quiescent and non-quiescent (even when already in those
-   * states) should be supported.
-   */
-  @Test()
-  public void testSetQuiescent() throws IOException {
-    assertTrue(store.setQuiescent(true));
-    assertTrue(store.setQuiescent(true));
-    assertTrue(store.setQuiescent(false));
-    assertTrue(store.setQuiescent(false));
-  }
-
-  /**
    * Basic create, get, rename, delete.
    */
   @Test()

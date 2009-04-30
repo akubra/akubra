@@ -21,8 +21,6 @@
  */
 package org.fedoracommons.akubra.mux;
 
-import java.io.IOException;
-
 import java.net.URI;
 
 import java.util.Arrays;
@@ -30,9 +28,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.impl.AbstractBlobStore;
@@ -49,7 +44,7 @@ import org.fedoracommons.akubra.impl.AbstractBlobStore;
  * <p>Renames across BlobStores is implemented as a copy. Note that any error during that
  * process may leave partially completed blobs if the underlying blobs are non transactional.</p>
  *
- * <p>Iterations and quiescenting etc. are performed across all stores.</p>
+ * <p>Iterations etc. are performed across all stores.</p>
 
  * <p><em>Note</em>: For multiplexing non-transactional stores along with transactional stores
  * (eg. accessing www resources along with other transactional stores), the non-transactional
@@ -60,17 +55,10 @@ import org.fedoracommons.akubra.impl.AbstractBlobStore;
  * @author Pradeep Krishnan
  */
 public abstract class AbstractMuxStore extends AbstractBlobStore {
-  private static final Log log = LogFactory.getLog(AbstractMuxStore.class);
-
   /**
    * The list of backing stores. Note that the order is same as the user supplied list.
    */
   protected List<BlobStore> backingStores = Collections.emptyList();
-
-  /**
-   * The current quiescent state.
-   */
-  protected boolean quiesced = false;
 
   /**
    * Creates a new AbstractMuxStore object.
@@ -105,74 +93,5 @@ public abstract class AbstractMuxStore extends AbstractBlobStore {
         throw new IllegalArgumentException("Duplicate store-id: " + s.getId());
 
     backingStores = Collections.unmodifiableList(stores);
-  }
-
-  public boolean setQuiescent(boolean quiescent) throws IOException {
-    if (quiesced == quiescent)
-      return true;
-
-    boolean ret = quiescent ? makeQuiescent() : cancelQuiescent();
-
-    if (ret)
-      quiesced = quiescent;
-
-    return ret;
-  }
-
-  /**
-   * Makes all backing stores quiescent.
-   *
-   * @return true on success; false otherwise
-   *
-   * @throws IOException on an error.
-   */
-  protected boolean makeQuiescent() throws IOException {
-    try {
-      for (BlobStore store : backingStores) {
-        if (!store.setQuiescent(true)) {
-          try {
-            cancelQuiescent();
-          } catch (Exception ce) {
-            log.warn("Failed to cancel quiescent mode", ce);
-          }
-
-          return false;
-        }
-      }
-
-      return true;
-    } catch (Exception e) {
-      try {
-        cancelQuiescent();
-      } catch (Exception ce) {
-        log.warn("Failed to cancel quiescent mode", ce);
-      }
-
-      if (e instanceof IOException)
-        throw (IOException) e;
-
-      if (e instanceof RuntimeException)
-        throw (RuntimeException) e;
-
-      throw new Error("Unexpected exception", e);
-    }
-  }
-
-  /**
-   * Cancel queiscent state for all stores.
-   *
-   * @return true if all stores successfully canceled a qquiesced
-   *
-   * @throws IOException on an error
-   */
-  protected boolean cancelQuiescent() throws IOException {
-    boolean pass = true;
-
-    for (BlobStore store : backingStores) {
-      if (!store.setQuiescent(false))
-        pass = false;
-    }
-
-    return pass;
   }
 }

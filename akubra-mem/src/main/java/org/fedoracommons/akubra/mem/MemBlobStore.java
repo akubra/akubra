@@ -78,9 +78,4 @@ public class MemBlobStore extends AbstractBlobStore {
 
     return new MemConnection(this, blobs, streamMgr);
   }
-
-  //@Override
-  public boolean setQuiescent(boolean quiescent) {
-    return streamMgr.setQuiescent(quiescent);
-  }
 }

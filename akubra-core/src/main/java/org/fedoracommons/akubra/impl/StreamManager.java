@@ -23,13 +23,12 @@ package org.fedoracommons.akubra.impl;
 
 import java.io.Closeable;
 import java.io.InputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -39,9 +38,8 @@ import org.apache.commons.io.IOUtils;
 import org.fedoracommons.akubra.BlobStoreConnection;
 
 /**
- * Utility class that tracks the open streams of a <code>BlobStore</code> in order to provide a
- * <code>setQuiescent</code> implementation with the correct blocking behavior as well as to
- * ensure that streams that belong to a <code>BlobStoreConnection</code> are closed when the
+ * Utility class that tracks the open streams of a <code>BlobStore</code>. This also provides for
+ * ensuring that streams that belong to a <code>BlobStoreConnection</code> are closed when the
  * connection is closed.
  *
  * @author Chris Wilper
@@ -49,25 +47,16 @@ import org.fedoracommons.akubra.BlobStoreConnection;
 public class StreamManager {
   private static final Log log = LogFactory.getLog(StreamManager.class);
 
-  /** Exclusive lock on the quiescent state. */
-  private final ReentrantLock stateLock = new ReentrantLock(true);
-
-  /** Used to await and signal when quiescent state changes to false. */
-  private final Condition becameUnquiescent = stateLock.newCondition();
-
   /** Listens to close events. */
-  private final CloseListener listener;
+  protected final CloseListener listener;
 
   /** The set of open <code>OutputStream</code>s managed by this instance. */
-  private final Set<ManagedOutputStream> openOutputStreams
+  protected final Set<ManagedOutputStream> openOutputStreams
       = Collections.synchronizedSet(new HashSet<ManagedOutputStream>());
 
   /** The set of open <code>InputStream</code>s managed by this instance. */
-  private final Set<ManagedInputStream> openInputStreams
+  protected final Set<ManagedInputStream> openInputStreams
       = Collections.synchronizedSet(new HashSet<ManagedInputStream>());
-
-  /** The current quiescent state. */
-  private boolean quiescent;
 
   /**
    * Creates an instance.
@@ -76,7 +65,10 @@ public class StreamManager {
     listener = new CloseListener() {
       public void notifyClosed(Closeable closeable) {
         if (closeable instanceof InputStream) {
-          openInputStreams.remove(closeable);
+          synchronized (openInputStreams) {
+            openInputStreams.remove(closeable);
+            openInputStreams.notify();
+          }
         } else {
           synchronized (openOutputStreams) {
             openOutputStreams.remove(closeable);
@@ -88,108 +80,15 @@ public class StreamManager {
   }
 
   /**
-   * Acquires the state lock in an unquiescent state.
-   * <p>
-   * This causes the calling thread to block until the unquiescent state is
-   * reached.  When obtained, the caller is responsible for releasing the state
-   * lock as soon as possible.
+   * Provides a tracked wrapper around a given OutputStream.
    *
-   * @return <code>true</code> if successful, or <code>false</code> if the
-   *     current thread is interrupted while waiting for the lock.
-   * @see #unlockState
-   */
-  public boolean lockUnquiesced() {
-    try {
-      stateLock.lockInterruptibly();
-      if (quiescent) {
-        log.info("lockUnquiesced: Waiting...", new Throwable());
-        becameUnquiescent.await(); // Note: releases the lock before the wait
-        log.info("lockUnquiesced: Wait is over.");
-      }
-      log.debug("Aquired the unquiescent lock");
-      return true;
-    } catch (InterruptedException e) {
-      log.warn("lockUnquiesced: Failed", e);
-      if (stateLock.isHeldByCurrentThread())
-        stateLock.unlock();
-      return false;
-    }
-  }
-
-  /**
-   * Releases the lock previously obtained via <code>lockUnquiesced</code>.
-   *
-   * @see #lockUnquiesced
-   */
-  public void unlockState() {
-    stateLock.unlock();
-    log.debug("Released the unquiescent lock");
-  }
-
-  /**
-   * Sets the quiescent state.
-   *
-   * Note that setting to the current state has no effect.
-   *
-   * @param quiescent whether to go into the quiescent (true) or non-quiescent (false) state.
-   * @return true if successful, false if the thread was interrupted while blocking.
-   * @see org.fedoracommons.akubra.BlobStore#setQuiescent
-   */
-  public boolean setQuiescent(boolean quiescent) {
-    try {
-      stateLock.lockInterruptibly();
-      if (quiescent && !this.quiescent) {
-        synchronized (openOutputStreams) {
-          while (!openOutputStreams.isEmpty()) {
-            log.info("setQuiescent: Waiting for " + openOutputStreams.size() + " output streams to close...");
-            openOutputStreams.wait(); // wake up when next one is closed
-          }
-        }
-        log.info("setQuiescent: No open output streams. Entering quiescent state.");
-      }
-      if (!quiescent && this.quiescent) {
-        log.info("setQuiescent: Exiting quiescent state.");
-        becameUnquiescent.signalAll();
-      }
-      this.quiescent = quiescent;
-      return true;
-    } catch (InterruptedException e) {
-      if (quiescent)
-        log.warn("Failed to enter quiescent state", e);
-      else
-        log.warn("Failed to exit quiescent state", e);
-      return false;
-    } finally {
-      if (stateLock.isHeldByCurrentThread())
-        stateLock.unlock();
-    }
-  }
-
-  /**
-   * Provides a tracked wrapper around a given OutputStream. The current thread must own the
-   * stateLock or an exception will be thrown.
-   * <p>
-   * Callers should generally get a managed OutputStream in the following way:
-   * <pre>
-   * if (!streamManager.lockUnquiesced()) { // obtain the stateLock
-   *   throw new IOException("Interrupted waiting for writable state");
-   * }
-   * try {
-   *   stream = ...
-   *   return streamManager.manageOutputStream(getConnection(), stream);
-   * } finally {
-   *   streamManager.unlockState();
-   * }
-   * </pre>
-   *
-   * @param con the connection from which the stream originated.
+   * @param con the connection that the returned output-stream belongs to.
    * @param stream the stream to wrap.
    * @return the wrapped version of the stream.
-   * @throws IllegalStateException if the state lock is not held by the current thread.
+   * @throws IOException if interrupted while trying to acquire the state-lock
    */
-  public OutputStream manageOutputStream(BlobStoreConnection con, OutputStream stream) {
-    if (!stateLock.isHeldByCurrentThread())
-      throw new IllegalStateException("State lock not held by current thread");
+  public OutputStream manageOutputStream(BlobStoreConnection con, OutputStream stream)
+      throws IOException {
     ManagedOutputStream managed = new ManagedOutputStream(listener, stream, con);
     openOutputStreams.add(managed);
     return managed;
@@ -198,11 +97,13 @@ public class StreamManager {
   /**
    * Provides a tracked wrapper around a given InputStream.
    *
-   * @param con the connection that trac.
+   * @param con the connection that the returned input-stream belongs to.
    * @param stream the stream to wrap.
    * @return the wrapped version of the stream.
+   * @throws IOException if interrupted while trying to acquire the state-lock
    */
-  public InputStream manageInputStream(BlobStoreConnection con, InputStream stream) {
+  public InputStream manageInputStream(BlobStoreConnection con, InputStream stream)
+      throws IOException {
     ManagedInputStream managed = new ManagedInputStream(listener, stream, con);
     openInputStreams.add(managed);
     return managed;
@@ -246,15 +147,5 @@ public class StreamManager {
   // how many input streams are open?
   int getOpenInputStreamCount() {
     return openInputStreams.size();
-  }
-
-  // are we in the quiescent state?
-  boolean isQuiescent() {
-    stateLock.lock();
-    try {
-        return quiescent;
-    } finally {
-      stateLock.unlock();
-    }
   }
 }

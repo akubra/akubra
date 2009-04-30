@@ -93,22 +93,15 @@ class FSBlob extends AbstractBlob {
   public OutputStream openOutputStream(long estimatedSize, boolean overwrite) throws IOException {
     ensureOpen();
 
-    if (!manager.lockUnquiesced())
-      throw new IOException("Interrupted waiting for writable state");
+    if (!overwrite && file.exists())
+      throw new DuplicateBlobException(getId());
 
-    try {
-      if (!overwrite && file.exists())
-        throw new DuplicateBlobException(getId());
+    makeParentDirs(file);
 
-      makeParentDirs(file);
+    if (modified != null)
+      modified.add(file);
 
-      if (modified != null)
-        modified.add(file);
-
-      return manager.manageOutputStream(getConnection(), new FileOutputStream(file));
-    } finally {
-      manager.unlockState();
-    }
+    return manager.manageOutputStream(getConnection(), new FileOutputStream(file));
   }
 
   //@Override
@@ -132,50 +125,36 @@ class FSBlob extends AbstractBlob {
   public void delete() throws IOException {
     ensureOpen();
 
-    if (!manager.lockUnquiesced())
-      throw new IOException("Interrupted waiting for writable state");
+    if (!file.delete() && file.exists())
+      throw new IOException("Failed to delete file: " + file);
 
-    try {
-      if (!file.delete() && file.exists())
-        throw new IOException("Failed to delete file: " + file);
-
-      if (modified != null)
-        modified.remove(file);
-    } finally {
-      manager.unlockState();
-    }
+    if (modified != null)
+      modified.remove(file);
   }
 
   //@Override
   public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
     ensureOpen();
 
-    if (!manager.lockUnquiesced())
-      throw new IOException("Interrupted waiting for writable state");
+    FSBlob dest = (FSBlob) getConnection().getBlob(blobId, hints);
 
-    try {
-      FSBlob dest = (FSBlob) getConnection().getBlob(blobId, hints);
+    File other = dest.file;
+    if (other.exists())
+      throw new DuplicateBlobException(blobId);
 
-      File other = dest.file;
-      if (other.exists())
-        throw new DuplicateBlobException(blobId);
+    makeParentDirs(other);
 
-      makeParentDirs(other);
+    if (!file.renameTo(other)) {
+      if (!file.exists())
+        throw new MissingBlobException(getId());
 
-      if (!file.renameTo(other)) {
-        if (!file.exists())
-          throw new MissingBlobException(getId());
-
-        throw new IOException("Rename failed for an unknown reason.");
-      }
-
-      if (modified != null && modified.remove(file))
-        modified.add(other);
-
-      return dest;
-    } finally {
-      manager.unlockState();
+      throw new IOException("Rename failed for an unknown reason.");
     }
+
+    if (modified != null && modified.remove(file))
+      modified.add(other);
+
+    return dest;
   }
 
   static URI validateId(URI blobId) throws UnsupportedIdException {

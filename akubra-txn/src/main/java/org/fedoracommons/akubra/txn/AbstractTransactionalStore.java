@@ -49,9 +49,4 @@ public abstract class AbstractTransactionalStore extends AbstractBlobStore {
     super(id);
     this.wrappedStore = wrappedStore;
   }
-
-  //@Override
-  public boolean setQuiescent(boolean quiescent) throws IOException {
-    return wrappedStore.setQuiescent(quiescent);
-  }
 }

@@ -71,15 +71,6 @@ public class MemStoreTest {
   public void tearDown() throws Exception {
     server.shutDown(true);
   }
-  /**
-   * Tests that quiescent state setting is sent across to the remote.
-   *
-   */
-  @Test
-  public void testQuiescent() throws IOException {
-    assertTrue(store.setQuiescent(true));
-    assertTrue(store.setQuiescent(false));
-  }
 
   /**
    * Test the normal case of openConnection (for MemStore).

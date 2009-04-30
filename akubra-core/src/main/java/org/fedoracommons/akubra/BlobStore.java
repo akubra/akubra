@@ -69,17 +69,4 @@ public interface BlobStore {
    */
   BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
       throws UnsupportedOperationException, IOException;
-
-  /**
-   * Makes the blob store quiescent or non-quiescent.
-   * <p>
-   * When going from non-quiescent to quiescent, this call blocks until all active writes have
-   * completed any caches have been flushed.  While in the quiescent state, the store may continue
-   * to honor read requests, but must block on write requests.
-   *
-   * @param quiescent whether to go into the quiescent (true) or non-quiescent (false) state.
-   * @return true if successful, false if the thread was interrupted while blocking.
-   * @throws IOException if an error occurred trying to quiesce the store.
-   */
-  boolean setQuiescent(boolean quiescent) throws IOException;
 }

@@ -101,15 +101,6 @@ public class TestTransactionalStore extends TCKTestSuite {
   }
 
   @Override
-  public void testSetQuiescent() throws Exception {
-    // not properly implemented yet - so test just the calls themselves
-    assertTrue(store.setQuiescent(true));
-    assertTrue(store.setQuiescent(true));
-    assertTrue(store.setQuiescent(false));
-    assertTrue(store.setQuiescent(false));
-  }
-
-  @Override
   public void testListBlobs() throws Exception {
     super.testListBlobs();
 

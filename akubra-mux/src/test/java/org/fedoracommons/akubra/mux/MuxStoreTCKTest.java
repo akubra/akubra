@@ -120,12 +120,6 @@ public class MuxStoreTCKTest {
     public void testOpenConnectionNoTransaction() {
       // backend connections are opened lazily
     }
-
-    @Override
-    public void testSetQuiescent() throws Exception {
-      if (!isTransactional)             // txn store does not implement set-quiescent currently
-        super.testSetQuiescent();
-    }
   }
 
   /** Simple mux-connection that round-robins between the stores */

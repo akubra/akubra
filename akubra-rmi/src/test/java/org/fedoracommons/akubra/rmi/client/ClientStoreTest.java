@@ -100,14 +100,4 @@ public class ClientStoreTest {
 
     verify(store);
   }
-
-  @Test
-  public void testSetQuiescent() throws IOException {
-    reset(store);
-    expect(store.setQuiescent(true)).andReturn(true);
-    replay(store);
-
-    assertTrue(cs.setQuiescent(true));
-    verify(store);
-  }
 }

@@ -151,6 +151,7 @@
     <module>akubra-rmi</module>
     <module>akubra-mux</module>
     <module>akubra-tck</module>
+    <module>akubra-qsc</module>
   </modules>
 
   <properties>

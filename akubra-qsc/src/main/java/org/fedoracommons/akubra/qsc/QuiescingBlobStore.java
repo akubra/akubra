@@ -68,9 +68,10 @@ public class QuiescingBlobStore extends AbstractBlobStore {
   /**
    * Makes the stack quiescent or non-quiescent.
    *
-   * <p>When going from non-quiescent to quiescent, this call blocks until all active writes have
-   * completed and any caches have been flushed.  While in the quiescent state, the stack may
-   * continue to honor read requests, but must block on write requests.
+   * <p>When going from non-quiescent to quiescent, this call blocks until all active writes and
+   * all transactions with writes have completed and any caches have been flushed. While in the
+   * quiescent state, the stack will continue to honor read requests, but will block all write
+   * requests including moves and deletes.
    *
    * <p>This method is idempotent.
    *

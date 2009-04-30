@@ -126,7 +126,7 @@ class QuiescingStreamManager extends StreamManager {
       log.debug("Aquired the unquiescent lock");
       ok = true;
     } catch (InterruptedException ie) {
-      throw (IOException) new IOException("lockUnquiesced: interrupted", ie);
+      throw (IOException) new IOException("lockUnquiesced: interrupted").initCause(ie);
     } finally {
       if (!ok && stateLock.isHeldByCurrentThread())
         stateLock.unlock();

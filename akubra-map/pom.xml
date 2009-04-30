@@ -57,7 +57,6 @@
     <dependency>
       <groupId>org.fedoracommons</groupId>
       <artifactId>akubra-mem</artifactId>
-      <version>${pom.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

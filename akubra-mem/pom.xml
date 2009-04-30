@@ -41,7 +41,6 @@
     <dependency>
       <groupId>org.fedoracommons</groupId>
       <artifactId>akubra-core</artifactId>
-      <version>${pom.version}</version>
     </dependency>
 
     <dependency>

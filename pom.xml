@@ -176,6 +176,18 @@
       </dependency>
 
       <dependency>
+        <groupId>org.fedoracommons</groupId>
+        <artifactId>akubra-mem</artifactId>
+        <version>${pom.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.fedoracommons</groupId>
+        <artifactId>akubra-txn</artifactId>
+        <version>${pom.version}</version>
+      </dependency>
+
+      <dependency>
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
         <version>1.1.1</version>

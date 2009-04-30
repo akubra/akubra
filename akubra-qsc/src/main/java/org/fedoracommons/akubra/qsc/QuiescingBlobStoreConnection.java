@@ -27,7 +27,6 @@ import java.io.InputStream;
 
 import java.net.URI;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.transaction.Transaction;
@@ -36,17 +35,16 @@ import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.UnsupportedIdException;
-import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
+import org.fedoracommons.akubra.impl.BlobStoreConnectionWrapper;
 
 /**
  * Provides wrapped-blobs for quiescing management.
  *
  * @author Ronald Tschalär
  */
-class QuiescingBlobStoreConnection extends AbstractBlobStoreConnection {
-  private final BlobStoreConnection    connection;
-  private final Transaction            transaction;
-  private       boolean                modified = false;        // synchronized by stateLock
+class QuiescingBlobStoreConnection extends BlobStoreConnectionWrapper {
+  private final Transaction transaction;
+  private       boolean     modified = false;   // synchronized by stateLock
 
   /**
    * Creates an instance.
@@ -59,8 +57,7 @@ class QuiescingBlobStoreConnection extends AbstractBlobStoreConnection {
   public QuiescingBlobStoreConnection(BlobStore store, BlobStoreConnection connection,
                                       Transaction tx, QuiescingStreamManager streamMgr)
       throws IOException {
-    super(store, streamMgr);
-    this.connection  = connection;
+    super(store, connection, streamMgr);
     this.transaction = tx;
 
     streamMgr.register(this, tx);
@@ -69,7 +66,7 @@ class QuiescingBlobStoreConnection extends AbstractBlobStoreConnection {
   //@Override
   public Blob getBlob(URI blobId, Map<String, String> hints)
       throws IOException, UnsupportedIdException, UnsupportedOperationException {
-    Blob internalBlob = connection.getBlob(blobId, hints);
+    Blob internalBlob = delegate.getBlob(blobId, hints);
     return new QuiescingBlob(this, internalBlob, streamManager);
   }
 
@@ -78,19 +75,14 @@ class QuiescingBlobStoreConnection extends AbstractBlobStoreConnection {
       throws IOException, UnsupportedOperationException {
     waitUnquiescedAndMarkModified();
 
-    Blob internalBlob = connection.getBlob(content, estimatedSize, hints);
+    Blob internalBlob = delegate.getBlob(content, estimatedSize, hints);
     return new QuiescingBlob(this, internalBlob, streamManager);
   }
 
-  //@Override
-  public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
-    return connection.listBlobIds(filterPrefix);
-  }
-
-  //@Override
+  @Override
   public void sync() throws IOException {
     waitUnquiescedAndMarkModified();
-    connection.sync();
+    delegate.sync();
   }
 
   @Override
@@ -99,7 +91,6 @@ class QuiescingBlobStoreConnection extends AbstractBlobStoreConnection {
       super.close();
     } finally {
       ((QuiescingStreamManager) streamManager).unregister(this, transaction != null);
-      connection.close();
     }
   }
 

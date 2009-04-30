@@ -37,7 +37,7 @@ import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.BlobStore;
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.UnsupportedIdException;
-import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
+import org.fedoracommons.akubra.impl.BlobStoreConnectionWrapper;
 
 /**
  * Wraps the internal {@link BlobStoreConnection} to provide id mapping where
@@ -45,8 +45,7 @@ import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
  *
  * @author Chris Wilper
  */
-class IdMappingBlobStoreConnection extends AbstractBlobStoreConnection {
-  private final BlobStoreConnection connection;
+class IdMappingBlobStoreConnection extends BlobStoreConnectionWrapper {
   private final IdMapper mapper;
 
   /**
@@ -59,8 +58,7 @@ class IdMappingBlobStoreConnection extends AbstractBlobStoreConnection {
   public IdMappingBlobStoreConnection(BlobStore store,
                                       BlobStoreConnection connection,
                                       IdMapper mapper) {
-    super(store);
-    this.connection = connection;
+    super(store, connection);
     this.mapper = mapper;
   }
 
@@ -69,9 +67,9 @@ class IdMappingBlobStoreConnection extends AbstractBlobStoreConnection {
       throws IOException, UnsupportedIdException, UnsupportedOperationException {
     Blob internalBlob;
     if (blobId == null)
-      internalBlob = connection.getBlob(null, hints);
+      internalBlob = delegate.getBlob(null, hints);
     else
-      internalBlob = connection.getBlob(mapper.getInternalId(blobId), hints);
+      internalBlob = delegate.getBlob(mapper.getInternalId(blobId), hints);
     return new IdMappingBlob(this, internalBlob, mapper);
   }
 
@@ -79,7 +77,7 @@ class IdMappingBlobStoreConnection extends AbstractBlobStoreConnection {
   @Override
   public Blob getBlob(InputStream content, long estimatedSize, Map<String, String> hints)
       throws IOException, UnsupportedOperationException {
-    Blob internalBlob = connection.getBlob(content, estimatedSize, hints);
+    Blob internalBlob = delegate.getBlob(content, estimatedSize, hints);
     return new IdMappingBlob(this, internalBlob, mapper);
   }
 
@@ -89,10 +87,10 @@ class IdMappingBlobStoreConnection extends AbstractBlobStoreConnection {
     String intPrefix = null;
     Iterator<URI> intIterator;
     if (filterPrefix == null) {
-      intIterator = connection.listBlobIds(null);
+      intIterator = delegate.listBlobIds(null);
     } else {
       intPrefix = mapper.getInternalPrefix(filterPrefix);
-      intIterator = connection.listBlobIds(intPrefix);
+      intIterator = delegate.listBlobIds(intPrefix);
     }
 
     // transform internal ids to external form on the way out
@@ -113,17 +111,5 @@ class IdMappingBlobStoreConnection extends AbstractBlobStoreConnection {
       // no need to filter
       return extIterator;
     }
-  }
-
-  //@Override
-  public void sync() throws IOException {
-    connection.sync();
-  }
-
-  //@Override
-  @Override
-  public void close() {
-    super.close();
-    connection.close();
   }
 }

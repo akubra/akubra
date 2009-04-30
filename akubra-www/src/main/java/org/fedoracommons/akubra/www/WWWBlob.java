@@ -40,6 +40,7 @@ import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.DuplicateBlobException;
 import org.fedoracommons.akubra.MissingBlobException;
 import org.fedoracommons.akubra.impl.AbstractBlob;
+import org.fedoracommons.akubra.impl.StreamManager;
 
 /**
  * A WWW resource as a Blob.
@@ -50,6 +51,7 @@ class WWWBlob extends AbstractBlob {
   private static final Log logger = LogFactory.getLog(WWWBlob.class);
 
   private final URL           url;
+  private final StreamManager streamManager;
   private Long                size;
   private Boolean             exists;
   private URLConnection       urlc;
@@ -60,10 +62,12 @@ class WWWBlob extends AbstractBlob {
    *
    * @param url the www url
    * @param conn the connection object
+   * @param streamManager the stream-manager
    */
-  public WWWBlob(URL url, BlobStoreConnection conn) {
+  public WWWBlob(URL url, BlobStoreConnection conn, StreamManager streamManager) {
     super(conn, toURI(url));
     this.url = url;
+    this.streamManager = streamManager;
   }
 
   private static URI toURI(URL url) {
@@ -110,7 +114,7 @@ class WWWBlob extends AbstractBlob {
 
     if (input) {
       try {
-        content = con.getInputStream();
+        content = streamManager.manageInputStream(owner, con.getInputStream());
         exists = true;
       } catch (FileNotFoundException fnfe) {
         logger.debug("blob doesn't exist for '" + id + "'", fnfe);
@@ -154,7 +158,7 @@ class WWWBlob extends AbstractBlob {
 
     URLConnection con = connect(false, false);
 
-    OutputStream os = con.getOutputStream();
+    OutputStream os = streamManager.manageOutputStream(owner, con.getOutputStream());
     exists = true;
     return os;
   }

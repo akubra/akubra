@@ -32,6 +32,7 @@ import javax.transaction.Transaction;
 
 import org.fedoracommons.akubra.BlobStoreConnection;
 import org.fedoracommons.akubra.impl.AbstractBlobStore;
+import org.fedoracommons.akubra.impl.StreamManager;
 
 /**
  * A store that represents the World Wide Web. Blob ids are URLs. As expected, the store is
@@ -41,6 +42,7 @@ import org.fedoracommons.akubra.impl.AbstractBlobStore;
  */
 public class WWWStore extends AbstractBlobStore {
   private final Map<String, URLStreamHandler> handlers;
+  private final StreamManager                 streamManager;
 
   /**
    * Creates a new WWWStore object.
@@ -60,7 +62,8 @@ public class WWWStore extends AbstractBlobStore {
    */
   public WWWStore(URI id, Map<String, URLStreamHandler> handlers) {
     super(id);
-    this.handlers = handlers;
+    this.handlers      = handlers;
+    this.streamManager = new StreamManager();
   }
 
   public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
@@ -68,6 +71,6 @@ public class WWWStore extends AbstractBlobStore {
     if (tx != null)
       throw new UnsupportedOperationException("Transactions not supported");
 
-    return new WWWConnection(this, handlers);
+    return new WWWConnection(this, handlers, streamManager);
   }
 }

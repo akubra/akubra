@@ -35,6 +35,7 @@ import java.util.Map;
 import org.fedoracommons.akubra.Blob;
 import org.fedoracommons.akubra.UnsupportedIdException;
 import org.fedoracommons.akubra.impl.AbstractBlobStoreConnection;
+import org.fedoracommons.akubra.impl.StreamManager;
 
 /**
  * A connection for the BlobStore.
@@ -48,12 +49,14 @@ class WWWConnection extends AbstractBlobStoreConnection {
   /**
    * Creates a new WWWStoreConnection object.
    *
-   * @param store    the BlobStore
-   * @param handlers the url stream-handlers (keyed by uri scheme) to use; if a handler is not
-   *                 found then the java default one is used. May be null.
+   * @param store         the BlobStore
+   * @param handlers      the url stream-handlers (keyed by uri scheme) to use; if a handler is not
+   *                      found then the java default one is used. May be null.
+   * @param streamManager the stream-manager
    */
-  public WWWConnection(WWWStore store, Map<String, URLStreamHandler> handlers) {
-    super(store);
+  public WWWConnection(WWWStore store, Map<String, URLStreamHandler> handlers,
+                       StreamManager streamManager) {
+    super(store, streamManager);
     if (handlers != null)
       this.handlers.putAll(handlers);
   }
@@ -94,7 +97,7 @@ class WWWConnection extends AbstractBlobStoreConnection {
     if ((blob == null) && create) {
       try {
         URL url = new URL(null, blobId.toString(), handlers.get(blobId.getScheme()));
-        blob = new WWWBlob(url, this);
+        blob = new WWWBlob(url, this, streamManager);
       } catch (MalformedURLException e) {
         throw new UnsupportedIdException(blobId,  " must be a valid URL", e);
       }

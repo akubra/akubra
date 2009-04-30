@@ -2,14 +2,14 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>akubra-mem</artifactId>
-  <version>0.1</version>
+  <version>0.2-SNAPSHOT</version>
   <name>Akubra Memory-Store Implementation</name>
   <description>A simple memory-based akubra store, suitable for testing.</description>
 
   <parent>
     <groupId>org.fedoracommons</groupId>
     <artifactId>akubra</artifactId>
-    <version>0.1</version>
+    <version>0.2-SNAPSHOT</version>
   </parent>
 
   <dependencies>

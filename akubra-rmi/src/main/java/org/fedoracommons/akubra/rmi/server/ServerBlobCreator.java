@@ -33,6 +33,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -145,6 +146,20 @@ public class ServerBlobCreator extends UnicastExportable implements RemoteBlobCr
 
     readerService.shutdownNow();
     writerService.shutdownNow();
+
+    if (abort) {
+      /*
+       * Wait for termination so that the 'cancel' above can do the
+       * necessary cleanup.
+       */
+      try {
+        if (!readerService.awaitTermination(5, TimeUnit.SECONDS))
+          throw new IOException("Failed to terminate reader service");
+      } catch (InterruptedException e) {
+        throw (IOException) new IOException("Interrupted while awaiting " +
+                                            "termination of reader").initCause(e);
+      }
+    }
 
     return rb;
   }

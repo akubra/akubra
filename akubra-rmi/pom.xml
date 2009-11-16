@@ -6,14 +6,14 @@
   <name>Akubra RMI Implementation</name>
 
   <parent>
-    <groupId>org.fedoracommons</groupId>
+    <groupId>org.akubraproject</groupId>
     <artifactId>akubra</artifactId>
     <version>0.2-SNAPSHOT</version>
   </parent>
 
   <dependencies>
     <dependency>
-      <groupId>org.fedoracommons</groupId>
+      <groupId>org.akubraproject</groupId>
       <artifactId>akubra-core</artifactId>
     </dependency>
 
@@ -28,19 +28,19 @@
     </dependency>
 
     <dependency>
-      <groupId>org.fedoracommons</groupId>
+      <groupId>org.akubraproject</groupId>
       <artifactId>akubra-mem</artifactId>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.fedoracommons</groupId>
+      <groupId>org.akubraproject</groupId>
       <artifactId>akubra-txn</artifactId>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.fedoracommons</groupId>
+      <groupId>org.akubraproject</groupId>
       <artifactId>akubra-tck</artifactId>
     </dependency>
 

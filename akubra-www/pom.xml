@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.fedoracommons</groupId>
+  <groupId>org.akubraproject</groupId>
   <artifactId>akubra-www</artifactId>
   <name>Akubra WWW Implementation</name>
   <version>0.2-SNAPSHOT</version>
@@ -8,13 +8,13 @@
 
   <parent>
     <artifactId>akubra</artifactId>
-    <groupId>org.fedoracommons</groupId>
+    <groupId>org.akubraproject</groupId>
     <version>0.2-SNAPSHOT</version>
   </parent>
 
   <dependencies>
     <dependency>
-      <groupId>org.fedoracommons</groupId>
+      <groupId>org.akubraproject</groupId>
       <artifactId>akubra-core</artifactId>
       <version>0.2-SNAPSHOT</version>
     </dependency>
@@ -25,7 +25,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.fedoracommons</groupId>
+      <groupId>org.akubraproject</groupId>
       <artifactId>akubra-tck</artifactId>
     </dependency>
 

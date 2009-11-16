@@ -7,7 +7,7 @@
   <description>Core interface for Akubra blob store</description>
 
   <parent>
-    <groupId>org.fedoracommons</groupId>
+    <groupId>org.akubraproject</groupId>
     <artifactId>akubra</artifactId>
     <version>0.2-SNAPSHOT</version>
   </parent>

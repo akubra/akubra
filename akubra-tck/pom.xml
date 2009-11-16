@@ -7,14 +7,14 @@
   <description>A set of tests for stores to verify they are compliant.</description>
 
   <parent>
-    <groupId>org.fedoracommons</groupId>
+    <groupId>org.akubraproject</groupId>
     <artifactId>akubra</artifactId>
     <version>0.2-SNAPSHOT</version>
   </parent>
 
   <dependencies>
     <dependency>
-      <groupId>org.fedoracommons</groupId>
+      <groupId>org.akubraproject</groupId>
       <artifactId>akubra-core</artifactId>
     </dependency>
 

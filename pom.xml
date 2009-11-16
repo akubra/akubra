@@ -103,6 +103,7 @@
       <id>duraspace-snapshots</id>
       <name>DuraSpace Snapshots</name>
       <url>https://fedora-commons.org/m2/content/repositories/snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
     </snapshotRepository>
     <site>
       <id>site</id>

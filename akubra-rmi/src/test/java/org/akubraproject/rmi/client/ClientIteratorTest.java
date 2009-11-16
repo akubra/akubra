@@ -1,8 +1,8 @@
 /* $HeadURL::                                                                            $
  * $Id$
  *
- * Copyright (c) 2008,2009 by Fedora Commons Inc.
- * http://www.fedoracommons.org
+ * Copyright (c) 2009 DuraSpace
+ * http://duraspace.org
  *
  * In collaboration with Topaz Inc.
  * http://www.topazproject.org

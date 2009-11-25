@@ -74,10 +74,10 @@ public class WWWConnectionTest {
   @Test
   public void testGetBlob() {
     try {
-      Blob blob1 = con.getBlob(URI.create("http://www.google.com"), null);
+      Blob blob1 = con.getBlob(URI.create("http://www.w3c.org"), null);
       assertNotNull(blob1);
 
-      Blob blob2 = con.getBlob(URI.create("http://www.google.com"), null);
+      Blob blob2 = con.getBlob(URI.create("http://www.w3c.org"), null);
       assertNotNull(blob2);
       assertEquals(blob1, blob2);
     } catch (IOException e) {
@@ -109,6 +109,6 @@ public class WWWConnectionTest {
   @Test(expectedExceptions =  { IllegalStateException.class })
   public void testClose() throws IOException {
     closeableCon.close();
-    closeableCon.getBlob(URI.create("http://www.google.com"), null);
+    closeableCon.getBlob(URI.create("http://www.w3c.org"), null);
   }
 }

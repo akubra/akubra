@@ -4,13 +4,13 @@
   <groupId>org.akubraproject</groupId>
   <artifactId>akubra-mux</artifactId>
   <name>Akubra Multiplexing BlobStore</name>
-  <version>0.2</version>
+  <version>0.3-SNAPSHOT</version>
   <description>Abstract base classes to build BlobStores that present a single store view</description>
 
   <parent>
     <artifactId>akubra</artifactId>
     <groupId>org.akubraproject</groupId>
-    <version>0.2</version>
+    <version>0.3-SNAPSHOT</version>
   </parent>
 
   <dependencies>

@@ -4,7 +4,7 @@
   <groupId>org.akubraproject</groupId>
   <artifactId>akubra</artifactId>
   <packaging>pom</packaging>
-  <version>0.2</version>
+  <version>0.3-SNAPSHOT</version>
   <name>Akubra</name>
   <description>Pluggable Blob Storage API</description>
   <url>http://akubraproject.org/</url>
@@ -112,9 +112,9 @@
   </distributionManagement>
 
   <scm>
-    <developerConnection>scm:svn:https://fedora-commons.org/svn/root/akubra/tags/akubra-0.2</developerConnection>
-    <connection>scm:svn:https://fedora-commons.org/svn/root/akubra/tags/akubra-0.2</connection>
-    <url>https://fedora-commons.org/svn/view/akubra/tags/akubra-0.2</url>
+    <developerConnection>scm:svn:https://fedora-commons.org/svn/root/akubra/trunk</developerConnection>
+    <connection>scm:svn:https://fedora-commons.org/svn/root/akubra/trunk</connection>
+    <url>https://fedora-commons.org/svn/view/akubra/trunk/</url>
   </scm>
 
   <modules>

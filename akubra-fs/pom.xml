@@ -3,13 +3,13 @@
   <parent>
     <groupId>org.akubraproject</groupId>
     <artifactId>akubra</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.2</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>akubra-fs</artifactId>
   <packaging>jar</packaging>
-  <version>0.2-SNAPSHOT</version>
+  <version>0.2</version>
   <name>Akubra Filesystem Implementation</name>
 
   <dependencies>

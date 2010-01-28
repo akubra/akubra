@@ -2,6 +2,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>akubra-txn</artifactId>
+  <packaging>bundle</packaging>
   <version>0.3-SNAPSHOT</version>
   <name>Akubra Transaction Implementation</name>
 
@@ -10,6 +11,10 @@
     <artifactId>akubra</artifactId>
     <version>0.3-SNAPSHOT</version>
   </parent>
+
+  <properties>
+    <osgi.export>${groupId}.txn.*</osgi.export>
+  </properties>
 
   <dependencies>
     <dependency>

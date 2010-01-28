@@ -2,6 +2,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>akubra-mem</artifactId>
+  <packaging>bundle</packaging>
   <version>0.3-SNAPSHOT</version>
   <name>Akubra Memory-Store Implementation</name>
   <description>A simple memory-based akubra store, suitable for testing.</description>
@@ -11,6 +12,10 @@
     <artifactId>akubra</artifactId>
     <version>0.3-SNAPSHOT</version>
   </parent>
+
+  <properties>
+    <osgi.export>${groupId}.mem.*</osgi.export>
+  </properties>
 
   <dependencies>
     <dependency>

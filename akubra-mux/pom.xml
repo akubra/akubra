@@ -4,6 +4,7 @@
   <groupId>org.akubraproject</groupId>
   <artifactId>akubra-mux</artifactId>
   <name>Akubra Multiplexing BlobStore</name>
+  <packaging>bundle</packaging>
   <version>0.3-SNAPSHOT</version>
   <description>Abstract base classes to build BlobStores that present a single store view</description>
 
@@ -12,6 +13,10 @@
     <groupId>org.akubraproject</groupId>
     <version>0.3-SNAPSHOT</version>
   </parent>
+
+  <properties>
+    <osgi.export>${groupId}.mux.*</osgi.export>
+  </properties>
 
   <dependencies>
     <dependency>

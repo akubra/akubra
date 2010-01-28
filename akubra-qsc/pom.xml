@@ -8,9 +8,13 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>akubra-qsc</artifactId>
-  <packaging>jar</packaging>
+  <packaging>bundle</packaging>
   <version>0.3-SNAPSHOT</version>
   <name>Akubra Quiescing Layer</name>
+
+  <properties>
+    <osgi.export>${groupId}.qsc.*</osgi.export>
+  </properties>
 
   <dependencies>
     <dependency>

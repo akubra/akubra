@@ -2,6 +2,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>akubra-rmi</artifactId>
+  <packaging>bundle</packaging>
   <version>0.3-SNAPSHOT</version>
   <name>Akubra RMI Implementation</name>
 
@@ -10,6 +11,10 @@
     <artifactId>akubra</artifactId>
     <version>0.3-SNAPSHOT</version>
   </parent>
+
+  <properties>
+    <osgi.export>${groupId}.rmi.*</osgi.export>
+  </properties>
 
   <dependencies>
     <dependency>

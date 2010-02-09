@@ -154,7 +154,7 @@ public class ServerConnectionTest {
     replay(con);
 
     RemoteIterator<URI> ri = sc.listBlobIds(null);
-    assertTrue(ri instanceof ServerIterator);
+    assertTrue(ri instanceof ServerIterator<?>);
     assertEquals(it, ((ServerIterator<URI>) ri).getIterator());
     verify(con);
   }

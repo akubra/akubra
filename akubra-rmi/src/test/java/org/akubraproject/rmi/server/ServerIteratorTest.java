@@ -61,7 +61,7 @@ public class ServerIteratorTest {
   @Test
   public void testServerIterator() throws RemoteException {
     ServerIterator<URI> it = new ServerIterator<URI>(new ArrayList<URI>().iterator(), exporter);
-    assertTrue(it.getExported() instanceof RemoteIterator);
+    assertTrue(it.getExported() instanceof RemoteIterator<?>);
   }
 
   @Test

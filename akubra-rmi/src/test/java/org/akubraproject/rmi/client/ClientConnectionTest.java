@@ -175,7 +175,7 @@ public class ClientConnectionTest {
     replay(con);
 
     Iterator<URI> ri = cc.listBlobIds(null);
-    assertTrue(ri instanceof ClientIterator);
+    assertTrue(ri instanceof ClientIterator<?>);
     assertTrue(ri.hasNext());
     assertEquals(id, ri.next());
     assertFalse(ri.hasNext());

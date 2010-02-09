@@ -156,10 +156,6 @@ public class BtmUtils {
         return null;
       }
 
-      public boolean isEmulatingXA() {
-        return false;
-      }
-
       public XAResource getXAResource() {
         return xares;
       }

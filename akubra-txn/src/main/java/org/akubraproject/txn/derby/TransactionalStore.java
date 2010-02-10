@@ -252,7 +252,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
   /**
    * @throws IllegalStateException if no backing store has been set yet
    */
-  //@Override
+  @Override
   public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
       throws IllegalStateException, IOException {
     long version;
@@ -270,7 +270,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
         try {
           wait();
         } catch (InterruptedException ie) {
-          throw (IOException) new IOException("wait for write-lock interrupted").initCause(ie);
+          throw new IOException("wait for write-lock interrupted", ie);
         }
       }
 
@@ -304,7 +304,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
     } catch (IOException ioe) {
       throw ioe;
     } catch (Exception e) {
-      throw (IOException) new IOException("Error connecting to db").initCause(e);
+      throw new IOException("Error connecting to db", e);
     } finally {
       if (!ok) {
         synchronized (this) {
@@ -658,7 +658,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
         xaCon.close();
       }
     } catch (SQLException sqle) {
-      throw (IOException) new IOException(errMsg).initCause(sqle);
+      throw new IOException(errMsg, sqle);
     }
   }
 

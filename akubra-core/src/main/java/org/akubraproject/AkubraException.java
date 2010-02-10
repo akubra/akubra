@@ -49,7 +49,6 @@ public class AkubraException extends IOException {
    * @param cause the underlying exception that caused this exception
    */
   public AkubraException(String msg, Throwable cause) {
-    super(msg);
-    initCause(cause);
+    super(msg, cause);
   }
 }

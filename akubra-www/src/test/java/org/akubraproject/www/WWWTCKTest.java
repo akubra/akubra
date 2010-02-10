@@ -105,6 +105,7 @@ public class WWWTCKTest extends TCKTestSuite {
   }
 
   /** we can't determine aliases */
+  @Override
   protected URI[] getAliases(URI uri) {
     return null;
   }
@@ -172,7 +173,7 @@ public class WWWTCKTest extends TCKTestSuite {
         try {
           file = new File(url.toURI());
         } catch (URISyntaxException use) {
-          throw (IOException) new IOException("Failed to parse '" + url + "'").initCause(use);
+          throw new IOException("Failed to parse '" + url + "'", use);
         }
       }
 

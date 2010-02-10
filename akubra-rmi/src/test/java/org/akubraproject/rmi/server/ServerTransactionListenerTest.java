@@ -87,8 +87,9 @@ public class ServerTransactionListenerTest {
     exporter = new Exporter(0);
     con   = createMock(BlobStoreConnection.class);
 
-    BlobStore           store = new AbstractBlobStore(URI.create("urn:test")) {
+    BlobStore store = new AbstractBlobStore(URI.create("urn:test")) {
 
+      @Override
       public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
           throws UnsupportedOperationException, IOException {
         /*

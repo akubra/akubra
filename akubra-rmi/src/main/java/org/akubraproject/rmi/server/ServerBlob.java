@@ -56,34 +56,42 @@ public class ServerBlob extends UnicastExportable implements RemoteBlob {
     this.blob = blob;
   }
 
+  @Override
   public URI getId() {
     return blob.getId();
   }
 
+  @Override
   public URI getCanonicalId() throws IOException {
     return blob.getCanonicalId();
   }
 
+  @Override
   public boolean exists() throws IOException {
     return blob.exists();
   }
 
+  @Override
   public long getSize() throws IOException {
     return blob.getSize();
   }
 
+  @Override
   public void delete() throws IOException {
     blob.delete();
   }
 
+  @Override
   public RemoteBlob moveTo(URI other, Map<String, String> hints) throws IOException {
     return new ServerBlob(blob.moveTo(other, hints), getExporter());
   }
 
+  @Override
   public RemoteInputStream openInputStream() throws IOException {
     return new ServerInputStream(blob.openInputStream(), getExporter());
   }
 
+  @Override
   public RemoteOutputStream openOutputStream(long estimatedSize, boolean overwrite)
       throws IOException {
     return new ServerOutputStream(blob.openOutputStream(estimatedSize, overwrite), getExporter());

@@ -50,17 +50,17 @@ public abstract class AbstractBlob implements Blob {
     this.id    = id;
   }
 
-  //@Override
+  @Override
   public BlobStoreConnection getConnection() {
     return owner;
   }
 
-  //@Override
+  @Override
   public URI getId() {
     return id;
   }
 
-  //@Override
+  @Override
   public URI getCanonicalId() throws IOException {
     return null;
   }

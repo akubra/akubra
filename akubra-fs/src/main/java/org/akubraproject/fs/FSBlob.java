@@ -79,7 +79,7 @@ class FSBlob extends AbstractBlob {
     return canonicalId;
   }
 
-  //@Override
+  @Override
   public InputStream openInputStream() throws IOException {
     ensureOpen();
 
@@ -89,7 +89,7 @@ class FSBlob extends AbstractBlob {
     return manager.manageInputStream(getConnection(), new FileInputStream(file));
   }
 
-  //@Override
+  @Override
   public OutputStream openOutputStream(long estimatedSize, boolean overwrite) throws IOException {
     ensureOpen();
 
@@ -104,7 +104,7 @@ class FSBlob extends AbstractBlob {
     return manager.manageOutputStream(getConnection(), new FileOutputStream(file));
   }
 
-  //@Override
+  @Override
   public long getSize() throws IOException {
     ensureOpen();
 
@@ -114,14 +114,14 @@ class FSBlob extends AbstractBlob {
     return file.length();
   }
 
-  //@Override
+  @Override
   public boolean exists() throws IOException {
     ensureOpen();
 
     return file.exists();
   }
 
-  //@Override
+  @Override
   public void delete() throws IOException {
     ensureOpen();
 
@@ -132,7 +132,7 @@ class FSBlob extends AbstractBlob {
       modified.remove(file);
   }
 
-  //@Override
+  @Override
   public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
     ensureOpen();
 

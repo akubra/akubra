@@ -53,11 +53,13 @@ public class MemStoreTest {
     }
 
     /** all URI's are valid */
+    @Override
     protected URI getInvalidId() {
       return null;
     }
 
     /** all URI's are distinct */
+    @Override
     protected URI[] getAliases(URI uri) {
       return new URI[] { uri };
     }

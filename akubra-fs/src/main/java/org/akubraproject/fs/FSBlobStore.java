@@ -89,7 +89,7 @@ public class FSBlobStore extends AbstractBlobStore {
     this.baseDir = baseDir;
   }
 
-  //@Override
+  @Override
   public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints) {
     if (tx != null) {
       throw new UnsupportedOperationException();

@@ -58,7 +58,7 @@ public class QuiescingBlobStore extends AbstractBlobStore {
     this.store = store;
   }
 
-  //@Override
+  @Override
   public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
       throws IOException {
     BlobStoreConnection connection = store.openConnection(tx, hints);

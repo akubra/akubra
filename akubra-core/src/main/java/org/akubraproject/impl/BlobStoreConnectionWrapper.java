@@ -63,12 +63,12 @@ public abstract class BlobStoreConnectionWrapper extends AbstractBlobStoreConnec
     this.delegate = delegate;
   }
 
-  //@Override
+  @Override
   public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
     return delegate.listBlobIds(filterPrefix);
   }
 
-  //@Override
+  @Override
   public void sync() throws IOException, UnsupportedOperationException {
     delegate.sync();
   }

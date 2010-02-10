@@ -57,7 +57,7 @@ class FSBlobStoreConnection extends AbstractBlobStoreConnection {
     this.modified = noSync ? null : new HashSet<File>();
   }
 
-  //@Override
+  @Override
   public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
     ensureOpen();
 
@@ -67,13 +67,13 @@ class FSBlobStoreConnection extends AbstractBlobStoreConnection {
     return new FSBlob(this, baseDir, blobId, streamManager, modified);
   }
 
-  //@Override
+  @Override
   public Iterator<URI> listBlobIds(String filterPrefix) {
     ensureOpen();
     return new FSBlobIdIterator(baseDir, filterPrefix);
   }
 
-  //@Override
+  @Override
   public void sync() throws IOException {
     ensureOpen();
 

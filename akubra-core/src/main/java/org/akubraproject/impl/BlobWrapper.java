@@ -87,31 +87,37 @@ public class BlobWrapper extends AbstractBlob {
     return delegate.getCanonicalId();
   }
 
+  @Override
   public InputStream openInputStream() throws IOException {
     ensureOpen();
     return delegate.openInputStream();
   }
 
+  @Override
   public OutputStream openOutputStream(long estimatedSize, boolean overwrite) throws IOException {
     ensureOpen();
     return delegate.openOutputStream(estimatedSize, overwrite);
   }
 
+  @Override
   public long getSize() throws IOException{
     ensureOpen();
     return delegate.getSize();
   }
 
+  @Override
   public boolean exists() throws IOException {
     ensureOpen();
     return delegate.exists();
   }
 
+  @Override
   public void delete() throws IOException {
     ensureOpen();
     delegate.delete();
   }
 
+  @Override
   public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
     ensureOpen();
 

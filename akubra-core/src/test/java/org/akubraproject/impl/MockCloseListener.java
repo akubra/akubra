@@ -35,7 +35,7 @@ public class MockCloseListener implements CloseListener {
 
   private final Set<Closeable> closedSet = new HashSet<Closeable>();
 
-  //@Override
+  @Override
   public void notifyClosed(Closeable closeable) {
     closedSet.add(closeable);
   }

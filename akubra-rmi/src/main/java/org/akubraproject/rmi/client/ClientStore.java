@@ -57,6 +57,7 @@ public class ClientStore extends AbstractBlobStore {
     this.server = server;
   }
 
+  @Override
   public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
                                      throws UnsupportedOperationException, IOException {
     RemoteConnection con = (tx == null) ? server.openConnection(hints)

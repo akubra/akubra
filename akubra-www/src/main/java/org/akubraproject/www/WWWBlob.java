@@ -137,6 +137,7 @@ class WWWBlob extends AbstractBlob {
     return con;
   }
 
+  @Override
   public long getSize() throws IOException {
     if (exists != null && !exists)
       throw new MissingBlobException(id);
@@ -146,12 +147,14 @@ class WWWBlob extends AbstractBlob {
     return size;
   }
 
+  @Override
   public InputStream openInputStream() throws IOException {
     connect(true, false);
 
     return content;
   }
 
+  @Override
   public OutputStream openOutputStream(long estimatedSize, boolean overwrite) throws IOException {
     if (!overwrite && exists())
       throw new DuplicateBlobException(id);
@@ -163,6 +166,7 @@ class WWWBlob extends AbstractBlob {
     return os;
   }
 
+  @Override
   public boolean exists() throws IOException {
     if (exists == null) {
       try {
@@ -175,10 +179,12 @@ class WWWBlob extends AbstractBlob {
     return exists;
   }
 
+  @Override
   public void delete() throws IOException {
     throw new UnsupportedOperationException();
   }
 
+  @Override
   public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
     throw new UnsupportedOperationException();
   }

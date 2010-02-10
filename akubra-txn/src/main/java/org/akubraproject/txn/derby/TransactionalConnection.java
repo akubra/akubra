@@ -138,11 +138,11 @@ public class TransactionalConnection extends SQLTransactionalConnection {
             " AND appId LIKE ? ESCAPE '!' ORDER BY appId";
       nam_lst_pfx = con.prepareStatement(sql);
     } catch (SQLException sqle) {
-      throw (IOException) new IOException("Error querying db").initCause(sqle);
+      throw new IOException("Error querying db", sqle);
     }
   }
 
-  //@Override
+  @Override
   public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
     ensureOpen();
 
@@ -194,7 +194,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
         }
       };
     } catch (SQLException sqle) {
-      throw (IOException) new IOException("Error querying db").initCause(sqle);
+      throw new IOException("Error querying db", sqle);
     }
   }
 
@@ -221,7 +221,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
         rs.close();
       }
     } catch (SQLException sqle) {
-      throw (IOException) new IOException("Error querying db").initCause(sqle);
+      throw new IOException("Error querying db", sqle);
     }
   }
 
@@ -272,7 +272,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
         try {
           ((TransactionalStore) owner).acquireWriteLock(version);
         } catch (InterruptedException ie) {
-          throw (IOException) new IOException("Interrupted waiting for write lock").initCause(ie);
+          throw new IOException("Interrupted waiting for write lock", ie);
         }
       }
 
@@ -282,7 +282,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
       try {
         ((TransactionalStore) owner).acquireUriLock(ourId);
       } catch (InterruptedException ie) {
-        throw (IOException) new IOException("Interrupted waiting for uri lock").initCause(ie);
+        throw new IOException("Interrupted waiting for uri lock", ie);
       }
 
       try {
@@ -337,7 +337,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
         del_ins.executeUpdate();
       }
     } catch (SQLException sqle) {
-      throw (IOException) new IOException("Error updating db").initCause(sqle);
+      throw new IOException("Error updating db", sqle);
     }
   }
 
@@ -353,7 +353,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
         doUpdate(del_upd, storeId.toString());
       }
     } catch (SQLException sqle) {
-      throw (IOException) new IOException("Error updating delete-blobs table").initCause(sqle);
+      throw new IOException("Error updating delete-blobs table", sqle);
     }
   }
 

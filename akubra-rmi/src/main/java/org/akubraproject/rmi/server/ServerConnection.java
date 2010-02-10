@@ -59,26 +59,30 @@ public class ServerConnection extends UnicastExportable implements RemoteConnect
     this.con = con;
   }
 
+  @Override
   public RemoteBlob getBlob(URI id, Map<String, String> hints)
                      throws IOException {
     return new ServerBlob(con.getBlob(id, hints), getExporter());
   }
 
+  @Override
   public RemoteBlobCreator getBlobCreator(long estimatedSize, Map<String, String> hints)
                      throws IOException {
     return new ServerBlobCreator(con, estimatedSize, hints, getExporter());
   }
 
+  @Override
   public RemoteIterator<URI> listBlobIds(String filterPrefix)
                                   throws IOException {
     return new ServerIterator<URI>(con.listBlobIds(filterPrefix), getExporter());
   }
 
-  //@Override
+  @Override
   public void sync() throws IOException {
     con.sync();
   }
 
+  @Override
   public void close() {
     unExport(false);
     con.close();

@@ -70,7 +70,7 @@ public class MemBlobStore extends AbstractBlobStore {
     super(id);
   }
 
-  //@Override
+  @Override
   public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
       throws UnsupportedOperationException {
     if (tx != null)

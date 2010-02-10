@@ -170,11 +170,13 @@ public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection 
     return con;
   }
 
+  @Override
   public Blob getBlob(URI blobId, Map<String, String> hints)
                throws IOException {
     return new MuxBlob(getConnection(getStore(blobId, hints), hints).getBlob(blobId, hints), this);
   }
 
+  @Override
   public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
     List<Iterator<URI>> iterators = new ArrayList<Iterator<URI>>();
 
@@ -184,7 +186,7 @@ public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection 
     return Iterators.concat(iterators.iterator());
   }
 
-  //@Override
+  @Override
   public void sync() throws IOException {
     if (cons == null)
       throw new IllegalStateException("Connection closed.");

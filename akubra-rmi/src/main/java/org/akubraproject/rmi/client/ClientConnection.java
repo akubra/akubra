@@ -82,6 +82,7 @@ class ClientConnection extends AbstractBlobStoreConnection {
     }
   }
 
+  @Override
   public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
     ensureOpen();
 
@@ -118,6 +119,7 @@ class ClientConnection extends AbstractBlobStoreConnection {
     return new ClientBlob(this, streamManager, rb);
   }
 
+  @Override
   public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
     ensureOpen();
 
@@ -126,7 +128,7 @@ class ClientConnection extends AbstractBlobStoreConnection {
     return new ClientIterator<URI>(ri, ITERATOR_BATCH_SIZE);
   }
 
-  //@Override
+  @Override
   public void sync() throws IOException {
     ensureOpen();
     remote.sync();

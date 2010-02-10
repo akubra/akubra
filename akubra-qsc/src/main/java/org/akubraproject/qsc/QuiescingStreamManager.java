@@ -79,7 +79,7 @@ class QuiescingStreamManager extends StreamManager {
           }
         });
       } catch (Exception e) {
-        throw (IOException) new IOException("Error registering txn synchronization").initCause(e);
+        throw new IOException("Error registering txn synchronization", e);
       }
 
       cons = txnCons;
@@ -124,7 +124,7 @@ class QuiescingStreamManager extends StreamManager {
       log.debug("Aquired the unquiescent lock");
       ok = true;
     } catch (InterruptedException ie) {
-      throw (IOException) new IOException("lockUnquiesced: interrupted").initCause(ie);
+      throw new IOException("lockUnquiesced: interrupted", ie);
     } finally {
       if (!ok && stateLock.isHeldByCurrentThread())
         stateLock.unlock();
@@ -226,7 +226,7 @@ class QuiescingStreamManager extends StreamManager {
     try {
       stateLock.lockInterruptibly();
     } catch (InterruptedException ie) {
-      throw (IOException) new IOException("Wait for state-lock interrupted").initCause(ie);
+      throw new IOException("Wait for state-lock interrupted", ie);
     }
   }
 

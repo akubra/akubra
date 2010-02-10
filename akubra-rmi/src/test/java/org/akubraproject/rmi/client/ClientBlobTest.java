@@ -78,16 +78,19 @@ public class ClientBlobTest {
 
     BlobStoreConnection con =
       new AbstractBlobStoreConnection(null) {
+        @Override
         public Blob getBlob(URI blobId, Map<String, String> hints)
                      throws IOException, UnsupportedIdException {
           return null;
         }
 
+        @Override
         public Iterator<URI> listBlobIds(String filterPrefix)
                                   throws IOException {
           return null;
         }
 
+        @Override
         public void sync() {
         }
       };

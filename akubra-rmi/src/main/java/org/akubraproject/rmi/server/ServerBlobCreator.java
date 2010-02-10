@@ -119,7 +119,7 @@ public class ServerBlobCreator extends UnicastExportable implements RemoteBlobCr
 
       return reader.get();
     } catch (InterruptedException e) {
-      throw (IOException) new IOException("Interrupted while waiting for reader").initCause(e);
+      throw new IOException("Interrupted while waiting for reader", e);
     } catch (ExecutionException e) {
       Throwable t = e.getCause();
 
@@ -129,7 +129,7 @@ public class ServerBlobCreator extends UnicastExportable implements RemoteBlobCr
       if (t instanceof RuntimeException)
         throw (RuntimeException) t;
 
-      throw (IOException) new IOException("Unexpected exception in reader").initCause(t);
+      throw new IOException("Unexpected exception in reader", t);
     }
   }
 
@@ -156,8 +156,7 @@ public class ServerBlobCreator extends UnicastExportable implements RemoteBlobCr
         if (!readerService.awaitTermination(5, TimeUnit.SECONDS))
           throw new IOException("Failed to terminate reader service");
       } catch (InterruptedException e) {
-        throw (IOException) new IOException("Interrupted while awaiting " +
-                                            "termination of reader").initCause(e);
+        throw new IOException("Interrupted while awaiting termination of reader", e);
       }
     }
 
@@ -227,7 +226,7 @@ public class ServerBlobCreator extends UnicastExportable implements RemoteBlobCr
     try {
       return writerService.submit(action).get();
     } catch (InterruptedException e) {
-      throw (IOException) new IOException("Interrupted while waiting for writer").initCause(e);
+      throw new IOException("Interrupted while waiting for writer", e);
     } catch (ExecutionException e) {
       Throwable t = e.getCause();
 
@@ -237,7 +236,7 @@ public class ServerBlobCreator extends UnicastExportable implements RemoteBlobCr
       if (t instanceof RuntimeException)
         throw (RuntimeException) t;
 
-      throw (IOException) new IOException("Unexpected exception in writer").initCause(t);
+      throw new IOException("Unexpected exception in writer", t);
     }
   }
 }

@@ -26,13 +26,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.apache.commons.io.IOUtils;
 import org.akubraproject.Blob;
 import org.akubraproject.BlobStore;
 import org.akubraproject.BlobStoreConnection;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * An abstract base class for blob store connections.
@@ -55,12 +54,12 @@ public abstract class AbstractBlobStoreConnection implements BlobStoreConnection
     this.streamManager = streamManager;
   }
 
-  //@Override
+  @Override
   public BlobStore getBlobStore() {
     return owner;
   }
 
-  //@Override
+  @Override
   public Blob getBlob(InputStream content, long estimatedSize, Map<String, String> hints)
             throws IOException, UnsupportedOperationException {
     Blob blob = getBlob(null, hints);
@@ -91,8 +90,7 @@ public abstract class AbstractBlobStoreConnection implements BlobStoreConnection
     return blob;
   }
 
-
-  //@Override
+  @Override
   public void close() {
     if (!closed) {
       closed = true;
@@ -101,7 +99,7 @@ public abstract class AbstractBlobStoreConnection implements BlobStoreConnection
     }
   }
 
-  //@Override
+  @Override
   public boolean isClosed() {
     return closed;
   }

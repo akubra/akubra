@@ -69,6 +69,7 @@ class ClientBlob extends AbstractBlob {
     return remote.getCanonicalId();
   }
 
+  @Override
   public InputStream openInputStream() throws IOException {
     ensureOpen();
 
@@ -76,6 +77,7 @@ class ClientBlob extends AbstractBlob {
                                        new ClientInputStream(remote.openInputStream()));
   }
 
+  @Override
   public OutputStream openOutputStream(long estSize, boolean overwrite) throws IOException {
     ensureOpen();
 
@@ -83,24 +85,28 @@ class ClientBlob extends AbstractBlob {
                             new ClientOutputStream(remote.openOutputStream(estSize, overwrite)));
   }
 
+  @Override
   public long getSize() throws IOException {
     ensureOpen();
 
     return remote.getSize();
   }
 
+  @Override
   public boolean exists() throws IOException {
     ensureOpen();
 
     return remote.exists();
   }
 
+  @Override
   public void delete() throws IOException {
     ensureOpen();
 
     remote.delete();
   }
 
+  @Override
   public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
     ensureOpen();
 

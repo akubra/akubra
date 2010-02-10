@@ -63,7 +63,7 @@ class QuiescingBlobStoreConnection extends BlobStoreConnectionWrapper {
     streamMgr.register(this, tx);
   }
 
-  //@Override
+  @Override
   public Blob getBlob(URI blobId, Map<String, String> hints)
       throws IOException, UnsupportedIdException, UnsupportedOperationException {
     Blob internalBlob = delegate.getBlob(blobId, hints);

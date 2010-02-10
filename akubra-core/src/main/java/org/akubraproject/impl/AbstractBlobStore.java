@@ -43,6 +43,7 @@ public abstract class AbstractBlobStore implements BlobStore {
     this.id = id;
   }
 
+  @Override
   public URI getId() {
     return id;
   }

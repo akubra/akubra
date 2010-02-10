@@ -63,7 +63,7 @@ class MemBlob extends AbstractBlob {
     return getId();
   }
 
-  //@Override
+  @Override
   public boolean exists() throws IOException {
     ensureOpen();
     synchronized (blobs) {
@@ -71,7 +71,7 @@ class MemBlob extends AbstractBlob {
     }
   }
 
-  //@Override
+  @Override
   public void delete() throws IOException {
     ensureOpen();
 
@@ -80,7 +80,7 @@ class MemBlob extends AbstractBlob {
     }
   }
 
-  //@Override
+  @Override
   public Blob moveTo(URI blobId, Map<String, String> hints)
         throws IOException, MissingBlobException, NullPointerException, IllegalArgumentException,
                DuplicateBlobException {
@@ -102,13 +102,13 @@ class MemBlob extends AbstractBlob {
     return dest;
   }
 
-  //@Override
+  @Override
   public InputStream openInputStream() throws IOException {
     ensureOpen();
     return streamMgr.manageInputStream(getConnection(), getData().getInputStream());
   }
 
-  //@Override
+  @Override
   public OutputStream openOutputStream(long estimatedSize, boolean overwrite) throws IOException {
     ensureOpen();
 
@@ -130,7 +130,7 @@ class MemBlob extends AbstractBlob {
     return streamMgr.manageOutputStream(getConnection(), data);
   }
 
-  //@Override
+  @Override
   public long getSize() throws IOException {
     ensureOpen();
     return getData().size();

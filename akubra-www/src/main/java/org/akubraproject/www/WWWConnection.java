@@ -108,16 +108,18 @@ class WWWConnection extends AbstractBlobStoreConnection {
     return blob;
   }
 
+  @Override
   public Blob getBlob(URI blobId, Map<String, String> hints)
                throws IOException, IllegalArgumentException {
     return getWWWBlob(blobId, true);
   }
 
+  @Override
   public Iterator<URI> listBlobIds(String filterPrefix) throws IOException {
     throw new UnsupportedOperationException("blob-id listing not supported");
   }
 
-  //@Override
+  @Override
   public void sync() throws IOException {
     throw new UnsupportedOperationException("sync'ing not supported");
   }

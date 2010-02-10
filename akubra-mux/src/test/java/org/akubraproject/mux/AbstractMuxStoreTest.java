@@ -60,6 +60,7 @@ public class AbstractMuxStoreTest {
   public void setUp() {
     store =
       new AbstractMuxStore(storeId) {
+          @Override
           public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
                                              throws UnsupportedOperationException, IOException {
             return new AbstractMuxConnection(this, tx) {
@@ -123,6 +124,7 @@ public class AbstractMuxStoreTest {
       super(id);
     }
 
+    @Override
     public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
                                        throws UnsupportedOperationException, IOException {
       return null;

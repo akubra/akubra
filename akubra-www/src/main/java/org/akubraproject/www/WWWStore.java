@@ -66,6 +66,7 @@ public class WWWStore extends AbstractBlobStore {
     this.streamManager = new StreamManager();
   }
 
+  @Override
   public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
                                      throws UnsupportedOperationException, IOException {
     if (tx != null)

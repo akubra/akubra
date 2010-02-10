@@ -74,6 +74,7 @@ public class AbstractMuxConnectionTest {
 
     store =
       new AbstractMuxStore(URI.create("urn:store")) {
+          @Override
           public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
                                              throws UnsupportedOperationException, IOException {
             return new TestConnection(this, tx);

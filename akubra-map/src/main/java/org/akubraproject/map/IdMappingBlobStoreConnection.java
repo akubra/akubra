@@ -62,7 +62,7 @@ class IdMappingBlobStoreConnection extends BlobStoreConnectionWrapper {
     this.mapper = mapper;
   }
 
-  //@Override
+  @Override
   public Blob getBlob(URI blobId, Map<String, String> hints)
       throws IOException, UnsupportedIdException, UnsupportedOperationException {
     Blob internalBlob;
@@ -73,7 +73,6 @@ class IdMappingBlobStoreConnection extends BlobStoreConnectionWrapper {
     return new IdMappingBlob(this, internalBlob, mapper);
   }
 
-  //@Override
   @Override
   public Blob getBlob(InputStream content, long estimatedSize, Map<String, String> hints)
       throws IOException, UnsupportedOperationException {
@@ -81,7 +80,7 @@ class IdMappingBlobStoreConnection extends BlobStoreConnectionWrapper {
     return new IdMappingBlob(this, internalBlob, mapper);
   }
 
-  //@Override
+  @Override
   public Iterator<URI> listBlobIds(final String filterPrefix) throws IOException {
     // list the appropriate internal ids
     String intPrefix = null;

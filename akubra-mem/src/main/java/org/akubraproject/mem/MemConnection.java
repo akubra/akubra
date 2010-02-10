@@ -54,7 +54,7 @@ class MemConnection extends AbstractBlobStoreConnection {
     this.blobs     = blobs;
   }
 
-  //@Override
+  @Override
   public Blob getBlob(URI blobId, Map<String, String> hints) {
     ensureOpen();
 
@@ -69,7 +69,7 @@ class MemConnection extends AbstractBlobStoreConnection {
     return new MemBlob(blobId, blobs, streamManager, this);
   }
 
-  //@Override
+  @Override
   public Iterator<URI> listBlobIds(final String filterPrefix) {
     ensureOpen();
 
@@ -82,7 +82,7 @@ class MemConnection extends AbstractBlobStoreConnection {
     }
   }
 
-  //@Override
+  @Override
   public void sync() {
     ensureOpen();
   }

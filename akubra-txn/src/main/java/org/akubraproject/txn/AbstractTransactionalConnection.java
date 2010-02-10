@@ -102,14 +102,14 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
     try {
       tx.registerSynchronization(this);
     } catch (Exception e) {
-      throw (IOException) new IOException("Error registering txn synchronization").initCause(e);
+      throw new IOException("Error registering txn synchronization", e);
     }
 
     if (logger.isDebugEnabled())
       logger.debug("opened connection " + this);
   }
 
-  //@Override
+  @Override
   public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
     ensureOpen();
 
@@ -125,7 +125,7 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
     return b;
   }
 
-  //@Override
+  @Override
   public void sync() throws IOException {
     ensureOpen();
 
@@ -342,13 +342,13 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
       return getId();
     }
 
-    //@Override
+    @Override
     public boolean exists() throws IOException {
       check(false, false);
       return (storeId != null);
     }
 
-    //@Override
+    @Override
     public void delete() throws IOException {
       check(false, false);
       removeBlob(getId(), storeId);
@@ -356,7 +356,7 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
       storeId   = null;
     }
 
-    //@Override
+    @Override
     public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
       check(true, false);
       TxnBlob dest = (TxnBlob) getConnection().getBlob(blobId, hints);
@@ -370,19 +370,19 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
       return dest;
     }
 
-    //@Override
+    @Override
     public long getSize() throws IOException {
       getStoreBlob();
       return storeBlob.getSize();
     }
 
-    //@Override
+    @Override
     public InputStream openInputStream() throws IOException {
       getStoreBlob();
       return storeBlob.openInputStream();
     }
 
-    //@Override
+    @Override
     public OutputStream openOutputStream(long estimatedSize, boolean overwrite)
         throws IOException, DuplicateBlobException {
       check(false, !overwrite);

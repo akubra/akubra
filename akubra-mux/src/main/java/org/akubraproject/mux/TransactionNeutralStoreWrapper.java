@@ -50,6 +50,7 @@ public class TransactionNeutralStoreWrapper extends AbstractBlobStore {
     this.store = store;
   }
 
+  @Override
   public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
       throws UnsupportedOperationException, IOException {
     return store.openConnection(null, hints);

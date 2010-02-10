@@ -172,7 +172,7 @@ public class ServerTransactionListener extends UnicastExportable
         log.debug("interrupted while posting an operation ....", e);
 
       throw (SystemException) new SystemException("interrupted while posting an operation")
-        .initCause(e);
+          .initCause(e);
     }
 
     if (getExported() == null)

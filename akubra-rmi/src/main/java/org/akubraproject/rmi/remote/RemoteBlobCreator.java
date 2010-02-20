@@ -1,7 +1,7 @@
 /* $HeadURL::                                                                            $
  * $Id$
  *
- * Copyright (c) 2009 DuraSpace
+ * Copyright (c) 2009-2010 DuraSpace
  * http://duraspace.org
  *
  * In collaboration with Topaz Inc.

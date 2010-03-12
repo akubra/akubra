@@ -1,18 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.akubraproject</groupId>
-  <artifactId>akubra-mux</artifactId>
-  <name>Akubra Multiplexing BlobStore</name>
-  <packaging>bundle</packaging>
-  <version>0.3-SNAPSHOT</version>
-  <description>Abstract base classes to build BlobStores that present a single store view</description>
 
   <parent>
     <artifactId>akubra</artifactId>
     <groupId>org.akubraproject</groupId>
     <version>0.3-SNAPSHOT</version>
   </parent>
+
+  <artifactId>akubra-mux</artifactId>
+  <packaging>bundle</packaging>
+  <name>Akubra Multiplexing BlobStore</name>
+  <description>Abstract base classes to build BlobStores that present a single store view</description>
 
   <properties>
     <osgi.export>${groupId}.mux.*</osgi.export>

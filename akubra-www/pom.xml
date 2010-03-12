@@ -19,14 +19,19 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.akubraproject</groupId>
-      <artifactId>akubra-core</artifactId>
-      <version>0.3-SNAPSHOT</version>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <scope>test</scope>
     </dependency>
-
+    
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.akubraproject</groupId>
+      <artifactId>akubra-core</artifactId>
     </dependency>
 
     <dependency>
@@ -38,12 +43,6 @@
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <classifier>jdk15</classifier>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>

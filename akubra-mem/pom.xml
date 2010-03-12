@@ -19,13 +19,13 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.akubraproject</groupId>
-      <artifactId>akubra-core</artifactId>
+      <groupId>com.google.collections</groupId>
+      <artifactId>google-collections</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>com.google.collections</groupId>
-      <artifactId>google-collections</artifactId>
+      <groupId>org.akubraproject</groupId>
+      <artifactId>akubra-core</artifactId>
     </dependency>
 
     <dependency>

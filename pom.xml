@@ -57,42 +57,6 @@
     </mailingList>
   </mailingLists>
 
-  <repositories>
-    <repository>
-      <id>central</id>
-      <name>Maven Repository Switchboard</name>
-      <layout>default</layout>
-      <url>http://repo1.maven.org/maven2</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>java.net</id>
-      <name>Java.net Maven Repository</name>
-      <layout>default</layout>
-      <url>http://download.java.net/maven/2</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>central</id>
-      <name>Maven Plugin Repository</name>
-      <url>http://repo1.maven.org/maven2</url>
-      <layout>default</layout>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <releases>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-    </pluginRepository>
-  </pluginRepositories>
-
   <distributionManagement>
     <repository>
       <id>duraspace-releases</id>
@@ -162,7 +126,7 @@
       <dependency>
         <groupId>javax.transaction</groupId>
         <artifactId>jta</artifactId>
-        <version>1.0.1B</version>
+        <version>1.1</version>
       </dependency>
 
       <dependency>

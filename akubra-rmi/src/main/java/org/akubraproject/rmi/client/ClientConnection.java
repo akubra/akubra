@@ -31,8 +31,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.akubraproject.Blob;
 import org.akubraproject.BlobStore;
@@ -49,7 +49,7 @@ import org.akubraproject.rmi.remote.RemoteIterator;
  * @author Pradeep Krishnan
  */
 class ClientConnection extends AbstractBlobStoreConnection {
-  private static final Log       log    = LogFactory.getLog(ClientConnection.class);
+  private static final Logger       log    = LoggerFactory.getLogger(ClientConnection.class);
   private final RemoteConnection remote;
 
   /**

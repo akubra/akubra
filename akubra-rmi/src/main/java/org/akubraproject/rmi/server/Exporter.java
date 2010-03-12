@@ -36,8 +36,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * RMI object exporter. Encapsulates the configuration needed to export an RMI object. It also
@@ -47,7 +47,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Pradeep Krishnan
  */
 public class Exporter {
-  private static final Log  log              = LogFactory.getLog(Exporter.class);
+  private static final Logger  log              = LoggerFactory.getLogger(Exporter.class);
 
   /**
    * The number of milliseconds to wait before re-attempting an unexport. Note that

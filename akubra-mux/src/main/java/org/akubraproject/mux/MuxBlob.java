@@ -29,8 +29,8 @@ import java.net.URI;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.akubraproject.Blob;
 import org.akubraproject.DuplicateBlobException;
@@ -46,7 +46,7 @@ import org.akubraproject.impl.BlobWrapper;
  * @author Pradeep Krishnan
  */
 public class MuxBlob extends BlobWrapper {
-  private static final Log log = LogFactory.getLog(MuxBlob.class);
+  private static final Logger log = LoggerFactory.getLogger(MuxBlob.class);
 
   /**
    * Creates a new MuxBlob instance.

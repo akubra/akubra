@@ -35,8 +35,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.akubraproject.BlobStoreConnection;
 import org.akubraproject.rmi.remote.PartialBuffer;
@@ -49,7 +49,7 @@ import org.akubraproject.rmi.remote.RemoteBlobCreator;
  * @author Pradeep Krishnan
  */
 public class ServerBlobCreator extends UnicastExportable implements RemoteBlobCreator {
-  private static final Log         log              = LogFactory.getLog(ServerBlobCreator.class);
+  private static final Logger         log              = LoggerFactory.getLogger(ServerBlobCreator.class);
   private static final long        serialVersionUID = 1L;
   private final ExecutorService    readerService;
   private final ExecutorService    writerService;

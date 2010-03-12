@@ -36,8 +36,8 @@ import javax.sql.XAConnection;
 import javax.transaction.Status;
 import javax.transaction.Transaction;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.derby.iapi.services.monitor.Monitor;
 
 import org.akubraproject.BlobStore;
@@ -51,7 +51,7 @@ import org.akubraproject.txn.SQLTransactionalConnection;
  * @author Ronald Tschalär
  */
 public class TransactionalConnection extends SQLTransactionalConnection {
-  private static final Log logger = LogFactory.getLog(TransactionalConnection.class);
+  private static final Logger logger = LoggerFactory.getLogger(TransactionalConnection.class);
 
   private final long              version;
   private final PreparedStatement nam_get;

@@ -27,8 +27,8 @@ import java.io.OutputStream;
 
 import java.rmi.RemoteException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.akubraproject.rmi.remote.PartialBuffer;
 import org.akubraproject.rmi.remote.RemoteOutputStream;
@@ -39,7 +39,7 @@ import org.akubraproject.rmi.remote.RemoteOutputStream;
  * @author Pradeep Krishnan
  */
 public class ServerOutputStream extends UnicastExportable implements RemoteOutputStream, Closeable {
-  private static final Log   log              = LogFactory.getLog(ServerOutputStream.class);
+  private static final Logger   log              = LoggerFactory.getLogger(ServerOutputStream.class);
   private static final long  serialVersionUID = 1L;
   protected final OutputStream out;
 

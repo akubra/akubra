@@ -36,8 +36,8 @@ import javax.transaction.Transaction;
 
 import com.google.common.collect.MapMaker;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.akubraproject.Blob;
 import org.akubraproject.BlobStore;
@@ -67,7 +67,7 @@ import org.akubraproject.impl.AbstractBlobStoreConnection;
  */
 public abstract class AbstractTransactionalConnection extends AbstractBlobStoreConnection
     implements Synchronization {
-  private static final Log logger = LogFactory.getLog(AbstractTransactionalConnection.class);
+  private static final Logger logger = LoggerFactory.getLogger(AbstractTransactionalConnection.class);
 
   /** the underlying blob-store that actually stores the blobs */
   protected final BlobStoreConnection  bStoreCon;

@@ -38,8 +38,8 @@ import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 import javax.transaction.xa.XAResource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.akubraproject.BlobStore;
 import org.akubraproject.BlobStoreConnection;
@@ -56,7 +56,7 @@ import org.akubraproject.rmi.remote.RemoteXAResource;
  */
 public class ServerTransactionListener extends UnicastExportable
                                        implements Transaction, RemoteTransactionListener {
-  private static final Log  log              = LogFactory.getLog(ServerTransactionListener.class);
+  private static final Logger  log              = LoggerFactory.getLogger(ServerTransactionListener.class);
   private static final long serialVersionUID = 1L;
 
   // For call forwarding

@@ -38,8 +38,8 @@ import java.util.Set;
 import javax.sql.XAConnection;
 import javax.transaction.Transaction;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.derby.jdbc.EmbeddedXADataSource;
 import org.apache.derby.tools.sysinfo;
 
@@ -115,7 +115,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
   /** The SQL table used by this store to hold the list of deleted blobs */
   public static final String DEL_TABLE  = "DELETED_LIST";
 
-  private static final Log logger = LogFactory.getLog(TransactionalStore.class);
+  private static final Logger logger = LoggerFactory.getLogger(TransactionalStore.class);
 
   private final EmbeddedXADataSource dataSource;
   private final Set<Long>            activeTxns = new HashSet<Long>();

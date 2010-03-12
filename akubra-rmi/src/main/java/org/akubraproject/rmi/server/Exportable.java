@@ -29,8 +29,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.RemoteServer;
 import java.rmi.server.ServerNotActiveException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A base class for all objects that are exported.
@@ -38,7 +38,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Pradeep Krishnan
  */
 public abstract class Exportable extends RemoteServer {
-  private static final Log log = LogFactory.getLog(Exportable.class);
+  private static final Logger log = LoggerFactory.getLogger(Exportable.class);
   private static final long serialVersionUID = 1L;
   private final Exporter        exporter;
   private WeakReference<Remote> exported;

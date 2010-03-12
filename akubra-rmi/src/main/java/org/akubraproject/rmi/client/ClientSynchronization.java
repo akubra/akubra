@@ -25,8 +25,8 @@ import java.rmi.RemoteException;
 
 import javax.transaction.Synchronization;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.akubraproject.rmi.remote.RemoteSynchronization;
 
@@ -36,7 +36,7 @@ import org.akubraproject.rmi.remote.RemoteSynchronization;
  * @author Pradeep Krishnan
   */
 class ClientSynchronization implements Synchronization {
-  private static final Log            log    = LogFactory.getLog(ClientSynchronization.class);
+  private static final Logger            log    = LoggerFactory.getLogger(ClientSynchronization.class);
   private final RemoteSynchronization remote;
 
   /**

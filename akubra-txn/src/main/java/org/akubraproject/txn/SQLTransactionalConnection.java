@@ -35,8 +35,8 @@ import javax.transaction.Transaction;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.PeekingIterator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.akubraproject.BlobStore;
 import org.akubraproject.BlobStoreConnection;
@@ -49,7 +49,7 @@ import org.akubraproject.BlobStoreConnection;
  * @author Ronald Tschalär
  */
 public abstract class SQLTransactionalConnection extends AbstractTransactionalConnection {
-  private static final Log logger = LogFactory.getLog(SQLTransactionalConnection.class);
+  private static final Logger logger = LoggerFactory.getLogger(SQLTransactionalConnection.class);
 
   /** The xa connection being used */
   protected final XAConnection xaCon;

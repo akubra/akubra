@@ -30,8 +30,8 @@ import org.akubraproject.Blob;
 import org.akubraproject.BlobStore;
 import org.akubraproject.BlobStoreConnection;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * An abstract base class for blob store connections.
@@ -39,7 +39,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Pradeep Krishnan
  */
 public abstract class AbstractBlobStoreConnection implements BlobStoreConnection {
-  private static final Log log = LogFactory.getLog(AbstractBlobStoreConnection.class);
+  private static final Logger log = LoggerFactory.getLogger(AbstractBlobStoreConnection.class);
 
   protected final BlobStore owner;
   protected final StreamManager streamManager;

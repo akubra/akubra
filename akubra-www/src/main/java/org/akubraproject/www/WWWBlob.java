@@ -32,8 +32,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.akubraproject.Blob;
 import org.akubraproject.BlobStoreConnection;
@@ -48,7 +48,7 @@ import org.akubraproject.impl.StreamManager;
  * @author Pradeep Krishnan
  */
 class WWWBlob extends AbstractBlob {
-  private static final Log logger = LogFactory.getLog(WWWBlob.class);
+  private static final Logger logger = LoggerFactory.getLogger(WWWBlob.class);
 
   private final URL           url;
   private final StreamManager streamManager;

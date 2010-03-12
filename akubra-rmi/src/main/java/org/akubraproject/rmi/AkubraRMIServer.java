@@ -31,8 +31,8 @@ import java.rmi.server.RMIServerSocketFactory;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.akubraproject.BlobStore;
 import org.akubraproject.rmi.server.Exportable;
@@ -50,7 +50,7 @@ public class AkubraRMIServer {
    * A default name for akubra-rmi-servers. Used for RMI registration when none supplied.
    */
   public static final String DEFAULT_SERVER_NAME = "akubra-rmi";
-  private static final Log log = LogFactory.getLog(AkubraRMIServer.class);
+  private static final Logger log = LoggerFactory.getLogger(AkubraRMIServer.class);
   private static final long serialVersionUID = 1L;
 
   private final Registry    registry;

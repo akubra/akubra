@@ -32,8 +32,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.akubraproject.Blob;
 import org.akubraproject.BlobStore;
@@ -46,7 +46,7 @@ import org.akubraproject.impl.StreamManager;
  * @author Chris Wilper
  */
 class FSBlobStoreConnection extends AbstractBlobStoreConnection {
-  private static final Log log = LogFactory.getLog(FSBlobStoreConnection.class);
+  private static final Logger log = LoggerFactory.getLogger(FSBlobStoreConnection.class);
 
   private final File baseDir;
   private final Set<File>     modified;

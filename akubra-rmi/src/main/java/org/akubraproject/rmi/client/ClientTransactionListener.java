@@ -32,8 +32,8 @@ import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 import javax.transaction.xa.XAResource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.akubraproject.rmi.remote.RemoteCallListener.Operation;
 import org.akubraproject.rmi.remote.RemoteCallListener.Result;
@@ -54,7 +54,7 @@ import org.akubraproject.rmi.remote.RemoteXAResource;
  * @author Pradeep Krishnan
  */
 class ClientTransactionListener {
-  private static final Log log = LogFactory.getLog(ClientTransactionListener.class);
+  private static final Logger log = LoggerFactory.getLogger(ClientTransactionListener.class);
 
   // Stub from remote
   private final RemoteTransactionListener remote;

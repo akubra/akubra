@@ -37,8 +37,8 @@ import javax.transaction.Transaction;
 
 import com.google.common.collect.Iterators;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.akubraproject.Blob;
 import org.akubraproject.BlobStore;
@@ -64,7 +64,7 @@ import org.akubraproject.impl.AbstractBlobStoreConnection;
  * @see MuxBlob
  */
 public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection {
-  private static final Log log = LogFactory.getLog(AbstractBlobStoreConnection.class);
+  private static final Logger log = LoggerFactory.getLogger(AbstractBlobStoreConnection.class);
 
   /**
    * The transaction to pass to while opening connections to the backing stores. Note that

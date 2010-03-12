@@ -32,8 +32,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.transaction.Synchronization;
 import javax.transaction.Transaction;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.akubraproject.BlobStoreConnection;
 import org.akubraproject.impl.StreamManager;
@@ -48,7 +48,7 @@ import org.akubraproject.impl.StreamManager;
  * @author Ronald Tschalär
  */
 class QuiescingStreamManager extends StreamManager {
-  private static final Log log = LogFactory.getLog(QuiescingStreamManager.class);
+  private static final Logger log = LoggerFactory.getLogger(QuiescingStreamManager.class);
 
   /** Exclusive lock on the quiescent state. */
   private final ReentrantLock stateLock = new ReentrantLock(true);

@@ -77,7 +77,7 @@
     <repository>
       <id>sonatype-nexus-staging</id>
       <name>Nexus Release Repository</name>
-      <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
     </repository>
     <snapshotRepository>
       <id>sonatype-nexus-snapshots</id>
@@ -92,9 +92,9 @@
   </distributionManagement>
 
   <scm>
-    <developerConnection>scm:svn:https://fedora-commons.org/svn/view/akubra/tags/akubra-0.3</developerConnection>
-    <connection>scm:svn:https://fedora-commons.org/svn/view/akubra/tags/akubra-0.3</connection>
-    <url>scm:svn:https://fedora-commons.org/svn/view/akubra/tags/akubra-0.3</url>
+    <developerConnection>scm:svn:https://fedora-commons.org/svn/root/akubra/tags/akubra-0.3</developerConnection>
+    <connection>scm:svn:https://fedora-commons.org/svn/root/akubra/tags/akubra-0.3</connection>
+    <url>scm:svn:https://fedora-commons.org/svn/root/akubra/tags/akubra-0.3</url>
   </scm>
 
   <modules>

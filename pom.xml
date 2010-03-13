@@ -92,9 +92,9 @@
   </distributionManagement>
 
   <scm>
-    <developerConnection>scm:svn:https://fedora-commons.org/svn/view/akubra/tags/akubra-0.3</developerConnection>
-    <connection>scm:svn:https://fedora-commons.org/svn/view/akubra/tags/akubra-0.3</connection>
-    <url>scm:svn:https://fedora-commons.org/svn/view/akubra/tags/akubra-0.3</url>
+    <developerConnection>scm:svn:https://fedora-commons.org/svn/root/akubra/tags/akubra-0.3</developerConnection>
+    <connection>scm:svn:https://fedora-commons.org/svn/root/akubra/tags/akubra-0.3</connection>
+    <url>scm:svn:https://fedora-commons.org/svn/root/akubra/tags/akubra-0.3</url>
   </scm>
 
   <modules>
@@ -220,7 +220,7 @@
         <artifactId>maven-release-plugin</artifactId>
         <version>2.0</version>
         <configuration>
-          <tagBase>https://fedora-commons.org/svn/view/akubra/tags</tagBase>
+          <tagBase>https://fedora-commons.org/svn/root/akubra/tags</tagBase>
         </configuration>
       </plugin>
 

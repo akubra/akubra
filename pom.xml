@@ -3,7 +3,7 @@
 
   <groupId>org.akubraproject</groupId>
   <artifactId>akubra</artifactId>
-  <version>0.3</version>
+  <version>0.4-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Akubra Blob Storage API</name>
   <url>http://akubraproject.org/</url>
@@ -92,9 +92,9 @@
   </distributionManagement>
 
   <scm>
-    <developerConnection>scm:svn:https://fedora-commons.org/svn/root/akubra/tags/akubra-0.3</developerConnection>
-    <connection>scm:svn:https://fedora-commons.org/svn/root/akubra/tags/akubra-0.3</connection>
-    <url>scm:svn:https://fedora-commons.org/svn/root/akubra/tags/akubra-0.3</url>
+    <developerConnection>scm:svn:https://fedora-commons.org/svn/root/akubra/trunk</developerConnection>
+    <connection>scm:svn:https://fedora-commons.org/svn/root/akubra/trunk</connection>
+    <url>https://fedora-commons.org/svn/view/akubra/trunk/</url>
   </scm>
 
   <modules>

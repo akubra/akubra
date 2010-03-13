@@ -3,7 +3,7 @@
 
   <groupId>org.akubraproject</groupId>
   <artifactId>akubra</artifactId>
-  <version>0.4-SNAPSHOT</version>
+  <version>0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Akubra Blob Storage API</name>
   <url>http://akubraproject.org/</url>
@@ -220,7 +220,7 @@
         <artifactId>maven-release-plugin</artifactId>
         <version>2.0</version>
         <configuration>
-          <tagBase>https://fedora-commons.org/svn/root/akubra/tags</tagBase>
+          <tagBase>https://fedora-commons.org/svn/view/akubra/tags</tagBase>
         </configuration>
       </plugin>
 

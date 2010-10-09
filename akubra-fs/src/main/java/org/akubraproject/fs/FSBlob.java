@@ -30,6 +30,9 @@ import java.io.OutputStream;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import java.nio.channels.FileChannel;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -136,20 +139,24 @@ class FSBlob extends AbstractBlob {
   public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
     ensureOpen();
 
+    if (!file.exists())
+        throw new MissingBlobException(getId());
+
     FSBlob dest = (FSBlob) getConnection().getBlob(blobId, hints);
 
     File other = dest.file;
+
     if (other.exists())
       throw new DuplicateBlobException(blobId);
 
     makeParentDirs(other);
+    nio_copy(file, other);
 
-    if (!file.renameTo(other)) {
-      if (!file.exists())
-        throw new MissingBlobException(getId());
+    if (!other.exists())
+        throw new IOException("Failed to copy file to new location: " + file);
 
-      throw new IOException("Rename failed for an unknown reason.");
-    }
+    if (!file.delete() && file.exists())
+        throw new IOException("Failed to delete file: " + file);
 
     if (modified != null && modified.remove(file))
       modified.add(other);
@@ -185,4 +192,12 @@ class FSBlob extends AbstractBlob {
     if (parent != null && !parent.exists() && !parent.mkdirs())
       throw new IOException("Unable to create parent directory: " + parent.getPath());
   }
+
+  private static void nio_copy(File source, File dest) throws IOException {
+      FileChannel in = (new FileInputStream(source)).getChannel();
+      FileChannel out = (new FileOutputStream(dest)).getChannel();
+      in.transferTo(0, source.length(), out);
+      in.close();
+      out.close();
+    }
 }

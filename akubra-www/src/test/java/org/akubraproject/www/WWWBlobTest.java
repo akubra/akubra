@@ -54,7 +54,7 @@ public class WWWBlobTest {
   public void setUp() throws Exception {
     WWWStore store = new WWWStore(URI.create("urn:www:test"));
     con      = store.openConnection(null, null);
-    blobId   = URI.create("http://www.w3.org/Provider/Style/URI");
+    blobId   = URI.create("http://www.rfc-editor.org/rfc/rfc2616.txt");
     blob     = con.getBlob(blobId, null);
   }
 
@@ -102,7 +102,7 @@ public class WWWBlobTest {
   @Test
   public void testGetSize() {
     try {
-      assertEquals(18910, blob.getSize());
+      assertEquals(422279, blob.getSize());
     } catch (IOException e) {
       fail("getSize() failed", e);
     }

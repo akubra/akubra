@@ -151,14 +151,24 @@ class FSBlob extends AbstractBlob {
         if (!file.exists())
             throw new MissingBlobException(getId());
 
-        nioCopy(file, other);
+        boolean success = false;
+        try {
+            nioCopy(file, other);
 
-        if (file.length() != other.length()) {
-            throw new IOException("Source and destination file sizes do not match: source '" + file + "' is " + file.length() + " and destination '" + other + "' is " + other.length());
+            if (file.length() != other.length()) {
+                throw new IOException("Source and destination file sizes do not match: source '" + file + "' is " + file.length() + " and destination '" + other + "' is " + other.length());
+            }
+
+            if (!file.delete() && file.exists())
+                throw new IOException("Failed to delete file: " + file);
+
+            success = true;
+        }  finally {
+            if (!success) {
+                if (other.exists() && !other.delete())
+                    throw new IOException("Error deleting destination file '" +  other + "' after source file '" + file + "' copy failure");
+            }
         }
-
-        if (!file.delete() && file.exists())
-            throw new IOException("Failed to delete file: " + file);
     }
 
     if (modified != null && modified.remove(file))

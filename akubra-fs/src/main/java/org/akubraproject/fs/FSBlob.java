@@ -36,6 +36,9 @@ import java.nio.channels.FileChannel;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.akubraproject.Blob;
 import org.akubraproject.DuplicateBlobException;
 import org.akubraproject.MissingBlobException;
@@ -53,6 +56,8 @@ import org.akubraproject.impl.StreamManager;
  * @author Chris Wilper
  */
 class FSBlob extends AbstractBlob {
+  private static final Logger log = LoggerFactory.getLogger(FSBlob.class);
+
   static final String scheme = "file";
   private final URI canonicalId;
   private final File file;
@@ -166,7 +171,7 @@ class FSBlob extends AbstractBlob {
         }  finally {
             if (!success) {
                 if (other.exists() && !other.delete())
-                    throw new IOException("Error deleting destination file '" +  other + "' after source file '" + file + "' copy failure");
+                    log.warn("Error deleting destination file '" +  other + "' after source file '" + file + "' copy failure");
             }
         }
     }

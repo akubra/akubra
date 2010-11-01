@@ -30,8 +30,14 @@ import java.io.OutputStream;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import java.nio.channels.FileChannel;
+
 import java.util.Map;
 import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.akubraproject.Blob;
 import org.akubraproject.DuplicateBlobException;
@@ -50,6 +56,8 @@ import org.akubraproject.impl.StreamManager;
  * @author Chris Wilper
  */
 class FSBlob extends AbstractBlob {
+  private static final Logger log = LoggerFactory.getLogger(FSBlob.class);
+
   static final String scheme = "file";
   private final URI canonicalId;
   private final File file;
@@ -135,20 +143,37 @@ class FSBlob extends AbstractBlob {
   @Override
   public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
     ensureOpen();
-
     FSBlob dest = (FSBlob) getConnection().getBlob(blobId, hints);
 
     File other = dest.file;
+
     if (other.exists())
       throw new DuplicateBlobException(blobId);
 
     makeParentDirs(other);
 
     if (!file.renameTo(other)) {
-      if (!file.exists())
-        throw new MissingBlobException(getId());
+        if (!file.exists())
+            throw new MissingBlobException(getId());
 
-      throw new IOException("Rename failed for an unknown reason.");
+        boolean success = false;
+        try {
+            nioCopy(file, other);
+
+            if (file.length() != other.length()) {
+                throw new IOException("Source and destination file sizes do not match: source '" + file + "' is " + file.length() + " and destination '" + other + "' is " + other.length());
+            }
+
+            if (!file.delete() && file.exists())
+                throw new IOException("Failed to delete file: " + file);
+
+            success = true;
+        }  finally {
+            if (!success) {
+                if (other.exists() && !other.delete())
+                    log.warn("Error deleting destination file '" +  other + "' after source file '" + file + "' copy failure");
+            }
+        }
     }
 
     if (modified != null && modified.remove(file))
@@ -185,4 +210,15 @@ class FSBlob extends AbstractBlob {
     if (parent != null && !parent.exists() && !parent.mkdirs())
       throw new IOException("Unable to create parent directory: " + parent.getPath());
   }
+
+  private static void nioCopy(File source, File dest) throws IOException {
+      FileChannel in = (new FileInputStream(source)).getChannel();
+      FileChannel out = (new FileOutputStream(dest)).getChannel();
+      in.transferTo(0, source.length(), out);
+      in.close();
+      out.close();
+
+      if (!dest.exists())
+          throw new IOException("Failed to copy file to new location: " + dest);
+    }
 }

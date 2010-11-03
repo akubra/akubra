@@ -62,7 +62,7 @@ import org.akubraproject.txn.AbstractTransactionalStore;
  *
  * <p>This store must be configured with exactly one underlying blob-store. It supports arbitrary
  * application-ids and maps them to the underlying blob-store's id's; it currently requires that
- * the underlying blob-store to be capable of generating ids.
+ * the underlying blob-store be capable of generating ids.
  *
  * <p>Snapshot isolation is implemented using a MVCC design as follows. A name-map holds a list of
  * versioned id mappings which maps application-ids to underlying store-ids; in addition, each
@@ -460,7 +460,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
         return;           // we didn't release anything
 
       /* Derby has issues trying to run multiple purges in parallel (NPE's, waiting for
-       * locks that should be held by anybody, and even deadlocks). Also, there isn't
+       * locks that should not be held by anybody, and even deadlocks). Also, there isn't
        * that much point in running multiple purges simultaneously, as the next purge
        * will clean up stuff too.
        *

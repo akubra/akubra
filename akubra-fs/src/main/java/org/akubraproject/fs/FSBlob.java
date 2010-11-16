@@ -36,15 +36,14 @@ import java.nio.channels.FileChannel;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.akubraproject.Blob;
 import org.akubraproject.DuplicateBlobException;
 import org.akubraproject.MissingBlobException;
 import org.akubraproject.UnsupportedIdException;
 import org.akubraproject.impl.AbstractBlob;
 import org.akubraproject.impl.StreamManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Filesystem-backed Blob implementation.
@@ -57,6 +56,13 @@ import org.akubraproject.impl.StreamManager;
  */
 class FSBlob extends AbstractBlob {
   private static final Logger log = LoggerFactory.getLogger(FSBlob.class);
+
+  /**
+   * Filesystem blob hint indicating that the {@link #moveTo(URI, Map)} method should perform
+   * a safe copy-and-delete to move the file blob from one location to another;
+   * associated value must be "true" (case insensitive).
+   */
+  public static final String SAFE_MOVE = "org.akubraproject.safe_move";
 
   static final String scheme = "file";
   private final URI canonicalId;
@@ -140,8 +146,22 @@ class FSBlob extends AbstractBlob {
       modified.remove(file);
   }
 
+
+  /**
+   * Move a file-based blob object from one location to another
+   *
+   * @param blobId The ID of the new (destination) blob
+   * @param hints A set of hints for moveTo and getBlob
+   * @return The newly-created (destination) blob
+   * @throws DuplicateBlobException if destination file already exists
+   * @throws IOException on failure to move the source blob to the destination blob
+   * @throws MissingBlobException if source file does not exist
+   * @see #SAFE_MOVE
+   */
   @Override
   public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
+    boolean safe_move = false;
+
     ensureOpen();
     FSBlob dest = (FSBlob) getConnection().getBlob(blobId, hints);
 
@@ -152,28 +172,34 @@ class FSBlob extends AbstractBlob {
 
     makeParentDirs(other);
 
-    if (!file.renameTo(other)) {
-        if (!file.exists())
-            throw new MissingBlobException(getId());
+    if (hints != null)
+      safe_move = Boolean.parseBoolean(hints.get(SAFE_MOVE));
 
-        boolean success = false;
-        try {
-            nioCopy(file, other);
+    if (safe_move || !file.renameTo(other)) {
+      if (!file.exists())
+        throw new MissingBlobException(getId());
 
-            if (file.length() != other.length()) {
-                throw new IOException("Source and destination file sizes do not match: source '" + file + "' is " + file.length() + " and destination '" + other + "' is " + other.length());
-            }
+      boolean success = false;
+      try {
+        nioCopy(file, other);
 
-            if (!file.delete() && file.exists())
-                throw new IOException("Failed to delete file: " + file);
-
-            success = true;
-        }  finally {
-            if (!success) {
-                if (other.exists() && !other.delete())
-                    log.warn("Error deleting destination file '" +  other + "' after source file '" + file + "' copy failure");
-            }
+        if (file.length() != other.length()) {
+          throw new IOException("Source and destination file sizes do not match: source '" + file
+                                + "' is " + file.length()
+                                + " and destination '" + other + "' is " + other.length());
         }
+
+        if (!file.delete() && file.exists())
+          throw new IOException("Failed to delete file: " + file);
+
+        success = true;
+      }  finally {
+        if (!success) {
+          if (other.exists() && !other.delete())
+            log.warn("Error deleting destination file '" +  other + "' after source file '" + file
+                     + "' copy failure");
+        }
+      }
     }
 
     if (modified != null && modified.remove(file))
@@ -212,13 +238,37 @@ class FSBlob extends AbstractBlob {
   }
 
   private static void nioCopy(File source, File dest) throws IOException {
-      FileChannel in = (new FileInputStream(source)).getChannel();
-      FileChannel out = (new FileOutputStream(dest)).getChannel();
-      in.transferTo(0, source.length(), out);
-      in.close();
-      out.close();
+    FileChannel in = null;
+    FileChannel out = null;
+    FileInputStream f_in = null;
+    FileOutputStream f_out = null;
 
-      if (!dest.exists())
-          throw new IOException("Failed to copy file to new location: " + dest);
+    log.debug("Performing safe copy-and-delete of source '" +  source + "' to '"
+              + dest + "'");
+    try {
+      f_in = new FileInputStream(source);
+      try {
+        f_out = new FileOutputStream(dest);
+        try {
+          in = f_in.getChannel();
+          try {
+            out = f_out.getChannel();
+            in.transferTo(0, source.length(), out);
+          } finally {
+            out.close();
+          }
+        } finally {
+          in.close();
+        }
+      } finally {
+        if (f_out != null)
+          f_out.close();
+      }
+    } finally {
+      if (f_in != null)
+        f_in.close();
     }
+
+    if (!dest.exists()) throw new IOException("Failed to copy file to new location: " + dest);
+  }
 }

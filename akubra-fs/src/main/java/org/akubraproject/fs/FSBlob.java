@@ -62,7 +62,7 @@ class FSBlob extends AbstractBlob {
    * a safe copy-and-delete to move the file blob from one location to another;
    * associated value must be "true" (case insensitive).
    */
-  public static final String SAFE_MOVE = "org.akubraproject.safe_move";
+  public static final String FORCE_MOVE_AS_COPY_AND_DELETE = "org.akubraproject.force_move_as_copy_and_delete";
 
   static final String scheme = "file";
   private final URI canonicalId;
@@ -156,11 +156,11 @@ class FSBlob extends AbstractBlob {
    * @throws DuplicateBlobException if destination file already exists
    * @throws IOException on failure to move the source blob to the destination blob
    * @throws MissingBlobException if source file does not exist
-   * @see #SAFE_MOVE
+   * @see #FORCE_MOVE_AS_COPY_AND_DELETE
    */
   @Override
   public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
-    boolean safe_move = false;
+    boolean force_move = false;
 
     ensureOpen();
     FSBlob dest = (FSBlob) getConnection().getBlob(blobId, hints);
@@ -173,9 +173,9 @@ class FSBlob extends AbstractBlob {
     makeParentDirs(other);
 
     if (hints != null)
-      safe_move = Boolean.parseBoolean(hints.get(SAFE_MOVE));
+      force_move = Boolean.parseBoolean(hints.get(FORCE_MOVE_AS_COPY_AND_DELETE));
 
-    if (safe_move || !file.renameTo(other)) {
+    if (force_move || !file.renameTo(other)) {
       if (!file.exists())
         throw new MissingBlobException(getId());
 
@@ -196,7 +196,7 @@ class FSBlob extends AbstractBlob {
       }  finally {
         if (!success) {
           if (other.exists() && !other.delete())
-            log.warn("Error deleting destination file '" +  other + "' after source file '" + file
+            log.error("Error deleting destination file '" +  other + "' after source file '" + file
                      + "' copy failure");
         }
       }
@@ -243,30 +243,44 @@ class FSBlob extends AbstractBlob {
     FileInputStream f_in = null;
     FileOutputStream f_out = null;
 
-    log.debug("Performing safe copy-and-delete of source '" +  source + "' to '"
+    log.debug("Performing force copy-and-delete of source '" +  source + "' to '"
               + dest + "'");
+    boolean success_in = false;
     try {
       f_in = new FileInputStream(source);
+
+      boolean success_out = false;
       try {
         f_out = new FileOutputStream(dest);
-        try {
-          in = f_in.getChannel();
-          try {
-            out = f_out.getChannel();
-            in.transferTo(0, source.length(), out);
-          } finally {
-            out.close();
-          }
-        } finally {
-          in.close();
-        }
+
+        in = f_in.getChannel();
+        out = f_out.getChannel();
+        in.transferTo(0, source.length(), out);
+
+        success_in = true;
+        success_out = true;
+
       } finally {
-        if (f_out != null)
-          f_out.close();
+        if (f_out != null) {
+          try {
+            f_out.close();
+          } catch (IOException io) {
+            if (success_out)
+              throw io;
+            log.warn("Could not close destination file '" + dest + "'", io);
+          }
+        }
       }
     } finally {
-      if (f_in != null)
-        f_in.close();
+      if (f_in != null) {
+        try {
+          f_in.close();
+        } catch (IOException io) {
+          if (success_in)
+            throw io;
+          log.warn("Could not close source file '" + source +"'", io);
+        }
+      }
     }
 
     if (!dest.exists()) throw new IOException("Failed to copy file to new location: " + dest);

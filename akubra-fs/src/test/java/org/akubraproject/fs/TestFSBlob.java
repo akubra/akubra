@@ -135,9 +135,9 @@ public class TestFSBlob {
    * Test the moveTo() method with SAFE_MOVE
    */
   @Test
-  public void testSafeMoveTo() throws Exception {
+  public void testForceCopyAndDeleteMoveTo() throws Exception {
     final Map<String, String> hints = new HashMap<String, String>();
-    hints.put(FSBlob.SAFE_MOVE, "true");
+    hints.put(FSBlob.FORCE_MOVE_AS_COPY_AND_DELETE, "true");
     assertMoved(hints);
   }
 

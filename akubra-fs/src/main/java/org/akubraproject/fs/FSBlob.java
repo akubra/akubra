@@ -238,8 +238,6 @@ class FSBlob extends AbstractBlob {
   }
 
   private static void nioCopy(File source, File dest) throws IOException {
-    FileChannel in = null;
-    FileChannel out = null;
     FileInputStream f_in = null;
     FileOutputStream f_out = null;
 
@@ -253,13 +251,11 @@ class FSBlob extends AbstractBlob {
       try {
         f_out = new FileOutputStream(dest);
 
-        in = f_in.getChannel();
-        out = f_out.getChannel();
+        FileChannel in = f_in.getChannel();
+        FileChannel out = f_out.getChannel();
         in.transferTo(0, source.length(), out);
 
-        success_in = true;
         success_out = true;
-
       } finally {
         if (f_out != null) {
           try {
@@ -271,6 +267,7 @@ class FSBlob extends AbstractBlob {
           }
         }
       }
+      success_in = true;
     } finally {
       if (f_in != null) {
         try {

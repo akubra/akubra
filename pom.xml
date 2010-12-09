@@ -26,12 +26,12 @@
 
   <issueManagement>
     <system>jira</system>
-    <url>https://fedora-commons.org/jira/browse/AKUBRA</url>
+    <url>https://jira.duraspace.org/browse/AKUBRA</url>
   </issueManagement>
 
   <ciManagement>
     <system>bamboo</system>
-    <url>https://fedora-commons.org/bamboo/browse/AKUBRA</url>
+    <url>https://bamboo.duraspace.org/browse/AKUBRA</url>
   </ciManagement>
 
   <mailingLists>

@@ -71,7 +71,7 @@ import org.akubraproject.impl.StreamManager;
 public class FSBlobStore extends AbstractBlobStore {
   /**
    * Connection hint indicating that the client will not call {@link BlobStoreConnection#sync}; the
-   * associated value must be "true" (case insesitive).
+   * associated value must be "true" (case insensitive).
    */
   public static final String WILL_NOT_SYNC = "org.akubraproject.will_not_sync";
 

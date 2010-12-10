@@ -22,9 +22,13 @@
 package org.akubraproject.fs;
 
 import java.io.File;
+import java.io.OutputStream;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.akubraproject.UnsupportedIdException;
 import org.akubraproject.impl.StreamManager;
@@ -35,6 +39,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Unit tests for {@link FSBlob}.
@@ -118,6 +123,24 @@ public class TestFSBlob {
     assertNull(getFSBlob("file:foo/../../bar"));
   }
 
+  /**
+   * Test the default moveTo() method
+   */
+  @Test
+  public void testDefaultMoveTo() throws Exception {
+    assertMoved(null);
+  }
+
+  /**
+   * Test the moveTo() method with SAFE_MOVE
+   */
+  @Test
+  public void testForceCopyAndDeleteMoveTo() throws Exception {
+    final Map<String, String> hints = new HashMap<String, String>();
+    hints.put(FSBlob.FORCE_MOVE_AS_COPY_AND_DELETE, "true");
+    assertMoved(hints);
+  }
+
   private static FSBlob getFSBlob(String id) {
     try {
       URI uri = null;
@@ -145,4 +168,29 @@ public class TestFSBlob {
     return getFSBlob(id).getCanonicalId().toString();
   }
 
+  private static FSBlob createFSBlob(String id) throws Exception {
+    FSBlob blob = getFSBlob(id);
+    OutputStream out = blob.openOutputStream(-1, false);
+
+    out.write(new String("fsblob test").getBytes());
+    out.close();
+
+    return blob;
+  }
+
+  private static void assertMoved(Map<String,String> hints) throws Exception {
+    FSBlob source = createFSBlob("file:source");
+    String dest = "file:dest";
+    URI dest_uri = new URI(dest);
+
+    long size = source.getSize();
+
+    source.moveTo(dest_uri, hints);
+
+    assertFalse(source.exists());
+    assertTrue(getFSBlob(dest).exists());
+    assertEquals(size, getFSBlob(dest).getSize());
+
+    getFSBlob(dest).delete();
+  }
 }

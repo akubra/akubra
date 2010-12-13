@@ -71,6 +71,9 @@
     <developer>
       <name>Ronald Tschalär</name>
     </developer>
+    <developer>
+      <name>Scott Prater</name>
+    </developer>
   </developers>
 
   <distributionManagement>
@@ -92,9 +95,9 @@
   </distributionManagement>
 
   <scm>
-    <developerConnection>scm:svn:https://fedora-commons.org/svn/root/akubra/trunk</developerConnection>
-    <connection>scm:svn:https://fedora-commons.org/svn/root/akubra/trunk</connection>
-    <url>https://fedora-commons.org/svn/view/akubra/trunk/</url>
+    <developerConnection>scm:git:git@github.com:akubra/akubra.git</developerConnection>
+    <connection>scm:git:git://github.com/akubra/akubra.git</connection>
+    <url>https://github.com/akubra/akubra</url>
   </scm>
 
   <modules>
@@ -220,7 +223,7 @@
         <artifactId>maven-release-plugin</artifactId>
         <version>2.0</version>
         <configuration>
-          <tagBase>https://fedora-commons.org/svn/root/akubra/tags</tagBase>
+          <tagBase>update-me-for-github</tagBase>
         </configuration>
       </plugin>
 

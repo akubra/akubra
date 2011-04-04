@@ -230,20 +230,13 @@ class FSBlob extends AbstractBlob {
     }
   }
 
-  private static void makeParentDirs(File file) throws IOException, SecurityException {
+  private static void makeParentDirs(File file) throws IOException {
     File parent = file.getParentFile();
 
     if (parent != null && !parent.exists()) {
-        try {
-          parent.mkdirs();
-        }
-        catch (SecurityException se) {
-          throw se;
-        }
-
-        if (!parent.exists())
-          throw new IOException("Unable to create parent directory: "
-                                + parent.getPath());
+      parent.mkdirs();
+      if (!parent.exists())
+        throw new IOException("Unable to create parent directory: " + parent.getPath());
     }
   }
 

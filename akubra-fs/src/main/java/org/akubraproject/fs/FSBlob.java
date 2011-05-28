@@ -230,7 +230,7 @@ class FSBlob extends AbstractBlob {
     }
   }
 
-  private static void makeParentDirs(File file) throws IOException {
+  private void makeParentDirs(File file) throws IOException {
     File parent = file.getParentFile();
 
     if (parent != null && !parent.exists()) {

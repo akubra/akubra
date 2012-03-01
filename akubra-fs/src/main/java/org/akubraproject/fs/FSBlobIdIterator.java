@@ -21,13 +21,13 @@
  */
 package org.akubraproject.fs;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-
-import java.net.URI;
-import java.net.URLEncoder;
-
 import com.google.common.collect.AbstractIterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Iterates over all files in baseDir (respecting filterPrefix if provided).
@@ -35,6 +35,7 @@ import com.google.common.collect.AbstractIterator;
  * @author Chris Wilper
  */
 class FSBlobIdIterator extends AbstractIterator<URI> {
+  private final Logger log = LoggerFactory.getLogger(FSBlobIdIterator.class);
   private final File baseDir;
   private final String filterPrefix;
   private DirectoryNode currentDir;
@@ -50,17 +51,21 @@ class FSBlobIdIterator extends AbstractIterator<URI> {
     while (currentDir != null) {
       DirectoryNode child = currentDir.nextChild();
       if (child == null) {
-          // no more children; move up
-          currentDir = currentDir.getParent();
+        // no more children; move up
+        currentDir = currentDir.parent;
       } else if (child.isDirectory()) {
-          // child is dir; move down
-          currentDir = child;
+        // child is dir; move down
+        currentDir = child;
       } else {
-          // child is file
-          URI uri = child.getURI();
+        // child is file
+        try {
+          URI uri = new URI(FSBlob.scheme + ":" + child.path);
           if (filterPrefix == null || uri.toString().startsWith(filterPrefix)) {
             return uri;
           }
+        } catch (URISyntaxException e) {
+          log.warn("Skipping non-URI-safe file: {}", child.path);
+        }
       }
     }
 
@@ -69,9 +74,9 @@ class FSBlobIdIterator extends AbstractIterator<URI> {
 
   private class DirectoryNode {
 
-    private final DirectoryNode parent;
+    final DirectoryNode parent;
 
-    private final String path;
+    final String path;
 
     private String[] childPaths;
 
@@ -97,24 +102,12 @@ class FSBlobIdIterator extends AbstractIterator<URI> {
       childPaths = new String[childFiles.length];
       for (int i = 0; i < childFiles.length; i++) {
         StringBuilder childPath = new StringBuilder(path);
-        try {
-          childPath.append(URLEncoder.encode(childFiles[i].getName(), "UTF-8"));
-        } catch (UnsupportedEncodingException wontHappen) {
-          throw new RuntimeException(wontHappen);
-        }
+        childPath.append(childFiles[i].getName());
         if (childFiles[i].isDirectory()) {
           childPath.append("/");
         }
         childPaths[i] = childPath.toString();
       }
-    }
-
-    DirectoryNode getParent() {
-      return parent;
-    }
-
-    URI getURI() {
-      return URI.create(FSBlob.scheme + ":" + path);
     }
 
     boolean isDirectory() {

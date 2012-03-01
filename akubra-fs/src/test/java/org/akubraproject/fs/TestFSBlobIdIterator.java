@@ -21,17 +21,15 @@
  */
 package org.akubraproject.fs;
 
-import java.io.File;
-
-import java.net.URI;
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.net.URI;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import static org.testng.Assert.assertEquals;
 
@@ -64,9 +62,10 @@ public class TestFSBlobIdIterator {
     FSTestUtil.add(multiDir, "dir-nonempty/");
     FSTestUtil.add(multiDir, "dir-nonempty/file-3");
     FSTestUtil.add(multiDir, "dir-nonempty/file-4");
-    FSTestUtil.add(multiDir, "dir-nonempty/subdir/");
-    FSTestUtil.add(multiDir, "dir-nonempty/subdir/file-5");
-    FSTestUtil.add(multiDir, "dir-nonempty/subdir/file-6");
+    FSTestUtil.add(multiDir, "dir-nonempty/subdir1/");
+    FSTestUtil.add(multiDir, "dir-nonempty/subdir1/file-5");
+    FSTestUtil.add(multiDir, "dir-nonempty/subdir1/file-6");
+    FSTestUtil.add(multiDir, "dir-nonempty/subdir1/file 7"); // ignore; non-uri
   }
 
   /**

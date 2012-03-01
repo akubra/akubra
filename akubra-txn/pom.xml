@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.akubraproject</groupId>
     <artifactId>akubra</artifactId>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.3.1</version>
   </parent>
 
   <artifactId>akubra-txn</artifactId>

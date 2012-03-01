@@ -121,20 +121,20 @@
       <dependency>
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
-        <version>0.9.18</version>
+        <version>1.0.0</version>
         <scope>test</scope>
       </dependency>
 
       <dependency>
-        <groupId>com.google.collections</groupId>
-        <artifactId>google-collections</artifactId>
-        <version>1.0-rc1</version>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava-collections</artifactId>
+        <version>r03</version>
       </dependency>
 
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>1.4</version>
+        <version>2.1</version>
       </dependency>
 
       <dependency>
@@ -175,60 +175,53 @@
       </dependency>
 
       <dependency>
-        <groupId>org.easymock</groupId>
-        <artifactId>easymock</artifactId>
-        <version>2.4</version>
-        <scope>test</scope>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derby</artifactId>
+        <version>10.8.2.2</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.codehaus.btm</groupId>
+        <artifactId>btm</artifactId>
+        <version>2.1.2</version>
       </dependency>
 
       <dependency>
         <groupId>org.easymock</groupId>
-        <artifactId>easymockclassextension</artifactId>
-        <version>2.4</version>
+        <artifactId>easymock</artifactId>
+        <version>3.1</version>
         <scope>test</scope>
       </dependency>
 
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.5.10</version>
+        <version>1.6.4</version>
       </dependency>
 
       <dependency>
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
-        <version>5.8</version>
-        <classifier>jdk15</classifier>
+        <version>6.4</version>
         <scope>test</scope>
-        <exclusions>
-          <exclusion>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
-           
-     <dependency>
-       <groupId>com.googlecode.thread-weaver</groupId>
-       <artifactId>threadweaver</artifactId>
-       <version>0.1</version>
-       <scope>test</scope>
-     </dependency>
-     <dependency>
-       <groupId>javassist</groupId>
-       <artifactId>javassist</artifactId>
-       <version>3.10.0.GA</version>
-       <scope>test</scope>
-     </dependency>
-     
+
+      <dependency>
+        <groupId>com.googlecode.thread-weaver</groupId>
+        <artifactId>threadweaver</artifactId>
+        <version>0.1</version>
+        <scope>test</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
   <build>
     <pluginManagement>
       <plugins>
-        <!--This plugin's configuration is used to store Eclipse 
-                m2e settings only. It has no influence on the Maven build itself. -->
+        <!--
+          This plugin's configuration is used to store Eclipse m2e
+          settings only. It has no influence on the Maven build itself.
+        -->
         <plugin>
           <groupId>org.eclipse.m2e</groupId>
           <artifactId>lifecycle-mapping</artifactId>
@@ -255,11 +248,12 @@
         </plugin>
       </plugins>
     </pluginManagement>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.0</version>
+        <version>2.2.2</version>
         <configuration>
           <tagBase>update-me-for-github</tagBase>
         </configuration>
@@ -298,7 +292,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.0.2</version>
+        <version>2.3.2</version>
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
@@ -310,6 +304,12 @@
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
         <extensions>true</extensions>
+        <!--
+          Version held back due to bndlib pom issue which results in Maven 2
+          build warnings when using maven-bundle-plugin v2.2.0 through 2.3.7
+          https://issues.sonatype.org/browse/MVNCENTRAL-10
+        -->
+        <version>2.1.0</version>
         <configuration>
           <instructions>
             <Export-Package>${osgi.export}</Export-Package>
@@ -320,34 +320,15 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.4</version>
-        <configuration>
-          <instrumentation>
-            <ignores>
-              <ignore>org.apache.commons.logging.*</ignore>
-            </ignores>
-          </instrumentation>
-          <check>
-            <haltOnFailure>false</haltOnFailure>
-          </check>
-        </configuration>
+        <version>2.5.1</version>
       </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>2.4</version>
-        <dependencies>
-          <dependency>
-            <groupId>pmd</groupId>
-            <artifactId>pmd</artifactId>
-            <version>4.2.5</version>
-          </dependency>
-        </dependencies>
+        <version>2.7.1</version>
       </plugin>
     </plugins>
-
-    <defaultGoal>install</defaultGoal>
   </build>
 
   <reporting>
@@ -356,15 +337,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.5</version>
+        <version>2.8.1</version>
         <configuration>
           <encoding>UTF-8</encoding>
           <links>
-            <!-- j2ee must precede j2se so javax.transaction is picked up correctly -->
-            <link>http://java.sun.com/javase/6/docs/api/</link>
-            <link>http://java.sun.com/javaee/6/docs/api/</link>
-            <link>http://commons.apache.org/io/api-1.4</link>
-            <link>http://google-collections.googlecode.com/svn/trunk/javadoc</link>
+            <link>http://docs.oracle.com/javase/6/docs/api/</link>
           </links>
         </configuration>
       </plugin>
@@ -373,7 +350,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
-        <version>2.1</version>
+        <version>2.3</version>
         <configuration>
           <inputEncoding>UTF-8</inputEncoding>
           <outputEncoding>UTF-8</outputEncoding>
@@ -384,9 +361,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
+        <version>2.7.1</version>
         <configuration>
           <sourceEncoding>UTF-8</sourceEncoding>
-          <targetJdk>1.5</targetJdk>
+          <targetJdk>1.6</targetJdk>
           <failOnViolation>false</failOnViolation>
         </configuration>
       </plugin>
@@ -395,7 +373,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>2.0</version>
+        <version>2.4.0</version>
         <configuration>
           <excludeFilterFile>${project.parent.basedir}/findbugs_exclude.xml</excludeFilterFile>
         </configuration>
@@ -405,13 +383,12 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.2</version>
       </plugin>
 
       <!-- collect test reports -->
       <plugin>
         <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>2.4.3</version>
+        <version>2.12</version>
         <reportSets>
           <reportSet>
             <reports>
@@ -437,7 +414,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.0</version>
+            <version>1.4</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>

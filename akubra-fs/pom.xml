@@ -22,8 +22,8 @@
     </dependency>
 
     <dependency>
-      <groupId>com.google.collections</groupId>
-      <artifactId>google-collections</artifactId>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava-collections</artifactId>
     </dependency>
 
     <dependency>
@@ -44,21 +44,11 @@
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <classifier>jdk15</classifier>
     </dependency>
         
     <dependency>
       <groupId>com.googlecode.thread-weaver</groupId>
       <artifactId>threadweaver</artifactId>
     </dependency>
-    <dependency>
-      <groupId>javassist</groupId>
-      <artifactId>javassist</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymock</artifactId>
-    </dependency>
-    
   </dependencies>
 </project>

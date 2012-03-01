@@ -33,6 +33,7 @@ import javax.transaction.xa.Xid;
 
 import bitronix.tm.TransactionManagerServices;
 import bitronix.tm.internal.XAResourceHolderState;
+import bitronix.tm.recovery.RecoveryException;
 import bitronix.tm.resource.ResourceRegistrar;
 import bitronix.tm.resource.common.AbstractXAResourceHolder;
 import bitronix.tm.resource.common.ResourceBean;
@@ -60,8 +61,11 @@ public class BtmUtils {
     System.setProperty("bitronix.tm.journal", "null");
     System.setProperty("bitronix.tm.disableJmx", "true");
     System.setProperty("bitronix.tm.timer.gracefulShutdownInterval", "10");
-
-    ResourceRegistrar.register(new SimpleXAResourceProducer());
+    try {
+      ResourceRegistrar.register(new SimpleXAResourceProducer());
+    } catch (RecoveryException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**
@@ -90,6 +94,9 @@ public class BtmUtils {
     private Object readResolve() {
       xaresHolders = createXAResHoldersMap();
       return this;
+    }
+
+    public void setFailed(boolean failed) {
     }
 
     public void init() {
@@ -122,12 +129,12 @@ public class BtmUtils {
     }
 
     @SuppressWarnings("serial")
-    private static XAResourceHolder createResHolder(XAResource xaResource) {
+    private static SimpleXAResourceHolder createResHolder(XAResource xaResource) {
       ResourceBean rb = new ResourceBean() { };
       rb.setUniqueName(xaResource.getClass().getName() + System.identityHashCode(xaResource));
       rb.setApplyTransactionTimeout(true);
 
-      XAResourceHolder resHolder = new SimpleXAResourceHolder(xaResource);
+      SimpleXAResourceHolder resHolder = new SimpleXAResourceHolder(xaResource, rb);
       resHolder.setXAResourceHolderState(new XAResourceHolderState(resHolder, rb));
 
       return resHolder;
@@ -135,9 +142,12 @@ public class BtmUtils {
 
     private static class SimpleXAResourceHolder extends AbstractXAResourceHolder {
       private final XAResource xares;
+      private final ResourceBean creator;
+      private XAResourceHolderState state;
 
-      SimpleXAResourceHolder(XAResource xares) {
+      SimpleXAResourceHolder(XAResource xares, ResourceBean creator) {
         this.xares = xares;
+        this.creator = creator;
       }
 
       public void close() {
@@ -158,6 +168,18 @@ public class BtmUtils {
 
       public XAResource getXAResource() {
         return xares;
+      }
+
+      public ResourceBean getResourceBean() {
+        return creator;
+      }
+
+      public XAResourceHolderState getXAResourceHolderState() {
+        return state;
+      }
+
+      public void setXAResourceHolderState(XAResourceHolderState state) {
+        this.state = state;
       }
     }
 

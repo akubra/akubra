@@ -1,0 +1,18 @@
+Akubra Blob Store API - Source Code
+===================================
+
+Website
+-------
+
+    https://wiki.duraspace.org/display/AKUBRA
+
+Build Instructions
+------------------
+
+To build and test all project artifacts and install them in your local repository:
+
+    mvn clean install
+
+To build a maven site with javadocs, test coverage, and more in /tmp/akubra-site:
+
+    mvn clean site-deploy

@@ -17,11 +17,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava-collections</artifactId>
     </dependency>
@@ -34,21 +29,7 @@
     <dependency>
       <groupId>org.akubraproject</groupId>
       <artifactId>akubra-tck</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-    </dependency>
-        
-    <dependency>
-      <groupId>com.googlecode.thread-weaver</groupId>
-      <artifactId>threadweaver</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>

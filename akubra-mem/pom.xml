@@ -10,18 +10,15 @@
   <artifactId>akubra-mem</artifactId>
   <packaging>bundle</packaging>
   <name>Akubra Memory-Store Implementation</name>
-  <description>A simple memory-based akubra store, suitable for testing.</description>
+  <description>
+    A simple memory-based akubra store, suitable for testing.
+  </description>
 
   <properties>
     <osgi.export>${groupId}.mem.*</osgi.export>
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-    </dependency>
-
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava-collections</artifactId>
@@ -35,11 +32,7 @@
     <dependency>
       <groupId>org.akubraproject</groupId>
       <artifactId>akubra-tck</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>

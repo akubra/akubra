@@ -17,11 +17,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava-collections</artifactId>
     </dependency>
@@ -40,6 +35,7 @@
     <dependency>
       <groupId>org.akubraproject</groupId>
       <artifactId>akubra-tck</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>

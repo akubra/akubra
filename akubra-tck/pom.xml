@@ -10,7 +10,9 @@
   <artifactId>akubra-tck</artifactId>
   <packaging>bundle</packaging>
   <name>Akubra TCK</name>
-  <description>A set of tests for stores to verify they are compliant.</description>
+  <description>
+    A set of tests for stores to verify they are compliant.
+  </description>
 
   <properties>
     <osgi.export>${groupId}.tck.*</osgi.export>
@@ -28,11 +30,6 @@
     </dependency>
 
     <dependency>
-      <groupId>javax.transaction</groupId>
-      <artifactId>jta</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>org.akubraproject</groupId>
       <artifactId>akubra-core</artifactId>
     </dependency>
@@ -40,11 +37,6 @@
     <dependency>
       <groupId>org.codehaus.btm</groupId>
       <artifactId>btm</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
     </dependency>
 
     <dependency>

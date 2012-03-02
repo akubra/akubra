@@ -10,18 +10,15 @@
   <artifactId>akubra-mux</artifactId>
   <packaging>bundle</packaging>
   <name>Akubra Multiplexing BlobStore</name>
-  <description>Abstract base classes to build BlobStores that present a single store view</description>
+  <description>
+    Abstract base classes to build BlobStores that present a single store view
+  </description>
 
   <properties>
     <osgi.export>${groupId}.mux.*</osgi.export>
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-    </dependency>
-
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava-collections</artifactId>
@@ -46,22 +43,13 @@
     <dependency>
       <groupId>org.akubraproject</groupId>
       <artifactId>akubra-tck</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.akubraproject</groupId>
       <artifactId>akubra-txn</artifactId>
       <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
     </dependency>
   </dependencies>
 </project>

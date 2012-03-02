@@ -17,11 +17,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
     </dependency>
@@ -40,27 +35,13 @@
     <dependency>
       <groupId>org.akubraproject</groupId>
       <artifactId>akubra-tck</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.akubraproject</groupId>
       <artifactId>akubra-txn</artifactId>
       <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymock</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
     </dependency>
   </dependencies>
 </project>

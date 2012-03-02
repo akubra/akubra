@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <body>
+    <breadcrumbs>
+      <item name="${artifactId}" href="index.html"/>
+    </breadcrumbs>
+    <menu name="Project Info">
+      <item name="About" href="index.html"/>
+      <item name="Usage" href="usage.html"/>
+      <item name="Javadocs" href="apidocs/index.html"/>
+      <item name="Dependencies" href="dependencies.html"/>
+    </menu>
+    <menu name="Reports">
+      <item name="Test Results" href="surefire-report.html"/>
+      <item name="Test Coverage" href="cobertura/index.html"/>
+      <item name="FindBugs" href="findbugs.html"/>
+      <item name="PMD" href="pmd.html"/>
+      <item name="CPD" href="cpd.html"/>
+    </menu>
+  </body>
+</project>

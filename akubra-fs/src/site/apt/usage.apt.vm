@@ -1,0 +1,29 @@
+  ---
+  Usage
+  ---
+
+Using ${artifactId}
+
+* Installation
+
+  To use this library in your own Maven-based project, just add the following
+to your <<<pom.xml>>>:
+
++--
+    <dependency>
+      <groupId>${groupId}</groupId>
+      <artifactId>${artifactId}</artifactId>
+      <version>${currentVersion}</version>
+    </dependency>
++--
+
+  You can also download the jar and its dependencies directly from 
+Maven Central:
+
+    * {{{http://repo2.maven.org/maven2/com/github/cwilper/fcrepo-misc/${artifactId}/${currentVersion}/${artifactId}-${currentVersion}.jar}${artifactId}-${currentVersion}.jar}}
+
+    * {{{./dependencies.html}All dependencies}}
+
+* API Usage
+
+  See the {{{./apidocs/index.html}Javadocs}}.

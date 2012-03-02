@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <publishDate position="right"/>
+  <version position="right"/>
+  <skin>
+    <groupId>com.googlecode.fluido-skin</groupId>
+    <artifactId>fluido-skin</artifactId>
+    <version>1.3</version>
+  </skin>
+  <body>
+    <head>
+      <style>
+        p { line-height: 1.3em }
+        #leftColumn { width: 170px }
+        #bodyColumn { margin-left: 190px }
+        .section { padding: 0px; }
+        h2 { padding: 0px; }
+        h3 { padding: 0px; }
+        h4 { padding: 0px; }
+        h5 { padding: 0px; }
+      </style>
+    </head>
+    <breadcrumbs>
+      <item name="akubra" href="index.html"/>
+    </breadcrumbs>
+    <menu name="Project Info">
+      <item name="About" href="index.html"/>
+      <item name="Javadocs (Combined)" href="apidocs/index.html"/>
+      <item name="Dependency Convergence" href="dependency-convergence.html"/>
+      <item name="License" href="license.html"/>
+    </menu>
+    <menu name="Modules" ref="modules"/>
+    <menu name="Links" inherit="bottom">
+      <item name="Wiki" href="https://wiki.duraspace.org/display/AKUBRA"/>
+      <item name="GitHub Repository" href="https://github.com/akubra/akubra"/>
+      <item name="Fedora Commons" href="http://fedora-commons.org/"/>
+      <item name="DuraSpace" href="http://duraspace.org/"/>
+    </menu>
+  </body>
+</project>

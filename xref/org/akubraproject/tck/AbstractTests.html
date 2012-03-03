@@ -69,7 +69,7 @@
 <a class="jxr_linenumber" name="59" href="#59">59</a>  @SuppressWarnings(<span class="jxr_string">"PMD.TooManyStaticImports"</span>)
 <a class="jxr_linenumber" name="60" href="#60">60</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> <a href="../../../org/akubraproject/tck/AbstractTests.html">AbstractTests</a> {
 <a class="jxr_linenumber" name="61" href="#61">61</a>    <em class="jxr_javadoccomment">/**</em><em class="jxr_javadoccomment"> the store being tested */</em>
-<a class="jxr_linenumber" name="62" href="#62">62</a>    <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <a href="../../../org/akubraproject/BlobStore.html">BlobStore</a>          store;
+<a class="jxr_linenumber" name="62" href="#62">62</a>    <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> BlobStore          store;
 <a class="jxr_linenumber" name="63" href="#63">63</a>    <em class="jxr_javadoccomment">/**</em><em class="jxr_javadoccomment"> whether the store is transactional or not */</em>
 <a class="jxr_linenumber" name="64" href="#64">64</a>    <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong>            isTransactional;
 <a class="jxr_linenumber" name="65" href="#65">65</a>    <em class="jxr_javadoccomment">/**</em><em class="jxr_javadoccomment"> a transaction-manager */</em>
@@ -81,7 +81,7 @@
 <a class="jxr_linenumber" name="71" href="#71">71</a>  <em class="jxr_javadoccomment">   * @param store           the store to test</em>
 <a class="jxr_linenumber" name="72" href="#72">72</a>  <em class="jxr_javadoccomment">   * @param isTransactional if the store is transactional</em>
 <a class="jxr_linenumber" name="73" href="#73">73</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="74" href="#74">74</a>    <strong class="jxr_keyword">protected</strong> <a href="../../../org/akubraproject/tck/AbstractTests.html">AbstractTests</a>(<a href="../../../org/akubraproject/BlobStore.html">BlobStore</a> store, <strong class="jxr_keyword">boolean</strong> isTransactional) {
+<a class="jxr_linenumber" name="74" href="#74">74</a>    <strong class="jxr_keyword">protected</strong> <a href="../../../org/akubraproject/tck/AbstractTests.html">AbstractTests</a>(BlobStore store, <strong class="jxr_keyword">boolean</strong> isTransactional) {
 <a class="jxr_linenumber" name="75" href="#75">75</a>      <strong class="jxr_keyword">this</strong>.store           = store;
 <a class="jxr_linenumber" name="76" href="#76">76</a>      <strong class="jxr_keyword">this</strong>.isTransactional = isTransactional;
 <a class="jxr_linenumber" name="77" href="#77">77</a>  
@@ -92,16 +92,16 @@
 <a class="jxr_linenumber" name="82" href="#82">82</a>  <em class="jxr_comment">   * simple helpers that do an operation on an open connection and assert things went fine</em>
 <a class="jxr_linenumber" name="83" href="#83">83</a>  <em class="jxr_comment">   */</em>
 <a class="jxr_linenumber" name="84" href="#84">84</a>  
-<a class="jxr_linenumber" name="85" href="#85">85</a>    <strong class="jxr_keyword">protected</strong> <a href="../../../org/akubraproject/Blob.html">Blob</a> getBlob(<a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con, URI id, <strong class="jxr_keyword">boolean</strong> exists) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="86" href="#86">86</a>      <a href="../../../org/akubraproject/Blob.html">Blob</a> b = con.getBlob(id, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="85" href="#85">85</a>    <strong class="jxr_keyword">protected</strong> Blob getBlob(BlobStoreConnection con, URI id, <strong class="jxr_keyword">boolean</strong> exists) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="86" href="#86">86</a>      Blob b = con.getBlob(id, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="87" href="#87">87</a>      <strong class="jxr_keyword">if</strong> (id != <strong class="jxr_keyword">null</strong>)
 <a class="jxr_linenumber" name="88" href="#88">88</a>        assertEquals(b.getId(), id);
 <a class="jxr_linenumber" name="89" href="#89">89</a>      assertEquals(b.exists(), exists);
 <a class="jxr_linenumber" name="90" href="#90">90</a>      <strong class="jxr_keyword">return</strong> b;
 <a class="jxr_linenumber" name="91" href="#91">91</a>    }
 <a class="jxr_linenumber" name="92" href="#92">92</a>  
-<a class="jxr_linenumber" name="93" href="#93">93</a>    <strong class="jxr_keyword">protected</strong> <a href="../../../org/akubraproject/Blob.html">Blob</a> getBlob(<a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con, URI id, String body) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="94" href="#94">94</a>      <a href="../../../org/akubraproject/Blob.html">Blob</a> b = getBlob(con, id, body != <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="93" href="#93">93</a>    <strong class="jxr_keyword">protected</strong> Blob getBlob(BlobStoreConnection con, URI id, String body) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="94" href="#94">94</a>      Blob b = getBlob(con, id, body != <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="95" href="#95">95</a>  
 <a class="jxr_linenumber" name="96" href="#96">96</a>      <strong class="jxr_keyword">if</strong> (body != <strong class="jxr_keyword">null</strong>)
 <a class="jxr_linenumber" name="97" href="#97">97</a>        assertEquals(getBody(b), body);
@@ -109,28 +109,28 @@
 <a class="jxr_linenumber" name="99" href="#99">99</a>      <strong class="jxr_keyword">return</strong> b;
 <a class="jxr_linenumber" name="100" href="#100">100</a>   }
 <a class="jxr_linenumber" name="101" href="#101">101</a> 
-<a class="jxr_linenumber" name="102" href="#102">102</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> createBlob(<a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con, <a href="../../../org/akubraproject/Blob.html">Blob</a> b, String body) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="102" href="#102">102</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> createBlob(BlobStoreConnection con, Blob b, String body) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="103" href="#103">103</a>     setBlob(con, b, (body != <strong class="jxr_keyword">null</strong>) ? body : <span class="jxr_string">""</span>);
 <a class="jxr_linenumber" name="104" href="#104">104</a> 
 <a class="jxr_linenumber" name="105" href="#105">105</a>     assertTrue(b.exists());
 <a class="jxr_linenumber" name="106" href="#106">106</a>     assertTrue(con.getBlob(b.getId(), <strong class="jxr_keyword">null</strong>).exists());
 <a class="jxr_linenumber" name="107" href="#107">107</a>   }
 <a class="jxr_linenumber" name="108" href="#108">108</a> 
-<a class="jxr_linenumber" name="109" href="#109">109</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setBlob(<a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con, <a href="../../../org/akubraproject/Blob.html">Blob</a> b, String body) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="109" href="#109">109</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setBlob(BlobStoreConnection con, Blob b, String body) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="110" href="#110">110</a>     setBody(b, body);
 <a class="jxr_linenumber" name="111" href="#111">111</a>     assertEquals(getBody(b), body);
 <a class="jxr_linenumber" name="112" href="#112">112</a>     assertEquals(getBody(con.getBlob(b.getId(), <strong class="jxr_keyword">null</strong>)), body);
 <a class="jxr_linenumber" name="113" href="#113">113</a>   }
 <a class="jxr_linenumber" name="114" href="#114">114</a> 
-<a class="jxr_linenumber" name="115" href="#115">115</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> deleteBlob(<a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con, <a href="../../../org/akubraproject/Blob.html">Blob</a> b) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="115" href="#115">115</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> deleteBlob(BlobStoreConnection con, Blob b) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="116" href="#116">116</a>     b.delete();
 <a class="jxr_linenumber" name="117" href="#117">117</a>     assertFalse(b.exists());
 <a class="jxr_linenumber" name="118" href="#118">118</a>     assertFalse(con.getBlob(b.getId(), <strong class="jxr_keyword">null</strong>).exists());
 <a class="jxr_linenumber" name="119" href="#119">119</a>   }
 <a class="jxr_linenumber" name="120" href="#120">120</a> 
-<a class="jxr_linenumber" name="121" href="#121">121</a>   <strong class="jxr_keyword">protected</strong> <a href="../../../org/akubraproject/Blob.html">Blob</a> moveBlob(<a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con, <a href="../../../org/akubraproject/Blob.html">Blob</a> ob, URI nbId, String body)
+<a class="jxr_linenumber" name="121" href="#121">121</a>   <strong class="jxr_keyword">protected</strong> Blob moveBlob(BlobStoreConnection con, Blob ob, URI nbId, String body)
 <a class="jxr_linenumber" name="122" href="#122">122</a>       <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="123" href="#123">123</a>     <a href="../../../org/akubraproject/Blob.html">Blob</a> nb = ob.moveTo(nbId, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="123" href="#123">123</a>     Blob nb = ob.moveTo(nbId, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="124" href="#124">124</a>     assertNotNull(nb);
 <a class="jxr_linenumber" name="125" href="#125">125</a>     assertEquals(nb.getId(), nbId);
 <a class="jxr_linenumber" name="126" href="#126">126</a>     assertEquals(nb.getConnection(), con);
@@ -147,7 +147,7 @@
 <a class="jxr_linenumber" name="137" href="#137">137</a>     <strong class="jxr_keyword">return</strong> nb;
 <a class="jxr_linenumber" name="138" href="#138">138</a>   }
 <a class="jxr_linenumber" name="139" href="#139">139</a> 
-<a class="jxr_linenumber" name="140" href="#140">140</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> listBlobs(<a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con, String prefix, URI[] expected)
+<a class="jxr_linenumber" name="140" href="#140">140</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> listBlobs(BlobStoreConnection con, String prefix, URI[] expected)
 <a class="jxr_linenumber" name="141" href="#141">141</a>       <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="142" href="#142">142</a>     Set&lt;URI&gt; exp = <strong class="jxr_keyword">new</strong> HashSet&lt;URI&gt;(Arrays.asList(expected));
 <a class="jxr_linenumber" name="143" href="#143">143</a>     URI id;
@@ -164,8 +164,8 @@
 <a class="jxr_linenumber" name="154" href="#154">154</a> 
 <a class="jxr_linenumber" name="155" href="#155">155</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> createBlob(<strong class="jxr_keyword">final</strong> URI id, <strong class="jxr_keyword">final</strong> String val, <strong class="jxr_keyword">boolean</strong> commit) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="156" href="#156">156</a>     runTests(<strong class="jxr_keyword">new</strong> <a href="../../../org/akubraproject/tck/AbstractTests.html">ConAction</a>() {
-<a class="jxr_linenumber" name="157" href="#157">157</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run(<a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="158" href="#158">158</a>           <a href="../../../org/akubraproject/Blob.html">Blob</a> b = getBlob(con, id, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="157" href="#157">157</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run(BlobStoreConnection con) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="158" href="#158">158</a>           Blob b = getBlob(con, id, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="159" href="#159">159</a>           createBlob(con, b, val);
 <a class="jxr_linenumber" name="160" href="#160">160</a>         }
 <a class="jxr_linenumber" name="161" href="#161">161</a>     }, commit);
@@ -174,8 +174,8 @@
 <a class="jxr_linenumber" name="164" href="#164">164</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> deleteBlob(<strong class="jxr_keyword">final</strong> URI id, <strong class="jxr_keyword">final</strong> String body, <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> commit)
 <a class="jxr_linenumber" name="165" href="#165">165</a>       <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="166" href="#166">166</a>     runTests(<strong class="jxr_keyword">new</strong> <a href="../../../org/akubraproject/tck/AbstractTests.html">ConAction</a>() {
-<a class="jxr_linenumber" name="167" href="#167">167</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run(<a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="168" href="#168">168</a>           <a href="../../../org/akubraproject/Blob.html">Blob</a> b = getBlob(con, id, body);
+<a class="jxr_linenumber" name="167" href="#167">167</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run(BlobStoreConnection con) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="168" href="#168">168</a>           Blob b = getBlob(con, id, body);
 <a class="jxr_linenumber" name="169" href="#169">169</a>           deleteBlob(con, b);
 <a class="jxr_linenumber" name="170" href="#170">170</a>         }
 <a class="jxr_linenumber" name="171" href="#171">171</a>     }, commit);
@@ -183,7 +183,7 @@
 <a class="jxr_linenumber" name="173" href="#173">173</a> 
 <a class="jxr_linenumber" name="174" href="#174">174</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> getBlob(<strong class="jxr_keyword">final</strong> URI id, <strong class="jxr_keyword">final</strong> String val, <strong class="jxr_keyword">boolean</strong> commit) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="175" href="#175">175</a>     runTests(<strong class="jxr_keyword">new</strong> <a href="../../../org/akubraproject/tck/AbstractTests.html">ConAction</a>() {
-<a class="jxr_linenumber" name="176" href="#176">176</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run(<a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="176" href="#176">176</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run(BlobStoreConnection con) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="177" href="#177">177</a>           getBlob(con, id, val);
 <a class="jxr_linenumber" name="178" href="#178">178</a>         }
 <a class="jxr_linenumber" name="179" href="#179">179</a>     }, commit);
@@ -191,8 +191,8 @@
 <a class="jxr_linenumber" name="181" href="#181">181</a> 
 <a class="jxr_linenumber" name="182" href="#182">182</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setBlob(<strong class="jxr_keyword">final</strong> URI id, <strong class="jxr_keyword">final</strong> String val, <strong class="jxr_keyword">boolean</strong> commit) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="183" href="#183">183</a>     runTests(<strong class="jxr_keyword">new</strong> <a href="../../../org/akubraproject/tck/AbstractTests.html">ConAction</a>() {
-<a class="jxr_linenumber" name="184" href="#184">184</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run(<a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="185" href="#185">185</a>           <a href="../../../org/akubraproject/Blob.html">Blob</a> b = getBlob(con, id, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="184" href="#184">184</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run(BlobStoreConnection con) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="185" href="#185">185</a>           Blob b = getBlob(con, id, <strong class="jxr_keyword">true</strong>);
 <a class="jxr_linenumber" name="186" href="#186">186</a>           setBlob(con, b, val);
 <a class="jxr_linenumber" name="187" href="#187">187</a>         }
 <a class="jxr_linenumber" name="188" href="#188">188</a>     }, commit);
@@ -201,9 +201,9 @@
 <a class="jxr_linenumber" name="191" href="#191">191</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> renameBlob(<strong class="jxr_keyword">final</strong> URI oldId, <strong class="jxr_keyword">final</strong> URI newId, <strong class="jxr_keyword">final</strong> String val, <strong class="jxr_keyword">boolean</strong> commit)
 <a class="jxr_linenumber" name="192" href="#192">192</a>       <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="193" href="#193">193</a>     runTests(<strong class="jxr_keyword">new</strong> <a href="../../../org/akubraproject/tck/AbstractTests.html">ConAction</a>() {
-<a class="jxr_linenumber" name="194" href="#194">194</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run(<a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="195" href="#195">195</a>           <a href="../../../org/akubraproject/Blob.html">Blob</a> ob = getBlob(con, oldId, val);
-<a class="jxr_linenumber" name="196" href="#196">196</a>           <a href="../../../org/akubraproject/Blob.html">Blob</a> nb = getBlob(con, newId, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="194" href="#194">194</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run(BlobStoreConnection con) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="195" href="#195">195</a>           Blob ob = getBlob(con, oldId, val);
+<a class="jxr_linenumber" name="196" href="#196">196</a>           Blob nb = getBlob(con, newId, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="197" href="#197">197</a>           moveBlob(con, ob, nb.getId(), val);
 <a class="jxr_linenumber" name="198" href="#198">198</a>         }
 <a class="jxr_linenumber" name="199" href="#199">199</a>     }, commit);
@@ -211,7 +211,7 @@
 <a class="jxr_linenumber" name="201" href="#201">201</a> 
 <a class="jxr_linenumber" name="202" href="#202">202</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> listBlobs(<strong class="jxr_keyword">final</strong> String prefix, <strong class="jxr_keyword">final</strong> URI[] expected) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="203" href="#203">203</a>     runTests(<strong class="jxr_keyword">new</strong> <a href="../../../org/akubraproject/tck/AbstractTests.html">ConAction</a>() {
-<a class="jxr_linenumber" name="204" href="#204">204</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run(<a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="204" href="#204">204</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run(BlobStoreConnection con) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="205" href="#205">205</a>           listBlobs(con, prefix, expected);
 <a class="jxr_linenumber" name="206" href="#206">206</a>         }
 <a class="jxr_linenumber" name="207" href="#207">207</a>     }, <strong class="jxr_keyword">true</strong>);
@@ -219,7 +219,7 @@
 <a class="jxr_linenumber" name="209" href="#209">209</a> 
 <a class="jxr_linenumber" name="210" href="#210">210</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> assertNoBlobs(<strong class="jxr_keyword">final</strong> String prefix) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="211" href="#211">211</a>     runTests(<strong class="jxr_keyword">new</strong> <a href="../../../org/akubraproject/tck/AbstractTests.html">ConAction</a>() {
-<a class="jxr_linenumber" name="212" href="#212">212</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run(<a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="212" href="#212">212</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run(BlobStoreConnection con) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="213" href="#213">213</a>           Iterator&lt;URI&gt; iter = con.listBlobIds(prefix);
 <a class="jxr_linenumber" name="214" href="#214">214</a>           <strong class="jxr_keyword">if</strong> (iter.hasNext())
 <a class="jxr_linenumber" name="215" href="#215">215</a>             fail(<span class="jxr_string">"unexpected blobs found for prefix '"</span> + prefix + <span class="jxr_string">"': "</span> + Iterators.toString(iter));
@@ -231,7 +231,7 @@
 <a class="jxr_linenumber" name="221" href="#221">221</a> <em class="jxr_comment">   * Other helpers</em>
 <a class="jxr_linenumber" name="222" href="#222">222</a> <em class="jxr_comment">   */</em>
 <a class="jxr_linenumber" name="223" href="#223">223</a> 
-<a class="jxr_linenumber" name="224" href="#224">224</a>   <strong class="jxr_keyword">protected</strong> String getBody(<a href="../../../org/akubraproject/Blob.html">Blob</a> b) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="224" href="#224">224</a>   <strong class="jxr_keyword">protected</strong> String getBody(Blob b) <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="225" href="#225">225</a>     InputStream is = b.openInputStream();
 <a class="jxr_linenumber" name="226" href="#226">226</a>     <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="227" href="#227">227</a>       String res = IOUtils.toString(is, <span class="jxr_string">"UTF-8"</span>);
@@ -244,11 +244,11 @@
 <a class="jxr_linenumber" name="234" href="#234">234</a>     }
 <a class="jxr_linenumber" name="235" href="#235">235</a>   }
 <a class="jxr_linenumber" name="236" href="#236">236</a> 
-<a class="jxr_linenumber" name="237" href="#237">237</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setBody(<a href="../../../org/akubraproject/Blob.html">Blob</a> b, String data) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="237" href="#237">237</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setBody(Blob b, String data) <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="238" href="#238">238</a>     setBody(b, data, data.length(), <strong class="jxr_keyword">true</strong>);
 <a class="jxr_linenumber" name="239" href="#239">239</a>   }
 <a class="jxr_linenumber" name="240" href="#240">240</a> 
-<a class="jxr_linenumber" name="241" href="#241">241</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setBody(<a href="../../../org/akubraproject/Blob.html">Blob</a> b, String data, <strong class="jxr_keyword">long</strong> estSize, <strong class="jxr_keyword">boolean</strong> overwrite) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="241" href="#241">241</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> setBody(Blob b, String data, <strong class="jxr_keyword">long</strong> estSize, <strong class="jxr_keyword">boolean</strong> overwrite) <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="242" href="#242">242</a>     OutputStream os = b.openOutputStream(estSize, overwrite);
 <a class="jxr_linenumber" name="243" href="#243">243</a>     <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="244" href="#244">244</a>       os.write(data.getBytes(<span class="jxr_string">"UTF-8"</span>));
@@ -293,7 +293,7 @@
 <a class="jxr_linenumber" name="283" href="#283">283</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> runTests(<strong class="jxr_keyword">final</strong> <a href="../../../org/akubraproject/tck/AbstractTests.html">ConAction</a> test, <strong class="jxr_keyword">boolean</strong> commit) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="284" href="#284">284</a>     runTests(<strong class="jxr_keyword">new</strong> <a href="../../../org/akubraproject/tck/AbstractTests.html">Action</a>() {
 <a class="jxr_linenumber" name="285" href="#285">285</a>       <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run(Transaction txn) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="286" href="#286">286</a>         <a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con = store.openConnection(txn, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="286" href="#286">286</a>         BlobStoreConnection con = store.openConnection(txn, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="287" href="#287">287</a>         assertSame(con.getBlobStore(), store);
 <a class="jxr_linenumber" name="288" href="#288">288</a>         assertFalse(con.isClosed());
 <a class="jxr_linenumber" name="289" href="#289">289</a> 
@@ -363,7 +363,7 @@
 <a class="jxr_linenumber" name="353" href="#353">353</a>   }
 <a class="jxr_linenumber" name="354" href="#354">354</a> 
 <a class="jxr_linenumber" name="355" href="#355">355</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">interface</strong> <a href="../../../org/akubraproject/tck/AbstractTests.html">ConAction</a> {
-<a class="jxr_linenumber" name="356" href="#356">356</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run(<a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con) <strong class="jxr_keyword">throws</strong> Exception;
+<a class="jxr_linenumber" name="356" href="#356">356</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run(BlobStoreConnection con) <strong class="jxr_keyword">throws</strong> Exception;
 <a class="jxr_linenumber" name="357" href="#357">357</a>   }
 <a class="jxr_linenumber" name="358" href="#358">358</a> 
 <a class="jxr_linenumber" name="359" href="#359">359</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> <a href="../../../org/akubraproject/tck/AbstractTests.html">ERunnable</a> <strong class="jxr_keyword">implements</strong> Runnable {

@@ -57,7 +57,7 @@
 <a class="jxr_linenumber" name="47" href="#47">47</a>  <em class="jxr_javadoccomment"> * @author Chris Wilper</em>
 <a class="jxr_linenumber" name="48" href="#48">48</a>  <em class="jxr_javadoccomment"> * @author Ronald Tschalär</em>
 <a class="jxr_linenumber" name="49" href="#49">49</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="50" href="#50">50</a>  <strong class="jxr_keyword">class</strong> <a href="../../../org/akubraproject/qsc/QuiescingStreamManager.html">QuiescingStreamManager</a> <strong class="jxr_keyword">extends</strong> <a href="../../../org/akubraproject/impl/StreamManager.html">StreamManager</a> {
+<a class="jxr_linenumber" name="50" href="#50">50</a>  <strong class="jxr_keyword">class</strong> <a href="../../../org/akubraproject/qsc/QuiescingStreamManager.html">QuiescingStreamManager</a> <strong class="jxr_keyword">extends</strong> StreamManager {
 <a class="jxr_linenumber" name="51" href="#51">51</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger log = LoggerFactory.getLogger(QuiescingStreamManager.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="52" href="#52">52</a>  
 <a class="jxr_linenumber" name="53" href="#53">53</a>    <em class="jxr_javadoccomment">/**</em><em class="jxr_javadoccomment"> Exclusive lock on the quiescent state. */</em>
@@ -222,7 +222,7 @@
 <a class="jxr_linenumber" name="212" href="#212">212</a>   }
 <a class="jxr_linenumber" name="213" href="#213">213</a> 
 <a class="jxr_linenumber" name="214" href="#214">214</a>   @Override
-<a class="jxr_linenumber" name="215" href="#215">215</a>   <strong class="jxr_keyword">public</strong> OutputStream manageOutputStream(<a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con, OutputStream stream)
+<a class="jxr_linenumber" name="215" href="#215">215</a>   <strong class="jxr_keyword">public</strong> OutputStream manageOutputStream(BlobStoreConnection con, OutputStream stream)
 <a class="jxr_linenumber" name="216" href="#216">216</a>       <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="217" href="#217">217</a>     lockIOE();
 <a class="jxr_linenumber" name="218" href="#218">218</a>     <strong class="jxr_keyword">try</strong> {

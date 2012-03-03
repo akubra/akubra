@@ -57,11 +57,11 @@
 <a class="jxr_linenumber" name="47" href="#47">47</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="48" href="#48">48</a>  <em class="jxr_javadoccomment"> * @author Pradeep Krishnan</em>
 <a class="jxr_linenumber" name="49" href="#49">49</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="50" href="#50">50</a>  <strong class="jxr_keyword">class</strong> <a href="../../../org/akubraproject/www/WWWBlob.html">WWWBlob</a> <strong class="jxr_keyword">extends</strong> <a href="../../../org/akubraproject/impl/AbstractBlob.html">AbstractBlob</a> {
+<a class="jxr_linenumber" name="50" href="#50">50</a>  <strong class="jxr_keyword">class</strong> <a href="../../../org/akubraproject/www/WWWBlob.html">WWWBlob</a> <strong class="jxr_keyword">extends</strong> AbstractBlob {
 <a class="jxr_linenumber" name="51" href="#51">51</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger logger = LoggerFactory.getLogger(WWWBlob.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="52" href="#52">52</a>  
 <a class="jxr_linenumber" name="53" href="#53">53</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> URL           url;
-<a class="jxr_linenumber" name="54" href="#54">54</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <a href="../../../org/akubraproject/impl/StreamManager.html">StreamManager</a> streamManager;
+<a class="jxr_linenumber" name="54" href="#54">54</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> StreamManager streamManager;
 <a class="jxr_linenumber" name="55" href="#55">55</a>    <strong class="jxr_keyword">private</strong> Long                size;
 <a class="jxr_linenumber" name="56" href="#56">56</a>    <strong class="jxr_keyword">private</strong> Boolean             exists;
 <a class="jxr_linenumber" name="57" href="#57">57</a>    <strong class="jxr_keyword">private</strong> URLConnection       urlc;
@@ -74,7 +74,7 @@
 <a class="jxr_linenumber" name="64" href="#64">64</a>  <em class="jxr_javadoccomment">   * @param conn the connection object</em>
 <a class="jxr_linenumber" name="65" href="#65">65</a>  <em class="jxr_javadoccomment">   * @param streamManager the stream-manager</em>
 <a class="jxr_linenumber" name="66" href="#66">66</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="67" href="#67">67</a>    <strong class="jxr_keyword">public</strong> <a href="../../../org/akubraproject/www/WWWBlob.html">WWWBlob</a>(URL url, <a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> conn, <a href="../../../org/akubraproject/impl/StreamManager.html">StreamManager</a> streamManager) {
+<a class="jxr_linenumber" name="67" href="#67">67</a>    <strong class="jxr_keyword">public</strong> <a href="../../../org/akubraproject/www/WWWBlob.html">WWWBlob</a>(URL url, BlobStoreConnection conn, StreamManager streamManager) {
 <a class="jxr_linenumber" name="68" href="#68">68</a>      <strong class="jxr_keyword">super</strong>(conn, toURI(url));
 <a class="jxr_linenumber" name="69" href="#69">69</a>      <strong class="jxr_keyword">this</strong>.url = url;
 <a class="jxr_linenumber" name="70" href="#70">70</a>      <strong class="jxr_keyword">this</strong>.streamManager = streamManager;
@@ -131,7 +131,7 @@
 <a class="jxr_linenumber" name="121" href="#121">121</a>         exists = false;
 <a class="jxr_linenumber" name="122" href="#122">122</a>         size   = <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="123" href="#123">123</a>         urlc   = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="124" href="#124">124</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../org/akubraproject/MissingBlobException.html">MissingBlobException</a>(id);
+<a class="jxr_linenumber" name="124" href="#124">124</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> MissingBlobException(id);
 <a class="jxr_linenumber" name="125" href="#125">125</a>       }
 <a class="jxr_linenumber" name="126" href="#126">126</a> 
 <a class="jxr_linenumber" name="127" href="#127">127</a>       size = (<strong class="jxr_keyword">long</strong>) con.getContentLength();
@@ -150,7 +150,7 @@
 <a class="jxr_linenumber" name="140" href="#140">140</a>   @Override
 <a class="jxr_linenumber" name="141" href="#141">141</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">long</strong> getSize() <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="142" href="#142">142</a>     <strong class="jxr_keyword">if</strong> (exists != <strong class="jxr_keyword">null</strong> &amp;&amp; !exists)
-<a class="jxr_linenumber" name="143" href="#143">143</a>       <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../org/akubraproject/MissingBlobException.html">MissingBlobException</a>(id);
+<a class="jxr_linenumber" name="143" href="#143">143</a>       <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> MissingBlobException(id);
 <a class="jxr_linenumber" name="144" href="#144">144</a>     <strong class="jxr_keyword">if</strong> (size == <strong class="jxr_keyword">null</strong>)
 <a class="jxr_linenumber" name="145" href="#145">145</a>       connect(<strong class="jxr_keyword">true</strong>, <strong class="jxr_keyword">true</strong>);
 <a class="jxr_linenumber" name="146" href="#146">146</a> 
@@ -167,7 +167,7 @@
 <a class="jxr_linenumber" name="157" href="#157">157</a>   @Override
 <a class="jxr_linenumber" name="158" href="#158">158</a>   <strong class="jxr_keyword">public</strong> OutputStream openOutputStream(<strong class="jxr_keyword">long</strong> estimatedSize, <strong class="jxr_keyword">boolean</strong> overwrite) <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="159" href="#159">159</a>     <strong class="jxr_keyword">if</strong> (!overwrite &amp;&amp; exists())
-<a class="jxr_linenumber" name="160" href="#160">160</a>       <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../org/akubraproject/DuplicateBlobException.html">DuplicateBlobException</a>(id);
+<a class="jxr_linenumber" name="160" href="#160">160</a>       <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> DuplicateBlobException(id);
 <a class="jxr_linenumber" name="161" href="#161">161</a> 
 <a class="jxr_linenumber" name="162" href="#162">162</a>     URLConnection con = connect(false, false);
 <a class="jxr_linenumber" name="163" href="#163">163</a> 
@@ -195,7 +195,7 @@
 <a class="jxr_linenumber" name="185" href="#185">185</a>   }
 <a class="jxr_linenumber" name="186" href="#186">186</a> 
 <a class="jxr_linenumber" name="187" href="#187">187</a>   @Override
-<a class="jxr_linenumber" name="188" href="#188">188</a>   <strong class="jxr_keyword">public</strong> <a href="../../../org/akubraproject/Blob.html">Blob</a> moveTo(URI blobId, Map&lt;String, String&gt; hints) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="188" href="#188">188</a>   <strong class="jxr_keyword">public</strong> Blob moveTo(URI blobId, Map&lt;String, String&gt; hints) <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="189" href="#189">189</a>     <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> UnsupportedOperationException();
 <a class="jxr_linenumber" name="190" href="#190">190</a>   }
 <a class="jxr_linenumber" name="191" href="#191">191</a> }

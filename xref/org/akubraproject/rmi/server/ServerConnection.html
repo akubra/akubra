@@ -53,7 +53,7 @@
 <a class="jxr_linenumber" name="43" href="#43">43</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="44" href="#44">44</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/akubraproject/rmi/server/ServerConnection.html">ServerConnection</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../org/akubraproject/rmi/server/UnicastExportable.html">UnicastExportable</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../org/akubraproject/rmi/remote/RemoteConnection.html">RemoteConnection</a> {
 <a class="jxr_linenumber" name="45" href="#45">45</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong>         serialVersionUID = 1L;
-<a class="jxr_linenumber" name="46" href="#46">46</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con;
+<a class="jxr_linenumber" name="46" href="#46">46</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> BlobStoreConnection con;
 <a class="jxr_linenumber" name="47" href="#47">47</a>  
 <a class="jxr_linenumber" name="48" href="#48">48</a>    <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="49" href="#49">49</a>  <em class="jxr_javadoccomment">   * Creates a new ServerConnection object.</em>
@@ -63,7 +63,7 @@
 <a class="jxr_linenumber" name="53" href="#53">53</a>  <em class="jxr_javadoccomment">   *</em>
 <a class="jxr_linenumber" name="54" href="#54">54</a>  <em class="jxr_javadoccomment">   * @throws RemoteException on an error in export</em>
 <a class="jxr_linenumber" name="55" href="#55">55</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="56" href="#56">56</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../org/akubraproject/rmi/server/ServerConnection.html">ServerConnection</a>(<a href="../../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con, <a href="../../../../org/akubraproject/rmi/server/Exporter.html">Exporter</a> exporter)
+<a class="jxr_linenumber" name="56" href="#56">56</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../org/akubraproject/rmi/server/ServerConnection.html">ServerConnection</a>(BlobStoreConnection con, <a href="../../../../org/akubraproject/rmi/server/Exporter.html">Exporter</a> exporter)
 <a class="jxr_linenumber" name="57" href="#57">57</a>                     <strong class="jxr_keyword">throws</strong> RemoteException {
 <a class="jxr_linenumber" name="58" href="#58">58</a>      <strong class="jxr_keyword">super</strong>(exporter);
 <a class="jxr_linenumber" name="59" href="#59">59</a>      <strong class="jxr_keyword">this</strong>.con = con;
@@ -104,7 +104,7 @@
 <a class="jxr_linenumber" name="94" href="#94">94</a>    }
 <a class="jxr_linenumber" name="95" href="#95">95</a>  
 <a class="jxr_linenumber" name="96" href="#96">96</a>    <em class="jxr_comment">// for tests</em>
-<a class="jxr_linenumber" name="97" href="#97">97</a>    <a href="../../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> getConnection() {
+<a class="jxr_linenumber" name="97" href="#97">97</a>    BlobStoreConnection getConnection() {
 <a class="jxr_linenumber" name="98" href="#98">98</a>      <strong class="jxr_keyword">return</strong> con;
 <a class="jxr_linenumber" name="99" href="#99">99</a>    }
 <a class="jxr_linenumber" name="100" href="#100">100</a> }

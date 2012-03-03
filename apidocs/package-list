@@ -1,1 +1,4 @@
-org.akubraproject.qsc
+org.akubraproject.rmi
+org.akubraproject.rmi.client
+org.akubraproject.rmi.remote
+org.akubraproject.rmi.server

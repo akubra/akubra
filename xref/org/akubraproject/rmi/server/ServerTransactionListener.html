@@ -84,7 +84,7 @@
 <a class="jxr_linenumber" name="74" href="#74">74</a>  <em class="jxr_javadoccomment">   * @param exporter exporter for exporting XAResource and Synchronization</em>
 <a class="jxr_linenumber" name="75" href="#75">75</a>  <em class="jxr_javadoccomment">   * @throws RemoteException on an error in export</em>
 <a class="jxr_linenumber" name="76" href="#76">76</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="77" href="#77">77</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../org/akubraproject/rmi/server/ServerTransactionListener.html">ServerTransactionListener</a>(<strong class="jxr_keyword">final</strong> <a href="../../../../org/akubraproject/BlobStore.html">BlobStore</a> store, <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; hints,
+<a class="jxr_linenumber" name="77" href="#77">77</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../org/akubraproject/rmi/server/ServerTransactionListener.html">ServerTransactionListener</a>(<strong class="jxr_keyword">final</strong> BlobStore store, <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; hints,
 <a class="jxr_linenumber" name="78" href="#78">78</a>                                     <a href="../../../../org/akubraproject/rmi/server/Exporter.html">Exporter</a> exporter) <strong class="jxr_keyword">throws</strong> RemoteException {
 <a class="jxr_linenumber" name="79" href="#79">79</a>      <strong class="jxr_keyword">super</strong>(exporter);
 <a class="jxr_linenumber" name="80" href="#80">80</a>      Executors.newSingleThreadExecutor(<strong class="jxr_keyword">new</strong> ThreadFactory() {
@@ -106,13 +106,13 @@
 <a class="jxr_linenumber" name="96" href="#96">96</a>        });
 <a class="jxr_linenumber" name="97" href="#97">97</a>    }
 <a class="jxr_linenumber" name="98" href="#98">98</a>  
-<a class="jxr_linenumber" name="99" href="#99">99</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> openConnection(<a href="../../../../org/akubraproject/BlobStore.html">BlobStore</a> store, Map&lt;String, String&gt; hints) {
+<a class="jxr_linenumber" name="99" href="#99">99</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> openConnection(BlobStore store, Map&lt;String, String&gt; hints) {
 <a class="jxr_linenumber" name="100" href="#100">100</a>     Result&lt;RemoteConnection&gt; result;
 <a class="jxr_linenumber" name="101" href="#101">101</a> 
 <a class="jxr_linenumber" name="102" href="#102">102</a>     <a href="../../../../org/akubraproject/rmi/server/ServerConnection.html">ServerConnection</a>         con = <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="103" href="#103">103</a> 
 <a class="jxr_linenumber" name="104" href="#104">104</a>     <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="105" href="#105">105</a>       <a href="../../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> res = store.openConnection(<strong class="jxr_keyword">this</strong>, hints);
+<a class="jxr_linenumber" name="105" href="#105">105</a>       BlobStoreConnection res = store.openConnection(<strong class="jxr_keyword">this</strong>, hints);
 <a class="jxr_linenumber" name="106" href="#106">106</a>       con      = <strong class="jxr_keyword">new</strong> ServerConnection(res, getExporter());
 <a class="jxr_linenumber" name="107" href="#107">107</a>       result   = <strong class="jxr_keyword">new</strong> Result&lt;RemoteConnection&gt;(con);
 <a class="jxr_linenumber" name="108" href="#108">108</a>     } <strong class="jxr_keyword">catch</strong> (Throwable t) {

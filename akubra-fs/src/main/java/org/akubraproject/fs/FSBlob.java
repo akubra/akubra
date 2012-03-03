@@ -21,29 +21,27 @@
  */
 package org.akubraproject.fs;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import java.nio.channels.FileChannel;
-
-import java.util.Map;
-import java.util.Set;
-
 import org.akubraproject.Blob;
 import org.akubraproject.DuplicateBlobException;
 import org.akubraproject.MissingBlobException;
 import org.akubraproject.UnsupportedIdException;
 import org.akubraproject.impl.AbstractBlob;
 import org.akubraproject.impl.StreamManager;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.channels.FileChannel;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Filesystem-backed Blob implementation.
@@ -78,6 +76,7 @@ class FSBlob extends AbstractBlob {
    * @param blobId the identifier for the blob
    * @param manager the stream manager
    * @param modified the set of modified files in the connection; may be null
+   * @throws UnsupportedIdException if the given id is not supported
    */
   FSBlob(FSBlobStoreConnection connection, File baseDir, URI blobId, StreamManager manager,
          Set<File> modified) throws UnsupportedIdException {
@@ -194,10 +193,9 @@ class FSBlob extends AbstractBlob {
 
         success = true;
       }  finally {
-        if (!success) {
-          if (other.exists() && !other.delete())
-            log.error("Error deleting destination file '" +  other + "' after source file '" + file
-                     + "' copy failure");
+        if (!success && other.exists() && !other.delete()) {
+          log.error("Error deleting destination file '" +  other + "' after source file '" + file
+                  + "' copy failure");
         }
       }
     }
@@ -234,7 +232,7 @@ class FSBlob extends AbstractBlob {
     File parent = file.getParentFile();
 
     if (parent != null && !parent.exists()) {
-      parent.mkdirs();
+      parent.mkdirs(); // See https://jira.duraspace.org/browse/AKUBRA-3
       if (!parent.exists())
         throw new IOException("Unable to create parent directory: " + parent.getPath());
     }
@@ -246,41 +244,20 @@ class FSBlob extends AbstractBlob {
 
     log.debug("Performing force copy-and-delete of source '" +  source + "' to '"
               + dest + "'");
-    boolean success_in = false;
     try {
       f_in = new FileInputStream(source);
 
-      boolean success_out = false;
       try {
         f_out = new FileOutputStream(dest);
 
         FileChannel in = f_in.getChannel();
         FileChannel out = f_out.getChannel();
         in.transferTo(0, source.length(), out);
-
-        success_out = true;
       } finally {
-        if (f_out != null) {
-          try {
-            f_out.close();
-          } catch (IOException io) {
-            if (success_out)
-              throw io;
-            log.warn("Could not close destination file '" + dest + "'", io);
-          }
-        }
+        IOUtils.closeQuietly(f_out);
       }
-      success_in = true;
     } finally {
-      if (f_in != null) {
-        try {
-          f_in.close();
-        } catch (IOException io) {
-          if (success_in)
-            throw io;
-          log.warn("Could not close source file '" + source +"'", io);
-        }
-      }
+      IOUtils.closeQuietly(f_in);
     }
 
     if (!dest.exists()) throw new IOException("Failed to copy file to new location: " + dest);

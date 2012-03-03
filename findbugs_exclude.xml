@@ -5,13 +5,19 @@
   </Match>
 
   <Match>
+    <Bug pattern="NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE" />
+    <Class name="org.akubraproject.tck.BtmUtils$SimpleXAResourceProducer$1" />
+    <Method name="apply" />
+  </Match>
+
+  <Match>
     <Bug pattern="SQL_PREPARED_STATEMENT_GENERATED_FROM_NONCONSTANT_STRING" />
     <Class name="org.akubraproject.txn.derby.TransactionalConnection" />
     <Method name="&lt;init&gt;" />
   </Match>
 
   <Match>
-    <Bug pattern="OBL_UNSATISFIED_OBLIGATION" />
+    <Bug pattern="OBL_UNSATISFIED_OBLIGATION_EXCEPTION_EDGE" />
     <Class name="org.akubraproject.txn.derby.TransactionalStore$3" />
     <Method name="run" />
   </Match>
@@ -44,13 +50,13 @@
   </Match>
 
   <Match>
-    <Bug pattern="OBL_UNSATISFIED_OBLIGATION"/>
+    <Bug pattern="OBL_UNSATISFIED_OBLIGATION_EXCEPTION_EDGE"/>
     <Class name="org.akubraproject.fs.FSBlob" />
     <Method name="openOutputStream" />
   </Match>
 
   <Match>
-    <Bug pattern="OBL_UNSATISFIED_OBLIGATION"/>
+    <Bug pattern="OBL_UNSATISFIED_OBLIGATION_EXCEPTION_EDGE"/>
     <Class name="org.akubraproject.fs.FSBlob" />
     <Method name="openInputStream" />
   </Match>

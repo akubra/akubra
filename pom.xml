@@ -87,8 +87,8 @@
 
   <distributionManagement>
     <site>
-      <id>site</id>
-      <url>${site.deploy.url}</url>
+      <id>${site.id}</id>
+      <url>${site.url}</url>
     </site>
   </distributionManagement>
 
@@ -116,8 +116,8 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- deploy site locally by default; override with -P release-site -->
-    <site.deploy.path>/tmp/akubra-site</site.deploy.path>
-    <site.deploy.url>file://${site.deploy.path}</site.deploy.url>
+    <site.id>local-site</site.id>
+    <site.url>file:///tmp/akubra-site</site.url>
 
     <!-- for use in site/apt/*.apt.vm docs -->
     <groupId>${project.groupId}</groupId>

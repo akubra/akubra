@@ -48,10 +48,10 @@
 <a class="jxr_linenumber" name="38" href="#38">38</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="39" href="#39">39</a>  <em class="jxr_javadoccomment"> * @author Chris Wilper</em>
 <a class="jxr_linenumber" name="40" href="#40">40</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="41" href="#41">41</a>  <strong class="jxr_keyword">class</strong> <a href="../../../org/akubraproject/map/IdMappingBlob.html">IdMappingBlob</a> <strong class="jxr_keyword">extends</strong> <a href="../../../org/akubraproject/impl/BlobWrapper.html">BlobWrapper</a> {
+<a class="jxr_linenumber" name="41" href="#41">41</a>  <strong class="jxr_keyword">class</strong> <a href="../../../org/akubraproject/map/IdMappingBlob.html">IdMappingBlob</a> <strong class="jxr_keyword">extends</strong> BlobWrapper {
 <a class="jxr_linenumber" name="42" href="#42">42</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <a href="../../../org/akubraproject/map/IdMapper.html">IdMapper</a> mapper;
 <a class="jxr_linenumber" name="43" href="#43">43</a>  
-<a class="jxr_linenumber" name="44" href="#44">44</a>    <strong class="jxr_keyword">public</strong> <a href="../../../org/akubraproject/map/IdMappingBlob.html">IdMappingBlob</a>(<a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> connection, <a href="../../../org/akubraproject/Blob.html">Blob</a> delegate, <a href="../../../org/akubraproject/map/IdMapper.html">IdMapper</a> mapper) {
+<a class="jxr_linenumber" name="44" href="#44">44</a>    <strong class="jxr_keyword">public</strong> <a href="../../../org/akubraproject/map/IdMappingBlob.html">IdMappingBlob</a>(BlobStoreConnection connection, Blob delegate, <a href="../../../org/akubraproject/map/IdMapper.html">IdMapper</a> mapper) {
 <a class="jxr_linenumber" name="45" href="#45">45</a>      <strong class="jxr_keyword">super</strong>(delegate, connection);
 <a class="jxr_linenumber" name="46" href="#46">46</a>      <strong class="jxr_keyword">this</strong>.mapper = mapper;
 <a class="jxr_linenumber" name="47" href="#47">47</a>    }
@@ -70,9 +70,9 @@
 <a class="jxr_linenumber" name="60" href="#60">60</a>    }
 <a class="jxr_linenumber" name="61" href="#61">61</a>  
 <a class="jxr_linenumber" name="62" href="#62">62</a>    @Override
-<a class="jxr_linenumber" name="63" href="#63">63</a>    <strong class="jxr_keyword">public</strong> <a href="../../../org/akubraproject/Blob.html">Blob</a> moveTo(URI blobId, Map&lt;String, String&gt; hints) <strong class="jxr_keyword">throws</strong> DuplicateBlobException,
+<a class="jxr_linenumber" name="63" href="#63">63</a>    <strong class="jxr_keyword">public</strong> Blob moveTo(URI blobId, Map&lt;String, String&gt; hints) <strong class="jxr_keyword">throws</strong> DuplicateBlobException,
 <a class="jxr_linenumber" name="64" href="#64">64</a>        IOException, MissingBlobException, NullPointerException, IllegalArgumentException {
-<a class="jxr_linenumber" name="65" href="#65">65</a>      <a href="../../../org/akubraproject/Blob.html">Blob</a> internalBlob;
+<a class="jxr_linenumber" name="65" href="#65">65</a>      Blob internalBlob;
 <a class="jxr_linenumber" name="66" href="#66">66</a>      <strong class="jxr_keyword">if</strong> (blobId == <strong class="jxr_keyword">null</strong>)
 <a class="jxr_linenumber" name="67" href="#67">67</a>        internalBlob = delegate.moveTo(<strong class="jxr_keyword">null</strong>, hints);
 <a class="jxr_linenumber" name="68" href="#68">68</a>      <strong class="jxr_keyword">else</strong>

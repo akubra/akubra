@@ -115,7 +115,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <!-- deploy site locally by default; override with -P release-site -->
+    <!-- deploy site locally by default -->
     <site.id>local-site</site.id>
     <site.url>file:///tmp/akubra-site</site.url>
 
@@ -402,26 +402,6 @@
         <version>2.5.1</version>
       </plugin>
     </plugins>
-
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-manager-plexus</artifactId>
-        <version>1.6</version>
-      </extension>
-
-      <extension>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-provider-gitexe</artifactId>
-        <version>1.6</version>
-      </extension>
-
-      <extension>
-        <groupId>org.kathrynhuxtable.maven.wagon</groupId>
-        <artifactId>wagon-gitsite</artifactId>
-        <version>0.3.1</version>
-      </extension>
-    </extensions>
   </build>
 
   <reporting>
@@ -481,14 +461,6 @@
   </reporting>
 
   <profiles>
-    <profile>
-      <id>release-site</id>
-      <properties>
-        <site.id>gh-pages</site.id>
-        <site.url>gitsite:git@github.com/akubra/akubra.git</site.url>
-      </properties>
-    </profile>
-
     <profile>
       <id>release-sign-artifacts</id>
       <activation>

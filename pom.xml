@@ -9,7 +9,7 @@
 
   <groupId>org.akubraproject</groupId>
   <artifactId>akubra</artifactId>
-  <version>0.4.0</version>
+  <version>0.4.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Akubra Blob Storage API</name>
   <url>http://akubra.github.com/akubra/</url>

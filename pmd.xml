@@ -1,3 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.3" timestamp="2012-03-03T09:22:33.184">
+<pmd version="4.3" timestamp="2012-03-03T09:24:06.390">
+<suppressedviolation filename="/Users/cwilper/work/gh/akubra/akubra/akubra-txn/src/main/java/org/akubraproject/txn/derby/TransactionalConnection.java" suppressiontype="nopmd" msg="Always check the return of one of the navigation method (next,previous,first,last) of a ResultSet." usermsg="
+"/>
+<suppressedviolation filename="/Users/cwilper/work/gh/akubra/akubra/akubra-txn/src/main/java/org/akubraproject/txn/derby/TransactionalConnection.java" suppressiontype="nopmd" msg="Always check the return of one of the navigation method (next,previous,first,last) of a ResultSet." usermsg="
+"/>
+<suppressedviolation filename="/Users/cwilper/work/gh/akubra/akubra/akubra-txn/src/main/java/org/akubraproject/txn/derby/TransactionalConnection.java" suppressiontype="nopmd" msg="Always check the return of one of the navigation method (next,previous,first,last) of a ResultSet." usermsg="
+"/>
+<suppressedviolation filename="/Users/cwilper/work/gh/akubra/akubra/akubra-txn/src/main/java/org/akubraproject/txn/derby/TransactionalStore.java" suppressiontype="nopmd" msg="Always check the return of one of the navigation method (next,previous,first,last) of a ResultSet." usermsg="
+"/>
+<suppressedviolation filename="/Users/cwilper/work/gh/akubra/akubra/akubra-txn/src/main/java/org/akubraproject/txn/derby/TransactionalStore.java" suppressiontype="nopmd" msg="Always check the return of one of the navigation method (next,previous,first,last) of a ResultSet." usermsg="
+"/>
+<suppressedviolation filename="/Users/cwilper/work/gh/akubra/akubra/akubra-txn/src/main/java/org/akubraproject/txn/derby/TransactionalStore.java" suppressiontype="nopmd" msg="Always check the return of one of the navigation method (next,previous,first,last) of a ResultSet." usermsg="
+"/>
 </pmd>

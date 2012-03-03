@@ -1,0 +1,28 @@
+----------------------------------------------------------------
+Sat Mar 03 10:53:33 EST 2012:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instance a816c00e-0135-d944-195d-0000046b6c60 
+on database directory /Users/cwilper/work/gh/akubra/akubra/akubra-mux/target/mux-txn-text-1  with class loader sun.misc.Launcher$AppClassLoader@5ab8df17 
+Loaded from file:/Users/cwilper/.m2/repository/org/apache/derby/derby/10.8.2.2/derby-10.8.2.2.jar
+java.vendor=Apple Inc.
+java.runtime.version=1.6.0_29-b11-402-11M3527
+user.dir=/Users/cwilper/work/gh/akubra/akubra/akubra-mux
+derby.system.home=null
+derby.stream.error.file=/Users/cwilper/work/gh/akubra/akubra/akubra-mux/target/derby.log
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Sat Mar 03 10:53:34 EST 2012:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instance 7815c0b6-0135-d944-195d-0000046b6c60 
+on database directory /Users/cwilper/work/gh/akubra/akubra/akubra-mux/target/mux-txn-text-2  with class loader sun.misc.Launcher$AppClassLoader@5ab8df17 
+Loaded from file:/Users/cwilper/.m2/repository/org/apache/derby/derby/10.8.2.2/derby-10.8.2.2.jar
+java.vendor=Apple Inc.
+java.runtime.version=1.6.0_29-b11-402-11M3527
+user.dir=/Users/cwilper/work/gh/akubra/akubra/akubra-mux
+derby.system.home=null
+derby.stream.error.file=/Users/cwilper/work/gh/akubra/akubra/akubra-mux/target/derby.log
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+----------------------------------------------------------------
+Sat Mar 03 10:53:37 EST 2012:
+Shutting down instance a816c00e-0135-d944-195d-0000046b6c60 on database directory /Users/cwilper/work/gh/akubra/akubra/akubra-mux/target/mux-txn-text-1 with class loader sun.misc.Launcher$AppClassLoader@5ab8df17 
+Sat Mar 03 10:53:37 EST 2012:
+Shutting down instance 7815c0b6-0135-d944-195d-0000046b6c60 on database directory /Users/cwilper/work/gh/akubra/akubra/akubra-mux/target/mux-txn-text-2 with class loader sun.misc.Launcher$AppClassLoader@5ab8df17 

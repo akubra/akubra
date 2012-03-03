@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="151" passed="151">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Command line suite" duration-ms="11416" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:47Z">
+    <groups>
+      <group name="blob">
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- blob -->
+      <group name="connection">
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testClosedConnection()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testClosedConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testClosedConnection()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testClosedConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- connection -->
+      <group name="manipulatesBlobs">
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- manipulatesBlobs -->
+      <group name="post">
+        <method signature="TCKTestSuite.testCleanup()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testCleanup" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCleanup()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testCleanup" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- post -->
+      <group name="store">
+        <method signature="TCKTestSuite.testGetId()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testGetId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testGetId()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testGetId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testOpenConnectionNoTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testOpenConnectionNoTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testOpenConnectionWithTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testOpenConnectionWithTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- store -->
+      <group name="transaction">
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- transaction -->
+      <group name="init">
+        <method signature="TCKTestSuite.testInit()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testInit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInit()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testInit" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- init -->
+    </groups>
+    <test name="Command line test" duration-ms="11416" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:47Z">
+      <class name="org.akubraproject.rmi.client.ClientConnectionTest">
+        <test-method status="PASS" signature="testClose()[pri:0, instance:org.akubraproject.rmi.client.ClientConnectionTest@7b4189d0]" name="testClose" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testClose -->
+        <test-method status="PASS" signature="testGetBlobInputStreamLongMapOfStringString()[pri:0, instance:org.akubraproject.rmi.client.ClientConnectionTest@7b4189d0]" name="testGetBlobInputStreamLongMapOfStringString" duration-ms="25" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testGetBlobInputStreamLongMapOfStringString -->
+        <test-method status="PASS" signature="testGetBlobURIMapOfStringString()[pri:0, instance:org.akubraproject.rmi.client.ClientConnectionTest@7b4189d0]" name="testGetBlobURIMapOfStringString" duration-ms="7" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testGetBlobURIMapOfStringString -->
+        <test-method status="PASS" signature="testListBlobIds()[pri:0, instance:org.akubraproject.rmi.client.ClientConnectionTest@7b4189d0]" name="testListBlobIds" duration-ms="9" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testListBlobIds -->
+      </class> <!-- org.akubraproject.rmi.client.ClientConnectionTest -->
+      <class name="org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite">
+        <test-method status="PASS" signature="testGetId()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testGetId" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testGetId -->
+        <test-method status="PASS" signature="testInit()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testInit" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testInit -->
+        <test-method status="PASS" signature="testInit()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testInit" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testInit -->
+        <test-method status="PASS" signature="testGetId()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testGetId" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testGetId -->
+        <test-method status="PASS" signature="testBasicCommit()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testBasicCommit" duration-ms="355" depends-on-groups="init" started-at="2012-03-03T10:54:44Z" finished-at="2012-03-03T10:54:45Z">
+        </test-method> <!-- testBasicCommit -->
+        <test-method status="PASS" signature="testBasicRollback()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testBasicRollback" duration-ms="268" depends-on-groups="init" started-at="2012-03-03T10:54:45Z" finished-at="2012-03-03T10:54:45Z">
+        </test-method> <!-- testBasicRollback -->
+        <test-method status="PASS" signature="testBlobFromStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testBlobFromStream" duration-ms="14" depends-on-groups="init" started-at="2012-03-03T10:54:45Z" finished-at="2012-03-03T10:54:45Z">
+        </test-method> <!-- testBlobFromStream -->
+        <test-method status="PASS" signature="testBlobUpdate()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testBlobUpdate" duration-ms="120" depends-on-groups="init" started-at="2012-03-03T10:54:45Z" finished-at="2012-03-03T10:54:45Z">
+        </test-method> <!-- testBlobUpdate -->
+        <test-method status="PASS" signature="testCanonicalId()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testCanonicalId" duration-ms="14" depends-on-groups="init" started-at="2012-03-03T10:54:45Z" finished-at="2012-03-03T10:54:45Z">
+        </test-method> <!-- testCanonicalId -->
+        <test-method status="PASS" signature="testCloseConnection()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testCloseConnection" duration-ms="195" depends-on-groups="init" started-at="2012-03-03T10:54:45Z" finished-at="2012-03-03T10:54:45Z">
+        </test-method> <!-- testCloseConnection -->
+        <test-method status="PASS" signature="testClosedConnection()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testClosedConnection" duration-ms="93" depends-on-groups="init" started-at="2012-03-03T10:54:45Z" finished-at="2012-03-03T10:54:45Z">
+        </test-method> <!-- testClosedConnection -->
+        <test-method status="PASS" signature="testDelete()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testDelete" duration-ms="63" depends-on-groups="init" started-at="2012-03-03T10:54:45Z" finished-at="2012-03-03T10:54:46Z">
+        </test-method> <!-- testDelete -->
+        <test-method status="PASS" signature="testIdGeneration()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testIdGeneration" duration-ms="10" depends-on-groups="init" started-at="2012-03-03T10:54:46Z" finished-at="2012-03-03T10:54:46Z">
+        </test-method> <!-- testIdGeneration -->
+        <test-method status="PASS" signature="testIdValidation()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testIdValidation" duration-ms="44" depends-on-groups="init" started-at="2012-03-03T10:54:46Z" finished-at="2012-03-03T10:54:46Z">
+        </test-method> <!-- testIdValidation -->
+        <test-method status="PASS" signature="testInputStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testInputStream" duration-ms="61" depends-on-groups="init" started-at="2012-03-03T10:54:46Z" finished-at="2012-03-03T10:54:46Z">
+        </test-method> <!-- testInputStream -->
+        <test-method status="PASS" signature="testListBlobs()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testListBlobs" duration-ms="361" depends-on-groups="init" started-at="2012-03-03T10:54:46Z" finished-at="2012-03-03T10:54:46Z">
+        </test-method> <!-- testListBlobs -->
+        <test-method status="PASS" signature="testMoveTo()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testMoveTo" duration-ms="323" depends-on-groups="init" started-at="2012-03-03T10:54:46Z" finished-at="2012-03-03T10:54:46Z">
+        </test-method> <!-- testMoveTo -->
+        <test-method status="PASS" signature="testNonExistentBlob()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testNonExistentBlob" duration-ms="37" depends-on-groups="init" started-at="2012-03-03T10:54:46Z" finished-at="2012-03-03T10:54:46Z">
+        </test-method> <!-- testNonExistentBlob -->
+        <test-method status="PASS" signature="testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testOpenConnectionNoTransaction" duration-ms="2" depends-on-groups="init" started-at="2012-03-03T10:54:46Z" finished-at="2012-03-03T10:54:46Z">
+        </test-method> <!-- testOpenConnectionNoTransaction -->
+        <test-method status="PASS" signature="testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testOpenConnectionWithTransaction" duration-ms="9" depends-on-groups="init" started-at="2012-03-03T10:54:46Z" finished-at="2012-03-03T10:54:46Z">
+        </test-method> <!-- testOpenConnectionWithTransaction -->
+        <test-method status="PASS" signature="testOutputStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testOutputStream" duration-ms="428" depends-on-groups="init" started-at="2012-03-03T10:54:46Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testOutputStream -->
+        <test-method status="PASS" signature="testSync()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testSync" duration-ms="107" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testSync -->
+        <test-method status="PASS" signature="testBasicCommit()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testBasicCommit" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testBasicCommit -->
+        <test-method status="PASS" signature="testBasicRollback()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testBasicRollback" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testBasicRollback -->
+        <test-method status="PASS" signature="testBlobFromStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testBlobFromStream" duration-ms="77" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testBlobFromStream -->
+        <test-method status="PASS" signature="testBlobUpdate()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testBlobUpdate" duration-ms="38" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testBlobUpdate -->
+        <test-method status="PASS" signature="testCanonicalId()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testCanonicalId" duration-ms="2" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testCanonicalId -->
+        <test-method status="PASS" signature="testCloseConnection()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testCloseConnection" duration-ms="12" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testCloseConnection -->
+        <test-method status="PASS" signature="testDelete()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testDelete" duration-ms="12" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testDelete -->
+        <test-method status="PASS" signature="testIdGeneration()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testIdGeneration" duration-ms="3" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testIdGeneration -->
+        <test-method status="PASS" signature="testIdValidation()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testIdValidation" duration-ms="9" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testIdValidation -->
+        <test-method status="PASS" signature="testInputStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testInputStream" duration-ms="30" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testInputStream -->
+        <test-method status="PASS" signature="testListBlobs()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testListBlobs" duration-ms="71" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testListBlobs -->
+        <test-method status="PASS" signature="testMoveTo()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testMoveTo" duration-ms="62" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testMoveTo -->
+        <test-method status="PASS" signature="testNonExistentBlob()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testNonExistentBlob" duration-ms="6" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testNonExistentBlob -->
+        <test-method status="PASS" signature="testOutputStream()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testOutputStream" duration-ms="132" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testOutputStream -->
+        <test-method status="PASS" signature="testSync()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testSync" duration-ms="29" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testSync -->
+        <test-method status="PASS" signature="testClosedConnection()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testClosedConnection" duration-ms="15" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testClosedConnection -->
+        <test-method status="PASS" signature="testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testOpenConnectionNoTransaction" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testOpenConnectionNoTransaction -->
+        <test-method status="PASS" signature="testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testOpenConnectionWithTransaction" duration-ms="3" depends-on-groups="init" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testOpenConnectionWithTransaction -->
+        <test-method status="PASS" signature="testCleanup()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@2b52e961]" name="testCleanup" duration-ms="28" depends-on-groups="manipulatesBlobs" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testCleanup -->
+        <test-method status="PASS" signature="testCleanup()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite@412beeec]" name="testCleanup" duration-ms="5" depends-on-groups="manipulatesBlobs" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- testCleanup -->
+      </class> <!-- org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite -->
+      <class name="org.akubraproject.rmi.server.ServerSynchronizationTest">
+        <test-method status="PASS" signature="testAfterCompletion()[pri:0, instance:org.akubraproject.rmi.server.ServerSynchronizationTest@306bba64]" name="testAfterCompletion" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testAfterCompletion -->
+        <test-method status="PASS" signature="testServerSynchronization()[pri:0, instance:org.akubraproject.rmi.server.ServerSynchronizationTest@306bba64]" name="testServerSynchronization" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testServerSynchronization -->
+        <test-method status="PASS" signature="testBeforeCompletion()[pri:0, instance:org.akubraproject.rmi.server.ServerSynchronizationTest@306bba64]" name="testBeforeCompletion" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testBeforeCompletion -->
+      </class> <!-- org.akubraproject.rmi.server.ServerSynchronizationTest -->
+      <class name="org.akubraproject.rmi.client.ClientIteratorTest">
+        <test-method status="PASS" signature="setUpTest()[pri:0, instance:org.akubraproject.rmi.client.ClientIteratorTest@4e9e75f6]" name="setUpTest" is-config="true" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- setUpTest -->
+        <test-method status="PASS" signature="testHasNext()[pri:0, instance:org.akubraproject.rmi.client.ClientIteratorTest@4e9e75f6]" name="testHasNext" duration-ms="2" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testHasNext -->
+        <test-method status="PASS" signature="setUpTest()[pri:0, instance:org.akubraproject.rmi.client.ClientIteratorTest@4e9e75f6]" name="setUpTest" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- setUpTest -->
+        <test-method status="PASS" signature="tearDownTest()[pri:0, instance:org.akubraproject.rmi.client.ClientIteratorTest@4e9e75f6]" name="tearDownTest" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- tearDownTest -->
+        <test-method status="PASS" signature="testNext()[pri:0, instance:org.akubraproject.rmi.client.ClientIteratorTest@4e9e75f6]" name="testNext" duration-ms="3" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testNext -->
+        <test-method status="PASS" signature="tearDownTest()[pri:0, instance:org.akubraproject.rmi.client.ClientIteratorTest@4e9e75f6]" name="tearDownTest" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- tearDownTest -->
+        <test-method status="PASS" signature="setUpTest()[pri:0, instance:org.akubraproject.rmi.client.ClientIteratorTest@4e9e75f6]" name="setUpTest" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- setUpTest -->
+        <test-method status="PASS" signature="testRemove()[pri:0, instance:org.akubraproject.rmi.client.ClientIteratorTest@4e9e75f6]" name="testRemove" duration-ms="2" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testRemove -->
+        <test-method status="PASS" signature="tearDownTest()[pri:0, instance:org.akubraproject.rmi.client.ClientIteratorTest@4e9e75f6]" name="tearDownTest" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- tearDownTest -->
+      </class> <!-- org.akubraproject.rmi.client.ClientIteratorTest -->
+      <class name="org.akubraproject.rmi.server.ServerTransactionListenerTest">
+        <test-method status="PASS" signature="testCommit()[pri:0, instance:org.akubraproject.rmi.server.ServerTransactionListenerTest@565539d8]" name="testCommit" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+          <exception class="java.lang.SecurityException">
+            <message>
+              <![CDATA[Cannot commit from this JVM. Transaction is on remote client.]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.SecurityException: Cannot commit from this JVM. Transaction is on remote client.
+	at org.akubraproject.rmi.server.ServerTransactionListener.commit(ServerTransactionListener.java:208)
+	at org.akubraproject.rmi.server.ServerTransactionListenerTest.testCommit(ServerTransactionListenerTest.java:148)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:701)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:893)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1218)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:127)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:111)
+	at org.testng.TestRunner.privateRun(TestRunner.java:758)
+	at org.testng.TestRunner.run(TestRunner.java:613)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:87)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1170)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1095)
+	at org.testng.TestNG.run(TestNG.java:1007)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:62)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:141)
+	at org.apache.maven.surefire.Surefire.run(Surefire.java:177)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.SurefireBooter.runSuitesInProcess(SurefireBooter.java:345)
+	at org.apache.maven.surefire.booter.SurefireBooter.main(SurefireBooter.java:1009)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.SecurityException -->
+        </test-method> <!-- testCommit -->
+        <test-method status="PASS" signature="testGetStatus()[pri:0, instance:org.akubraproject.rmi.server.ServerTransactionListenerTest@565539d8]" name="testGetStatus" duration-ms="2" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testGetStatus -->
+        <test-method status="PASS" signature="testRegisterSynchronization()[pri:0, instance:org.akubraproject.rmi.server.ServerTransactionListenerTest@565539d8]" name="testRegisterSynchronization" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testRegisterSynchronization -->
+        <test-method status="PASS" signature="testRollback()[pri:0, instance:org.akubraproject.rmi.server.ServerTransactionListenerTest@565539d8]" name="testRollback" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testRollback -->
+        <test-method status="PASS" signature="testXAResource()[pri:0, instance:org.akubraproject.rmi.server.ServerTransactionListenerTest@565539d8]" name="testXAResource" duration-ms="3" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testXAResource -->
+        <test-method status="PASS" signature="testSetRollbackOnly()[pri:0, instance:org.akubraproject.rmi.server.ServerTransactionListenerTest@565539d8]" name="testSetRollbackOnly" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+          <exception class="java.lang.IllegalStateException">
+            <message>
+              <![CDATA[Cannot change the transaction state from this JVM. Transaction is on remote client.]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.IllegalStateException: Cannot change the transaction state from this JVM. Transaction is on remote client.
+	at org.akubraproject.rmi.server.ServerTransactionListener.setRollbackOnly(ServerTransactionListener.java:339)
+	at org.akubraproject.rmi.server.ServerTransactionListenerTest.testSetRollbackOnly(ServerTransactionListenerTest.java:288)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:701)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:893)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1218)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:127)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:111)
+	at org.testng.TestRunner.privateRun(TestRunner.java:758)
+	at org.testng.TestRunner.run(TestRunner.java:613)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:87)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1170)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1095)
+	at org.testng.TestNG.run(TestNG.java:1007)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:62)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:141)
+	at org.apache.maven.surefire.Surefire.run(Surefire.java:177)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.SurefireBooter.runSuitesInProcess(SurefireBooter.java:345)
+	at org.apache.maven.surefire.booter.SurefireBooter.main(SurefireBooter.java:1009)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.IllegalStateException -->
+        </test-method> <!-- testSetRollbackOnly -->
+      </class> <!-- org.akubraproject.rmi.server.ServerTransactionListenerTest -->
+      <class name="org.akubraproject.rmi.client.ClientStoreTest">
+        <test-method status="PASS" signature="testOpenConnection()[pri:0, instance:org.akubraproject.rmi.client.ClientStoreTest@63f9f0f2]" name="testOpenConnection" duration-ms="13" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testOpenConnection -->
+      </class> <!-- org.akubraproject.rmi.client.ClientStoreTest -->
+      <class name="org.akubraproject.rmi.ServiceTest">
+        <test-method status="PASS" signature="testDefault()[pri:0, instance:org.akubraproject.rmi.ServiceTest@7548c02f]" name="testDefault" duration-ms="8" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testDefault -->
+        <test-method status="PASS" signature="testLookupByUri()[pri:0, instance:org.akubraproject.rmi.ServiceTest@7548c02f]" name="testLookupByUri" duration-ms="8" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testLookupByUri -->
+        <test-method status="PASS" signature="testWithNameAndAlternatePorts()[pri:0, instance:org.akubraproject.rmi.ServiceTest@7548c02f]" name="testWithNameAndAlternatePorts" duration-ms="9" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testWithNameAndAlternatePorts -->
+        <test-method status="PASS" signature="testWithNameAndPort()[pri:0, instance:org.akubraproject.rmi.ServiceTest@7548c02f]" name="testWithNameAndPort" duration-ms="24" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testWithNameAndPort -->
+        <test-method status="PASS" signature="testWithPort()[pri:0, instance:org.akubraproject.rmi.ServiceTest@7548c02f]" name="testWithPort" duration-ms="9" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testWithPort -->
+      </class> <!-- org.akubraproject.rmi.ServiceTest -->
+      <class name="org.akubraproject.rmi.MemStoreConnectionTest">
+        <test-method status="PASS" signature="testCASBlob()[pri:0, instance:org.akubraproject.rmi.MemStoreConnectionTest@d7e60a1]" name="testCASBlob" duration-ms="11" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testCASBlob -->
+        <test-method status="PASS" signature="testGenerateBlob()[pri:0, instance:org.akubraproject.rmi.MemStoreConnectionTest@d7e60a1]" name="testGenerateBlob" duration-ms="3" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testGenerateBlob -->
+        <test-method status="PASS" signature="testListBlobIds()[pri:0, instance:org.akubraproject.rmi.MemStoreConnectionTest@d7e60a1]" name="testListBlobIds" duration-ms="27" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testListBlobIds -->
+        <test-method status="PASS" signature="testMove()[pri:0, instance:org.akubraproject.rmi.MemStoreConnectionTest@d7e60a1]" name="testMove" duration-ms="26" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testMove -->
+        <test-method status="PASS" signature="testUseAppBlob()[pri:0, instance:org.akubraproject.rmi.MemStoreConnectionTest@d7e60a1]" name="testUseAppBlob" duration-ms="4" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testUseAppBlob -->
+      </class> <!-- org.akubraproject.rmi.MemStoreConnectionTest -->
+      <class name="org.akubraproject.rmi.server.ServerIteratorTest">
+        <test-method status="PASS" signature="testNext()[pri:0, instance:org.akubraproject.rmi.server.ServerIteratorTest@63f796d0]" name="testNext" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testNext -->
+        <test-method status="PASS" signature="testServerIterator()[pri:0, instance:org.akubraproject.rmi.server.ServerIteratorTest@63f796d0]" name="testServerIterator" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testServerIterator -->
+        <test-method status="PASS" signature="testUnExport()[pri:0, instance:org.akubraproject.rmi.server.ServerIteratorTest@63f796d0]" name="testUnExport" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testUnExport -->
+      </class> <!-- org.akubraproject.rmi.server.ServerIteratorTest -->
+      <class name="org.akubraproject.rmi.client.ClientSynchronizationTest">
+        <test-method status="PASS" signature="testAfterCompletion()[pri:0, instance:org.akubraproject.rmi.client.ClientSynchronizationTest@709a1411]" name="testAfterCompletion" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testAfterCompletion -->
+        <test-method status="PASS" signature="testBeforeCompletion()[pri:0, instance:org.akubraproject.rmi.client.ClientSynchronizationTest@709a1411]" name="testBeforeCompletion" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testBeforeCompletion -->
+      </class> <!-- org.akubraproject.rmi.client.ClientSynchronizationTest -->
+      <class name="org.akubraproject.rmi.server.ServerXAResourceTest">
+        <test-method status="PASS" signature="testPrepare()[pri:0, instance:org.akubraproject.rmi.server.ServerXAResourceTest@7fb2380e]" name="testPrepare" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testPrepare -->
+        <test-method status="PASS" signature="testIsSameRM()[pri:0, instance:org.akubraproject.rmi.server.ServerXAResourceTest@7fb2380e]" name="testIsSameRM" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testIsSameRM -->
+        <test-method status="PASS" signature="testServerXAResource()[pri:0, instance:org.akubraproject.rmi.server.ServerXAResourceTest@7fb2380e]" name="testServerXAResource" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testServerXAResource -->
+        <test-method status="PASS" signature="testRecover()[pri:0, instance:org.akubraproject.rmi.server.ServerXAResourceTest@7fb2380e]" name="testRecover" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testRecover -->
+        <test-method status="PASS" signature="testSetTransactionTimeout()[pri:0, instance:org.akubraproject.rmi.server.ServerXAResourceTest@7fb2380e]" name="testSetTransactionTimeout" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testSetTransactionTimeout -->
+        <test-method status="PASS" signature="testForget()[pri:0, instance:org.akubraproject.rmi.server.ServerXAResourceTest@7fb2380e]" name="testForget" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testForget -->
+        <test-method status="PASS" signature="testRollback()[pri:0, instance:org.akubraproject.rmi.server.ServerXAResourceTest@7fb2380e]" name="testRollback" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testRollback -->
+        <test-method status="PASS" signature="testEnd()[pri:0, instance:org.akubraproject.rmi.server.ServerXAResourceTest@7fb2380e]" name="testEnd" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testEnd -->
+        <test-method status="PASS" signature="testCommit()[pri:0, instance:org.akubraproject.rmi.server.ServerXAResourceTest@7fb2380e]" name="testCommit" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testCommit -->
+        <test-method status="PASS" signature="testStart()[pri:0, instance:org.akubraproject.rmi.server.ServerXAResourceTest@7fb2380e]" name="testStart" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testStart -->
+        <test-method status="PASS" signature="testGetTransactionTimeout()[pri:0, instance:org.akubraproject.rmi.server.ServerXAResourceTest@7fb2380e]" name="testGetTransactionTimeout" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testGetTransactionTimeout -->
+      </class> <!-- org.akubraproject.rmi.server.ServerXAResourceTest -->
+      <class name="org.akubraproject.rmi.TransactionalStoreTest">
+        <test-method status="PASS" signature="testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.rmi.TransactionalStoreTest@139d115]" name="testOpenConnectionWithTransaction" duration-ms="134" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:37Z">
+        </test-method> <!-- testOpenConnectionWithTransaction -->
+        <test-method status="PASS" signature="testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.rmi.TransactionalStoreTest@139d115]" name="testOpenConnectionNoTransaction" duration-ms="5" started-at="2012-03-03T10:54:37Z" finished-at="2012-03-03T10:54:37Z">
+          <exception class="java.io.IOException">
+            <message>
+              <![CDATA[Error connecting to db]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.io.IOException: Error connecting to db
+	at org.akubraproject.txn.derby.TransactionalStore.openConnection(TransactionalStore.java:307)
+	at org.akubraproject.rmi.server.ServerStore.openConnection(ServerStore.java:57)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:303)
+	at sun.rmi.transport.Transport$1.run(Transport.java:159)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.rmi.transport.Transport.serviceCall(Transport.java:155)
+	at sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:535)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:790)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:649)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+	at java.lang.Thread.run(Thread.java:680)
+	at sun.rmi.transport.StreamRemoteCall.exceptionReceivedFromServer(StreamRemoteCall.java:255)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:233)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:142)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:178)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:132)
+	at $Proxy9.openConnection(Unknown Source)
+	at org.akubraproject.rmi.client.ClientStore.openConnection(ClientStore.java:63)
+	at org.akubraproject.rmi.TransactionalStoreTest.testOpenConnectionNoTransaction(TransactionalStoreTest.java:118)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:701)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:893)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1218)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:127)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:111)
+	at org.testng.TestRunner.privateRun(TestRunner.java:758)
+	at org.testng.TestRunner.run(TestRunner.java:613)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:87)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1170)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1095)
+	at org.testng.TestNG.run(TestNG.java:1007)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:62)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:141)
+	at org.apache.maven.surefire.Surefire.run(Surefire.java:177)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.SurefireBooter.runSuitesInProcess(SurefireBooter.java:345)
+	at org.apache.maven.surefire.booter.SurefireBooter.main(SurefireBooter.java:1009)
+Caused by: java.lang.NullPointerException
+	at org.akubraproject.txn.derby.TransactionalStore.openConnection(TransactionalStore.java:294)
+	at org.akubraproject.rmi.server.ServerStore.openConnection(ServerStore.java:57)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:303)
+	at sun.rmi.transport.Transport$1.run(Transport.java:159)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.rmi.transport.Transport.serviceCall(Transport.java:155)
+	at sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:535)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:790)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:649)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+	at java.lang.Thread.run(Thread.java:680)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.io.IOException -->
+        </test-method> <!-- testOpenConnectionNoTransaction -->
+        <test-method status="PASS" signature="testBasicCommit()[pri:0, instance:org.akubraproject.rmi.TransactionalStoreTest@139d115]" name="testBasicCommit" duration-ms="276" started-at="2012-03-03T10:54:37Z" finished-at="2012-03-03T10:54:37Z">
+        </test-method> <!-- testBasicCommit -->
+        <test-method status="PASS" signature="testBasicRollback()[pri:0, instance:org.akubraproject.rmi.TransactionalStoreTest@139d115]" name="testBasicRollback" duration-ms="375" started-at="2012-03-03T10:54:37Z" finished-at="2012-03-03T10:54:37Z">
+        </test-method> <!-- testBasicRollback -->
+        <test-method status="PASS" signature="testGetId()[pri:0, instance:org.akubraproject.rmi.TransactionalStoreTest@139d115]" name="testGetId" duration-ms="1" started-at="2012-03-03T10:54:37Z" finished-at="2012-03-03T10:54:37Z">
+        </test-method> <!-- testGetId -->
+        <test-method status="PASS" signature="testMTStress()[pri:0, instance:org.akubraproject.rmi.TransactionalStoreTest@139d115]" name="testMTStress" duration-ms="7180" started-at="2012-03-03T10:54:37Z" finished-at="2012-03-03T10:54:44Z">
+        </test-method> <!-- testMTStress -->
+      </class> <!-- org.akubraproject.rmi.TransactionalStoreTest -->
+      <class name="org.akubraproject.rmi.server.ServerOutputStreamTest">
+        <test-method status="PASS" signature="testClose()[pri:0, instance:org.akubraproject.rmi.server.ServerOutputStreamTest@2602585e]" name="testClose" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testClose -->
+        <test-method status="PASS" signature="testFlush()[pri:0, instance:org.akubraproject.rmi.server.ServerOutputStreamTest@2602585e]" name="testFlush" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testFlush -->
+        <test-method status="PASS" signature="testServerOutputStream()[pri:0, instance:org.akubraproject.rmi.server.ServerOutputStreamTest@2602585e]" name="testServerOutputStream" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testServerOutputStream -->
+        <test-method status="PASS" signature="testWriteByteArray()[pri:0, instance:org.akubraproject.rmi.server.ServerOutputStreamTest@2602585e]" name="testWriteByteArray" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testWriteByteArray -->
+        <test-method status="PASS" signature="testUnreferenced()[pri:0, instance:org.akubraproject.rmi.server.ServerOutputStreamTest@2602585e]" name="testUnreferenced" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testUnreferenced -->
+        <test-method status="PASS" signature="testWriteInt()[pri:0, instance:org.akubraproject.rmi.server.ServerOutputStreamTest@2602585e]" name="testWriteInt" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testWriteInt -->
+        <test-method status="PASS" signature="testWritePartialBuffer()[pri:0, instance:org.akubraproject.rmi.server.ServerOutputStreamTest@2602585e]" name="testWritePartialBuffer" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testWritePartialBuffer -->
+      </class> <!-- org.akubraproject.rmi.server.ServerOutputStreamTest -->
+      <class name="org.akubraproject.rmi.MemStoreTest">
+        <test-method status="PASS" signature="testOpenConnectionWithNullTxn()[pri:0, instance:org.akubraproject.rmi.MemStoreTest@13ce64f6]" name="testOpenConnectionWithNullTxn" duration-ms="4" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testOpenConnectionWithNullTxn -->
+        <test-method status="PASS" signature="testOpenConnectionWithTxn()[pri:0, instance:org.akubraproject.rmi.MemStoreTest@13ce64f6]" name="testOpenConnectionWithTxn" duration-ms="4" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testOpenConnectionWithTxn -->
+      </class> <!-- org.akubraproject.rmi.MemStoreTest -->
+      <class name="org.akubraproject.rmi.client.ClientXAResourceTest">
+        <test-method status="PASS" signature="testCommit()[pri:0, instance:org.akubraproject.rmi.client.ClientXAResourceTest@bbef5e8]" name="testCommit" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testCommit -->
+        <test-method status="PASS" signature="testEnd()[pri:0, instance:org.akubraproject.rmi.client.ClientXAResourceTest@bbef5e8]" name="testEnd" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testEnd -->
+        <test-method status="PASS" signature="testForget()[pri:0, instance:org.akubraproject.rmi.client.ClientXAResourceTest@bbef5e8]" name="testForget" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testForget -->
+        <test-method status="PASS" signature="testGetTransactionTimeout()[pri:0, instance:org.akubraproject.rmi.client.ClientXAResourceTest@bbef5e8]" name="testGetTransactionTimeout" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testGetTransactionTimeout -->
+        <test-method status="PASS" signature="testIsSameRM()[pri:0, instance:org.akubraproject.rmi.client.ClientXAResourceTest@bbef5e8]" name="testIsSameRM" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testIsSameRM -->
+        <test-method status="PASS" signature="testPrepare()[pri:0, instance:org.akubraproject.rmi.client.ClientXAResourceTest@bbef5e8]" name="testPrepare" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testPrepare -->
+        <test-method status="PASS" signature="testRecover()[pri:0, instance:org.akubraproject.rmi.client.ClientXAResourceTest@bbef5e8]" name="testRecover" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testRecover -->
+        <test-method status="PASS" signature="testRollback()[pri:0, instance:org.akubraproject.rmi.client.ClientXAResourceTest@bbef5e8]" name="testRollback" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testRollback -->
+        <test-method status="PASS" signature="testSetTransactionTimeout()[pri:0, instance:org.akubraproject.rmi.client.ClientXAResourceTest@bbef5e8]" name="testSetTransactionTimeout" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testSetTransactionTimeout -->
+        <test-method status="PASS" signature="testStart()[pri:0, instance:org.akubraproject.rmi.client.ClientXAResourceTest@bbef5e8]" name="testStart" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testStart -->
+      </class> <!-- org.akubraproject.rmi.client.ClientXAResourceTest -->
+      <class name="org.akubraproject.rmi.server.ServerStoreTest">
+        <test-method status="PASS" signature="testServerStore()[pri:0, instance:org.akubraproject.rmi.server.ServerStoreTest@7acdba53]" name="testServerStore" duration-ms="1" started-at="2012-03-03T10:54:44Z" finished-at="2012-03-03T10:54:44Z">
+        </test-method> <!-- testServerStore -->
+        <test-method status="PASS" signature="testOpenConnection()[pri:0, instance:org.akubraproject.rmi.server.ServerStoreTest@7acdba53]" name="testOpenConnection" duration-ms="1" started-at="2012-03-03T10:54:44Z" finished-at="2012-03-03T10:54:44Z">
+        </test-method> <!-- testOpenConnection -->
+        <test-method status="PASS" signature="testStartTransaction()[pri:0, instance:org.akubraproject.rmi.server.ServerStoreTest@7acdba53]" name="testStartTransaction" duration-ms="2" started-at="2012-03-03T10:54:44Z" finished-at="2012-03-03T10:54:44Z">
+        </test-method> <!-- testStartTransaction -->
+      </class> <!-- org.akubraproject.rmi.server.ServerStoreTest -->
+      <class name="org.akubraproject.rmi.client.ClientInputStreamTest">
+        <test-method status="PASS" signature="testClientInputStream()[pri:0, instance:org.akubraproject.rmi.client.ClientInputStreamTest@2e39d325]" name="testClientInputStream" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testClientInputStream -->
+        <test-method status="PASS" signature="testClose()[pri:0, instance:org.akubraproject.rmi.client.ClientInputStreamTest@2e39d325]" name="testClose" duration-ms="3" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testClose -->
+        <test-method status="PASS" signature="testRead()[pri:0, instance:org.akubraproject.rmi.client.ClientInputStreamTest@2e39d325]" name="testRead" duration-ms="4" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testRead -->
+        <test-method status="PASS" signature="testReadByteArray()[pri:0, instance:org.akubraproject.rmi.client.ClientInputStreamTest@2e39d325]" name="testReadByteArray" duration-ms="2" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testReadByteArray -->
+        <test-method status="PASS" signature="testReadByteArrayIntInt()[pri:0, instance:org.akubraproject.rmi.client.ClientInputStreamTest@2e39d325]" name="testReadByteArrayIntInt" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testReadByteArrayIntInt -->
+        <test-method status="PASS" signature="testSkip()[pri:0, instance:org.akubraproject.rmi.client.ClientInputStreamTest@2e39d325]" name="testSkip" duration-ms="2" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testSkip -->
+      </class> <!-- org.akubraproject.rmi.client.ClientInputStreamTest -->
+      <class name="org.akubraproject.rmi.client.ClientBlobTest">
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.client.ClientBlobTest@53465ca2]" name="setUp" is-config="true" duration-ms="32" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.client.ClientConnectionTest@7b4189d0]" name="setUp" is-config="true" duration-ms="94" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.client.ClientInputStreamTest@2e39d325]" name="setUp" is-config="true" duration-ms="2" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUpSuite()[pri:0, instance:org.akubraproject.rmi.client.ClientIteratorTest@4e9e75f6]" name="setUpSuite" is-config="true" duration-ms="1" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUpSuite -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.client.ClientOutputStreamTest@396c75ed]" name="setUp" is-config="true" duration-ms="2" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.client.ClientStoreTest@63f9f0f2]" name="setUp" is-config="true" duration-ms="1" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.client.ClientSynchronizationTest@709a1411]" name="setUp" is-config="true" duration-ms="4" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.client.ClientXAResourceTest@bbef5e8]" name="setUp" is-config="true" duration-ms="32" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.MemStoreConnectionTest@d7e60a1]" name="setUp" is-config="true" duration-ms="12" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.MemStoreTest@13ce64f6]" name="setUp" is-config="true" duration-ms="5" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.server.ServerBlobTest@55291cd]" name="setUp" is-config="true" duration-ms="1" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.server.ServerInputStreamTest@139ba1d8]" name="setUp" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.server.ServerConnectionTest@5883de21]" name="setUp" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.server.ServerIteratorTest@63f796d0]" name="setUp" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.server.ServerOutputStreamTest@2602585e]" name="setUp" is-config="true" duration-ms="1" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.server.ServerStoreTest@7acdba53]" name="setUp" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.server.ServerTransactionListenerTest@565539d8]" name="setUp" is-config="true" duration-ms="4" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.server.ServerSynchronizationTest@306bba64]" name="setUp" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.server.ServerXAResourceTest@7fb2380e]" name="setUp" is-config="true" duration-ms="2" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="init()[pri:0, instance:org.akubraproject.rmi.TransactionalStoreTest@139d115]" name="init" is-config="true" duration-ms="641" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- init -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.rmi.ServiceTest@7548c02f]" name="setUp" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:35Z" finished-at="2012-03-03T10:54:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="testDelete()[pri:0, instance:org.akubraproject.rmi.client.ClientBlobTest@53465ca2]" name="testDelete" duration-ms="6" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testDelete -->
+        <test-method status="PASS" signature="testExists()[pri:0, instance:org.akubraproject.rmi.client.ClientBlobTest@53465ca2]" name="testExists" duration-ms="2" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testExists -->
+        <test-method status="PASS" signature="testGetSize()[pri:0, instance:org.akubraproject.rmi.client.ClientBlobTest@53465ca2]" name="testGetSize" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testGetSize -->
+        <test-method status="PASS" signature="testMoveTo()[pri:0, instance:org.akubraproject.rmi.client.ClientBlobTest@53465ca2]" name="testMoveTo" duration-ms="19" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testMoveTo -->
+        <test-method status="PASS" signature="testOpenInputStream()[pri:0, instance:org.akubraproject.rmi.client.ClientBlobTest@53465ca2]" name="testOpenInputStream" duration-ms="15" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testOpenInputStream -->
+        <test-method status="PASS" signature="testOpenOutputStream()[pri:0, instance:org.akubraproject.rmi.client.ClientBlobTest@53465ca2]" name="testOpenOutputStream" duration-ms="20" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testOpenOutputStream -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.client.ClientBlobTest@53465ca2]" name="tearDown" is-config="true" duration-ms="1" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.client.ClientConnectionTest@7b4189d0]" name="tearDown" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDownSuite()[pri:0, instance:org.akubraproject.rmi.client.ClientIteratorTest@4e9e75f6]" name="tearDownSuite" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- tearDownSuite -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.client.ClientInputStreamTest@2e39d325]" name="tearDown" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.client.ClientOutputStreamTest@396c75ed]" name="tearDown" is-config="true" duration-ms="1" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.client.ClientStoreTest@63f9f0f2]" name="tearDown" is-config="true" duration-ms="1" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.MemStoreConnectionTest@d7e60a1]" name="tearDown" is-config="true" duration-ms="1" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.client.ClientSynchronizationTest@709a1411]" name="tearDown" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.client.ClientXAResourceTest@bbef5e8]" name="tearDown" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.MemStoreTest@13ce64f6]" name="tearDown" is-config="true" duration-ms="1" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.RmiStoreTckTest@215200be]" name="tearDown" is-config="true" duration-ms="1" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:47Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.server.ServerBlobTest@55291cd]" name="tearDown" is-config="true" duration-ms="1" started-at="2012-03-03T10:54:47Z" finished-at="2012-03-03T10:54:48Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.server.ServerInputStreamTest@139ba1d8]" name="tearDown" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:48Z" finished-at="2012-03-03T10:54:48Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.server.ServerSynchronizationTest@306bba64]" name="tearDown" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:48Z" finished-at="2012-03-03T10:54:48Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.server.ServerTransactionListenerTest@565539d8]" name="tearDown" is-config="true" duration-ms="1" started-at="2012-03-03T10:54:48Z" finished-at="2012-03-03T10:54:48Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.server.ServerOutputStreamTest@2602585e]" name="tearDown" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:48Z" finished-at="2012-03-03T10:54:48Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.server.ServerIteratorTest@63f796d0]" name="tearDown" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:48Z" finished-at="2012-03-03T10:54:48Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.server.ServerConnectionTest@5883de21]" name="tearDown" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:48Z" finished-at="2012-03-03T10:54:48Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.server.ServerStoreTest@7acdba53]" name="tearDown" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:48Z" finished-at="2012-03-03T10:54:48Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.server.ServerXAResourceTest@7fb2380e]" name="tearDown" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:48Z" finished-at="2012-03-03T10:54:48Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.rmi.ServiceTest@7548c02f]" name="tearDown" is-config="true" duration-ms="0" started-at="2012-03-03T10:54:48Z" finished-at="2012-03-03T10:54:48Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="destroy()[pri:0, instance:org.akubraproject.rmi.TransactionalStoreTest@139d115]" name="destroy" is-config="true" duration-ms="1" started-at="2012-03-03T10:54:48Z" finished-at="2012-03-03T10:54:48Z">
+        </test-method> <!-- destroy -->
+      </class> <!-- org.akubraproject.rmi.client.ClientBlobTest -->
+      <class name="org.akubraproject.rmi.server.ServerBlobTest">
+        <test-method status="PASS" signature="testDelete()[pri:0, instance:org.akubraproject.rmi.server.ServerBlobTest@55291cd]" name="testDelete" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testDelete -->
+        <test-method status="PASS" signature="testExists()[pri:0, instance:org.akubraproject.rmi.server.ServerBlobTest@55291cd]" name="testExists" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testExists -->
+        <test-method status="PASS" signature="testGetId()[pri:0, instance:org.akubraproject.rmi.server.ServerBlobTest@55291cd]" name="testGetId" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testGetId -->
+        <test-method status="PASS" signature="testMoveTo()[pri:0, instance:org.akubraproject.rmi.server.ServerBlobTest@55291cd]" name="testMoveTo" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testMoveTo -->
+        <test-method status="PASS" signature="testGetSize()[pri:0, instance:org.akubraproject.rmi.server.ServerBlobTest@55291cd]" name="testGetSize" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testGetSize -->
+        <test-method status="PASS" signature="testOpenInputStream()[pri:0, instance:org.akubraproject.rmi.server.ServerBlobTest@55291cd]" name="testOpenInputStream" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testOpenInputStream -->
+        <test-method status="PASS" signature="testServerBlob()[pri:0, instance:org.akubraproject.rmi.server.ServerBlobTest@55291cd]" name="testServerBlob" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testServerBlob -->
+        <test-method status="PASS" signature="testOpenOutputStream()[pri:0, instance:org.akubraproject.rmi.server.ServerBlobTest@55291cd]" name="testOpenOutputStream" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testOpenOutputStream -->
+      </class> <!-- org.akubraproject.rmi.server.ServerBlobTest -->
+      <class name="org.akubraproject.rmi.server.ServerConnectionTest">
+        <test-method status="PASS" signature="testGetBlobURIMapOfStringString()[pri:0, instance:org.akubraproject.rmi.server.ServerConnectionTest@5883de21]" name="testGetBlobURIMapOfStringString" duration-ms="1" started-at="2012-03-03T10:54:44Z" finished-at="2012-03-03T10:54:44Z">
+        </test-method> <!-- testGetBlobURIMapOfStringString -->
+        <test-method status="PASS" signature="testListBlobIds()[pri:0, instance:org.akubraproject.rmi.server.ServerConnectionTest@5883de21]" name="testListBlobIds" duration-ms="1" started-at="2012-03-03T10:54:44Z" finished-at="2012-03-03T10:54:44Z">
+        </test-method> <!-- testListBlobIds -->
+        <test-method status="PASS" signature="testServerConnection()[pri:0, instance:org.akubraproject.rmi.server.ServerConnectionTest@5883de21]" name="testServerConnection" duration-ms="0" started-at="2012-03-03T10:54:44Z" finished-at="2012-03-03T10:54:44Z">
+        </test-method> <!-- testServerConnection -->
+        <test-method status="PASS" signature="testClose()[pri:0, instance:org.akubraproject.rmi.server.ServerConnectionTest@5883de21]" name="testClose" duration-ms="0" started-at="2012-03-03T10:54:44Z" finished-at="2012-03-03T10:54:44Z">
+        </test-method> <!-- testClose -->
+        <test-method status="PASS" signature="testGetBlobCreator()[pri:0, instance:org.akubraproject.rmi.server.ServerConnectionTest@5883de21]" name="testGetBlobCreator" duration-ms="6" started-at="2012-03-03T10:54:44Z" finished-at="2012-03-03T10:54:44Z">
+        </test-method> <!-- testGetBlobCreator -->
+        <test-method status="PASS" signature="testUnreferenced()[pri:0, instance:org.akubraproject.rmi.server.ServerConnectionTest@5883de21]" name="testUnreferenced" duration-ms="1" started-at="2012-03-03T10:54:44Z" finished-at="2012-03-03T10:54:44Z">
+        </test-method> <!-- testUnreferenced -->
+      </class> <!-- org.akubraproject.rmi.server.ServerConnectionTest -->
+      <class name="org.akubraproject.rmi.client.ClientOutputStreamTest">
+        <test-method status="PASS" signature="testClientOutputStream()[pri:0, instance:org.akubraproject.rmi.client.ClientOutputStreamTest@396c75ed]" name="testClientOutputStream" duration-ms="1" started-at="2012-03-03T10:54:44Z" finished-at="2012-03-03T10:54:44Z">
+        </test-method> <!-- testClientOutputStream -->
+        <test-method status="PASS" signature="testWriteByteArrayIntInt()[pri:0, instance:org.akubraproject.rmi.client.ClientOutputStreamTest@396c75ed]" name="testWriteByteArrayIntInt" duration-ms="6" started-at="2012-03-03T10:54:44Z" finished-at="2012-03-03T10:54:44Z">
+        </test-method> <!-- testWriteByteArrayIntInt -->
+        <test-method status="PASS" signature="testWriteInt()[pri:0, instance:org.akubraproject.rmi.client.ClientOutputStreamTest@396c75ed]" name="testWriteInt" duration-ms="1" started-at="2012-03-03T10:54:44Z" finished-at="2012-03-03T10:54:44Z">
+        </test-method> <!-- testWriteInt -->
+        <test-method status="PASS" signature="testWriteByteArray()[pri:0, instance:org.akubraproject.rmi.client.ClientOutputStreamTest@396c75ed]" name="testWriteByteArray" duration-ms="1" started-at="2012-03-03T10:54:44Z" finished-at="2012-03-03T10:54:44Z">
+        </test-method> <!-- testWriteByteArray -->
+        <test-method status="PASS" signature="testFlush()[pri:0, instance:org.akubraproject.rmi.client.ClientOutputStreamTest@396c75ed]" name="testFlush" duration-ms="2" started-at="2012-03-03T10:54:44Z" finished-at="2012-03-03T10:54:44Z">
+        </test-method> <!-- testFlush -->
+        <test-method status="PASS" signature="testClose()[pri:0, instance:org.akubraproject.rmi.client.ClientOutputStreamTest@396c75ed]" name="testClose" duration-ms="2" started-at="2012-03-03T10:54:44Z" finished-at="2012-03-03T10:54:44Z">
+        </test-method> <!-- testClose -->
+      </class> <!-- org.akubraproject.rmi.client.ClientOutputStreamTest -->
+      <class name="org.akubraproject.rmi.server.ServerInputStreamTest">
+        <test-method status="PASS" signature="testRead()[pri:0, instance:org.akubraproject.rmi.server.ServerInputStreamTest@139ba1d8]" name="testRead" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testRead -->
+        <test-method status="PASS" signature="testClose()[pri:0, instance:org.akubraproject.rmi.server.ServerInputStreamTest@139ba1d8]" name="testClose" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testClose -->
+        <test-method status="PASS" signature="testServerInputStream()[pri:0, instance:org.akubraproject.rmi.server.ServerInputStreamTest@139ba1d8]" name="testServerInputStream" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testServerInputStream -->
+        <test-method status="PASS" signature="testReadInt()[pri:0, instance:org.akubraproject.rmi.server.ServerInputStreamTest@139ba1d8]" name="testReadInt" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testReadInt -->
+        <test-method status="PASS" signature="testSkip()[pri:0, instance:org.akubraproject.rmi.server.ServerInputStreamTest@139ba1d8]" name="testSkip" duration-ms="0" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testSkip -->
+        <test-method status="PASS" signature="testUnreferenced()[pri:0, instance:org.akubraproject.rmi.server.ServerInputStreamTest@139ba1d8]" name="testUnreferenced" duration-ms="1" started-at="2012-03-03T10:54:36Z" finished-at="2012-03-03T10:54:36Z">
+        </test-method> <!-- testUnreferenced -->
+      </class> <!-- org.akubraproject.rmi.server.ServerInputStreamTest -->
+    </test> <!-- Command line test -->
+  </suite> <!-- Command line suite -->
+</testng-results>

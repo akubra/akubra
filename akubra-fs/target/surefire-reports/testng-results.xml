@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="30" passed="30">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Command line suite" duration-ms="1141" started-at="2012-03-03T10:51:35Z" finished-at="2012-03-03T10:51:36Z">
+    <groups>
+      <group name="blob">
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- blob -->
+      <group name="connection">
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testClosedConnection()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testClosedConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- connection -->
+      <group name="manipulatesBlobs">
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- manipulatesBlobs -->
+      <group name="post">
+        <method signature="TCKTestSuite.testCleanup()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testCleanup" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- post -->
+      <group name="store">
+        <method signature="TCKTestSuite.testGetId()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testGetId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testOpenConnectionNoTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testOpenConnectionWithTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- store -->
+      <group name="transaction">
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- transaction -->
+      <group name="init">
+        <method signature="TCKTestSuite.testInit()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testInit" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- init -->
+    </groups>
+    <test name="Command line test" duration-ms="1141" started-at="2012-03-03T10:51:35Z" finished-at="2012-03-03T10:51:36Z">
+      <class name="org.akubraproject.fs.TestFSBlobThreaded">
+        <test-method status="PASS" signature="testThreading()[pri:0, instance:org.akubraproject.fs.TestFSBlobThreaded@337ec9f7]" name="testThreading" duration-ms="852" started-at="2012-03-03T10:51:35Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testThreading -->
+      </class> <!-- org.akubraproject.fs.TestFSBlobThreaded -->
+      <class name="org.akubraproject.fs.TestFSBlob">
+        <test-method status="PASS" signature="init()[pri:0, instance:org.akubraproject.fs.TestFSBlob@8c3c315]" name="init" is-config="true" duration-ms="3" started-at="2012-03-03T10:51:35Z" finished-at="2012-03-03T10:51:35Z">
+        </test-method> <!-- init -->
+        <test-method status="PASS" signature="testConstructWithBadId()[pri:0, instance:org.akubraproject.fs.TestFSBlob@8c3c315]" name="testConstructWithBadId" duration-ms="2" started-at="2012-03-03T10:51:35Z" finished-at="2012-03-03T10:51:35Z">
+        </test-method> <!-- testConstructWithBadId -->
+        <test-method status="PASS" signature="testDefaultMoveTo()[pri:0, instance:org.akubraproject.fs.TestFSBlob@8c3c315]" name="testDefaultMoveTo" duration-ms="2" started-at="2012-03-03T10:51:35Z" finished-at="2012-03-03T10:51:35Z">
+        </test-method> <!-- testDefaultMoveTo -->
+        <test-method status="PASS" signature="testExistsFalse()[pri:0, instance:org.akubraproject.fs.TestFSBlob@8c3c315]" name="testExistsFalse" duration-ms="1" started-at="2012-03-03T10:51:35Z" finished-at="2012-03-03T10:51:35Z">
+        </test-method> <!-- testExistsFalse -->
+        <test-method status="PASS" signature="testForceCopyAndDeleteMoveTo()[pri:0, instance:org.akubraproject.fs.TestFSBlob@8c3c315]" name="testForceCopyAndDeleteMoveTo" duration-ms="19" started-at="2012-03-03T10:51:35Z" finished-at="2012-03-03T10:51:35Z">
+        </test-method> <!-- testForceCopyAndDeleteMoveTo -->
+        <test-method status="PASS" signature="testGetCanonicalId()[pri:0, instance:org.akubraproject.fs.TestFSBlob@8c3c315]" name="testGetCanonicalId" duration-ms="2" started-at="2012-03-03T10:51:35Z" finished-at="2012-03-03T10:51:35Z">
+        </test-method> <!-- testGetCanonicalId -->
+        <test-method status="PASS" signature="destroy()[pri:0, instance:org.akubraproject.fs.TestFSBlob@8c3c315]" name="destroy" is-config="true" duration-ms="1" started-at="2012-03-03T10:51:35Z" finished-at="2012-03-03T10:51:35Z">
+        </test-method> <!-- destroy -->
+      </class> <!-- org.akubraproject.fs.TestFSBlob -->
+      <class name="org.akubraproject.fs.TestFSBlobIdIterator">
+        <test-method status="PASS" signature="init()[pri:0, instance:org.akubraproject.fs.TestFSBlobIdIterator@6c3c9c31]" name="init" is-config="true" duration-ms="1" started-at="2012-03-03T10:51:35Z" finished-at="2012-03-03T10:51:35Z">
+        </test-method> <!-- init -->
+        <test-method status="PASS" signature="testEmpty()[pri:0, instance:org.akubraproject.fs.TestFSBlobIdIterator@6c3c9c31]" name="testEmpty" duration-ms="3" started-at="2012-03-03T10:51:35Z" finished-at="2012-03-03T10:51:35Z">
+        </test-method> <!-- testEmpty -->
+        <test-method status="PASS" signature="testMulti()[pri:0, instance:org.akubraproject.fs.TestFSBlobIdIterator@6c3c9c31]" name="testMulti" duration-ms="8" started-at="2012-03-03T10:51:35Z" finished-at="2012-03-03T10:51:35Z">
+        </test-method> <!-- testMulti -->
+        <test-method status="PASS" signature="testMultiWithFilter()[pri:0, instance:org.akubraproject.fs.TestFSBlobIdIterator@6c3c9c31]" name="testMultiWithFilter" duration-ms="10" started-at="2012-03-03T10:51:35Z" finished-at="2012-03-03T10:51:35Z">
+        </test-method> <!-- testMultiWithFilter -->
+        <test-method status="PASS" signature="destroy()[pri:0, instance:org.akubraproject.fs.TestFSBlobIdIterator@6c3c9c31]" name="destroy" is-config="true" duration-ms="2" started-at="2012-03-03T10:51:35Z" finished-at="2012-03-03T10:51:35Z">
+        </test-method> <!-- destroy -->
+      </class> <!-- org.akubraproject.fs.TestFSBlobIdIterator -->
+      <class name="org.akubraproject.fs.TestFSBlobStoreTCK">
+        <test-method status="PASS" signature="testGetId()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testGetId" duration-ms="6" started-at="2012-03-03T10:51:35Z" finished-at="2012-03-03T10:51:35Z">
+        </test-method> <!-- testGetId -->
+        <test-method status="PASS" signature="testInit()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testInit" duration-ms="0" started-at="2012-03-03T10:51:35Z" finished-at="2012-03-03T10:51:35Z">
+        </test-method> <!-- testInit -->
+        <test-method status="PASS" signature="testBasicCommit()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testBasicCommit" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testBasicCommit -->
+        <test-method status="PASS" signature="testBasicRollback()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testBasicRollback" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testBasicRollback -->
+        <test-method status="PASS" signature="testBlobFromStream()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testBlobFromStream" duration-ms="2" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testBlobFromStream -->
+        <test-method status="PASS" signature="testBlobUpdate()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testBlobUpdate" duration-ms="15" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testBlobUpdate -->
+        <test-method status="PASS" signature="testCanonicalId()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testCanonicalId" duration-ms="2" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testCanonicalId -->
+        <test-method status="PASS" signature="testCloseConnection()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testCloseConnection" duration-ms="4" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testCloseConnection -->
+        <test-method status="PASS" signature="testClosedConnection()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testClosedConnection" duration-ms="10" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testClosedConnection -->
+        <test-method status="PASS" signature="testDelete()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testDelete" duration-ms="4" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testDelete -->
+        <test-method status="PASS" signature="testIdGeneration()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testIdGeneration" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testIdGeneration -->
+        <test-method status="PASS" signature="testIdValidation()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testIdValidation" duration-ms="4" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testIdValidation -->
+        <test-method status="PASS" signature="testInputStream()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testInputStream" duration-ms="6" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testInputStream -->
+        <test-method status="PASS" signature="testListBlobs()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testListBlobs" duration-ms="26" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testListBlobs -->
+        <test-method status="PASS" signature="testMoveTo()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testMoveTo" duration-ms="19" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testMoveTo -->
+        <test-method status="PASS" signature="testNonExistentBlob()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testNonExistentBlob" duration-ms="3" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testNonExistentBlob -->
+        <test-method status="PASS" signature="testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testOpenConnectionNoTransaction" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testOpenConnectionNoTransaction -->
+        <test-method status="PASS" signature="testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testOpenConnectionWithTransaction" duration-ms="22" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testOpenConnectionWithTransaction -->
+        <test-method status="PASS" signature="testOutputStream()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testOutputStream" duration-ms="40" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testOutputStream -->
+        <test-method status="PASS" signature="testSync()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testSync" duration-ms="20" depends-on-groups="init" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testSync -->
+        <test-method status="PASS" signature="testCleanup()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="testCleanup" duration-ms="2" depends-on-groups="manipulatesBlobs" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- testCleanup -->
+        <test-method status="PASS" signature="destroy()[pri:0, instance:org.akubraproject.fs.TestFSBlobStoreTCK@48fd918a]" name="destroy" is-config="true" duration-ms="0" started-at="2012-03-03T10:51:36Z" finished-at="2012-03-03T10:51:36Z">
+        </test-method> <!-- destroy -->
+      </class> <!-- org.akubraproject.fs.TestFSBlobStoreTCK -->
+    </test> <!-- Command line test -->
+  </suite> <!-- Command line suite -->
+</testng-results>

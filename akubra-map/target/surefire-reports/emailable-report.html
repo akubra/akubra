@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TestNG:  Unit Test</title>
+<style type="text/css">
+table caption,table.info_table,table.param,table.passed,table.failed {margin-bottom:10px;border:1px solid #000099;border-collapse:collapse;empty-cells:show;}
+table.info_table td,table.info_table th,table.param td,table.param th,table.passed td,table.passed th,table.failed td,table.failed th {
+border:1px solid #000099;padding:.25em .5em .25em .5em
+}
+table.param th {vertical-align:bottom}
+td.numi,th.numi,td.numi_attn {
+text-align:right
+}
+tr.total td {font-weight:bold}
+table caption {
+text-align:center;font-weight:bold;
+}
+table.passed tr.stripe td,table tr.passedodd td {background-color: #00AA00;}
+table.passed td,table tr.passedeven td {background-color: #33FF33;}
+table.passed tr.stripe td,table tr.skippedodd td {background-color: #cccccc;}
+table.passed td,table tr.skippedodd td {background-color: #dddddd;}
+table.failed tr.stripe td,table tr.failedodd td,table.param td.numi_attn {background-color: #FF3333;}
+table.failed td,table tr.failedeven td,table.param tr.stripe td.numi_attn {background-color: #DD0000;}
+tr.stripe td,tr.stripe th {background-color: #E6EBF9;}
+p.totop {font-size:85%;text-align:center;border-bottom:2px black solid}
+div.shootout {padding:2em;border:3px #4854A8 solid}
+</style>
+</head>
+<body>
+<table cellspacing=0 cellpadding=0 class="param">
+<tr><th>Test</th><th class="numi">Methods<br/>Passed</th><th class="numi">Scenarios<br/>Passed</th><th class="numi"># skipped</th><th class="numi"># failed</th><th class="numi">Total<br/>Time</th><th class="numi">Included<br/>Groups</th><th class="numi">Excluded<br/>Groups</th></tr>
+<tr><td style="text-align:left;padding-right:2em">Command line test</td><td class="numi">25</td><td class="numi">25</td><td class="numi">0</td><td class="numi">0</td><td class="numi">0.1 seconds</td><td class="numi"></td><td class="numi"></td></tr>
+</table>
+<a id="summary"></a>
+<table cellspacing=0 cellpadding=0 class="passed">
+<tr><th>Class</th><th>Method</th><th># of<br/>Scenarios</th><th>Start</th><th>Time<br/>(ms)</th></tr>
+<tr><th colspan="4">Command line test &#8212; passed</th></tr>
+<tr class="passedodd"><td rowspan="9">org.akubraproject.map.IdMappingBlobStoreTCKTest<td><a href="#m1"><b>testBasicCommit</b> (manipulatesBlobs, transaction) </a></td><td class="numi">1</td><td>1330789945963</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m2"><b>testBasicRollback</b> (manipulatesBlobs, transaction) </a></td><td class="numi">1</td><td>1330789945964</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m3"><b>testBlobFromStream</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330789945965</td><td class="numi">4</td></tr><tr class="passedodd"><td><a href="#m4"><b>testBlobUpdate</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330789945970</td><td class="numi">4</td></tr><tr class="passedodd"><td><a href="#m5"><b>testCanonicalId</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330789945974</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m6"><b>testCleanup</b> (post) </a></td><td class="numi">1</td><td>1330789946044</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m7"><b>testCloseConnection</b> (connection, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330789945976</td><td class="numi">2</td></tr><tr class="passedodd"><td><a href="#m8"><b>testClosedConnection</b> (connection) </a></td><td class="numi">1</td><td>1330789945978</td><td class="numi">8</td></tr><tr class="passedodd"><td><a href="#m9"><b>testDelete</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330789945987</td><td class="numi">1</td></tr>
+<tr class="passedeven"><td rowspan="2">org.akubraproject.map.IdMappingBlobTest<td><a href="#m10"><b>testGetCanonicalIdNotNull</b>  </a></td><td class="numi">1</td><td>1330789945958</td><td class="numi">1</td></tr><tr class="passedeven"><td><a href="#m11"><b>testGetCanonicalIdNull</b>  </a></td><td class="numi">1</td><td>1330789945960</td><td class="numi">1</td></tr>
+<tr class="passedodd"><td rowspan="6">org.akubraproject.map.IdMappingBlobStoreTCKTest<td><a href="#m12"><b>testGetId</b> (store) </a></td><td class="numi">1</td><td>1330789945956</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m13"><b>testIdGeneration</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330789945988</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m14"><b>testIdValidation</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330789945990</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m15"><b>testInit</b> (init) </a></td><td class="numi">1</td><td>1330789945957</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m16"><b>testInputStream</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330789945991</td><td class="numi">2</td></tr><tr class="passedodd"><td><a href="#m17"><b>testListBlobs</b> (connection, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330789945993</td><td class="numi">6</td></tr>
+<tr class="passedeven"><td rowspan="2">org.akubraproject.map.IdMappingBlobStoreConnectionTest<td><a href="#m18"><b>testListBlobsPrefixMappable</b>  </a></td><td class="numi">1</td><td>1330789945920</td><td class="numi">27</td></tr><tr class="passedeven"><td><a href="#m19"><b>testListBlobsPrefixNotMappable</b>  </a></td><td class="numi">1</td><td>1330789945952</td><td class="numi">3</td></tr>
+<tr class="passedodd"><td rowspan="6">org.akubraproject.map.IdMappingBlobStoreTCKTest<td><a href="#m20"><b>testMoveTo</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330789946000</td><td class="numi">7</td></tr><tr class="passedodd"><td><a href="#m21"><b>testNonExistentBlob</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330789946008</td><td class="numi">2</td></tr><tr class="passedodd"><td><a href="#m22"><b>testOpenConnectionNoTransaction</b> (store) </a></td><td class="numi">1</td><td>1330789946011</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m23"><b>testOpenConnectionWithTransaction</b> (store) </a></td><td class="numi">1</td><td>1330789946012</td><td class="numi">20</td></tr><tr class="passedodd"><td><a href="#m24"><b>testOutputStream</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330789946033</td><td class="numi">4</td></tr><tr class="passedodd"><td><a href="#m25"><b>testSync</b> (connection, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330789946038</td><td class="numi">4</td></tr>
+</table>
+<h1>Command line test</h1>
+<a id="m1"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testMoveTo</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m2"></a><h2>org.akubraproject.map.IdMappingBlobTest:testGetCanonicalIdNull</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m3"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testCleanup</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m4"></a><h2>org.akubraproject.map.IdMappingBlobTest:testGetCanonicalIdNotNull</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m5"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testListBlobs</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m6"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testSync</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m7"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testInputStream</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m8"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testBasicRollback</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m9"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testGetId</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m10"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testOutputStream</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m11"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testBasicCommit</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m12"></a><h2>org.akubraproject.map.IdMappingBlobStoreConnectionTest:testListBlobsPrefixMappable</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m13"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testCloseConnection</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m14"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testBlobUpdate</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m15"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testInit</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m16"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testCanonicalId</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m17"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testClosedConnection</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m18"></a><h2>org.akubraproject.map.IdMappingBlobStoreConnectionTest:testListBlobsPrefixNotMappable</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m19"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testOpenConnectionWithTransaction</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m20"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testOpenConnectionNoTransaction</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m21"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testIdValidation</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m22"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testNonExistentBlob</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m23"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testIdGeneration</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m24"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testDelete</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m25"></a><h2>org.akubraproject.map.IdMappingBlobStoreTCKTest:testBlobFromStream</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+</body></html>

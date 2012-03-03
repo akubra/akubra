@@ -1,0 +1,334 @@
+<html>
+<head>
+<title>TestNG:  Command line test</title>
+<link href="../testng.css" rel="stylesheet" type="text/css" />
+<link href="../my-testng.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+.log { display: none;} 
+.stack-trace { display: none;} 
+</style>
+<script type="text/javascript">
+<!--
+function flip(e) {
+  current = e.style.display;
+  if (current == 'block') {
+    e.style.display = 'none';
+    return 0;
+  }
+  else {
+    e.style.display = 'block';
+    return 1;
+  }
+}
+
+function toggleBox(szDivId, elem, msg1, msg2)
+{
+  var res = -1;  if (document.getElementById) {
+    res = flip(document.getElementById(szDivId));
+  }
+  else if (document.all) {
+    // this is the way old msie versions work
+    res = flip(document.all[szDivId]);
+  }
+  if(elem) {
+    if(res == 0) elem.innerHTML = msg1; else elem.innerHTML = msg2;
+  }
+
+}
+
+function toggleAllBoxes() {
+  if (document.getElementsByTagName) {
+    d = document.getElementsByTagName('div');
+    for (i = 0; i < d.length; i++) {
+      if (d[i].className == 'log') {
+        flip(d[i]);
+      }
+    }
+  }
+}
+
+// -->
+</script>
+
+</head>
+<body>
+<h2 align='center'>Command line test</h2><table border='1' align="center">
+<tr>
+<td>Tests passed/Failed/Skipped:</td><td>51/0/0</td>
+</tr><tr>
+<td>Started on:</td><td>Sat Mar 03 10:53:35 EST 2012</td>
+</tr>
+<tr><td>Total time:</td><td>1 seconds (1826 ms)</td>
+</tr><tr>
+<td>Included groups:</td><td></td>
+</tr><tr>
+<td>Excluded groups:</td><td></td>
+</tr>
+</table><p/>
+<small><i>(Hover the method name to see the test class name)</i></small><p/>
+<table width='100%' border='1' class='invocation-passed'>
+<tr><td colspan='4' align='center'><b>PASSED TESTS</b></td></tr>
+<tr><td><b>Test method</b></td>
+<td width="30%"><b>Exception</b></td>
+<td width="10%"><b>Time (seconds)</b></td>
+<td><b>Instance</b></td>
+</tr>
+<tr>
+<td title='org.akubraproject.mux.AbstractMuxConnectionTest.testAbstractMuxConnection()'><b>testAbstractMuxConnection</b><br>Test class: org.akubraproject.mux.AbstractMuxConnectionTest</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.AbstractMuxConnectionTest@32eccfe7</td></tr>
+<tr>
+<td title='org.akubraproject.mux.AbstractMuxStoreTest.testAbstractMuxStore()'><b>testAbstractMuxStore</b><br>Test class: org.akubraproject.mux.AbstractMuxStoreTest</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.AbstractMuxStoreTest@594560cf</td></tr>
+<tr>
+<td title='org.akubraproject.mux.AbstractMuxStoreTest.testBackingStores()'><b>testBackingStores</b><br>Test class: org.akubraproject.mux.AbstractMuxStoreTest</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.AbstractMuxStoreTest@594560cf</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testBasicCommit()'><b>testBasicCommit</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testBasicCommit()'><b>testBasicCommit</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testBasicRollback()'><b>testBasicRollback</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testBasicRollback()'><b>testBasicRollback</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testBlobFromStream()'><b>testBlobFromStream</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testBlobFromStream()'><b>testBlobFromStream</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testBlobUpdate()'><b>testBlobUpdate</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testBlobUpdate()'><b>testBlobUpdate</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testCanonicalId()'><b>testCanonicalId</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testCanonicalId()'><b>testCanonicalId</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testCleanup()'><b>testCleanup</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testCleanup()'><b>testCleanup</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.AbstractMuxConnectionTest.testClose()'><b>testClose</b><br>Test class: org.akubraproject.mux.AbstractMuxConnectionTest</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.AbstractMuxConnectionTest@32eccfe7</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testCloseConnection()'><b>testCloseConnection</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testCloseConnection()'><b>testCloseConnection</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testClosedConnection()'><b>testClosedConnection</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testClosedConnection()'><b>testClosedConnection</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testDelete()'><b>testDelete</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testDelete()'><b>testDelete</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.AbstractMuxConnectionTest.testGetBlobURIMapOfStringString()'><b>testGetBlobURIMapOfStringString</b><br>Test class: org.akubraproject.mux.AbstractMuxConnectionTest</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.AbstractMuxConnectionTest@32eccfe7</td></tr>
+<tr>
+<td title='org.akubraproject.mux.AbstractMuxConnectionTest.testGetConnection()'><b>testGetConnection</b><br>Test class: org.akubraproject.mux.AbstractMuxConnectionTest</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.AbstractMuxConnectionTest@32eccfe7</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testGetId()'><b>testGetId</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testGetId()'><b>testGetId</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.AbstractMuxConnectionTest.testGetStores()'><b>testGetStores</b><br>Test class: org.akubraproject.mux.AbstractMuxConnectionTest</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.AbstractMuxConnectionTest@32eccfe7</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testIdGeneration()'><b>testIdGeneration</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testIdGeneration()'><b>testIdGeneration</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testIdValidation()'><b>testIdValidation</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testIdValidation()'><b>testIdValidation</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testInit()'><b>testInit</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testInit()'><b>testInit</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testInputStream()'><b>testInputStream</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testInputStream()'><b>testInputStream</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.AbstractMuxConnectionTest.testListBlobIds()'><b>testListBlobIds</b><br>Test class: org.akubraproject.mux.AbstractMuxConnectionTest</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.AbstractMuxConnectionTest@32eccfe7</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testListBlobs()'><b>testListBlobs</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testListBlobs()'><b>testListBlobs</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.AbstractMuxConnectionTest.testMoveTo()'><b>testMoveTo</b><br>Test class: org.akubraproject.mux.AbstractMuxConnectionTest</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.AbstractMuxConnectionTest@32eccfe7</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testMoveTo()'><b>testMoveTo</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testMoveTo()'><b>testMoveTo</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testNonExistentBlob()'><b>testNonExistentBlob</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testNonExistentBlob()'><b>testNonExistentBlob</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testOpenConnectionNoTransaction()'><b>testOpenConnectionNoTransaction</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testOpenConnectionNoTransaction()'><b>testOpenConnectionNoTransaction</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testOpenConnectionWithTransaction()'><b>testOpenConnectionWithTransaction</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testOpenConnectionWithTransaction()'><b>testOpenConnectionWithTransaction</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testOutputStream()'><b>testOutputStream</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testOutputStream()'><b>testOutputStream</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testSync()'><b>testSync</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05</td></tr>
+<tr>
+<td title='org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite.testSync()'><b>testSync</b><br>Test class: org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite</td>
+<td></td>
+<td>0</td>
+<td>org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc</td></tr>
+</table><p>
+</body>
+</html>

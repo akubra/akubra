@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="51" passed="51">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Command line suite" duration-ms="1826" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:37Z">
+    <groups>
+      <group name="blob">
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- blob -->
+      <group name="connection">
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testClosedConnection()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testClosedConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testClosedConnection()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testClosedConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- connection -->
+      <group name="manipulatesBlobs">
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- manipulatesBlobs -->
+      <group name="post">
+        <method signature="TCKTestSuite.testCleanup()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testCleanup" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCleanup()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testCleanup" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- post -->
+      <group name="store">
+        <method signature="TCKTestSuite.testGetId()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testGetId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testGetId()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testGetId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testOpenConnectionNoTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testOpenConnectionNoTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testOpenConnectionWithTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testOpenConnectionWithTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- store -->
+      <group name="transaction">
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- transaction -->
+      <group name="init">
+        <method signature="TCKTestSuite.testInit()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testInit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInit()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testInit" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- init -->
+    </groups>
+    <test name="Command line test" duration-ms="1826" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:37Z">
+      <class name="org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite">
+        <test-method status="PASS" signature="testGetId()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testGetId" duration-ms="0" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testGetId -->
+        <test-method status="PASS" signature="testInit()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testInit" duration-ms="1" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testInit -->
+        <test-method status="PASS" signature="testInit()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testInit" duration-ms="0" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testInit -->
+        <test-method status="PASS" signature="testGetId()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testGetId" duration-ms="0" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testGetId -->
+        <test-method status="PASS" signature="testBasicCommit()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testBasicCommit" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testBasicCommit -->
+        <test-method status="PASS" signature="testBasicRollback()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testBasicRollback" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testBasicRollback -->
+        <test-method status="PASS" signature="testBlobFromStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testBlobFromStream" duration-ms="8" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testBlobFromStream -->
+        <test-method status="PASS" signature="testBlobUpdate()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testBlobUpdate" duration-ms="6" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testBlobUpdate -->
+        <test-method status="PASS" signature="testCanonicalId()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testCanonicalId" duration-ms="2" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testCanonicalId -->
+        <test-method status="PASS" signature="testCloseConnection()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testCloseConnection" duration-ms="4" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testCloseConnection -->
+        <test-method status="PASS" signature="testClosedConnection()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testClosedConnection" duration-ms="9" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testClosedConnection -->
+        <test-method status="PASS" signature="testDelete()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testDelete" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testDelete -->
+        <test-method status="PASS" signature="testIdGeneration()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testIdGeneration" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testIdGeneration -->
+        <test-method status="PASS" signature="testIdValidation()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testIdValidation" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testIdValidation -->
+        <test-method status="PASS" signature="testInputStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testInputStream" duration-ms="2" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testInputStream -->
+        <test-method status="PASS" signature="testListBlobs()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testListBlobs" duration-ms="6" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testListBlobs -->
+        <test-method status="PASS" signature="testMoveTo()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testMoveTo" duration-ms="8" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testMoveTo -->
+        <test-method status="PASS" signature="testNonExistentBlob()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testNonExistentBlob" duration-ms="2" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testNonExistentBlob -->
+        <test-method status="PASS" signature="testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testOpenConnectionNoTransaction" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testOpenConnectionNoTransaction -->
+        <test-method status="PASS" signature="testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testOpenConnectionWithTransaction" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testOpenConnectionWithTransaction -->
+        <test-method status="PASS" signature="testOutputStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testOutputStream" duration-ms="5" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testOutputStream -->
+        <test-method status="PASS" signature="testSync()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testSync" duration-ms="4" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testSync -->
+        <test-method status="PASS" signature="testBasicCommit()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testBasicCommit" duration-ms="420" depends-on-groups="init" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:36Z">
+        </test-method> <!-- testBasicCommit -->
+        <test-method status="PASS" signature="testBasicRollback()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testBasicRollback" duration-ms="148" depends-on-groups="init" started-at="2012-03-03T10:53:36Z" finished-at="2012-03-03T10:53:36Z">
+        </test-method> <!-- testBasicRollback -->
+        <test-method status="PASS" signature="testBlobFromStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testBlobFromStream" duration-ms="4" depends-on-groups="init" started-at="2012-03-03T10:53:36Z" finished-at="2012-03-03T10:53:36Z">
+        </test-method> <!-- testBlobFromStream -->
+        <test-method status="PASS" signature="testBlobUpdate()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testBlobUpdate" duration-ms="69" depends-on-groups="init" started-at="2012-03-03T10:53:36Z" finished-at="2012-03-03T10:53:36Z">
+        </test-method> <!-- testBlobUpdate -->
+        <test-method status="PASS" signature="testCanonicalId()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testCanonicalId" duration-ms="6" depends-on-groups="init" started-at="2012-03-03T10:53:36Z" finished-at="2012-03-03T10:53:36Z">
+        </test-method> <!-- testCanonicalId -->
+        <test-method status="PASS" signature="testCloseConnection()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testCloseConnection" duration-ms="110" depends-on-groups="init" started-at="2012-03-03T10:53:36Z" finished-at="2012-03-03T10:53:36Z">
+        </test-method> <!-- testCloseConnection -->
+        <test-method status="PASS" signature="testDelete()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testDelete" duration-ms="36" depends-on-groups="init" started-at="2012-03-03T10:53:36Z" finished-at="2012-03-03T10:53:36Z">
+        </test-method> <!-- testDelete -->
+        <test-method status="PASS" signature="testIdGeneration()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testIdGeneration" duration-ms="3" depends-on-groups="init" started-at="2012-03-03T10:53:36Z" finished-at="2012-03-03T10:53:36Z">
+        </test-method> <!-- testIdGeneration -->
+        <test-method status="PASS" signature="testIdValidation()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testIdValidation" duration-ms="32" depends-on-groups="init" started-at="2012-03-03T10:53:36Z" finished-at="2012-03-03T10:53:36Z">
+        </test-method> <!-- testIdValidation -->
+        <test-method status="PASS" signature="testInputStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testInputStream" duration-ms="41" depends-on-groups="init" started-at="2012-03-03T10:53:36Z" finished-at="2012-03-03T10:53:36Z">
+        </test-method> <!-- testInputStream -->
+        <test-method status="PASS" signature="testListBlobs()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testListBlobs" duration-ms="203" depends-on-groups="init" started-at="2012-03-03T10:53:36Z" finished-at="2012-03-03T10:53:36Z">
+        </test-method> <!-- testListBlobs -->
+        <test-method status="PASS" signature="testMoveTo()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testMoveTo" duration-ms="191" depends-on-groups="init" started-at="2012-03-03T10:53:36Z" finished-at="2012-03-03T10:53:36Z">
+        </test-method> <!-- testMoveTo -->
+        <test-method status="PASS" signature="testNonExistentBlob()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testNonExistentBlob" duration-ms="62" depends-on-groups="init" started-at="2012-03-03T10:53:36Z" finished-at="2012-03-03T10:53:36Z">
+        </test-method> <!-- testNonExistentBlob -->
+        <test-method status="PASS" signature="testOutputStream()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testOutputStream" duration-ms="232" depends-on-groups="init" started-at="2012-03-03T10:53:36Z" finished-at="2012-03-03T10:53:37Z">
+        </test-method> <!-- testOutputStream -->
+        <test-method status="PASS" signature="testSync()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testSync" duration-ms="74" depends-on-groups="init" started-at="2012-03-03T10:53:37Z" finished-at="2012-03-03T10:53:37Z">
+        </test-method> <!-- testSync -->
+        <test-method status="PASS" signature="testClosedConnection()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testClosedConnection" duration-ms="52" depends-on-groups="init" started-at="2012-03-03T10:53:37Z" finished-at="2012-03-03T10:53:37Z">
+        </test-method> <!-- testClosedConnection -->
+        <test-method status="PASS" signature="testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testOpenConnectionNoTransaction" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:53:37Z" finished-at="2012-03-03T10:53:37Z">
+        </test-method> <!-- testOpenConnectionNoTransaction -->
+        <test-method status="PASS" signature="testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testOpenConnectionWithTransaction" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:53:37Z" finished-at="2012-03-03T10:53:37Z">
+        </test-method> <!-- testOpenConnectionWithTransaction -->
+        <test-method status="PASS" signature="testCleanup()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@37c2ec05]" name="testCleanup" duration-ms="1" depends-on-groups="manipulatesBlobs" started-at="2012-03-03T10:53:37Z" finished-at="2012-03-03T10:53:37Z">
+        </test-method> <!-- testCleanup -->
+        <test-method status="PASS" signature="testCleanup()[pri:0, instance:org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite@5e1558dc]" name="testCleanup" duration-ms="17" depends-on-groups="manipulatesBlobs" started-at="2012-03-03T10:53:37Z" finished-at="2012-03-03T10:53:37Z">
+        </test-method> <!-- testCleanup -->
+      </class> <!-- org.akubraproject.mux.MuxStoreTCKTest$MuxStoreTestSuite -->
+      <class name="org.akubraproject.mux.AbstractMuxStoreTest">
+        <test-method status="PASS" signature="testAbstractMuxStore()[pri:0, instance:org.akubraproject.mux.AbstractMuxStoreTest@594560cf]" name="testAbstractMuxStore" duration-ms="1" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testAbstractMuxStore -->
+        <test-method status="PASS" signature="testBackingStores()[pri:0, instance:org.akubraproject.mux.AbstractMuxStoreTest@594560cf]" name="testBackingStores" duration-ms="0" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testBackingStores -->
+      </class> <!-- org.akubraproject.mux.AbstractMuxStoreTest -->
+      <class name="org.akubraproject.mux.AbstractMuxConnectionTest">
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.mux.AbstractMuxConnectionTest@32eccfe7]" name="setUp" is-config="true" duration-ms="8" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="setUp()[pri:0, instance:org.akubraproject.mux.AbstractMuxStoreTest@594560cf]" name="setUp" is-config="true" duration-ms="0" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="testAbstractMuxConnection()[pri:0, instance:org.akubraproject.mux.AbstractMuxConnectionTest@32eccfe7]" name="testAbstractMuxConnection" duration-ms="2" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testAbstractMuxConnection -->
+        <test-method status="PASS" signature="testClose()[pri:0, instance:org.akubraproject.mux.AbstractMuxConnectionTest@32eccfe7]" name="testClose" duration-ms="1" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testClose -->
+        <test-method status="PASS" signature="testGetBlobURIMapOfStringString()[pri:0, instance:org.akubraproject.mux.AbstractMuxConnectionTest@32eccfe7]" name="testGetBlobURIMapOfStringString" duration-ms="3" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testGetBlobURIMapOfStringString -->
+        <test-method status="PASS" signature="testGetConnection()[pri:0, instance:org.akubraproject.mux.AbstractMuxConnectionTest@32eccfe7]" name="testGetConnection" duration-ms="0" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testGetConnection -->
+        <test-method status="PASS" signature="testListBlobIds()[pri:0, instance:org.akubraproject.mux.AbstractMuxConnectionTest@32eccfe7]" name="testListBlobIds" duration-ms="9" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testListBlobIds -->
+        <test-method status="PASS" signature="testGetStores()[pri:0, instance:org.akubraproject.mux.AbstractMuxConnectionTest@32eccfe7]" name="testGetStores" duration-ms="0" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testGetStores -->
+        <test-method status="PASS" signature="testMoveTo()[pri:0, instance:org.akubraproject.mux.AbstractMuxConnectionTest@32eccfe7]" name="testMoveTo" duration-ms="4" started-at="2012-03-03T10:53:35Z" finished-at="2012-03-03T10:53:35Z">
+        </test-method> <!-- testMoveTo -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.mux.AbstractMuxConnectionTest@32eccfe7]" name="tearDown" is-config="true" duration-ms="0" started-at="2012-03-03T10:53:37Z" finished-at="2012-03-03T10:53:37Z">
+        </test-method> <!-- tearDown -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:org.akubraproject.mux.AbstractMuxStoreTest@594560cf]" name="tearDown" is-config="true" duration-ms="0" started-at="2012-03-03T10:53:37Z" finished-at="2012-03-03T10:53:37Z">
+        </test-method> <!-- tearDown -->
+      </class> <!-- org.akubraproject.mux.AbstractMuxConnectionTest -->
+    </test> <!-- Command line test -->
+  </suite> <!-- Command line suite -->
+</testng-results>

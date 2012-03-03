@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="5" passed="5">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Command line suite" duration-ms="43" started-at="2012-03-03T10:50:34Z" finished-at="2012-03-03T10:50:34Z">
+    <groups>
+      <group name="init">
+        <method signature="TestStreamManager.testInitialState()[pri:0, instance:org.akubraproject.impl.TestStreamManager@236527f]" name="testInitialState" class="org.akubraproject.impl.TestStreamManager"/>
+      </group> <!-- init -->
+    </groups>
+    <test name="Command line test" duration-ms="43" started-at="2012-03-03T10:50:34Z" finished-at="2012-03-03T10:50:34Z">
+      <class name="org.akubraproject.impl.TestManagedOutputStream">
+        <test-method status="PASS" signature="testCloseNotification()[pri:0, instance:org.akubraproject.impl.TestManagedOutputStream@79ee2c2c]" name="testCloseNotification" duration-ms="7" started-at="2012-03-03T10:50:34Z" finished-at="2012-03-03T10:50:34Z">
+        </test-method> <!-- testCloseNotification -->
+      </class> <!-- org.akubraproject.impl.TestManagedOutputStream -->
+      <class name="org.akubraproject.impl.TestStreamManager">
+        <test-method status="PASS" signature="testInitialState()[pri:0, instance:org.akubraproject.impl.TestStreamManager@236527f]" name="testInitialState" duration-ms="1" started-at="2012-03-03T10:50:34Z" finished-at="2012-03-03T10:50:34Z">
+        </test-method> <!-- testInitialState -->
+        <test-method status="PASS" signature="testManageInputStream()[pri:0, instance:org.akubraproject.impl.TestStreamManager@236527f]" name="testManageInputStream" duration-ms="7" depends-on-groups="init" started-at="2012-03-03T10:50:34Z" finished-at="2012-03-03T10:50:34Z">
+        </test-method> <!-- testManageInputStream -->
+        <test-method status="PASS" signature="testManageOutputStream()[pri:0, instance:org.akubraproject.impl.TestStreamManager@236527f]" name="testManageOutputStream" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:50:34Z" finished-at="2012-03-03T10:50:34Z">
+        </test-method> <!-- testManageOutputStream -->
+        <test-method status="PASS" signature="testTrackedConnectionCloses()[pri:0, instance:org.akubraproject.impl.TestStreamManager@236527f]" name="testTrackedConnectionCloses" duration-ms="10" depends-on-groups="init" started-at="2012-03-03T10:50:34Z" finished-at="2012-03-03T10:50:34Z">
+        </test-method> <!-- testTrackedConnectionCloses -->
+      </class> <!-- org.akubraproject.impl.TestStreamManager -->
+    </test> <!-- Command line test -->
+  </suite> <!-- Command line suite -->
+</testng-results>

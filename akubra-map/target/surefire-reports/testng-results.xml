@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="25" passed="25">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Command line suite" duration-ms="132" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:26Z">
+    <groups>
+      <group name="blob">
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- blob -->
+      <group name="connection">
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testClosedConnection()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testClosedConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- connection -->
+      <group name="manipulatesBlobs">
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- manipulatesBlobs -->
+      <group name="post">
+        <method signature="TCKTestSuite.testCleanup()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testCleanup" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- post -->
+      <group name="store">
+        <method signature="TCKTestSuite.testGetId()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testGetId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testOpenConnectionNoTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testOpenConnectionWithTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- store -->
+      <group name="transaction">
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- transaction -->
+      <group name="init">
+        <method signature="TCKTestSuite.testInit()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testInit" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- init -->
+    </groups>
+    <test name="Command line test" duration-ms="132" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:26Z">
+      <class name="org.akubraproject.map.IdMappingBlobTest">
+        <test-method status="PASS" signature="testGetCanonicalIdNotNull()[pri:0, instance:org.akubraproject.map.IdMappingBlobTest@6983d95]" name="testGetCanonicalIdNotNull" duration-ms="1" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testGetCanonicalIdNotNull -->
+        <test-method status="PASS" signature="testGetCanonicalIdNull()[pri:0, instance:org.akubraproject.map.IdMappingBlobTest@6983d95]" name="testGetCanonicalIdNull" duration-ms="1" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testGetCanonicalIdNull -->
+      </class> <!-- org.akubraproject.map.IdMappingBlobTest -->
+      <class name="org.akubraproject.map.IdMappingBlobStoreTCKTest">
+        <test-method status="PASS" signature="testGetId()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testGetId" duration-ms="0" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testGetId -->
+        <test-method status="PASS" signature="testInit()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testInit" duration-ms="0" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testInit -->
+        <test-method status="PASS" signature="testBasicCommit()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testBasicCommit" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testBasicCommit -->
+        <test-method status="PASS" signature="testBasicRollback()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testBasicRollback" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testBasicRollback -->
+        <test-method status="PASS" signature="testBlobFromStream()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testBlobFromStream" duration-ms="4" depends-on-groups="init" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testBlobFromStream -->
+        <test-method status="PASS" signature="testBlobUpdate()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testBlobUpdate" duration-ms="4" depends-on-groups="init" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testBlobUpdate -->
+        <test-method status="PASS" signature="testCanonicalId()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testCanonicalId" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testCanonicalId -->
+        <test-method status="PASS" signature="testCloseConnection()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testCloseConnection" duration-ms="2" depends-on-groups="init" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testCloseConnection -->
+        <test-method status="PASS" signature="testClosedConnection()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testClosedConnection" duration-ms="8" depends-on-groups="init" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testClosedConnection -->
+        <test-method status="PASS" signature="testDelete()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testDelete" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testDelete -->
+        <test-method status="PASS" signature="testIdGeneration()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testIdGeneration" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testIdGeneration -->
+        <test-method status="PASS" signature="testIdValidation()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testIdValidation" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testIdValidation -->
+        <test-method status="PASS" signature="testInputStream()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testInputStream" duration-ms="2" depends-on-groups="init" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testInputStream -->
+        <test-method status="PASS" signature="testListBlobs()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testListBlobs" duration-ms="6" depends-on-groups="init" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testListBlobs -->
+        <test-method status="PASS" signature="testMoveTo()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testMoveTo" duration-ms="7" depends-on-groups="init" started-at="2012-03-03T10:52:26Z" finished-at="2012-03-03T10:52:26Z">
+        </test-method> <!-- testMoveTo -->
+        <test-method status="PASS" signature="testNonExistentBlob()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testNonExistentBlob" duration-ms="2" depends-on-groups="init" started-at="2012-03-03T10:52:26Z" finished-at="2012-03-03T10:52:26Z">
+        </test-method> <!-- testNonExistentBlob -->
+        <test-method status="PASS" signature="testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testOpenConnectionNoTransaction" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:52:26Z" finished-at="2012-03-03T10:52:26Z">
+        </test-method> <!-- testOpenConnectionNoTransaction -->
+        <test-method status="PASS" signature="testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testOpenConnectionWithTransaction" duration-ms="20" depends-on-groups="init" started-at="2012-03-03T10:52:26Z" finished-at="2012-03-03T10:52:26Z">
+        </test-method> <!-- testOpenConnectionWithTransaction -->
+        <test-method status="PASS" signature="testOutputStream()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testOutputStream" duration-ms="4" depends-on-groups="init" started-at="2012-03-03T10:52:26Z" finished-at="2012-03-03T10:52:26Z">
+        </test-method> <!-- testOutputStream -->
+        <test-method status="PASS" signature="testSync()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testSync" duration-ms="4" depends-on-groups="init" started-at="2012-03-03T10:52:26Z" finished-at="2012-03-03T10:52:26Z">
+        </test-method> <!-- testSync -->
+        <test-method status="PASS" signature="testCleanup()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreTCKTest@73c6641]" name="testCleanup" duration-ms="0" depends-on-groups="manipulatesBlobs" started-at="2012-03-03T10:52:26Z" finished-at="2012-03-03T10:52:26Z">
+        </test-method> <!-- testCleanup -->
+      </class> <!-- org.akubraproject.map.IdMappingBlobStoreTCKTest -->
+      <class name="org.akubraproject.map.IdMappingBlobStoreConnectionTest">
+        <test-method status="PASS" signature="testListBlobsPrefixMappable()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreConnectionTest@585976c2]" name="testListBlobsPrefixMappable" duration-ms="27" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testListBlobsPrefixMappable -->
+        <test-method status="PASS" signature="testListBlobsPrefixNotMappable()[pri:0, instance:org.akubraproject.map.IdMappingBlobStoreConnectionTest@585976c2]" name="testListBlobsPrefixNotMappable" duration-ms="3" started-at="2012-03-03T10:52:25Z" finished-at="2012-03-03T10:52:25Z">
+        </test-method> <!-- testListBlobsPrefixNotMappable -->
+      </class> <!-- org.akubraproject.map.IdMappingBlobStoreConnectionTest -->
+    </test> <!-- Command line test -->
+  </suite> <!-- Command line suite -->
+</testng-results>

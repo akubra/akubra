@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="52" passed="52">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Command line suite" duration-ms="2965" started-at="2012-03-03T10:54:04Z" finished-at="2012-03-03T10:54:07Z">
+    <groups>
+      <group name="blob">
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- blob -->
+      <group name="connection">
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testClosedConnection()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testClosedConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testClosedConnection()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testClosedConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- connection -->
+      <group name="manipulatesBlobs">
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- manipulatesBlobs -->
+      <group name="post">
+        <method signature="TCKTestSuite.testCleanup()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testCleanup" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCleanup()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testCleanup" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- post -->
+      <group name="store">
+        <method signature="TCKTestSuite.testGetId()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testGetId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testGetId()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testGetId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite.testSetQuiescent()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testSetQuiescent" class="org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite"/>
+        <method signature="QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite.testSetQuiescent()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testSetQuiescent" class="org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testOpenConnectionNoTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testOpenConnectionNoTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testOpenConnectionWithTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testOpenConnectionWithTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- store -->
+      <group name="transaction">
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- transaction -->
+      <group name="init">
+        <method signature="TCKTestSuite.testInit()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testInit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInit()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testInit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TestQuiescingStreamManager.testInitialState()[pri:0, instance:org.akubraproject.qsc.TestQuiescingStreamManager@3a0b2c64]" name="testInitialState" class="org.akubraproject.qsc.TestQuiescingStreamManager"/>
+      </group> <!-- init -->
+    </groups>
+    <test name="Command line test" duration-ms="2965" started-at="2012-03-03T10:54:04Z" finished-at="2012-03-03T10:54:07Z">
+      <class name="org.akubraproject.qsc.TestQuiescingStreamManager">
+        <test-method status="PASS" signature="testInitialState()[pri:0, instance:org.akubraproject.qsc.TestQuiescingStreamManager@3a0b2c64]" name="testInitialState" duration-ms="0" started-at="2012-03-03T10:54:04Z" finished-at="2012-03-03T10:54:04Z">
+        </test-method> <!-- testInitialState -->
+        <test-method status="PASS" signature="testGoQuiescentOpenStreamBlocking()[pri:0, instance:org.akubraproject.qsc.TestQuiescingStreamManager@3a0b2c64]" name="testGoQuiescentOpenStreamBlocking" duration-ms="103" depends-on-groups="init" started-at="2012-03-03T10:54:06Z" finished-at="2012-03-03T10:54:07Z">
+        </test-method> <!-- testGoQuiescentOpenStreamBlocking -->
+        <test-method status="PASS" signature="testGoQuiescentOpenStreamInterrupted()[pri:0, instance:org.akubraproject.qsc.TestQuiescingStreamManager@3a0b2c64]" name="testGoQuiescentOpenStreamInterrupted" duration-ms="102" depends-on-groups="init" started-at="2012-03-03T10:54:07Z" finished-at="2012-03-03T10:54:07Z">
+        </test-method> <!-- testGoQuiescentOpenStreamInterrupted -->
+        <test-method status="PASS" signature="testGoQuiescentStateLockBlocking()[pri:0, instance:org.akubraproject.qsc.TestQuiescingStreamManager@3a0b2c64]" name="testGoQuiescentStateLockBlocking" duration-ms="102" depends-on-groups="init" started-at="2012-03-03T10:54:07Z" finished-at="2012-03-03T10:54:07Z">
+        </test-method> <!-- testGoQuiescentStateLockBlocking -->
+        <test-method status="PASS" signature="testGoQuiescentStateLockInterrupted()[pri:0, instance:org.akubraproject.qsc.TestQuiescingStreamManager@3a0b2c64]" name="testGoQuiescentStateLockInterrupted" duration-ms="103" depends-on-groups="init" started-at="2012-03-03T10:54:07Z" finished-at="2012-03-03T10:54:07Z">
+        </test-method> <!-- testGoQuiescentStateLockInterrupted -->
+        <test-method status="PASS" signature="testGoUnquiescentBlocking()[pri:0, instance:org.akubraproject.qsc.TestQuiescingStreamManager@3a0b2c64]" name="testGoUnquiescentBlocking" duration-ms="102" depends-on-groups="init" started-at="2012-03-03T10:54:07Z" finished-at="2012-03-03T10:54:07Z">
+        </test-method> <!-- testGoUnquiescentBlocking -->
+        <test-method status="PASS" signature="testGoUnquiescentInterrupted()[pri:0, instance:org.akubraproject.qsc.TestQuiescingStreamManager@3a0b2c64]" name="testGoUnquiescentInterrupted" duration-ms="102" depends-on-groups="init" started-at="2012-03-03T10:54:07Z" finished-at="2012-03-03T10:54:07Z">
+        </test-method> <!-- testGoUnquiescentInterrupted -->
+        <test-method status="PASS" signature="testSetQuiescentWhileInactive()[pri:0, instance:org.akubraproject.qsc.TestQuiescingStreamManager@3a0b2c64]" name="testSetQuiescentWhileInactive" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:54:07Z" finished-at="2012-03-03T10:54:07Z">
+        </test-method> <!-- testSetQuiescentWhileInactive -->
+      </class> <!-- org.akubraproject.qsc.TestQuiescingStreamManager -->
+      <class name="org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite">
+        <test-method status="PASS" signature="testGetId()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testGetId" duration-ms="7" started-at="2012-03-03T10:54:04Z" finished-at="2012-03-03T10:54:04Z">
+        </test-method> <!-- testGetId -->
+        <test-method status="PASS" signature="testInit()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testInit" duration-ms="1" started-at="2012-03-03T10:54:04Z" finished-at="2012-03-03T10:54:04Z">
+        </test-method> <!-- testInit -->
+        <test-method status="PASS" signature="testGetId()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testGetId" duration-ms="1" started-at="2012-03-03T10:54:04Z" finished-at="2012-03-03T10:54:04Z">
+        </test-method> <!-- testGetId -->
+        <test-method status="PASS" signature="testInit()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testInit" duration-ms="0" started-at="2012-03-03T10:54:04Z" finished-at="2012-03-03T10:54:04Z">
+        </test-method> <!-- testInit -->
+        <test-method status="PASS" signature="testSetQuiescent()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testSetQuiescent" duration-ms="436" depends-on-groups="init" started-at="2012-03-03T10:54:04Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testSetQuiescent -->
+        <test-method status="PASS" signature="testBasicCommit()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testBasicCommit" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testBasicCommit -->
+        <test-method status="PASS" signature="testBasicRollback()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testBasicRollback" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testBasicRollback -->
+        <test-method status="PASS" signature="testBlobFromStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testBlobFromStream" duration-ms="3" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testBlobFromStream -->
+        <test-method status="PASS" signature="testBlobUpdate()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testBlobUpdate" duration-ms="6" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testBlobUpdate -->
+        <test-method status="PASS" signature="testCanonicalId()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testCanonicalId" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testCanonicalId -->
+        <test-method status="PASS" signature="testCloseConnection()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testCloseConnection" duration-ms="2" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testCloseConnection -->
+        <test-method status="PASS" signature="testClosedConnection()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testClosedConnection" duration-ms="8" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testClosedConnection -->
+        <test-method status="PASS" signature="testDelete()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testDelete" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testDelete -->
+        <test-method status="PASS" signature="testIdGeneration()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testIdGeneration" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testIdGeneration -->
+        <test-method status="PASS" signature="testIdValidation()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testIdValidation" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testIdValidation -->
+        <test-method status="PASS" signature="testInputStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testInputStream" duration-ms="2" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testInputStream -->
+        <test-method status="PASS" signature="testListBlobs()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testListBlobs" duration-ms="7" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testListBlobs -->
+        <test-method status="PASS" signature="testMoveTo()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testMoveTo" duration-ms="6" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testMoveTo -->
+        <test-method status="PASS" signature="testNonExistentBlob()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testNonExistentBlob" duration-ms="2" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testNonExistentBlob -->
+        <test-method status="PASS" signature="testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testOpenConnectionNoTransaction" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testOpenConnectionNoTransaction -->
+        <test-method status="PASS" signature="testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testOpenConnectionWithTransaction" duration-ms="15" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testOpenConnectionWithTransaction -->
+        <test-method status="PASS" signature="testOutputStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testOutputStream" duration-ms="8" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testOutputStream -->
+        <test-method status="PASS" signature="testSync()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testSync" duration-ms="3" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testSync -->
+        <test-method status="PASS" signature="testBasicCommit()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testBasicCommit" duration-ms="283" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testBasicCommit -->
+        <test-method status="PASS" signature="testBasicRollback()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testBasicRollback" duration-ms="110" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testBasicRollback -->
+        <test-method status="PASS" signature="testBlobFromStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testBlobFromStream" duration-ms="4" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testBlobFromStream -->
+        <test-method status="PASS" signature="testBlobUpdate()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testBlobUpdate" duration-ms="38" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testBlobUpdate -->
+        <test-method status="PASS" signature="testCanonicalId()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testCanonicalId" duration-ms="4" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testCanonicalId -->
+        <test-method status="PASS" signature="testCloseConnection()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testCloseConnection" duration-ms="82" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testCloseConnection -->
+        <test-method status="PASS" signature="testDelete()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testDelete" duration-ms="31" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testDelete -->
+        <test-method status="PASS" signature="testIdGeneration()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testIdGeneration" duration-ms="4" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testIdGeneration -->
+        <test-method status="PASS" signature="testIdValidation()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testIdValidation" duration-ms="21" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testIdValidation -->
+        <test-method status="PASS" signature="testInputStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testInputStream" duration-ms="25" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testInputStream -->
+        <test-method status="PASS" signature="testListBlobs()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testListBlobs" duration-ms="100" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testListBlobs -->
+        <test-method status="PASS" signature="testMoveTo()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testMoveTo" duration-ms="129" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:05Z">
+        </test-method> <!-- testMoveTo -->
+        <test-method status="PASS" signature="testNonExistentBlob()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testNonExistentBlob" duration-ms="15" depends-on-groups="init" started-at="2012-03-03T10:54:05Z" finished-at="2012-03-03T10:54:06Z">
+        </test-method> <!-- testNonExistentBlob -->
+        <test-method status="PASS" signature="testOutputStream()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testOutputStream" duration-ms="215" depends-on-groups="init" started-at="2012-03-03T10:54:06Z" finished-at="2012-03-03T10:54:06Z">
+        </test-method> <!-- testOutputStream -->
+        <test-method status="PASS" signature="testSync()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testSync" duration-ms="66" depends-on-groups="init" started-at="2012-03-03T10:54:06Z" finished-at="2012-03-03T10:54:06Z">
+        </test-method> <!-- testSync -->
+        <test-method status="PASS" signature="testSetQuiescent()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testSetQuiescent" duration-ms="597" depends-on-groups="init" started-at="2012-03-03T10:54:06Z" finished-at="2012-03-03T10:54:06Z">
+        </test-method> <!-- testSetQuiescent -->
+        <test-method status="PASS" signature="testClosedConnection()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testClosedConnection" duration-ms="40" depends-on-groups="init" started-at="2012-03-03T10:54:06Z" finished-at="2012-03-03T10:54:06Z">
+        </test-method> <!-- testClosedConnection -->
+        <test-method status="PASS" signature="testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testOpenConnectionNoTransaction" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:54:06Z" finished-at="2012-03-03T10:54:06Z">
+        </test-method> <!-- testOpenConnectionNoTransaction -->
+        <test-method status="PASS" signature="testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testOpenConnectionWithTransaction" duration-ms="4" depends-on-groups="init" started-at="2012-03-03T10:54:06Z" finished-at="2012-03-03T10:54:06Z">
+        </test-method> <!-- testOpenConnectionWithTransaction -->
+        <test-method status="PASS" signature="testCleanup()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@4a6e0a9]" name="testCleanup" duration-ms="1" depends-on-groups="manipulatesBlobs" started-at="2012-03-03T10:54:07Z" finished-at="2012-03-03T10:54:07Z">
+        </test-method> <!-- testCleanup -->
+        <test-method status="PASS" signature="testCleanup()[pri:0, instance:org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite@67e779a1]" name="testCleanup" duration-ms="8" depends-on-groups="manipulatesBlobs" started-at="2012-03-03T10:54:07Z" finished-at="2012-03-03T10:54:07Z">
+        </test-method> <!-- testCleanup -->
+      </class> <!-- org.akubraproject.qsc.QuiescingBlobStoreTCKTest$QuiescingBlobStoreTestSuite -->
+    </test> <!-- Command line test -->
+  </suite> <!-- Command line suite -->
+</testng-results>

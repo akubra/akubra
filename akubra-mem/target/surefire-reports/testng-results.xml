@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="44" passed="44">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Command line suite" duration-ms="179" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+    <groups>
+      <group name="blob">
+        <method signature="MemStoreTest$MemStoreTestSuite.testBufferExpansion()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testBufferExpansion" class="org.akubraproject.mem.MemStoreTest$MemStoreTestSuite"/>
+        <method signature="MemStoreTest$MemStoreTestSuite.testBufferExpansion()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testBufferExpansion" class="org.akubraproject.mem.MemStoreTest$MemStoreTestSuite"/>
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- blob -->
+      <group name="connection">
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testClosedConnection()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testClosedConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testClosedConnection()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testClosedConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- connection -->
+      <group name="manipulatesBlobs">
+        <method signature="MemStoreTest$MemStoreTestSuite.testBufferExpansion()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testBufferExpansion" class="org.akubraproject.mem.MemStoreTest$MemStoreTestSuite"/>
+        <method signature="MemStoreTest$MemStoreTestSuite.testBufferExpansion()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testBufferExpansion" class="org.akubraproject.mem.MemStoreTest$MemStoreTestSuite"/>
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- manipulatesBlobs -->
+      <group name="post">
+        <method signature="TCKTestSuite.testCleanup()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testCleanup" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCleanup()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testCleanup" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- post -->
+      <group name="store">
+        <method signature="TCKTestSuite.testGetId()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testGetId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testGetId()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testGetId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testOpenConnectionNoTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testOpenConnectionNoTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testOpenConnectionWithTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testOpenConnectionWithTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- store -->
+      <group name="transaction">
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- transaction -->
+      <group name="init">
+        <method signature="TCKTestSuite.testInit()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testInit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInit()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testInit" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- init -->
+    </groups>
+    <test name="Command line test" duration-ms="179" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+      <class name="org.akubraproject.mem.MemStoreTest$MemStoreTestSuite">
+        <test-method status="PASS" signature="testGetId()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testGetId" duration-ms="9" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testGetId -->
+        <test-method status="PASS" signature="testInit()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testInit" duration-ms="0" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testInit -->
+        <test-method status="PASS" signature="testInit()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testInit" duration-ms="1" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testInit -->
+        <test-method status="PASS" signature="testGetId()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testGetId" duration-ms="0" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testGetId -->
+        <test-method status="PASS" signature="testBufferExpansion()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testBufferExpansion" duration-ms="18" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testBufferExpansion -->
+        <test-method status="PASS" signature="testBasicCommit()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testBasicCommit" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testBasicCommit -->
+        <test-method status="PASS" signature="testBasicRollback()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testBasicRollback" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testBasicRollback -->
+        <test-method status="PASS" signature="testBlobFromStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testBlobFromStream" duration-ms="4" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testBlobFromStream -->
+        <test-method status="PASS" signature="testBlobUpdate()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testBlobUpdate" duration-ms="12" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testBlobUpdate -->
+        <test-method status="PASS" signature="testCanonicalId()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testCanonicalId" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testCanonicalId -->
+        <test-method status="PASS" signature="testCloseConnection()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testCloseConnection" duration-ms="2" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testCloseConnection -->
+        <test-method status="PASS" signature="testClosedConnection()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testClosedConnection" duration-ms="8" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testClosedConnection -->
+        <test-method status="PASS" signature="testDelete()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testDelete" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testDelete -->
+        <test-method status="PASS" signature="testIdGeneration()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testIdGeneration" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testIdGeneration -->
+        <test-method status="PASS" signature="testIdValidation()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testIdValidation" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testIdValidation -->
+        <test-method status="PASS" signature="testInputStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testInputStream" duration-ms="2" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testInputStream -->
+        <test-method status="PASS" signature="testListBlobs()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testListBlobs" duration-ms="4" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testListBlobs -->
+        <test-method status="PASS" signature="testMoveTo()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testMoveTo" duration-ms="5" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testMoveTo -->
+        <test-method status="PASS" signature="testNonExistentBlob()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testNonExistentBlob" duration-ms="3" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testNonExistentBlob -->
+        <test-method status="PASS" signature="testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testOpenConnectionNoTransaction" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testOpenConnectionNoTransaction -->
+        <test-method status="PASS" signature="testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testOpenConnectionWithTransaction" duration-ms="21" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testOpenConnectionWithTransaction -->
+        <test-method status="PASS" signature="testOutputStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testOutputStream" duration-ms="8" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testOutputStream -->
+        <test-method status="PASS" signature="testSync()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testSync" duration-ms="3" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testSync -->
+        <test-method status="PASS" signature="testBufferExpansion()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testBufferExpansion" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testBufferExpansion -->
+        <test-method status="PASS" signature="testBasicCommit()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testBasicCommit" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testBasicCommit -->
+        <test-method status="PASS" signature="testBlobFromStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testBlobFromStream" duration-ms="3" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testBlobFromStream -->
+        <test-method status="PASS" signature="testBasicRollback()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testBasicRollback" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testBasicRollback -->
+        <test-method status="PASS" signature="testBlobUpdate()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testBlobUpdate" duration-ms="2" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testBlobUpdate -->
+        <test-method status="PASS" signature="testCanonicalId()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testCanonicalId" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testCanonicalId -->
+        <test-method status="PASS" signature="testCloseConnection()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testCloseConnection" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testCloseConnection -->
+        <test-method status="PASS" signature="testDelete()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testDelete" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testDelete -->
+        <test-method status="PASS" signature="testIdGeneration()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testIdGeneration" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testIdGeneration -->
+        <test-method status="PASS" signature="testIdValidation()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testIdValidation" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testIdValidation -->
+        <test-method status="PASS" signature="testInputStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testInputStream" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testInputStream -->
+        <test-method status="PASS" signature="testListBlobs()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testListBlobs" duration-ms="3" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testListBlobs -->
+        <test-method status="PASS" signature="testMoveTo()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testMoveTo" duration-ms="3" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testMoveTo -->
+        <test-method status="PASS" signature="testNonExistentBlob()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testNonExistentBlob" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testNonExistentBlob -->
+        <test-method status="PASS" signature="testOutputStream()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testOutputStream" duration-ms="6" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testOutputStream -->
+        <test-method status="PASS" signature="testSync()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testSync" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testSync -->
+        <test-method status="PASS" signature="testClosedConnection()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testClosedConnection" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testClosedConnection -->
+        <test-method status="PASS" signature="testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testOpenConnectionWithTransaction" duration-ms="1" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testOpenConnectionWithTransaction -->
+        <test-method status="PASS" signature="testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testOpenConnectionNoTransaction" duration-ms="0" depends-on-groups="init" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testOpenConnectionNoTransaction -->
+        <test-method status="PASS" signature="testCleanup()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@3b3e0aba]" name="testCleanup" duration-ms="0" depends-on-groups="manipulatesBlobs" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testCleanup -->
+        <test-method status="PASS" signature="testCleanup()[pri:0, instance:org.akubraproject.mem.MemStoreTest$MemStoreTestSuite@663257b8]" name="testCleanup" duration-ms="0" depends-on-groups="manipulatesBlobs" started-at="2012-03-03T10:52:01Z" finished-at="2012-03-03T10:52:01Z">
+        </test-method> <!-- testCleanup -->
+      </class> <!-- org.akubraproject.mem.MemStoreTest$MemStoreTestSuite -->
+    </test> <!-- Command line test -->
+  </suite> <!-- Command line suite -->
+</testng-results>

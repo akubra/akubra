@@ -1,0 +1,15 @@
+org.akubraproject
+org.akubraproject.fs
+org.akubraproject.impl
+org.akubraproject.map
+org.akubraproject.mem
+org.akubraproject.mux
+org.akubraproject.qsc
+org.akubraproject.rmi
+org.akubraproject.rmi.client
+org.akubraproject.rmi.remote
+org.akubraproject.rmi.server
+org.akubraproject.tck
+org.akubraproject.txn
+org.akubraproject.txn.derby
+org.akubraproject.www

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="26" passed="26">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Command line suite" duration-ms="9308" started-at="2012-03-03T10:52:50Z" finished-at="2012-03-03T10:53:00Z">
+    <groups>
+      <group name="blob">
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- blob -->
+      <group name="connection">
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testClosedConnection()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testClosedConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- connection -->
+      <group name="manipulatesBlobs">
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobFromStream()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testBlobFromStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBlobUpdate()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testBlobUpdate" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCanonicalId()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testCanonicalId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testCloseConnection()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testCloseConnection" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testDelete()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testDelete" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdGeneration()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testIdGeneration" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testIdValidation()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testIdValidation" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testInputStream()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testInputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testListBlobs()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testListBlobs" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testMoveTo()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testMoveTo" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testNonExistentBlob()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testNonExistentBlob" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOutputStream()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testOutputStream" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testSync()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testSync" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- manipulatesBlobs -->
+      <group name="post">
+        <method signature="TCKTestSuite.testCleanup()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testCleanup" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- post -->
+      <group name="store">
+        <method signature="TCKTestSuite.testGetId()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testGetId" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testOpenConnectionNoTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testOpenConnectionWithTransaction" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- store -->
+      <group name="transaction">
+        <method signature="TCKTestSuite.testBasicCommit()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testBasicCommit" class="org.akubraproject.tck.TCKTestSuite"/>
+        <method signature="TCKTestSuite.testBasicRollback()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testBasicRollback" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- transaction -->
+      <group name="init">
+        <method signature="TCKTestSuite.testInit()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testInit" class="org.akubraproject.tck.TCKTestSuite"/>
+      </group> <!-- init -->
+      <group name="blobs">
+        <method signature="TestTransactionalStore.stressTest()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="stressTest" class="org.akubraproject.txn.derby.TestTransactionalStore"/>
+        <method signature="TestTransactionalStore.testBasicTransactionIsolation()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testBasicTransactionIsolation" class="org.akubraproject.txn.derby.TestTransactionalStore"/>
+        <method signature="TestTransactionalStore.testConflicts()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testConflicts" class="org.akubraproject.txn.derby.TestTransactionalStore"/>
+        <method signature="TestTransactionalStore.testDeleteCleanup()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testDeleteCleanup" class="org.akubraproject.txn.derby.TestTransactionalStore"/>
+        <method signature="TestTransactionalStore.testTransactionIsolation2()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testTransactionIsolation2" class="org.akubraproject.txn.derby.TestTransactionalStore"/>
+      </group> <!-- blobs -->
+    </groups>
+    <test name="Command line test" duration-ms="9308" started-at="2012-03-03T10:52:50Z" finished-at="2012-03-03T10:53:00Z">
+      <class name="org.akubraproject.txn.derby.TestTransactionalStore">
+        <test-method status="PASS" signature="testGetId()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testGetId" duration-ms="6" started-at="2012-03-03T10:52:50Z" finished-at="2012-03-03T10:52:50Z">
+        </test-method> <!-- testGetId -->
+        <test-method status="PASS" signature="testInit()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testInit" duration-ms="0" started-at="2012-03-03T10:52:50Z" finished-at="2012-03-03T10:52:50Z">
+        </test-method> <!-- testInit -->
+        <test-method status="PASS" signature="testBasicCommit()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testBasicCommit" duration-ms="319" depends-on-groups="init" started-at="2012-03-03T10:52:50Z" finished-at="2012-03-03T10:52:51Z">
+        </test-method> <!-- testBasicCommit -->
+        <test-method status="PASS" signature="testBasicRollback()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testBasicRollback" duration-ms="117" depends-on-groups="init" started-at="2012-03-03T10:52:51Z" finished-at="2012-03-03T10:52:51Z">
+        </test-method> <!-- testBasicRollback -->
+        <test-method status="PASS" signature="testBlobFromStream()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testBlobFromStream" duration-ms="5" depends-on-groups="init" started-at="2012-03-03T10:52:51Z" finished-at="2012-03-03T10:52:51Z">
+        </test-method> <!-- testBlobFromStream -->
+        <test-method status="PASS" signature="testBlobUpdate()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testBlobUpdate" duration-ms="49" depends-on-groups="init" started-at="2012-03-03T10:52:51Z" finished-at="2012-03-03T10:52:51Z">
+        </test-method> <!-- testBlobUpdate -->
+        <test-method status="PASS" signature="testCanonicalId()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testCanonicalId" duration-ms="5" depends-on-groups="init" started-at="2012-03-03T10:52:51Z" finished-at="2012-03-03T10:52:51Z">
+        </test-method> <!-- testCanonicalId -->
+        <test-method status="PASS" signature="testCloseConnection()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testCloseConnection" duration-ms="76" depends-on-groups="init" started-at="2012-03-03T10:52:51Z" finished-at="2012-03-03T10:52:51Z">
+        </test-method> <!-- testCloseConnection -->
+        <test-method status="PASS" signature="testClosedConnection()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testClosedConnection" duration-ms="45" depends-on-groups="init" started-at="2012-03-03T10:52:51Z" finished-at="2012-03-03T10:52:51Z">
+        </test-method> <!-- testClosedConnection -->
+        <test-method status="PASS" signature="testDelete()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testDelete" duration-ms="27" depends-on-groups="init" started-at="2012-03-03T10:52:51Z" finished-at="2012-03-03T10:52:51Z">
+        </test-method> <!-- testDelete -->
+        <test-method status="PASS" signature="testIdGeneration()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testIdGeneration" duration-ms="3" depends-on-groups="init" started-at="2012-03-03T10:52:51Z" finished-at="2012-03-03T10:52:51Z">
+        </test-method> <!-- testIdGeneration -->
+        <test-method status="PASS" signature="testIdValidation()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testIdValidation" duration-ms="21" depends-on-groups="init" started-at="2012-03-03T10:52:51Z" finished-at="2012-03-03T10:52:51Z">
+        </test-method> <!-- testIdValidation -->
+        <test-method status="PASS" signature="testInputStream()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testInputStream" duration-ms="30" depends-on-groups="init" started-at="2012-03-03T10:52:51Z" finished-at="2012-03-03T10:52:51Z">
+        </test-method> <!-- testInputStream -->
+        <test-method status="PASS" signature="testListBlobs()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testListBlobs" duration-ms="188" depends-on-groups="init" started-at="2012-03-03T10:52:51Z" finished-at="2012-03-03T10:52:51Z">
+        </test-method> <!-- testListBlobs -->
+        <test-method status="PASS" signature="testMoveTo()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testMoveTo" duration-ms="130" depends-on-groups="init" started-at="2012-03-03T10:52:51Z" finished-at="2012-03-03T10:52:51Z">
+        </test-method> <!-- testMoveTo -->
+        <test-method status="PASS" signature="testNonExistentBlob()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testNonExistentBlob" duration-ms="14" depends-on-groups="init" started-at="2012-03-03T10:52:51Z" finished-at="2012-03-03T10:52:51Z">
+        </test-method> <!-- testNonExistentBlob -->
+        <test-method status="PASS" signature="testOpenConnectionNoTransaction()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testOpenConnectionNoTransaction" duration-ms="2" depends-on-groups="init" started-at="2012-03-03T10:52:51Z" finished-at="2012-03-03T10:52:51Z">
+        </test-method> <!-- testOpenConnectionNoTransaction -->
+        <test-method status="PASS" signature="testOpenConnectionWithTransaction()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testOpenConnectionWithTransaction" duration-ms="3" depends-on-groups="init" started-at="2012-03-03T10:52:51Z" finished-at="2012-03-03T10:52:51Z">
+        </test-method> <!-- testOpenConnectionWithTransaction -->
+        <test-method status="PASS" signature="testOutputStream()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testOutputStream" duration-ms="234" depends-on-groups="init" started-at="2012-03-03T10:52:51Z" finished-at="2012-03-03T10:52:52Z">
+        </test-method> <!-- testOutputStream -->
+        <test-method status="PASS" signature="testSync()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testSync" duration-ms="76" depends-on-groups="init" started-at="2012-03-03T10:52:52Z" finished-at="2012-03-03T10:52:52Z">
+        </test-method> <!-- testSync -->
+        <test-method status="PASS" signature="stressTest()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="stressTest" duration-ms="6475" depends-on-groups="init" started-at="2012-03-03T10:52:52Z" finished-at="2012-03-03T10:52:58Z">
+        </test-method> <!-- stressTest -->
+        <test-method status="PASS" signature="testBasicTransactionIsolation()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testBasicTransactionIsolation" duration-ms="155" depends-on-groups="init" started-at="2012-03-03T10:52:58Z" finished-at="2012-03-03T10:52:58Z">
+        </test-method> <!-- testBasicTransactionIsolation -->
+        <test-method status="PASS" signature="testConflicts()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testConflicts" duration-ms="950" depends-on-groups="init" started-at="2012-03-03T10:52:58Z" finished-at="2012-03-03T10:52:59Z">
+        </test-method> <!-- testConflicts -->
+        <test-method status="PASS" signature="testDeleteCleanup()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testDeleteCleanup" duration-ms="233" depends-on-groups="init" started-at="2012-03-03T10:52:59Z" finished-at="2012-03-03T10:52:59Z">
+        </test-method> <!-- testDeleteCleanup -->
+        <test-method status="PASS" signature="testTransactionIsolation2()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testTransactionIsolation2" duration-ms="89" depends-on-groups="init" started-at="2012-03-03T10:52:59Z" finished-at="2012-03-03T10:53:00Z">
+        </test-method> <!-- testTransactionIsolation2 -->
+        <test-method status="PASS" signature="testCleanup()[pri:0, instance:org.akubraproject.txn.derby.TestTransactionalStore@612e4cd]" name="testCleanup" duration-ms="16" depends-on-groups="manipulatesBlobs" started-at="2012-03-03T10:53:00Z" finished-at="2012-03-03T10:53:00Z">
+        </test-method> <!-- testCleanup -->
+      </class> <!-- org.akubraproject.txn.derby.TestTransactionalStore -->
+    </test> <!-- Command line test -->
+  </suite> <!-- Command line suite -->
+</testng-results>

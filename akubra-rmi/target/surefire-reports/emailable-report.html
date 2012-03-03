@@ -1,0 +1,423 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TestNG:  Unit Test</title>
+<style type="text/css">
+table caption,table.info_table,table.param,table.passed,table.failed {margin-bottom:10px;border:1px solid #000099;border-collapse:collapse;empty-cells:show;}
+table.info_table td,table.info_table th,table.param td,table.param th,table.passed td,table.passed th,table.failed td,table.failed th {
+border:1px solid #000099;padding:.25em .5em .25em .5em
+}
+table.param th {vertical-align:bottom}
+td.numi,th.numi,td.numi_attn {
+text-align:right
+}
+tr.total td {font-weight:bold}
+table caption {
+text-align:center;font-weight:bold;
+}
+table.passed tr.stripe td,table tr.passedodd td {background-color: #00AA00;}
+table.passed td,table tr.passedeven td {background-color: #33FF33;}
+table.passed tr.stripe td,table tr.skippedodd td {background-color: #cccccc;}
+table.passed td,table tr.skippedodd td {background-color: #dddddd;}
+table.failed tr.stripe td,table tr.failedodd td,table.param td.numi_attn {background-color: #FF3333;}
+table.failed td,table tr.failedeven td,table.param tr.stripe td.numi_attn {background-color: #DD0000;}
+tr.stripe td,tr.stripe th {background-color: #E6EBF9;}
+p.totop {font-size:85%;text-align:center;border-bottom:2px black solid}
+div.shootout {padding:2em;border:3px #4854A8 solid}
+</style>
+</head>
+<body>
+<table cellspacing=0 cellpadding=0 class="param">
+<tr><th>Test</th><th class="numi">Methods<br/>Passed</th><th class="numi">Scenarios<br/>Passed</th><th class="numi"># skipped</th><th class="numi"># failed</th><th class="numi">Total<br/>Time</th><th class="numi">Included<br/>Groups</th><th class="numi">Excluded<br/>Groups</th></tr>
+<tr><td style="text-align:left;padding-right:2em">Command line test</td><td class="numi">151</td><td class="numi">151</td><td class="numi">0</td><td class="numi">0</td><td class="numi">11.4 seconds</td><td class="numi"></td><td class="numi"></td></tr>
+</table>
+<a id="summary"></a>
+<table cellspacing=0 cellpadding=0 class="passed">
+<tr><th>Class</th><th>Method</th><th># of<br/>Scenarios</th><th>Start</th><th>Time<br/>(ms)</th></tr>
+<tr><th colspan="4">Command line test &#8212; passed</th></tr>
+<tr class="passedodd"><td rowspan="6">org.akubraproject.rmi.client.ClientBlobTest<td><a href="#m1"><b>testDelete</b>  </a></td><td class="numi">1</td><td>1330790076545</td><td class="numi">6</td></tr><tr class="passedodd"><td><a href="#m2"><b>testExists</b>  </a></td><td class="numi">1</td><td>1330790076555</td><td class="numi">2</td></tr><tr class="passedodd"><td><a href="#m3"><b>testGetSize</b>  </a></td><td class="numi">1</td><td>1330790076557</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m4"><b>testMoveTo</b>  </a></td><td class="numi">1</td><td>1330790076558</td><td class="numi">19</td></tr><tr class="passedodd"><td><a href="#m5"><b>testOpenInputStream</b>  </a></td><td class="numi">1</td><td>1330790076578</td><td class="numi">15</td></tr><tr class="passedodd"><td><a href="#m6"><b>testOpenOutputStream</b>  </a></td><td class="numi">1</td><td>1330790076594</td><td class="numi">20</td></tr>
+<tr class="passedeven"><td rowspan="4">org.akubraproject.rmi.client.ClientConnectionTest<td><a href="#m7"><b>testClose</b>  </a></td><td class="numi">1</td><td>1330790076615</td><td class="numi">1</td></tr><tr class="passedeven"><td><a href="#m8"><b>testGetBlobInputStreamLongMapOfStringString</b>  </a></td><td class="numi">1</td><td>1330790076617</td><td class="numi">25</td></tr><tr class="passedeven"><td><a href="#m9"><b>testGetBlobURIMapOfStringString</b>  </a></td><td class="numi">1</td><td>1330790076642</td><td class="numi">7</td></tr><tr class="passedeven"><td><a href="#m10"><b>testListBlobIds</b>  </a></td><td class="numi">1</td><td>1330790076649</td><td class="numi">9</td></tr>
+<tr class="passedodd"><td rowspan="6">org.akubraproject.rmi.client.ClientInputStreamTest<td><a href="#m11"><b>testClientInputStream</b>  </a></td><td class="numi">1</td><td>1330790076658</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m12"><b>testClose</b>  </a></td><td class="numi">1</td><td>1330790076659</td><td class="numi">3</td></tr><tr class="passedodd"><td><a href="#m13"><b>testRead</b>  </a></td><td class="numi">1</td><td>1330790076662</td><td class="numi">4</td></tr><tr class="passedodd"><td><a href="#m14"><b>testReadByteArray</b>  </a></td><td class="numi">1</td><td>1330790076666</td><td class="numi">2</td></tr><tr class="passedodd"><td><a href="#m15"><b>testReadByteArrayIntInt</b>  </a></td><td class="numi">1</td><td>1330790076669</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m16"><b>testSkip</b>  </a></td><td class="numi">1</td><td>1330790076670</td><td class="numi">2</td></tr>
+<tr class="passedeven"><td rowspan="3">org.akubraproject.rmi.client.ClientIteratorTest<td><a href="#m17"><b>testHasNext</b>  </a></td><td class="numi">1</td><td>1330790076673</td><td class="numi">2</td></tr><tr class="passedeven"><td><a href="#m18"><b>testNext</b>  </a></td><td class="numi">1</td><td>1330790076675</td><td class="numi">3</td></tr><tr class="passedeven"><td><a href="#m19"><b>testRemove</b>  </a></td><td class="numi">1</td><td>1330790076678</td><td class="numi">2</td></tr>
+<tr class="passedodd"><td rowspan="1">org.akubraproject.rmi.client.ClientStoreTest<td><a href="#m20"><b>testOpenConnection</b>  </a></td><td class="numi">1</td><td>1330790076680</td><td class="numi">13</td></tr>
+<tr class="passedeven"><td rowspan="2">org.akubraproject.rmi.client.ClientSynchronizationTest<td><a href="#m21"><b>testAfterCompletion</b>  </a></td><td class="numi">1</td><td>1330790076693</td><td class="numi">1</td></tr><tr class="passedeven"><td><a href="#m22"><b>testBeforeCompletion</b>  </a></td><td class="numi">1</td><td>1330790076694</td><td class="numi">1</td></tr>
+<tr class="passedodd"><td rowspan="10">org.akubraproject.rmi.client.ClientXAResourceTest<td><a href="#m23"><b>testCommit</b>  </a></td><td class="numi">1</td><td>1330790076695</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m24"><b>testEnd</b>  </a></td><td class="numi">1</td><td>1330790076696</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m25"><b>testForget</b>  </a></td><td class="numi">1</td><td>1330790076697</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m26"><b>testGetTransactionTimeout</b>  </a></td><td class="numi">1</td><td>1330790076697</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m27"><b>testIsSameRM</b>  </a></td><td class="numi">1</td><td>1330790076698</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m28"><b>testPrepare</b>  </a></td><td class="numi">1</td><td>1330790076698</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m29"><b>testRecover</b>  </a></td><td class="numi">1</td><td>1330790076699</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m30"><b>testRollback</b>  </a></td><td class="numi">1</td><td>1330790076699</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m31"><b>testSetTransactionTimeout</b>  </a></td><td class="numi">1</td><td>1330790076700</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m32"><b>testStart</b>  </a></td><td class="numi">1</td><td>1330790076700</td><td class="numi">1</td></tr>
+<tr class="passedeven"><td rowspan="5">org.akubraproject.rmi.MemStoreConnectionTest<td><a href="#m33"><b>testCASBlob</b>  </a></td><td class="numi">1</td><td>1330790076701</td><td class="numi">11</td></tr><tr class="passedeven"><td><a href="#m34"><b>testGenerateBlob</b>  </a></td><td class="numi">1</td><td>1330790076712</td><td class="numi">3</td></tr><tr class="passedeven"><td><a href="#m35"><b>testListBlobIds</b>  </a></td><td class="numi">1</td><td>1330790076715</td><td class="numi">27</td></tr><tr class="passedeven"><td><a href="#m36"><b>testMove</b>  </a></td><td class="numi">1</td><td>1330790076742</td><td class="numi">26</td></tr><tr class="passedeven"><td><a href="#m37"><b>testUseAppBlob</b>  </a></td><td class="numi">1</td><td>1330790076768</td><td class="numi">4</td></tr>
+<tr class="passedodd"><td rowspan="2">org.akubraproject.rmi.MemStoreTest<td><a href="#m38"><b>testOpenConnectionWithNullTxn</b>  </a></td><td class="numi">1</td><td>1330790076772</td><td class="numi">4</td></tr><tr class="passedodd"><td><a href="#m39"><b>testOpenConnectionWithTxn</b>  </a></td><td class="numi">1</td><td>1330790076776</td><td class="numi">4</td></tr>
+<tr class="passedeven"><td rowspan="8">org.akubraproject.rmi.server.ServerBlobTest<td><a href="#m40"><b>testDelete</b>  </a></td><td class="numi">1</td><td>1330790076781</td><td class="numi">0</td></tr><tr class="passedeven"><td><a href="#m41"><b>testExists</b>  </a></td><td class="numi">1</td><td>1330790076781</td><td class="numi">0</td></tr><tr class="passedeven"><td><a href="#m42"><b>testGetId</b>  </a></td><td class="numi">1</td><td>1330790076781</td><td class="numi">1</td></tr><tr class="passedeven"><td><a href="#m43"><b>testGetSize</b>  </a></td><td class="numi">1</td><td>1330790076782</td><td class="numi">0</td></tr><tr class="passedeven"><td><a href="#m44"><b>testMoveTo</b>  </a></td><td class="numi">1</td><td>1330790076782</td><td class="numi">1</td></tr><tr class="passedeven"><td><a href="#m45"><b>testOpenInputStream</b>  </a></td><td class="numi">1</td><td>1330790076783</td><td class="numi">1</td></tr><tr class="passedeven"><td><a href="#m46"><b>testOpenOutputStream</b>  </a></td><td class="numi">1</td><td>1330790076784</td><td class="numi">0</td></tr><tr class="passedeven"><td><a href="#m47"><b>testServerBlob</b>  </a></td><td class="numi">1</td><td>1330790076784</td><td class="numi">1</td></tr>
+<tr class="passedodd"><td rowspan="6">org.akubraproject.rmi.server.ServerInputStreamTest<td><a href="#m48"><b>testClose</b>  </a></td><td class="numi">1</td><td>1330790076785</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m49"><b>testRead</b>  </a></td><td class="numi">1</td><td>1330790076785</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m50"><b>testReadInt</b>  </a></td><td class="numi">1</td><td>1330790076786</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m51"><b>testServerInputStream</b>  </a></td><td class="numi">1</td><td>1330790076786</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m52"><b>testSkip</b>  </a></td><td class="numi">1</td><td>1330790076787</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m53"><b>testUnreferenced</b>  </a></td><td class="numi">1</td><td>1330790076787</td><td class="numi">1</td></tr>
+<tr class="passedeven"><td rowspan="3">org.akubraproject.rmi.server.ServerIteratorTest<td><a href="#m54"><b>testNext</b>  </a></td><td class="numi">1</td><td>1330790076788</td><td class="numi">1</td></tr><tr class="passedeven"><td><a href="#m55"><b>testServerIterator</b>  </a></td><td class="numi">1</td><td>1330790076789</td><td class="numi">0</td></tr><tr class="passedeven"><td><a href="#m56"><b>testUnExport</b>  </a></td><td class="numi">1</td><td>1330790076790</td><td class="numi">0</td></tr>
+<tr class="passedodd"><td rowspan="7">org.akubraproject.rmi.server.ServerOutputStreamTest<td><a href="#m57"><b>testClose</b>  </a></td><td class="numi">1</td><td>1330790076790</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m58"><b>testFlush</b>  </a></td><td class="numi">1</td><td>1330790076791</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m59"><b>testServerOutputStream</b>  </a></td><td class="numi">1</td><td>1330790076791</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m60"><b>testUnreferenced</b>  </a></td><td class="numi">1</td><td>1330790076792</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m61"><b>testWriteByteArray</b>  </a></td><td class="numi">1</td><td>1330790076792</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m62"><b>testWriteInt</b>  </a></td><td class="numi">1</td><td>1330790076793</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m63"><b>testWritePartialBuffer</b>  </a></td><td class="numi">1</td><td>1330790076793</td><td class="numi">0</td></tr>
+<tr class="passedeven"><td rowspan="3">org.akubraproject.rmi.server.ServerSynchronizationTest<td><a href="#m64"><b>testAfterCompletion</b>  </a></td><td class="numi">1</td><td>1330790076793</td><td class="numi">1</td></tr><tr class="passedeven"><td><a href="#m65"><b>testBeforeCompletion</b>  </a></td><td class="numi">1</td><td>1330790076794</td><td class="numi">0</td></tr><tr class="passedeven"><td><a href="#m66"><b>testServerSynchronization</b>  </a></td><td class="numi">1</td><td>1330790076794</td><td class="numi">0</td></tr>
+<tr class="passedodd"><td rowspan="6">org.akubraproject.rmi.server.ServerTransactionListenerTest<td><a href="#m67"><b>testCommit</b>  </a></td><td class="numi">1</td><td>1330790076795</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m68"><b>testGetStatus</b>  </a></td><td class="numi">1</td><td>1330790076795</td><td class="numi">2</td></tr><tr class="passedodd"><td><a href="#m69"><b>testRegisterSynchronization</b>  </a></td><td class="numi">1</td><td>1330790076797</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m70"><b>testRollback</b>  </a></td><td class="numi">1</td><td>1330790076798</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m71"><b>testSetRollbackOnly</b>  </a></td><td class="numi">1</td><td>1330790076799</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m72"><b>testXAResource</b>  </a></td><td class="numi">1</td><td>1330790076799</td><td class="numi">3</td></tr>
+<tr class="passedeven"><td rowspan="5">org.akubraproject.rmi.ServiceTest<td><a href="#m73"><b>testDefault</b>  </a></td><td class="numi">1</td><td>1330790076802</td><td class="numi">8</td></tr><tr class="passedeven"><td><a href="#m74"><b>testLookupByUri</b>  </a></td><td class="numi">1</td><td>1330790076810</td><td class="numi">8</td></tr><tr class="passedeven"><td><a href="#m75"><b>testWithNameAndAlternatePorts</b>  </a></td><td class="numi">1</td><td>1330790076819</td><td class="numi">9</td></tr><tr class="passedeven"><td><a href="#m76"><b>testWithNameAndPort</b>  </a></td><td class="numi">1</td><td>1330790076828</td><td class="numi">24</td></tr><tr class="passedeven"><td><a href="#m77"><b>testWithPort</b>  </a></td><td class="numi">1</td><td>1330790076852</td><td class="numi">9</td></tr>
+<tr class="passedodd"><td rowspan="4">org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite<td><a href="#m78"><b>testGetId</b> (store) </a></td><td class="numi">1</td><td>1330790076861</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m79"><b>testInit</b> (init) </a></td><td class="numi">1</td><td>1330790076862</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m80"><b>testInit</b> (init) </a></td><td class="numi">1</td><td>1330790076862</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m81"><b>testGetId</b> (store) </a></td><td class="numi">1</td><td>1330790076863</td><td class="numi">0</td></tr>
+<tr class="passedeven"><td rowspan="11">org.akubraproject.rmi.server.ServerXAResourceTest<td><a href="#m82"><b>testPrepare</b>  </a></td><td class="numi">1</td><td>1330790076863</td><td class="numi">0</td></tr><tr class="passedeven"><td><a href="#m83"><b>testIsSameRM</b>  </a></td><td class="numi">1</td><td>1330790076863</td><td class="numi">1</td></tr><tr class="passedeven"><td><a href="#m84"><b>testRecover</b>  </a></td><td class="numi">1</td><td>1330790076864</td><td class="numi">0</td></tr><tr class="passedeven"><td><a href="#m85"><b>testServerXAResource</b>  </a></td><td class="numi">1</td><td>1330790076864</td><td class="numi">0</td></tr><tr class="passedeven"><td><a href="#m86"><b>testSetTransactionTimeout</b>  </a></td><td class="numi">1</td><td>1330790076865</td><td class="numi">0</td></tr><tr class="passedeven"><td><a href="#m87"><b>testForget</b>  </a></td><td class="numi">1</td><td>1330790076865</td><td class="numi">0</td></tr><tr class="passedeven"><td><a href="#m88"><b>testRollback</b>  </a></td><td class="numi">1</td><td>1330790076865</td><td class="numi">0</td></tr><tr class="passedeven"><td><a href="#m89"><b>testEnd</b>  </a></td><td class="numi">1</td><td>1330790076866</td><td class="numi">0</td></tr><tr class="passedeven"><td><a href="#m90"><b>testCommit</b>  </a></td><td class="numi">1</td><td>1330790076866</td><td class="numi">0</td></tr><tr class="passedeven"><td><a href="#m91"><b>testStart</b>  </a></td><td class="numi">1</td><td>1330790076866</td><td class="numi">0</td></tr><tr class="passedeven"><td><a href="#m92"><b>testGetTransactionTimeout</b>  </a></td><td class="numi">1</td><td>1330790076867</td><td class="numi">0</td></tr>
+<tr class="passedodd"><td rowspan="6">org.akubraproject.rmi.TransactionalStoreTest<td><a href="#m93"><b>testOpenConnectionWithTransaction</b>  </a></td><td class="numi">1</td><td>1330790076867</td><td class="numi">134</td></tr><tr class="passedodd"><td><a href="#m94"><b>testOpenConnectionNoTransaction</b>  </a></td><td class="numi">1</td><td>1330790077001</td><td class="numi">5</td></tr><tr class="passedodd"><td><a href="#m95"><b>testBasicCommit</b>  </a></td><td class="numi">1</td><td>1330790077006</td><td class="numi">276</td></tr><tr class="passedodd"><td><a href="#m96"><b>testBasicRollback</b>  </a></td><td class="numi">1</td><td>1330790077283</td><td class="numi">375</td></tr><tr class="passedodd"><td><a href="#m97"><b>testGetId</b>  </a></td><td class="numi">1</td><td>1330790077658</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m98"><b>testMTStress</b>  </a></td><td class="numi">1</td><td>1330790077659</td><td class="numi">7180</td></tr>
+<tr class="passedeven"><td rowspan="6">org.akubraproject.rmi.client.ClientOutputStreamTest<td><a href="#m99"><b>testClientOutputStream</b>  </a></td><td class="numi">1</td><td>1330790084839</td><td class="numi">1</td></tr><tr class="passedeven"><td><a href="#m100"><b>testWriteByteArrayIntInt</b>  </a></td><td class="numi">1</td><td>1330790084840</td><td class="numi">6</td></tr><tr class="passedeven"><td><a href="#m101"><b>testWriteInt</b>  </a></td><td class="numi">1</td><td>1330790084846</td><td class="numi">1</td></tr><tr class="passedeven"><td><a href="#m102"><b>testWriteByteArray</b>  </a></td><td class="numi">1</td><td>1330790084847</td><td class="numi">1</td></tr><tr class="passedeven"><td><a href="#m103"><b>testFlush</b>  </a></td><td class="numi">1</td><td>1330790084848</td><td class="numi">2</td></tr><tr class="passedeven"><td><a href="#m104"><b>testClose</b>  </a></td><td class="numi">1</td><td>1330790084850</td><td class="numi">2</td></tr>
+<tr class="passedodd"><td rowspan="3">org.akubraproject.rmi.server.ServerStoreTest<td><a href="#m105"><b>testServerStore</b>  </a></td><td class="numi">1</td><td>1330790084852</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m106"><b>testOpenConnection</b>  </a></td><td class="numi">1</td><td>1330790084853</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m107"><b>testStartTransaction</b>  </a></td><td class="numi">1</td><td>1330790084854</td><td class="numi">2</td></tr>
+<tr class="passedeven"><td rowspan="6">org.akubraproject.rmi.server.ServerConnectionTest<td><a href="#m108"><b>testGetBlobURIMapOfStringString</b>  </a></td><td class="numi">1</td><td>1330790084856</td><td class="numi">1</td></tr><tr class="passedeven"><td><a href="#m109"><b>testListBlobIds</b>  </a></td><td class="numi">1</td><td>1330790084857</td><td class="numi">1</td></tr><tr class="passedeven"><td><a href="#m110"><b>testServerConnection</b>  </a></td><td class="numi">1</td><td>1330790084858</td><td class="numi">0</td></tr><tr class="passedeven"><td><a href="#m111"><b>testClose</b>  </a></td><td class="numi">1</td><td>1330790084859</td><td class="numi">0</td></tr><tr class="passedeven"><td><a href="#m112"><b>testGetBlobCreator</b>  </a></td><td class="numi">1</td><td>1330790084859</td><td class="numi">6</td></tr><tr class="passedeven"><td><a href="#m113"><b>testUnreferenced</b>  </a></td><td class="numi">1</td><td>1330790084865</td><td class="numi">1</td></tr>
+<tr class="passedodd"><td rowspan="38">org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite<td><a href="#m114"><b>testBasicCommit</b> (manipulatesBlobs, transaction) </a></td><td class="numi">1</td><td>1330790084871</td><td class="numi">355</td></tr><tr class="passedodd"><td><a href="#m115"><b>testBasicRollback</b> (manipulatesBlobs, transaction) </a></td><td class="numi">1</td><td>1330790085227</td><td class="numi">268</td></tr><tr class="passedodd"><td><a href="#m116"><b>testBlobFromStream</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790085496</td><td class="numi">14</td></tr><tr class="passedodd"><td><a href="#m117"><b>testBlobUpdate</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790085512</td><td class="numi">120</td></tr><tr class="passedodd"><td><a href="#m118"><b>testCanonicalId</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790085633</td><td class="numi">14</td></tr><tr class="passedodd"><td><a href="#m119"><b>testCloseConnection</b> (connection, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790085649</td><td class="numi">195</td></tr><tr class="passedodd"><td><a href="#m120"><b>testClosedConnection</b> (connection) </a></td><td class="numi">1</td><td>1330790085845</td><td class="numi">93</td></tr><tr class="passedodd"><td><a href="#m121"><b>testDelete</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790085940</td><td class="numi">63</td></tr><tr class="passedodd"><td><a href="#m122"><b>testIdGeneration</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790086004</td><td class="numi">10</td></tr><tr class="passedodd"><td><a href="#m123"><b>testIdValidation</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790086016</td><td class="numi">44</td></tr><tr class="passedodd"><td><a href="#m124"><b>testInputStream</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790086061</td><td class="numi">61</td></tr><tr class="passedodd"><td><a href="#m125"><b>testListBlobs</b> (connection, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790086124</td><td class="numi">361</td></tr><tr class="passedodd"><td><a href="#m126"><b>testMoveTo</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790086487</td><td class="numi">323</td></tr><tr class="passedodd"><td><a href="#m127"><b>testNonExistentBlob</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790086812</td><td class="numi">37</td></tr><tr class="passedodd"><td><a href="#m128"><b>testOpenConnectionNoTransaction</b> (store) </a></td><td class="numi">1</td><td>1330790086850</td><td class="numi">2</td></tr><tr class="passedodd"><td><a href="#m129"><b>testOpenConnectionWithTransaction</b> (store) </a></td><td class="numi">1</td><td>1330790086853</td><td class="numi">9</td></tr><tr class="passedodd"><td><a href="#m130"><b>testOutputStream</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790086863</td><td class="numi">428</td></tr><tr class="passedodd"><td><a href="#m131"><b>testSync</b> (connection, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790087292</td><td class="numi">107</td></tr><tr class="passedodd"><td><a href="#m132"><b>testBasicCommit</b> (manipulatesBlobs, transaction) </a></td><td class="numi">1</td><td>1330790087400</td><td class="numi">0</td></tr><tr class="passedodd"><td><a href="#m133"><b>testBasicRollback</b> (manipulatesBlobs, transaction) </a></td><td class="numi">1</td><td>1330790087400</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m134"><b>testBlobFromStream</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790087401</td><td class="numi">77</td></tr><tr class="passedodd"><td><a href="#m135"><b>testBlobUpdate</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790087478</td><td class="numi">38</td></tr><tr class="passedodd"><td><a href="#m136"><b>testCanonicalId</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790087517</td><td class="numi">2</td></tr><tr class="passedodd"><td><a href="#m137"><b>testCloseConnection</b> (connection, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790087519</td><td class="numi">12</td></tr><tr class="passedodd"><td><a href="#m138"><b>testDelete</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790087532</td><td class="numi">12</td></tr><tr class="passedodd"><td><a href="#m139"><b>testIdGeneration</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790087545</td><td class="numi">3</td></tr><tr class="passedodd"><td><a href="#m140"><b>testIdValidation</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790087549</td><td class="numi">9</td></tr><tr class="passedodd"><td><a href="#m141"><b>testInputStream</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790087562</td><td class="numi">30</td></tr><tr class="passedodd"><td><a href="#m142"><b>testListBlobs</b> (connection, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790087593</td><td class="numi">71</td></tr><tr class="passedodd"><td><a href="#m143"><b>testMoveTo</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790087664</td><td class="numi">62</td></tr><tr class="passedodd"><td><a href="#m144"><b>testNonExistentBlob</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790087727</td><td class="numi">6</td></tr><tr class="passedodd"><td><a href="#m145"><b>testOutputStream</b> (blob, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790087733</td><td class="numi">132</td></tr><tr class="passedodd"><td><a href="#m146"><b>testSync</b> (connection, manipulatesBlobs) </a></td><td class="numi">1</td><td>1330790087866</td><td class="numi">29</td></tr><tr class="passedodd"><td><a href="#m147"><b>testClosedConnection</b> (connection) </a></td><td class="numi">1</td><td>1330790087895</td><td class="numi">15</td></tr><tr class="passedodd"><td><a href="#m148"><b>testOpenConnectionNoTransaction</b> (store) </a></td><td class="numi">1</td><td>1330790087911</td><td class="numi">1</td></tr><tr class="passedodd"><td><a href="#m149"><b>testOpenConnectionWithTransaction</b> (store) </a></td><td class="numi">1</td><td>1330790087912</td><td class="numi">3</td></tr><tr class="passedodd"><td><a href="#m150"><b>testCleanup</b> (post) </a></td><td class="numi">1</td><td>1330790087918</td><td class="numi">28</td></tr><tr class="passedodd"><td><a href="#m151"><b>testCleanup</b> (post) </a></td><td class="numi">1</td><td>1330790087947</td><td class="numi">5</td></tr>
+</table>
+<h1>Command line test</h1>
+<a id="m1"></a><h2>org.akubraproject.rmi.server.ServerIteratorTest:testNext</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m2"></a><h2>org.akubraproject.rmi.MemStoreConnectionTest:testCASBlob</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m3"></a><h2>org.akubraproject.rmi.client.ClientXAResourceTest:testEnd</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m4"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testBasicCommit</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m5"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testBlobUpdate</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m6"></a><h2>org.akubraproject.rmi.client.ClientInputStreamTest:testSkip</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m7"></a><h2>org.akubraproject.rmi.client.ClientInputStreamTest:testReadByteArrayIntInt</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m8"></a><h2>org.akubraproject.rmi.client.ClientBlobTest:testDelete</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m9"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testNonExistentBlob</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m10"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testCloseConnection</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m11"></a><h2>org.akubraproject.rmi.server.ServerTransactionListenerTest:testGetStatus</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m12"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testDelete</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m13"></a><h2>org.akubraproject.rmi.client.ClientXAResourceTest:testForget</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m14"></a><h2>org.akubraproject.rmi.client.ClientXAResourceTest:testStart</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m15"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testCloseConnection</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m16"></a><h2>org.akubraproject.rmi.client.ClientInputStreamTest:testRead</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m17"></a><h2>org.akubraproject.rmi.client.ClientOutputStreamTest:testClientOutputStream</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m18"></a><h2>org.akubraproject.rmi.client.ClientSynchronizationTest:testAfterCompletion</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m19"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testBlobUpdate</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m20"></a><h2>org.akubraproject.rmi.server.ServerIteratorTest:testUnExport</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m21"></a><h2>org.akubraproject.rmi.client.ClientOutputStreamTest:testWriteByteArrayIntInt</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m22"></a><h2>org.akubraproject.rmi.TransactionalStoreTest:testOpenConnectionNoTransaction</h2>
+<div style="padding-left:3em">
+<p>Error connecting to db</p>
+org.akubraproject.txn.derby.TransactionalStore.openConnection(TransactionalStore.java:307)
+<br/>at org.akubraproject.rmi.server.ServerStore.openConnection(ServerStore.java:57)
+<br/>at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br/>at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+<br/>at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+<br/>at java.lang.reflect.Method.invoke(Method.java:597)
+<br/>at sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:303)
+<br/>at sun.rmi.transport.Transport$1.run(Transport.java:159)
+<br/>at java.security.AccessController.doPrivileged(Native Method)
+<br/>at sun.rmi.transport.Transport.serviceCall(Transport.java:155)
+<br/>at sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:535)
+<br/>at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:790)
+<br/>at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:649)
+<br/>at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+<br/>at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+<br/>at java.lang.Thread.run(Thread.java:680)
+<br/>at sun.rmi.transport.StreamRemoteCall.exceptionReceivedFromServer(StreamRemoteCall.java:255)
+<br/>at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:233)
+<br/>at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:142)
+<br/>at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:178)
+<br/>at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:132)
+<br/>at $Proxy9.openConnection(Unknown Source)
+<br/>at org.akubraproject.rmi.client.ClientStore.openConnection(ClientStore.java:63)
+<br/>at org.akubraproject.rmi.TransactionalStoreTest.testOpenConnectionNoTransaction(TransactionalStoreTest.java:118)
+<br/>31 lines not shown
+<p>Caused by null</p>
+org.akubraproject.txn.derby.TransactionalStore.openConnection(TransactionalStore.java:294)
+<br/>at org.akubraproject.rmi.server.ServerStore.openConnection(ServerStore.java:57)
+<br/>at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br/>at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+<br/>at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+<br/>at java.lang.reflect.Method.invoke(Method.java:597)
+<br/>at sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:303)
+<br/>at sun.rmi.transport.Transport$1.run(Transport.java:159)
+<br/>at java.security.AccessController.doPrivileged(Native Method)
+<br/>at sun.rmi.transport.Transport.serviceCall(Transport.java:155)
+<br/>at sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:535)
+<br/>at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:790)
+<br/>at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:649)
+<br/>at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+<br/>at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+<br/>at java.lang.Thread.run(Thread.java:680)
+<br/>1 lines not shown
+</div>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m23"></a><h2>org.akubraproject.rmi.ServiceTest:testLookupByUri</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m24"></a><h2>org.akubraproject.rmi.client.ClientXAResourceTest:testRollback</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m25"></a><h2>org.akubraproject.rmi.server.ServerXAResourceTest:testIsSameRM</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m26"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testOpenConnectionNoTransaction</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m27"></a><h2>org.akubraproject.rmi.server.ServerConnectionTest:testListBlobIds</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m28"></a><h2>org.akubraproject.rmi.ServiceTest:testDefault</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m29"></a><h2>org.akubraproject.rmi.server.ServerInputStreamTest:testRead</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m30"></a><h2>org.akubraproject.rmi.client.ClientIteratorTest:testRemove</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m31"></a><h2>org.akubraproject.rmi.client.ClientConnectionTest:testGetBlobInputStreamLongMapOfStringString</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m32"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testCleanup</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m33"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testNonExistentBlob</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m34"></a><h2>org.akubraproject.rmi.server.ServerBlobTest:testGetId</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m35"></a><h2>org.akubraproject.rmi.server.ServerOutputStreamTest:testClose</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m36"></a><h2>org.akubraproject.rmi.ServiceTest:testWithNameAndAlternatePorts</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m37"></a><h2>org.akubraproject.rmi.server.ServerStoreTest:testStartTransaction</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m38"></a><h2>org.akubraproject.rmi.server.ServerTransactionListenerTest:testRegisterSynchronization</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m39"></a><h2>org.akubraproject.rmi.server.ServerBlobTest:testOpenInputStream</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m40"></a><h2>org.akubraproject.rmi.server.ServerInputStreamTest:testUnreferenced</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m41"></a><h2>org.akubraproject.rmi.client.ClientStoreTest:testOpenConnection</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m42"></a><h2>org.akubraproject.rmi.client.ClientXAResourceTest:testRecover</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m43"></a><h2>org.akubraproject.rmi.client.ClientConnectionTest:testClose</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m44"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testInputStream</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m45"></a><h2>org.akubraproject.rmi.server.ServerSynchronizationTest:testServerSynchronization</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m46"></a><h2>org.akubraproject.rmi.client.ClientInputStreamTest:testClose</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m47"></a><h2>org.akubraproject.rmi.server.ServerOutputStreamTest:testFlush</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m48"></a><h2>org.akubraproject.rmi.server.ServerConnectionTest:testClose</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m49"></a><h2>org.akubraproject.rmi.MemStoreConnectionTest:testUseAppBlob</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m50"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testListBlobs</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m51"></a><h2>org.akubraproject.rmi.server.ServerConnectionTest:testGetBlobURIMapOfStringString</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m52"></a><h2>org.akubraproject.rmi.server.ServerXAResourceTest:testRollback</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m53"></a><h2>org.akubraproject.rmi.client.ClientOutputStreamTest:testClose</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m54"></a><h2>org.akubraproject.rmi.client.ClientXAResourceTest:testIsSameRM</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m55"></a><h2>org.akubraproject.rmi.MemStoreConnectionTest:testMove</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m56"></a><h2>org.akubraproject.rmi.server.ServerIteratorTest:testServerIterator</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m57"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testBasicCommit</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m58"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testIdGeneration</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m59"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testClosedConnection</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m60"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testInit</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m61"></a><h2>org.akubraproject.rmi.server.ServerXAResourceTest:testPrepare</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m62"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testSync</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m63"></a><h2>org.akubraproject.rmi.server.ServerOutputStreamTest:testWriteInt</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m64"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testSync</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m65"></a><h2>org.akubraproject.rmi.client.ClientIteratorTest:testNext</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m66"></a><h2>org.akubraproject.rmi.client.ClientConnectionTest:testGetBlobURIMapOfStringString</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m67"></a><h2>org.akubraproject.rmi.client.ClientBlobTest:testOpenInputStream</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m68"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testBlobFromStream</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m69"></a><h2>org.akubraproject.rmi.server.ServerInputStreamTest:testClose</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m70"></a><h2>org.akubraproject.rmi.server.ServerBlobTest:testDelete</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m71"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testBasicRollback</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m72"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testIdValidation</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m73"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testGetId</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m74"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testInit</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m75"></a><h2>org.akubraproject.rmi.client.ClientXAResourceTest:testPrepare</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m76"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testListBlobs</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m77"></a><h2>org.akubraproject.rmi.server.ServerXAResourceTest:testRecover</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m78"></a><h2>org.akubraproject.rmi.server.ServerXAResourceTest:testGetTransactionTimeout</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m79"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testIdValidation</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m80"></a><h2>org.akubraproject.rmi.server.ServerXAResourceTest:testForget</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m81"></a><h2>org.akubraproject.rmi.TransactionalStoreTest:testBasicCommit</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m82"></a><h2>org.akubraproject.rmi.server.ServerTransactionListenerTest:testXAResource</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m83"></a><h2>org.akubraproject.rmi.server.ServerXAResourceTest:testServerXAResource</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m84"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testClosedConnection</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m85"></a><h2>org.akubraproject.rmi.TransactionalStoreTest:testGetId</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m86"></a><h2>org.akubraproject.rmi.server.ServerTransactionListenerTest:testSetRollbackOnly</h2>
+<div style="padding-left:3em">
+<p>Cannot change the transaction state from this JVM. Transaction is on remote client.</p>
+org.akubraproject.rmi.server.ServerTransactionListener.setRollbackOnly(ServerTransactionListener.java:339)
+<br/>at org.akubraproject.rmi.server.ServerTransactionListenerTest.testSetRollbackOnly(ServerTransactionListenerTest.java:288)
+<br/>31 lines not shown
+</div>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m87"></a><h2>org.akubraproject.rmi.MemStoreTest:testOpenConnectionWithNullTxn</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m88"></a><h2>org.akubraproject.rmi.client.ClientSynchronizationTest:testBeforeCompletion</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m89"></a><h2>org.akubraproject.rmi.MemStoreConnectionTest:testListBlobIds</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m90"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testBlobFromStream</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m91"></a><h2>org.akubraproject.rmi.server.ServerSynchronizationTest:testBeforeCompletion</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m92"></a><h2>org.akubraproject.rmi.MemStoreTest:testOpenConnectionWithTxn</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m93"></a><h2>org.akubraproject.rmi.server.ServerBlobTest:testGetSize</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m94"></a><h2>org.akubraproject.rmi.server.ServerXAResourceTest:testCommit</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m95"></a><h2>org.akubraproject.rmi.server.ServerBlobTest:testOpenOutputStream</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m96"></a><h2>org.akubraproject.rmi.client.ClientBlobTest:testOpenOutputStream</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m97"></a><h2>org.akubraproject.rmi.ServiceTest:testWithNameAndPort</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m98"></a><h2>org.akubraproject.rmi.server.ServerInputStreamTest:testSkip</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m99"></a><h2>org.akubraproject.rmi.client.ClientInputStreamTest:testClientInputStream</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m100"></a><h2>org.akubraproject.rmi.server.ServerStoreTest:testServerStore</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m101"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testInputStream</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m102"></a><h2>org.akubraproject.rmi.client.ClientXAResourceTest:testGetTransactionTimeout</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m103"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testOpenConnectionWithTransaction</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m104"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testOpenConnectionWithTransaction</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m105"></a><h2>org.akubraproject.rmi.server.ServerStoreTest:testOpenConnection</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m106"></a><h2>org.akubraproject.rmi.server.ServerTransactionListenerTest:testRollback</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m107"></a><h2>org.akubraproject.rmi.server.ServerConnectionTest:testGetBlobCreator</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m108"></a><h2>org.akubraproject.rmi.server.ServerOutputStreamTest:testWriteByteArray</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m109"></a><h2>org.akubraproject.rmi.client.ClientOutputStreamTest:testWriteByteArray</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m110"></a><h2>org.akubraproject.rmi.server.ServerTransactionListenerTest:testCommit</h2>
+<div style="padding-left:3em">
+<p>Cannot commit from this JVM. Transaction is on remote client.</p>
+org.akubraproject.rmi.server.ServerTransactionListener.commit(ServerTransactionListener.java:208)
+<br/>at org.akubraproject.rmi.server.ServerTransactionListenerTest.testCommit(ServerTransactionListenerTest.java:148)
+<br/>31 lines not shown
+</div>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m111"></a><h2>org.akubraproject.rmi.client.ClientXAResourceTest:testCommit</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m112"></a><h2>org.akubraproject.rmi.client.ClientConnectionTest:testListBlobIds</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m113"></a><h2>org.akubraproject.rmi.server.ServerXAResourceTest:testSetTransactionTimeout</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m114"></a><h2>org.akubraproject.rmi.client.ClientInputStreamTest:testReadByteArray</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m115"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testIdGeneration</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m116"></a><h2>org.akubraproject.rmi.server.ServerXAResourceTest:testEnd</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m117"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testOutputStream</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m118"></a><h2>org.akubraproject.rmi.TransactionalStoreTest:testMTStress</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m119"></a><h2>org.akubraproject.rmi.server.ServerInputStreamTest:testServerInputStream</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m120"></a><h2>org.akubraproject.rmi.ServiceTest:testWithPort</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m121"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testMoveTo</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m122"></a><h2>org.akubraproject.rmi.server.ServerInputStreamTest:testReadInt</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m123"></a><h2>org.akubraproject.rmi.TransactionalStoreTest:testBasicRollback</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m124"></a><h2>org.akubraproject.rmi.MemStoreConnectionTest:testGenerateBlob</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m125"></a><h2>org.akubraproject.rmi.client.ClientBlobTest:testExists</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m126"></a><h2>org.akubraproject.rmi.server.ServerOutputStreamTest:testServerOutputStream</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m127"></a><h2>org.akubraproject.rmi.server.ServerOutputStreamTest:testWritePartialBuffer</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m128"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testCanonicalId</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m129"></a><h2>org.akubraproject.rmi.server.ServerXAResourceTest:testStart</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m130"></a><h2>org.akubraproject.rmi.server.ServerOutputStreamTest:testUnreferenced</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m131"></a><h2>org.akubraproject.rmi.server.ServerBlobTest:testExists</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m132"></a><h2>org.akubraproject.rmi.server.ServerBlobTest:testMoveTo</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m133"></a><h2>org.akubraproject.rmi.TransactionalStoreTest:testOpenConnectionWithTransaction</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m134"></a><h2>org.akubraproject.rmi.client.ClientBlobTest:testMoveTo</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m135"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testGetId</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m136"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testCleanup</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m137"></a><h2>org.akubraproject.rmi.client.ClientBlobTest:testGetSize</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m138"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testOpenConnectionNoTransaction</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m139"></a><h2>org.akubraproject.rmi.client.ClientIteratorTest:testHasNext</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m140"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testOutputStream</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m141"></a><h2>org.akubraproject.rmi.client.ClientOutputStreamTest:testFlush</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m142"></a><h2>org.akubraproject.rmi.server.ServerSynchronizationTest:testAfterCompletion</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m143"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testMoveTo</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m144"></a><h2>org.akubraproject.rmi.client.ClientXAResourceTest:testSetTransactionTimeout</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m145"></a><h2>org.akubraproject.rmi.server.ServerConnectionTest:testServerConnection</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m146"></a><h2>org.akubraproject.rmi.client.ClientOutputStreamTest:testWriteInt</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m147"></a><h2>org.akubraproject.rmi.server.ServerConnectionTest:testUnreferenced</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m148"></a><h2>org.akubraproject.rmi.server.ServerBlobTest:testServerBlob</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m149"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testDelete</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m150"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testCanonicalId</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+<a id="m151"></a><h2>org.akubraproject.rmi.RmiStoreTckTest$RmiStoreTestSuite:testBasicRollback</h2>
+<p class="totop"><a href="#summary">back to summary</a></p>
+</body></html>

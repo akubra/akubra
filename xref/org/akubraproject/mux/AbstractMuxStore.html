@@ -64,7 +64,7 @@
 <a class="jxr_linenumber" name="54" href="#54">54</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="55" href="#55">55</a>  <em class="jxr_javadoccomment"> * @author Pradeep Krishnan</em>
 <a class="jxr_linenumber" name="56" href="#56">56</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="57" href="#57">57</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> <a href="../../../org/akubraproject/mux/AbstractMuxStore.html">AbstractMuxStore</a> <strong class="jxr_keyword">extends</strong> AbstractBlobStore {
+<a class="jxr_linenumber" name="57" href="#57">57</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> <a href="../../../org/akubraproject/mux/AbstractMuxStore.html">AbstractMuxStore</a> <strong class="jxr_keyword">extends</strong> <a href="../../../org/akubraproject/impl/AbstractBlobStore.html">AbstractBlobStore</a> {
 <a class="jxr_linenumber" name="58" href="#58">58</a>    <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="59" href="#59">59</a>  <em class="jxr_javadoccomment">   * The list of backing stores. Note that the order is same as the user supplied list.</em>
 <a class="jxr_linenumber" name="60" href="#60">60</a>  <em class="jxr_javadoccomment">   */</em>
@@ -76,7 +76,7 @@
 <a class="jxr_linenumber" name="66" href="#66">66</a>  <em class="jxr_javadoccomment">   * @param id an identifier for this store</em>
 <a class="jxr_linenumber" name="67" href="#67">67</a>  <em class="jxr_javadoccomment">   * @param stores the list of stores to multiplex</em>
 <a class="jxr_linenumber" name="68" href="#68">68</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="69" href="#69">69</a>    <strong class="jxr_keyword">protected</strong> <a href="../../../org/akubraproject/mux/AbstractMuxStore.html">AbstractMuxStore</a>(URI id, BlobStore ... stores) {
+<a class="jxr_linenumber" name="69" href="#69">69</a>    <strong class="jxr_keyword">protected</strong> <a href="../../../org/akubraproject/mux/AbstractMuxStore.html">AbstractMuxStore</a>(URI id, <a href="../../../org/akubraproject/BlobStore.html">BlobStore</a> ... stores) {
 <a class="jxr_linenumber" name="70" href="#70">70</a>      <strong class="jxr_keyword">super</strong>(id);
 <a class="jxr_linenumber" name="71" href="#71">71</a>      setBackingStores(Arrays.asList(stores));
 <a class="jxr_linenumber" name="72" href="#72">72</a>    }

@@ -89,7 +89,7 @@
 <a class="jxr_linenumber" name="79" href="#79">79</a>  <em class="jxr_javadoccomment">   * @param version the read version to use</em>
 <a class="jxr_linenumber" name="80" href="#80">80</a>  <em class="jxr_javadoccomment">   * @throws IOException if an error occurs initializing this connection</em>
 <a class="jxr_linenumber" name="81" href="#81">81</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="82" href="#82">82</a>    <a href="../../../../org/akubraproject/txn/derby/TransactionalConnection.html">TransactionalConnection</a>(BlobStore owner, BlobStore bStore, XAConnection xaCon, Connection con,
+<a class="jxr_linenumber" name="82" href="#82">82</a>    <a href="../../../../org/akubraproject/txn/derby/TransactionalConnection.html">TransactionalConnection</a>(<a href="../../../../org/akubraproject/BlobStore.html">BlobStore</a> owner, <a href="../../../../org/akubraproject/BlobStore.html">BlobStore</a> bStore, XAConnection xaCon, Connection con,
 <a class="jxr_linenumber" name="83" href="#83">83</a>                            Transaction tx, Map&lt;String, String&gt; hints, <strong class="jxr_keyword">long</strong> version)
 <a class="jxr_linenumber" name="84" href="#84">84</a>        <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="85" href="#85">85</a>      <strong class="jxr_keyword">super</strong>(owner, bStore, xaCon, con, tx, hints);
@@ -211,7 +211,7 @@
 <a class="jxr_linenumber" name="201" href="#201">201</a>   @Override
 <a class="jxr_linenumber" name="202" href="#202">202</a>   <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> validateId(URI blobId) <strong class="jxr_keyword">throws</strong> UnsupportedIdException {
 <a class="jxr_linenumber" name="203" href="#203">203</a>     <strong class="jxr_keyword">if</strong> (blobId.toString().length() &gt; 1000)
-<a class="jxr_linenumber" name="204" href="#204">204</a>       <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> UnsupportedIdException(blobId, <span class="jxr_string">"Blob id must be less than 1000 characters long"</span>);
+<a class="jxr_linenumber" name="204" href="#204">204</a>       <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/akubraproject/UnsupportedIdException.html">UnsupportedIdException</a>(blobId, <span class="jxr_string">"Blob id must be less than 1000 characters long"</span>);
 <a class="jxr_linenumber" name="205" href="#205">205</a>   }
 <a class="jxr_linenumber" name="206" href="#206">206</a> 
 <a class="jxr_linenumber" name="207" href="#207">207</a>   @Override

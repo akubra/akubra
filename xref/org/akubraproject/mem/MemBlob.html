@@ -50,9 +50,9 @@
 <a class="jxr_linenumber" name="40" href="#40">40</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="41" href="#41">41</a>  <em class="jxr_javadoccomment"> * @author Ronald Tschalär</em>
 <a class="jxr_linenumber" name="42" href="#42">42</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="43" href="#43">43</a>  <strong class="jxr_keyword">class</strong> <a href="../../../org/akubraproject/mem/MemBlob.html">MemBlob</a> <strong class="jxr_keyword">extends</strong> AbstractBlob {
+<a class="jxr_linenumber" name="43" href="#43">43</a>  <strong class="jxr_keyword">class</strong> <a href="../../../org/akubraproject/mem/MemBlob.html">MemBlob</a> <strong class="jxr_keyword">extends</strong> <a href="../../../org/akubraproject/impl/AbstractBlob.html">AbstractBlob</a> {
 <a class="jxr_linenumber" name="44" href="#44">44</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> Map&lt;URI, MemData&gt; blobs;
-<a class="jxr_linenumber" name="45" href="#45">45</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> StreamManager     streamMgr;
+<a class="jxr_linenumber" name="45" href="#45">45</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <a href="../../../org/akubraproject/impl/StreamManager.html">StreamManager</a>     streamMgr;
 <a class="jxr_linenumber" name="46" href="#46">46</a>  
 <a class="jxr_linenumber" name="47" href="#47">47</a>    <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="48" href="#48">48</a>  <em class="jxr_javadoccomment">   * Create a new in-memory blob.</em>
@@ -62,7 +62,7 @@
 <a class="jxr_linenumber" name="52" href="#52">52</a>  <em class="jxr_javadoccomment">   * @param streamMgr the stream-manager to use</em>
 <a class="jxr_linenumber" name="53" href="#53">53</a>  <em class="jxr_javadoccomment">   * @param owner     the blob-store connection we belong to</em>
 <a class="jxr_linenumber" name="54" href="#54">54</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="55" href="#55">55</a>    <a href="../../../org/akubraproject/mem/MemBlob.html">MemBlob</a>(URI id, Map&lt;URI, MemData&gt; blobs, StreamManager streamMgr, BlobStoreConnection owner) {
+<a class="jxr_linenumber" name="55" href="#55">55</a>    <a href="../../../org/akubraproject/mem/MemBlob.html">MemBlob</a>(URI id, Map&lt;URI, MemData&gt; blobs, <a href="../../../org/akubraproject/impl/StreamManager.html">StreamManager</a> streamMgr, <a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> owner) {
 <a class="jxr_linenumber" name="56" href="#56">56</a>      <strong class="jxr_keyword">super</strong>(owner, id);
 <a class="jxr_linenumber" name="57" href="#57">57</a>      <strong class="jxr_keyword">this</strong>.blobs     = blobs;
 <a class="jxr_linenumber" name="58" href="#58">58</a>      <strong class="jxr_keyword">this</strong>.streamMgr = streamMgr;
@@ -91,20 +91,20 @@
 <a class="jxr_linenumber" name="81" href="#81">81</a>    }
 <a class="jxr_linenumber" name="82" href="#82">82</a>  
 <a class="jxr_linenumber" name="83" href="#83">83</a>    @Override
-<a class="jxr_linenumber" name="84" href="#84">84</a>    <strong class="jxr_keyword">public</strong> Blob moveTo(URI blobId, Map&lt;String, String&gt; hints)
+<a class="jxr_linenumber" name="84" href="#84">84</a>    <strong class="jxr_keyword">public</strong> <a href="../../../org/akubraproject/Blob.html">Blob</a> moveTo(URI blobId, Map&lt;String, String&gt; hints)
 <a class="jxr_linenumber" name="85" href="#85">85</a>          <strong class="jxr_keyword">throws</strong> IOException, MissingBlobException, NullPointerException, IllegalArgumentException,
-<a class="jxr_linenumber" name="86" href="#86">86</a>                 DuplicateBlobException {
+<a class="jxr_linenumber" name="86" href="#86">86</a>                 <a href="../../../org/akubraproject/DuplicateBlobException.html">DuplicateBlobException</a> {
 <a class="jxr_linenumber" name="87" href="#87">87</a>      ensureOpen();
 <a class="jxr_linenumber" name="88" href="#88">88</a>  
 <a class="jxr_linenumber" name="89" href="#89">89</a>      <a href="../../../org/akubraproject/mem/MemBlob.html">MemBlob</a> dest = (MemBlob)getConnection().getBlob(blobId, hints);
 <a class="jxr_linenumber" name="90" href="#90">90</a>  
 <a class="jxr_linenumber" name="91" href="#91">91</a>      <strong class="jxr_keyword">synchronized</strong> (blobs) {
 <a class="jxr_linenumber" name="92" href="#92">92</a>        <strong class="jxr_keyword">if</strong> (dest.exists())
-<a class="jxr_linenumber" name="93" href="#93">93</a>          <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> DuplicateBlobException(blobId, <span class="jxr_string">"Destination blob already exists"</span>);
+<a class="jxr_linenumber" name="93" href="#93">93</a>          <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../org/akubraproject/DuplicateBlobException.html">DuplicateBlobException</a>(blobId, <span class="jxr_string">"Destination blob already exists"</span>);
 <a class="jxr_linenumber" name="94" href="#94">94</a>  
 <a class="jxr_linenumber" name="95" href="#95">95</a>        <a href="../../../org/akubraproject/mem/MemData.html">MemData</a> data = blobs.remove(id);
 <a class="jxr_linenumber" name="96" href="#96">96</a>        <strong class="jxr_keyword">if</strong> (data == <strong class="jxr_keyword">null</strong>)
-<a class="jxr_linenumber" name="97" href="#97">97</a>          <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> MissingBlobException(getId());
+<a class="jxr_linenumber" name="97" href="#97">97</a>          <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../org/akubraproject/MissingBlobException.html">MissingBlobException</a>(getId());
 <a class="jxr_linenumber" name="98" href="#98">98</a>  
 <a class="jxr_linenumber" name="99" href="#99">99</a>        blobs.put(dest.getId(), data);
 <a class="jxr_linenumber" name="100" href="#100">100</a>     }
@@ -127,7 +127,7 @@
 <a class="jxr_linenumber" name="117" href="#117">117</a>     <strong class="jxr_keyword">synchronized</strong> (blobs) {
 <a class="jxr_linenumber" name="118" href="#118">118</a>       data = blobs.get(id);
 <a class="jxr_linenumber" name="119" href="#119">119</a>       <strong class="jxr_keyword">if</strong> (!overwrite &amp;&amp; data != <strong class="jxr_keyword">null</strong>)
-<a class="jxr_linenumber" name="120" href="#120">120</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> DuplicateBlobException(getId(), <span class="jxr_string">"Blob already exists"</span>);
+<a class="jxr_linenumber" name="120" href="#120">120</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../org/akubraproject/DuplicateBlobException.html">DuplicateBlobException</a>(getId(), <span class="jxr_string">"Blob already exists"</span>);
 <a class="jxr_linenumber" name="121" href="#121">121</a> 
 <a class="jxr_linenumber" name="122" href="#122">122</a>       <strong class="jxr_keyword">if</strong> (data == <strong class="jxr_keyword">null</strong> || estimatedSize &gt; data.bufferSize()) {
 <a class="jxr_linenumber" name="123" href="#123">123</a>         data = <strong class="jxr_keyword">new</strong> <a href="../../../org/akubraproject/mem/MemData.html">MemData</a>(Math.max((<strong class="jxr_keyword">int</strong>) Math.min(estimatedSize, Integer.MAX_VALUE), 1024));
@@ -150,7 +150,7 @@
 <a class="jxr_linenumber" name="140" href="#140">140</a>     <strong class="jxr_keyword">synchronized</strong> (blobs) {
 <a class="jxr_linenumber" name="141" href="#141">141</a>       <a href="../../../org/akubraproject/mem/MemData.html">MemData</a> data = blobs.get(id);
 <a class="jxr_linenumber" name="142" href="#142">142</a>       <strong class="jxr_keyword">if</strong> (data == <strong class="jxr_keyword">null</strong>)
-<a class="jxr_linenumber" name="143" href="#143">143</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> MissingBlobException(getId());
+<a class="jxr_linenumber" name="143" href="#143">143</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../org/akubraproject/MissingBlobException.html">MissingBlobException</a>(getId());
 <a class="jxr_linenumber" name="144" href="#144">144</a>       <strong class="jxr_keyword">return</strong> data;
 <a class="jxr_linenumber" name="145" href="#145">145</a>     }
 <a class="jxr_linenumber" name="146" href="#146">146</a>   }

@@ -73,7 +73,7 @@
 <a class="jxr_linenumber" name="63" href="#63">63</a>  <em class="jxr_javadoccomment"> * @see #getConnection(BlobStore, Map)</em>
 <a class="jxr_linenumber" name="64" href="#64">64</a>  <em class="jxr_javadoccomment"> * @see MuxBlob</em>
 <a class="jxr_linenumber" name="65" href="#65">65</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="66" href="#66">66</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> <a href="../../../org/akubraproject/mux/AbstractMuxConnection.html">AbstractMuxConnection</a> <strong class="jxr_keyword">extends</strong> AbstractBlobStoreConnection {
+<a class="jxr_linenumber" name="66" href="#66">66</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> <a href="../../../org/akubraproject/mux/AbstractMuxConnection.html">AbstractMuxConnection</a> <strong class="jxr_keyword">extends</strong> <a href="../../../org/akubraproject/impl/AbstractBlobStoreConnection.html">AbstractBlobStoreConnection</a> {
 <a class="jxr_linenumber" name="67" href="#67">67</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger log = LoggerFactory.getLogger(AbstractBlobStoreConnection.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="68" href="#68">68</a>  
 <a class="jxr_linenumber" name="69" href="#69">69</a>    <em class="jxr_javadoccomment">/**</em>
@@ -99,7 +99,7 @@
 <a class="jxr_linenumber" name="89" href="#89">89</a>  <em class="jxr_javadoccomment">   * @param store the mux store</em>
 <a class="jxr_linenumber" name="90" href="#90">90</a>  <em class="jxr_javadoccomment">   * @param txn the txn passed in by the user</em>
 <a class="jxr_linenumber" name="91" href="#91">91</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="92" href="#92">92</a>    <strong class="jxr_keyword">public</strong> <a href="../../../org/akubraproject/mux/AbstractMuxConnection.html">AbstractMuxConnection</a>(BlobStore store, Transaction txn) {
+<a class="jxr_linenumber" name="92" href="#92">92</a>    <strong class="jxr_keyword">public</strong> <a href="../../../org/akubraproject/mux/AbstractMuxConnection.html">AbstractMuxConnection</a>(<a href="../../../org/akubraproject/BlobStore.html">BlobStore</a> store, Transaction txn) {
 <a class="jxr_linenumber" name="93" href="#93">93</a>      <strong class="jxr_keyword">super</strong>(store);
 <a class="jxr_linenumber" name="94" href="#94">94</a>      <strong class="jxr_keyword">this</strong>.txn = txn;
 <a class="jxr_linenumber" name="95" href="#95">95</a>    }
@@ -117,7 +117,7 @@
 <a class="jxr_linenumber" name="107" href="#107">107</a> <em class="jxr_javadoccomment">   * @throws UnsupportedIdException if blobId is not in a recognized/usable pattern by any of the</em>
 <a class="jxr_linenumber" name="108" href="#108">108</a> <em class="jxr_javadoccomment">   *         backing stores</em>
 <a class="jxr_linenumber" name="109" href="#109">109</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="110" href="#110">110</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> BlobStore getStore(URI blobId, Map&lt;String, String&gt; hints)
+<a class="jxr_linenumber" name="110" href="#110">110</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <a href="../../../org/akubraproject/BlobStore.html">BlobStore</a> getStore(URI blobId, Map&lt;String, String&gt; hints)
 <a class="jxr_linenumber" name="111" href="#111">111</a>                               <strong class="jxr_keyword">throws</strong> IOException, UnsupportedIdException;
 <a class="jxr_linenumber" name="112" href="#112">112</a> 
 <a class="jxr_linenumber" name="113" href="#113">113</a>   <em class="jxr_javadoccomment">/**</em>
@@ -162,7 +162,7 @@
 <a class="jxr_linenumber" name="152" href="#152">152</a> <em class="jxr_javadoccomment">   * @throws IOException on an error in opening a connection to the backing store</em>
 <a class="jxr_linenumber" name="153" href="#153">153</a> <em class="jxr_javadoccomment">   * @throws UnsupportedOperationException on an error in opening a connection to the backing store</em>
 <a class="jxr_linenumber" name="154" href="#154">154</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="155" href="#155">155</a>   <strong class="jxr_keyword">protected</strong> BlobStoreConnection getConnection(BlobStore store, Map&lt;String, String&gt; hints)
+<a class="jxr_linenumber" name="155" href="#155">155</a>   <strong class="jxr_keyword">protected</strong> <a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> getConnection(<a href="../../../org/akubraproject/BlobStore.html">BlobStore</a> store, Map&lt;String, String&gt; hints)
 <a class="jxr_linenumber" name="156" href="#156">156</a>                                        <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="157" href="#157">157</a>     <strong class="jxr_keyword">if</strong> (store == <strong class="jxr_keyword">null</strong>)
 <a class="jxr_linenumber" name="158" href="#158">158</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
@@ -170,7 +170,7 @@
 <a class="jxr_linenumber" name="160" href="#160">160</a>     <strong class="jxr_keyword">if</strong> (cons == <strong class="jxr_keyword">null</strong>)
 <a class="jxr_linenumber" name="161" href="#161">161</a>       <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Connection closed."</span>);
 <a class="jxr_linenumber" name="162" href="#162">162</a> 
-<a class="jxr_linenumber" name="163" href="#163">163</a>     BlobStoreConnection con = cons.get(store.getId());
+<a class="jxr_linenumber" name="163" href="#163">163</a>     <a href="../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> con = cons.get(store.getId());
 <a class="jxr_linenumber" name="164" href="#164">164</a> 
 <a class="jxr_linenumber" name="165" href="#165">165</a>     <strong class="jxr_keyword">if</strong> (con == <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="166" href="#166">166</a>       con = store.openConnection(txn, hints);
@@ -181,7 +181,7 @@
 <a class="jxr_linenumber" name="171" href="#171">171</a>   }
 <a class="jxr_linenumber" name="172" href="#172">172</a> 
 <a class="jxr_linenumber" name="173" href="#173">173</a>   @Override
-<a class="jxr_linenumber" name="174" href="#174">174</a>   <strong class="jxr_keyword">public</strong> Blob getBlob(URI blobId, Map&lt;String, String&gt; hints)
+<a class="jxr_linenumber" name="174" href="#174">174</a>   <strong class="jxr_keyword">public</strong> <a href="../../../org/akubraproject/Blob.html">Blob</a> getBlob(URI blobId, Map&lt;String, String&gt; hints)
 <a class="jxr_linenumber" name="175" href="#175">175</a>                <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="176" href="#176">176</a>     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../org/akubraproject/mux/MuxBlob.html">MuxBlob</a>(getConnection(getStore(blobId, hints), hints).getBlob(blobId, hints), <strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="177" href="#177">177</a>   }

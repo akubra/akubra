@@ -147,7 +147,7 @@
 <a class="jxr_linenumber" name="137" href="#137">137</a> <em class="jxr_javadoccomment">   * @param dbDir        the directory to use to store the transaction information</em>
 <a class="jxr_linenumber" name="138" href="#138">138</a> <em class="jxr_javadoccomment">   * @throws IOException if there was an error initializing the db</em>
 <a class="jxr_linenumber" name="139" href="#139">139</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="140" href="#140">140</a>   <strong class="jxr_keyword">public</strong> <a href="../../../../org/akubraproject/txn/derby/TransactionalStore.html">TransactionalStore</a>(URI id, BlobStore wrappedStore, String dbDir) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="140" href="#140">140</a>   <strong class="jxr_keyword">public</strong> <a href="../../../../org/akubraproject/txn/derby/TransactionalStore.html">TransactionalStore</a>(URI id, <a href="../../../../org/akubraproject/BlobStore.html">BlobStore</a> wrappedStore, String dbDir) <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="141" href="#141">141</a>     <strong class="jxr_keyword">this</strong>(id, wrappedStore, dbDir, needSingleWriter());
 <a class="jxr_linenumber" name="142" href="#142">142</a>   }
 <a class="jxr_linenumber" name="143" href="#143">143</a> 
@@ -167,7 +167,7 @@
 <a class="jxr_linenumber" name="157" href="#157">157</a> <em class="jxr_javadoccomment">   *                     locks timing out</em>
 <a class="jxr_linenumber" name="158" href="#158">158</a> <em class="jxr_javadoccomment">   * @throws IOException if there was an error initializing the db</em>
 <a class="jxr_linenumber" name="159" href="#159">159</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="160" href="#160">160</a>   <strong class="jxr_keyword">public</strong> <a href="../../../../org/akubraproject/txn/derby/TransactionalStore.html">TransactionalStore</a>(URI id, BlobStore wrappedStore,
+<a class="jxr_linenumber" name="160" href="#160">160</a>   <strong class="jxr_keyword">public</strong> <a href="../../../../org/akubraproject/txn/derby/TransactionalStore.html">TransactionalStore</a>(URI id, <a href="../../../../org/akubraproject/BlobStore.html">BlobStore</a> wrappedStore,
 <a class="jxr_linenumber" name="161" href="#161">161</a>                             String dbDir, <strong class="jxr_keyword">boolean</strong> singleWriter) <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="162" href="#162">162</a>     <strong class="jxr_keyword">super</strong>(id, wrappedStore);
 <a class="jxr_linenumber" name="163" href="#163">163</a>     <strong class="jxr_keyword">this</strong>.singleWriter = singleWriter;
@@ -263,7 +263,7 @@
 <a class="jxr_linenumber" name="253" href="#253">253</a> <em class="jxr_javadoccomment">   * @throws IllegalStateException if no backing store has been set yet</em>
 <a class="jxr_linenumber" name="254" href="#254">254</a> <em class="jxr_javadoccomment">   */</em>
 <a class="jxr_linenumber" name="255" href="#255">255</a>   @Override
-<a class="jxr_linenumber" name="256" href="#256">256</a>   <strong class="jxr_keyword">public</strong> BlobStoreConnection openConnection(Transaction tx, Map&lt;String, String&gt; hints)
+<a class="jxr_linenumber" name="256" href="#256">256</a>   <strong class="jxr_keyword">public</strong> <a href="../../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> openConnection(Transaction tx, Map&lt;String, String&gt; hints)
 <a class="jxr_linenumber" name="257" href="#257">257</a>       <strong class="jxr_keyword">throws</strong> IllegalStateException, IOException {
 <a class="jxr_linenumber" name="258" href="#258">258</a>     <strong class="jxr_keyword">long</strong> version;
 <a class="jxr_linenumber" name="259" href="#259">259</a>     <strong class="jxr_keyword">synchronized</strong> (<strong class="jxr_keyword">this</strong>) {
@@ -303,7 +303,7 @@
 <a class="jxr_linenumber" name="293" href="#293">293</a> 
 <a class="jxr_linenumber" name="294" href="#294">294</a>       tx.enlistResource(xaCon.getXAResource());
 <a class="jxr_linenumber" name="295" href="#295">295</a> 
-<a class="jxr_linenumber" name="296" href="#296">296</a>       BlobStoreConnection bsc =
+<a class="jxr_linenumber" name="296" href="#296">296</a>       <a href="../../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> bsc =
 <a class="jxr_linenumber" name="297" href="#297">297</a>           <strong class="jxr_keyword">new</strong> <a href="../../../../org/akubraproject/txn/derby/TransactionalConnection.html">TransactionalConnection</a>(<strong class="jxr_keyword">this</strong>, wrappedStore, xaCon, con, tx, hints, version);
 <a class="jxr_linenumber" name="298" href="#298">298</a> 
 <a class="jxr_linenumber" name="299" href="#299">299</a>       <strong class="jxr_keyword">if</strong> (logger.isDebugEnabled())
@@ -555,7 +555,7 @@
 <a class="jxr_linenumber" name="545" href="#545">545</a>           <strong class="jxr_keyword">int</strong> cntB = 0;
 <a class="jxr_linenumber" name="546" href="#546">546</a> 
 <a class="jxr_linenumber" name="547" href="#547">547</a>           <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="548" href="#548">548</a>             BlobStoreConnection bsc = wrappedStore.openConnection(<strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="548" href="#548">548</a>             <a href="../../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> bsc = wrappedStore.openConnection(<strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="549" href="#549">549</a>             <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="550" href="#550">550</a>               <strong class="jxr_keyword">while</strong> (rs.next()) {
 <a class="jxr_linenumber" name="551" href="#551">551</a>                 cntB++;
@@ -608,7 +608,7 @@
 <a class="jxr_linenumber" name="598" href="#598">598</a>           <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="599" href="#599">599</a>             <strong class="jxr_keyword">int</strong> cntL = 0;
 <a class="jxr_linenumber" name="600" href="#600">600</a>             <strong class="jxr_keyword">if</strong> (logger.isTraceEnabled()) {
-<a class="jxr_linenumber" name="601" href="#601">601</a>               BlobStoreConnection bsc = wrappedStore.openConnection(<strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="601" href="#601">601</a>               <a href="../../../../org/akubraproject/BlobStoreConnection.html">BlobStoreConnection</a> bsc = wrappedStore.openConnection(<strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="602" href="#602">602</a>               <strong class="jxr_keyword">for</strong> (Iterator&lt;URI&gt; iter = bsc.listBlobIds(<strong class="jxr_keyword">null</strong>); iter.hasNext(); iter.next())
 <a class="jxr_linenumber" name="603" href="#603">603</a>                 cntL++;
 <a class="jxr_linenumber" name="604" href="#604">604</a>               bsc.close();

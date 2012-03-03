@@ -1,0 +1,219 @@
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Surefire Report</title>
+    <link rel="stylesheet" href="./css/maven-theme.css" type="text/css" />
+    <link rel="stylesheet" href="./css/maven-base.css" type="text/css"/>
+    <link rel="stylesheet" href="./css/prettify.css" type="text/css"/>
+    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
+    <script type="text/javascript" src="./js/prettify.js"></script>
+    <script type="text/javascript" src="./js/niftycube.js"></script>
+    <script type="text/javascript">
+        window.onload=function() {
+            Nifty("div\#wrapper", "big");
+            Nifty("div#breadcrumbs", "small");
+            Nifty("div\#navcolumn", "small");
+            Nifty("div.source", "medium");
+            prettyPrint();
+        }
+    </script>
+        <meta name="Date-Revision-yyyymmdd" content="20120303" />
+                                                    
+<style>p { line-height: 1.3em }
+        #leftColumn { width: 170px }
+        #bodyColumn { margin-left: 190px }
+        .section { padding: 0px; }
+        h2 { padding: 0px; }
+        h3 { padding: 0px; }
+        h4 { padding: 0px; }
+        h5 { padding: 0px; }</style>
+                    </head>
+  <body>
+    <div id="wrapper">
+        <div id="banner">
+                        <div id="bannerLeft">
+    
+            Akubra WWW Implementation
+    
+            </div>
+                            <div class="clear">
+            <hr/>
+          </div>
+        </div>
+        <div id="breadcrumbs">
+              
+  
+
+  
+    
+            
+  
+    
+            <div class="xleft">
+          
+                <a href="../index.html">akubra</a>
+                &gt;
+      
+                <a href="index.html">akubra-www</a>
+                  </div>
+                <div class="xright">      
+  
+
+  
+    
+            
+  
+    
+             <span id="publishDate">Last Published: 2012-03-03</span>
+              &nbsp;| <span id="projectVersion">Version: 0.4.0-SNAPSHOT</span>
+            </div>
+          <div class="clear">
+            <hr/>
+          </div>
+        </div>
+        <div id="leftColumn">
+          <div id="navcolumn">
+               
+  
+
+  
+    
+            
+  
+    
+                       <h5>Project Info</h5>
+            <ul>
+              
+    <li class="none">
+                    <a href="index.html">About</a>
+          </li>
+              
+    <li class="none">
+                    <a href="usage.html">Usage</a>
+          </li>
+              
+    <li class="none">
+                    <a href="apidocs/index.html">Javadocs</a>
+          </li>
+              
+    <li class="none">
+                    <a href="dependencies.html">Dependencies</a>
+          </li>
+          </ul>
+              <h5>Reports</h5>
+            <ul>
+              
+    <li class="none">
+              <strong>Test Results</strong>
+        </li>
+              
+    <li class="none">
+                    <a href="cobertura/index.html">Test Coverage</a>
+          </li>
+              
+    <li class="none">
+                    <a href="findbugs.html">FindBugs</a>
+          </li>
+              
+    <li class="none">
+                    <a href="pmd.html">PMD</a>
+          </li>
+              
+    <li class="none">
+                    <a href="cpd.html">CPD</a>
+          </li>
+          </ul>
+              <h5>Links</h5>
+            <ul>
+              
+    <li class="none">
+                    <a href="https://wiki.duraspace.org/display/AKUBRA" class="externalLink">Wiki</a>
+          </li>
+              
+    <li class="none">
+                    <a href="https://github.com/akubra/akubra" class="externalLink">GitHub Repository</a>
+          </li>
+              
+    <li class="none">
+                    <a href="http://fedora-commons.org/" class="externalLink">Fedora Commons</a>
+          </li>
+              
+    <li class="none">
+                    <a href="http://duraspace.org/" class="externalLink">DuraSpace</a>
+          </li>
+          </ul>
+                                               <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
+            <img class="poweredBy"
+                 alt="Built by Maven"
+                 src="./images/logos/maven-feather.png"
+                 width="90"
+                 height="30"
+                 border="1" />
+          </a>
+                           
+  
+
+  
+    
+            
+  
+    
+            </div>
+        </div>
+        <div id="bodyColumn">
+          <div id="contentBox">
+            <script type="text/javascript">
+//<![CDATA[
+function toggleDisplay(elementId) {
+ var elm = document.getElementById(elementId + 'error');
+ if (elm && typeof elm.style != "undefined") {
+ if (elm.style.display == "none") {
+ elm.style.display = "";
+ document.getElementById(elementId + 'off').style.display = "none";
+ document.getElementById(elementId + 'on').style.display = "inline";
+ } else if (elm.style.display == "") { elm.style.display = "none";
+ document.getElementById(elementId + 'off').style.display = "inline";
+ document.getElementById(elementId + 'on').style.display = "none";
+ } 
+ } 
+ }
+//]]>
+</script><div class="section"><h2>Surefire Report<a name="Surefire_Report"></a></h2></div><div class="section"><h2>Summary<a name="Summary"></a></h2><a name="Summary"></a><p>[<a href="#Summary">Summary</a>] [<a href="#Package_List">Package List</a>] [<a href="#Test_Cases">Test Cases</a>]</p><br /><table border="0" class="bodyTable"><tr class="a"><th>Tests</th><th>Errors </th><th>Failures</th><th>Skipped</th><th>Success Rate</th><th>Time</th></tr><tr class="b"><td>32</td><td>0</td><td>0</td><td>0</td><td>100%</td><td>0.448</td></tr></table><br /><p>Note: failures are anticipated and checked for with assertions while errors are unanticipated.</p><br /></div><div class="section"><h2>Package List<a name="Package_List"></a></h2><a name="Package_List"></a><p>[<a href="#Summary">Summary</a>] [<a href="#Package_List">Package List</a>] [<a href="#Test_Cases">Test Cases</a>]</p><br /><table border="0" class="bodyTable"><tr class="a"><th>Package</th><th>Tests</th><th>Errors </th><th>Failures</th><th>Skipped</th><th>Success Rate</th><th>Time</th></tr><tr class="b"><td><a href="#org.akubraproject.www">org.akubraproject.www</a></td><td>32</td><td>0</td><td>0</td><td>0</td><td>100%</td><td>0.448</td></tr></table><br /><p>Note: package statistics are not computed recursively, they only sum up all of its testsuites numbers.</p><div class="section"><h3>org.akubraproject.www<a name="org.akubraproject.www"></a></h3><a name="org.akubraproject.www"></a><table border="0" class="bodyTable"><tr class="a"><th></th><th>Class</th><th>Tests</th><th>Errors </th><th>Failures</th><th>Skipped</th><th>Success Rate</th><th>Time</th></tr><tr class="b"><td><a href="#org.akubraproject.wwwWWWStoreTest"><img src="images/icon_success_sml.gif" alt="" /></a></td><td><a href="#org.akubraproject.wwwWWWStoreTest">WWWStoreTest</a></td><td>1</td><td>0</td><td>0</td><td>0</td><td>100%</td><td>0.001</td></tr><tr class="a"><td><a href="#org.akubraproject.wwwWWWTCKTest"><img src="images/icon_success_sml.gif" alt="" /></a></td><td><a href="#org.akubraproject.wwwWWWTCKTest">WWWTCKTest</a></td><td>21</td><td>0</td><td>0</td><td>0</td><td>100%</td><td>0.119</td></tr><tr class="b"><td><a href="#org.akubraproject.wwwWWWConnectionTest"><img src="images/icon_success_sml.gif" alt="" /></a></td><td><a href="#org.akubraproject.wwwWWWConnectionTest">WWWConnectionTest</a></td><td>4</td><td>0</td><td>0</td><td>0</td><td>100%</td><td>0.001</td></tr><tr class="a"><td><a href="#org.akubraproject.wwwWWWBlobTest"><img src="images/icon_success_sml.gif" alt="" /></a></td><td><a href="#org.akubraproject.wwwWWWBlobTest">WWWBlobTest</a></td><td>6</td><td>0</td><td>0</td><td>0</td><td>100%</td><td>0.327</td></tr></table></div><br /></div><div class="section"><h2>Test Cases<a name="Test_Cases"></a></h2><a name="Test_Cases"></a><p>[<a href="#Summary">Summary</a>] [<a href="#Package_List">Package List</a>] [<a href="#Test_Cases">Test Cases</a>]</p><div class="section"><h3>WWWStoreTest<a name="WWWStoreTest"></a></h3><a name="org.akubraproject.wwwWWWStoreTest"></a><table border="0" class="bodyTable"><tr class="b"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testGetId</td><td>0.001</td></tr></table></div><div class="section"><h3>WWWTCKTest<a name="WWWTCKTest"></a></h3><a name="org.akubraproject.wwwWWWTCKTest"></a><table border="0" class="bodyTable"><tr class="a"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testGetId</td><td>0.002</td></tr><tr class="b"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testInit</td><td>0</td></tr><tr class="a"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testBasicCommit</td><td>0</td></tr><tr class="b"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testBasicRollback</td><td>0</td></tr><tr class="a"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testBlobFromStream</td><td>0.001</td></tr><tr class="b"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testBlobUpdate</td><td>0.02</td></tr><tr class="a"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testCanonicalId</td><td>0.001</td></tr><tr class="b"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testCloseConnection</td><td>0.004</td></tr><tr class="a"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testClosedConnection</td><td>0.014</td></tr><tr class="b"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testDelete</td><td>0.005</td></tr><tr class="a"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testIdGeneration</td><td>0.001</td></tr><tr class="b"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testIdValidation</td><td>0.005</td></tr><tr class="a"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testInputStream</td><td>0.007</td></tr><tr class="b"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testListBlobs</td><td>0.001</td></tr><tr class="a"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testMoveTo</td><td>0.001</td></tr><tr class="b"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testNonExistentBlob</td><td>0.003</td></tr><tr class="a"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testOpenConnectionNoTransaction</td><td>0</td></tr><tr class="b"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testOpenConnectionWithTransaction</td><td>0.021</td></tr><tr class="a"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testOutputStream</td><td>0.032</td></tr><tr class="b"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testSync</td><td>0.001</td></tr><tr class="a"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testCleanup</td><td>0</td></tr></table></div><div class="section"><h3>WWWConnectionTest<a name="WWWConnectionTest"></a></h3><a name="org.akubraproject.wwwWWWConnectionTest"></a><table border="0" class="bodyTable"><tr class="b"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testListBlobIds</td><td>0</td></tr><tr class="a"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testClose</td><td>0.001</td></tr><tr class="b"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testGetBlobStore</td><td>0</td></tr><tr class="a"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testGetBlob</td><td>0</td></tr></table></div><div class="section"><h3>WWWBlobTest<a name="WWWBlobTest"></a></h3><a name="org.akubraproject.wwwWWWBlobTest"></a><table border="0" class="bodyTable"><tr class="b"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testGetConnection</td><td>0</td></tr><tr class="a"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testGetId</td><td>0.001</td></tr><tr class="b"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testGetSize</td><td>0.233</td></tr><tr class="a"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testOpenInputStream</td><td>0.001</td></tr><tr class="b"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testOpenOutputStream</td><td>0.091</td></tr><tr class="a"><td><img src="images/icon_success_sml.gif" alt="" /></td><td>testWWWBlob</td><td>0.001</td></tr></table></div><br /></div>
+          </div>
+        </div>
+        <div class="clear">
+          <hr/>
+        </div>
+        <div id="footer">
+          <div class="xright">Copyright &#169;          
+   
+          2009-2012
+    
+                    <a href="http://duraspace.org/">DuraSpace</a>.
+            All Rights Reserved.    
+  
+
+  
+    
+            
+  
+    
+  </div>
+          <div class="clear">
+            <hr/>
+          </div>
+        </div>
+    </div>
+  </body>
+</html>

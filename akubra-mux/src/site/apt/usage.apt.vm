@@ -20,7 +20,7 @@ to your <<<pom.xml>>>:
   You can also download the jar and its dependencies directly from 
 Maven Central:
 
-    * {{{http://repo2.maven.org/maven2/com/github/cwilper/fcrepo-misc/${artifactId}/${currentVersion}/${artifactId}-${currentVersion}.jar}${artifactId}-${currentVersion}.jar}}
+    * {{{http://repo2.maven.org/maven2/org/akubraproject/${artifactId}/${currentVersion}/${artifactId}-${currentVersion}.jar}${artifactId}-${currentVersion}.jar}}
 
     * {{{./dependencies.html}All dependencies}}
 

@@ -107,7 +107,7 @@ public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection 
    * @throws UnsupportedIdException if blobId is not in a recognized/usable pattern by any of the
    *         backing stores
    */
-  public abstract BlobStore getStore(URI blobId, Map<String, String> hints)
+  public abstract BlobStore getStore(URI blobId, Map<Object, Object> hints)
                               throws IOException, UnsupportedIdException;
 
   /**
@@ -152,7 +152,7 @@ public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection 
    * @throws IOException on an error in opening a connection to the backing store
    * @throws UnsupportedOperationException on an error in opening a connection to the backing store
    */
-  protected BlobStoreConnection getConnection(BlobStore store, Map<String, String> hints)
+  protected BlobStoreConnection getConnection(BlobStore store, Map<Object, Object> hints)
                                        throws IOException {
     if (store == null)
       return null;
@@ -171,7 +171,7 @@ public abstract class AbstractMuxConnection extends AbstractBlobStoreConnection 
   }
 
   @Override
-  public Blob getBlob(URI blobId, Map<String, String> hints)
+  public Blob getBlob(URI blobId, Map<Object, Object> hints)
                throws IOException {
     return new MuxBlob(getConnection(getStore(blobId, hints), hints).getBlob(blobId, hints), this);
   }

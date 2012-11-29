@@ -110,7 +110,7 @@ public class TestStreamManager {
     }
 
     @Override
-    public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
+    public Blob getBlob(URI blobId, Map<Object, Object> hints) throws IOException {
       return null;
     }
 

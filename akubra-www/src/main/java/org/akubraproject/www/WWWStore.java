@@ -67,7 +67,7 @@ public class WWWStore extends AbstractBlobStore {
   }
 
   @Override
-  public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
+  public BlobStoreConnection openConnection(Transaction tx, Map<Object, Object> hints)
                                      throws UnsupportedOperationException, IOException {
     if (tx != null)
       throw new UnsupportedOperationException("Transactions not supported");

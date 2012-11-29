@@ -58,7 +58,7 @@ public class ClientStore extends AbstractBlobStore {
   }
 
   @Override
-  public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
+  public BlobStoreConnection openConnection(Transaction tx, Map<Object, Object> hints)
                                      throws UnsupportedOperationException, IOException {
     RemoteConnection con = (tx == null) ? server.openConnection(hints)
         : new ClientTransactionListener(server.startTransactionListener(hints), tx).getConnection();

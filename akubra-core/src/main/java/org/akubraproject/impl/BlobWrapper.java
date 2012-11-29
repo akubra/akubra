@@ -118,7 +118,7 @@ public class BlobWrapper extends AbstractBlob {
   }
 
   @Override
-  public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
+  public Blob moveTo(URI blobId, Map<Object, Object> hints) throws IOException {
     ensureOpen();
 
     Blob nb = delegate.moveTo(blobId, hints);

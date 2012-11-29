@@ -50,7 +50,7 @@ public interface RemoteConnection extends Remote {
    * @throws IOException error reported by the remote server
    * @throws UnsupportedIdException error reported by the remote server
    */
-  RemoteBlob getBlob(URI id, Map<String, String> hints)
+  RemoteBlob getBlob(URI id, Map<Object, Object> hints)
               throws RemoteException, IOException, UnsupportedIdException;
 
   /**
@@ -64,7 +64,7 @@ public interface RemoteConnection extends Remote {
    * @throws RemoteException on an error in rmi transport
    * @throws IOException error reported by the remote server
    */
-  RemoteBlobCreator getBlobCreator(long estimatedSize, Map<String, String> hints)
+  RemoteBlobCreator getBlobCreator(long estimatedSize, Map<Object, Object> hints)
               throws RemoteException, IOException;
 
   /**

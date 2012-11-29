@@ -107,7 +107,7 @@ class ClientBlob extends AbstractBlob {
   }
 
   @Override
-  public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
+  public Blob moveTo(URI blobId, Map<Object, Object> hints) throws IOException {
     ensureOpen();
 
     return new ClientBlob(getConnection(), streamMgr, remote.moveTo(blobId, hints));

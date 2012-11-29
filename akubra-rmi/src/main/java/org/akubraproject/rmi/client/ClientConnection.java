@@ -83,14 +83,14 @@ class ClientConnection extends AbstractBlobStoreConnection {
   }
 
   @Override
-  public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
+  public Blob getBlob(URI blobId, Map<Object, Object> hints) throws IOException {
     ensureOpen();
 
     return new ClientBlob(this, streamManager, remote.getBlob(blobId, hints));
   }
 
   @Override
-  public Blob getBlob(InputStream in, long estimatedSize, Map<String, String> hints)
+  public Blob getBlob(InputStream in, long estimatedSize, Map<Object, Object> hints)
                throws IOException {
     ensureOpen();
     if (in == null)

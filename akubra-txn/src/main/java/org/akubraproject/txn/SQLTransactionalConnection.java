@@ -68,7 +68,7 @@ public abstract class SQLTransactionalConnection extends AbstractTransactionalCo
    * @throws IOException if an error occurs initializing this connection
    */
   protected SQLTransactionalConnection(BlobStore owner, BlobStore bStore, XAConnection xaCon,
-                                       Connection con, Transaction tx, Map<String, String> hints)
+                                       Connection con, Transaction tx, Map<Object, Object> hints)
       throws IOException {
     super(owner, bStore, tx, hints);
     this.con   = con;

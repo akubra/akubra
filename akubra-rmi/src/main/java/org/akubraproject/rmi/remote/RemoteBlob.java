@@ -101,7 +101,7 @@ public interface RemoteBlob extends Remote {
    * @throws UnsupportedOperationException error reported by remote
    * @throws IOException error reported by the remote
    */
-  RemoteBlob moveTo(URI id, Map<String, String> hints)
+  RemoteBlob moveTo(URI id, Map<Object, Object> hints)
        throws RemoteException, DuplicateBlobException, MissingBlobException,
               UnsupportedOperationException, IOException;
 

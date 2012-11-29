@@ -45,7 +45,7 @@ public interface RemoteStore extends Remote {
    * @throws IOException on an error in opening a connection on the remote
    * @throws IllegalStateException if the remote is not ready to open up connections
    */
-  public RemoteConnection openConnection(Map<String, String> hints)
+  public RemoteConnection openConnection(Map<Object, Object> hints)
       throws RemoteException, IOException, IllegalStateException;
 
   /**
@@ -57,6 +57,6 @@ public interface RemoteStore extends Remote {
    *
    * @throws RemoteException on an RMI communication failure
    */
-  public RemoteTransactionListener startTransactionListener(Map<String, String> hints)
+  public RemoteTransactionListener startTransactionListener(Map<Object, Object> hints)
       throws RemoteException;
 }

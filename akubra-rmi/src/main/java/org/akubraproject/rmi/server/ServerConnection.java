@@ -60,13 +60,13 @@ public class ServerConnection extends UnicastExportable implements RemoteConnect
   }
 
   @Override
-  public RemoteBlob getBlob(URI id, Map<String, String> hints)
+  public RemoteBlob getBlob(URI id, Map<Object, Object> hints)
                      throws IOException {
     return new ServerBlob(con.getBlob(id, hints), getExporter());
   }
 
   @Override
-  public RemoteBlobCreator getBlobCreator(long estimatedSize, Map<String, String> hints)
+  public RemoteBlobCreator getBlobCreator(long estimatedSize, Map<Object, Object> hints)
                      throws IOException {
     return new ServerBlobCreator(con, estimatedSize, hints, getExporter());
   }

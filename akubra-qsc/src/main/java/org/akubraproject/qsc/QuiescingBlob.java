@@ -65,7 +65,7 @@ class QuiescingBlob extends BlobWrapper {
   }
 
   @Override
-  public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
+  public Blob moveTo(URI blobId, Map<Object, Object> hints) throws IOException {
     ((QuiescingBlobStoreConnection) owner).waitUnquiescedAndMarkModified();
     return super.moveTo(blobId, hints);
   }

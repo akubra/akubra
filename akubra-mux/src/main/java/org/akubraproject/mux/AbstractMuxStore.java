@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.akubraproject.BlobStore;
@@ -49,7 +50,7 @@ import org.akubraproject.impl.AbstractBlobStore;
  * <p><em>Note</em>: For multiplexing non-transactional stores along with transactional stores
  * (eg. accessing www resources along with other transactional stores), the non-transactional
  * store must be wrapped such that {@link #openConnection(javax.transaction.Transaction,
- * java.util.Map)} does not throw an exception. See {@link TransactionNeutralStoreWrapper} for use
+ * Map)} does not throw an exception. See {@link TransactionNeutralStoreWrapper} for use
  * in such cases.
  *
  * @author Pradeep Krishnan

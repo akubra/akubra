@@ -61,8 +61,8 @@ public class AbstractMuxConnectionTest {
   private MemBlobStore        store2;
   private AbstractMuxStore    store;
   private TestConnection      con;
-  private Map<String, String> s1Hint;
-  private Map<String, String> s2Hint;
+  private Map<Object, Object> s1Hint;
+  private Map<Object, Object> s2Hint;
 
   /**
    * Set things up for all tests.
@@ -75,15 +75,15 @@ public class AbstractMuxConnectionTest {
     store =
       new AbstractMuxStore(URI.create("urn:store")) {
           @Override
-          public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
+          public BlobStoreConnection openConnection(Transaction tx, Map<Object, Object> hints)
                                              throws UnsupportedOperationException, IOException {
             return new TestConnection(this, tx);
           }
         };
 
     store.setBackingStores(Arrays.asList(store1, store2));
-    s1Hint   = new HashMap<String, String>();
-    s2Hint   = new HashMap<String, String>();
+    s1Hint   = new HashMap<Object, Object>();
+    s2Hint   = new HashMap<Object, Object>();
     s1Hint.put("store1", "store1");
     s2Hint.put("store2", "store2");
 
@@ -262,7 +262,7 @@ public class AbstractMuxConnectionTest {
     }
 
     @Override
-    public BlobStore getStore(URI blobId, Map<String, String> hints)
+    public BlobStore getStore(URI blobId, Map<Object, Object> hints)
                        throws IOException, UnsupportedIdException {
       if (hints != null) {
         if (hints.keySet().containsAll(s1Hint.keySet()))

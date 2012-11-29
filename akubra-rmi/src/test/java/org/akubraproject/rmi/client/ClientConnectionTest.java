@@ -91,7 +91,7 @@ public class ClientConnectionTest {
                                                    throws IOException {
     InputStream         in    = new ByteArrayInputStream(new byte[0]);
     URI                 id    = URI.create("foo:bar");
-    Map<String, String> hints = new HashMap<String, String>();
+    Map<Object, Object> hints = new HashMap<Object, Object>();
     hints.put("try harder?", "yes, of course!");
 
     Blob blob = createMock(Blob.class);
@@ -137,7 +137,7 @@ public class ClientConnectionTest {
   @Test
   public void testGetBlobURIMapOfStringString() throws IOException {
     URI                 id    = URI.create("foo:bar");
-    Map<String, String> hints = new HashMap<String, String>();
+    Map<Object, Object> hints = new HashMap<Object, Object>();
     hints.put("try harder?", "yes, of course!");
 
     Blob blob = createMock(Blob.class);

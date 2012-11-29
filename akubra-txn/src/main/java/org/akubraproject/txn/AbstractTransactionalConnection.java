@@ -93,7 +93,7 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
    * @throws IOException if an error occurs initializing this connection
    */
   protected AbstractTransactionalConnection(BlobStore owner, BlobStore bStore, Transaction tx,
-                                            Map<String, String> hints)
+                                            Map<Object, Object> hints)
       throws IOException {
     super(owner);
     this.bStoreCon = bStore.openConnection(null, hints);
@@ -110,7 +110,7 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
   }
 
   @Override
-  public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
+  public Blob getBlob(URI blobId, Map<Object, Object> hints) throws IOException {
     ensureOpen();
 
     if (blobId != null)
@@ -132,7 +132,7 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
     bStoreCon.sync();
   }
 
-  private Object[] createBlob(URI blobId, Map<String, String> hints) throws IOException {
+  private Object[] createBlob(URI blobId, Map<Object, Object> hints) throws IOException {
     if (blobId == null)
       throw new UnsupportedOperationException("id-generation is not currently supported");
 
@@ -324,12 +324,12 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
    * time.
    */
   protected class TxnBlob extends AbstractBlob {
-    private final Map<String, String> hints;
+    private final Map<Object, Object> hints;
     private       boolean needToCopy;
     private       URI     storeId;
     private       Blob    storeBlob = null;
 
-    public TxnBlob(URI blobId, Map<String, String> hints) throws IOException {
+    public TxnBlob(URI blobId, Map<Object, Object> hints) throws IOException {
       super(AbstractTransactionalConnection.this, blobId);
       this.hints = hints;
 
@@ -357,7 +357,7 @@ public abstract class AbstractTransactionalConnection extends AbstractBlobStoreC
     }
 
     @Override
-    public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
+    public Blob moveTo(URI blobId, Map<Object, Object> hints) throws IOException {
       check(true, false);
       TxnBlob dest = (TxnBlob) getConnection().getBlob(blobId, hints);
 

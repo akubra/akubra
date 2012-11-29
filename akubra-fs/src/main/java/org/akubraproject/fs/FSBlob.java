@@ -158,7 +158,7 @@ class FSBlob extends AbstractBlob {
    * @see #FORCE_MOVE_AS_COPY_AND_DELETE
    */
   @Override
-  public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
+  public Blob moveTo(URI blobId, Map<Object, Object> hints) throws IOException {
     boolean force_move = false;
 
     ensureOpen();
@@ -172,7 +172,7 @@ class FSBlob extends AbstractBlob {
     makeParentDirs(other);
 
     if (hints != null)
-      force_move = Boolean.parseBoolean(hints.get(FORCE_MOVE_AS_COPY_AND_DELETE));
+      force_move = Boolean.parseBoolean((String) hints.get(FORCE_MOVE_AS_COPY_AND_DELETE));
 
     if (force_move || !file.renameTo(other)) {
       if (!file.exists())

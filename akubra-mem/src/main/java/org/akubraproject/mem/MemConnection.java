@@ -55,7 +55,7 @@ class MemConnection extends AbstractBlobStoreConnection {
   }
 
   @Override
-  public Blob getBlob(URI blobId, Map<String, String> hints) {
+  public Blob getBlob(URI blobId, Map<Object, Object> hints) {
     ensureOpen();
 
     if (blobId == null) {

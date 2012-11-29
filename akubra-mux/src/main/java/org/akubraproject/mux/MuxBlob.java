@@ -59,7 +59,7 @@ public class MuxBlob extends BlobWrapper {
   }
 
   @Override
-  public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
+  public Blob moveTo(URI blobId, Map<Object, Object> hints) throws IOException {
     MuxBlob dest   = (MuxBlob) getConnection().getBlob(blobId, hints);
     URI thisStore  = delegate.getConnection().getBlobStore().getId();
     URI otherStore = dest.delegate.getConnection().getBlobStore().getId();

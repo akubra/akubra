@@ -56,7 +56,7 @@ public class IdMappingBlobStore extends AbstractBlobStore {
   }
 
   @Override
-  public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints) throws IOException {
+  public BlobStoreConnection openConnection(Transaction tx, Map<Object, Object> hints) throws IOException {
     BlobStoreConnection connection = store.openConnection(tx, hints);
     return new IdMappingBlobStoreConnection(this, connection, mapper);
   }

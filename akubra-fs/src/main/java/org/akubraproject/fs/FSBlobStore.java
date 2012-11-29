@@ -90,12 +90,12 @@ public class FSBlobStore extends AbstractBlobStore {
   }
 
   @Override
-  public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints) {
+  public BlobStoreConnection openConnection(Transaction tx, Map<Object, Object> hints) {
     if (tx != null) {
       throw new UnsupportedOperationException();
     }
 
-    boolean no_sync = (hints != null) && Boolean.parseBoolean(hints.get(WILL_NOT_SYNC));
+    boolean no_sync = (hints != null) && Boolean.parseBoolean((String) hints.get(WILL_NOT_SYNC));
     return new FSBlobStoreConnection(this, baseDir, manager, no_sync);
   }
 }

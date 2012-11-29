@@ -61,11 +61,11 @@ public class AbstractMuxStoreTest {
     store =
       new AbstractMuxStore(storeId) {
           @Override
-          public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
+          public BlobStoreConnection openConnection(Transaction tx, Map<Object, Object> hints)
                                              throws UnsupportedOperationException, IOException {
             return new AbstractMuxConnection(this, tx) {
                 @Override
-                public BlobStore getStore(URI blobId, Map<String, String> hints)
+                public BlobStore getStore(URI blobId, Map<Object, Object> hints)
                                    throws IOException, UnsupportedIdException {
                   throw new UnsupportedOperationException("Not needed for this test.");
                 }
@@ -125,7 +125,7 @@ public class AbstractMuxStoreTest {
     }
 
     @Override
-    public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
+    public BlobStoreConnection openConnection(Transaction tx, Map<Object, Object> hints)
                                        throws UnsupportedOperationException, IOException {
       return null;
     }

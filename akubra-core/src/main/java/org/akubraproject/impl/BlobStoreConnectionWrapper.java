@@ -24,6 +24,7 @@ package org.akubraproject.impl;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.akubraproject.BlobStore;
 import org.akubraproject.BlobStoreConnection;
@@ -32,7 +33,7 @@ import org.akubraproject.BlobStoreConnection;
  * Simple wrapper implementation that delegates {@link #listBlobIds listBlobIds} and {@link #sync
  * sync } calls to the wrapped blob-store-connection, and implements {@link #close close} to close
  * both this connection and the underlying connection. Subclasses must at least implement {@link
- * #getBlob(URI, java.util.Map) getBlob}.
+ * #getBlob(URI, Map) getBlob}.
  *
  * @author Ronald Tschalär
  */

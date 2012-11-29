@@ -90,7 +90,7 @@ public class ServerConnectionTest {
   @Test
   public void testGetBlobURIMapOfStringString() throws IOException {
     URI                 id    = URI.create("foo:bar");
-    Map<String, String> hints = new HashMap<String, String>();
+    Map<Object, Object> hints = new HashMap<Object, Object>();
     hints.put("try harder?", "yes, of course!");
 
     Blob blob = createMock(Blob.class);
@@ -116,7 +116,7 @@ public class ServerConnectionTest {
 
   @Test
   public void testGetBlobCreator() throws IOException {
-    Map<String, String> hints = new HashMap<String, String>();
+    Map<Object, Object> hints = new HashMap<Object, Object>();
     hints.put("try harder?", "yes, of course!");
 
     Blob blob = createMock(Blob.class);

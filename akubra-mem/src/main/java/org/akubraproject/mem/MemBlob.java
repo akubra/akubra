@@ -81,7 +81,7 @@ class MemBlob extends AbstractBlob {
   }
 
   @Override
-  public Blob moveTo(URI blobId, Map<String, String> hints)
+  public Blob moveTo(URI blobId, Map<Object, Object> hints)
         throws IOException, MissingBlobException, NullPointerException, IllegalArgumentException,
                DuplicateBlobException {
     ensureOpen();

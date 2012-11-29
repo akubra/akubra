@@ -253,7 +253,7 @@ public class TransactionalStore extends AbstractTransactionalStore {
    * @throws IllegalStateException if no backing store has been set yet
    */
   @Override
-  public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
+  public BlobStoreConnection openConnection(Transaction tx, Map<Object, Object> hints)
       throws IllegalStateException, IOException {
     long version;
     synchronized (this) {

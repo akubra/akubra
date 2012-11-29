@@ -60,7 +60,7 @@ class IdMappingBlob extends BlobWrapper {
   }
 
   @Override
-  public Blob moveTo(URI blobId, Map<String, String> hints) throws DuplicateBlobException,
+  public Blob moveTo(URI blobId, Map<Object, Object> hints) throws DuplicateBlobException,
       IOException, MissingBlobException, NullPointerException, IllegalArgumentException {
     Blob internalBlob;
     if (blobId == null)

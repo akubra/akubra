@@ -64,7 +64,7 @@ public interface BlobStoreConnection {
    * @throws UnsupportedOperationException if <var>blobId</var> is null and this store is not
    *                                       capable of generating ids.
    */
-  Blob getBlob(URI blobId, Map<String, String> hints)
+  Blob getBlob(URI blobId, Map<Object, Object> hints)
         throws IOException, UnsupportedIdException, UnsupportedOperationException;
 
   /**
@@ -86,7 +86,7 @@ public interface BlobStoreConnection {
    * @throws UnsupportedOperationException if this store cannot generate new id and create a new
    *                                       blob
    */
-  Blob getBlob(InputStream content, long estimatedSize, Map<String, String> hints)
+  Blob getBlob(InputStream content, long estimatedSize, Map<Object, Object> hints)
         throws IOException, UnsupportedOperationException;
 
   /**

@@ -53,12 +53,12 @@ public class ServerStore extends Exportable implements RemoteStore {
   }
 
   @Override
-  public RemoteConnection openConnection(Map<String, String> hints) throws IOException {
+  public RemoteConnection openConnection(Map<Object, Object> hints) throws IOException {
     return new ServerConnection(store.openConnection(null, hints), getExporter());
   }
 
   @Override
-  public RemoteTransactionListener startTransactionListener(Map<String, String> hints)
+  public RemoteTransactionListener startTransactionListener(Map<Object, Object> hints)
       throws RemoteException {
     return new ServerTransactionListener(store, hints, getExporter());
   }

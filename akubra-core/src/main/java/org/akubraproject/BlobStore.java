@@ -67,6 +67,6 @@ public interface BlobStore {
    *     is not transactional and a Transaction is provided by the caller.
    * @throws IOException if an error occurred trying to open the connection.
    */
-  BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
+  BlobStoreConnection openConnection(Transaction tx, Map<Object, Object> hints)
       throws UnsupportedOperationException, IOException;
 }

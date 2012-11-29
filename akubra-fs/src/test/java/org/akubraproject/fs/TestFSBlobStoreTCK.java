@@ -89,7 +89,7 @@ public class TestFSBlobStoreTCK extends TCKTestSuite {
     super.testSync();
 
     // test will-not-sync hint = true
-    final Map<String, String> hints = new HashMap<String, String>();
+    final Map<Object, Object> hints = new HashMap<Object, Object>();
     hints.put(FSBlobStore.WILL_NOT_SYNC, "true");
 
     shouldFail(new Action() {

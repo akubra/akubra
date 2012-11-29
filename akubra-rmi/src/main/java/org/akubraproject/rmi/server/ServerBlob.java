@@ -82,7 +82,7 @@ public class ServerBlob extends UnicastExportable implements RemoteBlob {
   }
 
   @Override
-  public RemoteBlob moveTo(URI other, Map<String, String> hints) throws IOException {
+  public RemoteBlob moveTo(URI other, Map<Object, Object> hints) throws IOException {
     return new ServerBlob(blob.moveTo(other, hints), getExporter());
   }
 

@@ -58,7 +58,7 @@ class FSBlobStoreConnection extends AbstractBlobStoreConnection {
   }
 
   @Override
-  public Blob getBlob(URI blobId, Map<String, String> hints) throws IOException {
+  public Blob getBlob(URI blobId, Map<Object, Object> hints) throws IOException {
     ensureOpen();
 
     if (blobId == null)

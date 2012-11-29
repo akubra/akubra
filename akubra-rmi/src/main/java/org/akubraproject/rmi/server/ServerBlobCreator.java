@@ -67,7 +67,7 @@ public class ServerBlobCreator extends UnicastExportable implements RemoteBlobCr
    * @throws IOException on an error in creation
    */
   public ServerBlobCreator(final BlobStoreConnection con, final long estimatedSize,
-                           final Map<String, String> hints, Exporter exporter)
+                           final Map<Object, Object> hints, Exporter exporter)
                     throws IOException {
     super(exporter);
     out = new PipedOutputStream();

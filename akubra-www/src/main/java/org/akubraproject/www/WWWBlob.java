@@ -185,7 +185,7 @@ class WWWBlob extends AbstractBlob {
   }
 
   @Override
-  public Blob moveTo(URI blobId, Map<String, String> hints) throws IOException {
+  public Blob moveTo(URI blobId, Map<Object, Object> hints) throws IOException {
     throw new UnsupportedOperationException();
   }
 }

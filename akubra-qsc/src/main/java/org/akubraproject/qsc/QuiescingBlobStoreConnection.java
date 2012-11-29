@@ -64,14 +64,14 @@ class QuiescingBlobStoreConnection extends BlobStoreConnectionWrapper {
   }
 
   @Override
-  public Blob getBlob(URI blobId, Map<String, String> hints)
+  public Blob getBlob(URI blobId, Map<Object, Object> hints)
       throws IOException, UnsupportedIdException, UnsupportedOperationException {
     Blob internalBlob = delegate.getBlob(blobId, hints);
     return new QuiescingBlob(this, internalBlob, streamManager);
   }
 
   @Override
-  public Blob getBlob(InputStream content, long estimatedSize, Map<String, String> hints)
+  public Blob getBlob(InputStream content, long estimatedSize, Map<Object, Object> hints)
       throws IOException, UnsupportedOperationException {
     waitUnquiescedAndMarkModified();
 

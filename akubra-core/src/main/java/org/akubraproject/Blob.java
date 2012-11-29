@@ -132,7 +132,7 @@ public interface Blob {
    * @throws DuplicateBlobException if a blob with <var>blobId</var> already exists
    * @throws IOException if an error occurs while attempting the operation
    */
-  Blob moveTo(URI blobId, Map<String, String> hints)
+  Blob moveTo(URI blobId, Map<Object, Object> hints)
       throws DuplicateBlobException, IOException, MissingBlobException, NullPointerException,
              IllegalArgumentException;
 }

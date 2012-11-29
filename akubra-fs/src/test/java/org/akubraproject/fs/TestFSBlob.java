@@ -136,7 +136,7 @@ public class TestFSBlob {
    */
   @Test
   public void testForceCopyAndDeleteMoveTo() throws Exception {
-    final Map<String, String> hints = new HashMap<String, String>();
+    final Map<Object, Object> hints = new HashMap<Object, Object>();
     hints.put(FSBlob.FORCE_MOVE_AS_COPY_AND_DELETE, "true");
     assertMoved(hints);
   }
@@ -178,7 +178,7 @@ public class TestFSBlob {
     return blob;
   }
 
-  private static void assertMoved(Map<String,String> hints) throws Exception {
+  private static void assertMoved(Map<Object, Object> hints) throws Exception {
     FSBlob source = createFSBlob("file:source");
     String dest = "file:dest";
     URI dest_uri = new URI(dest);

@@ -72,7 +72,7 @@ public class MuxStoreTCKTest {
     AbstractMuxStore store =
       new AbstractMuxStore(storeId) {
           @Override
-          public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
+          public BlobStoreConnection openConnection(Transaction tx, Map<Object, Object> hints)
                                              throws UnsupportedOperationException, IOException {
             return new TestConnection(this, tx);
           }
@@ -132,7 +132,7 @@ public class MuxStoreTCKTest {
     }
 
     @Override
-    public BlobStore getStore(URI blobId, Map<String, String> hints)
+    public BlobStore getStore(URI blobId, Map<Object, Object> hints)
                        throws IOException, UnsupportedIdException {
       // see if this blob belongs to a specific store
       if (blobId != null) {

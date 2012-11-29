@@ -90,7 +90,7 @@ public class ServerTransactionListenerTest {
     BlobStore store = new AbstractBlobStore(URI.create("urn:test")) {
 
       @Override
-      public BlobStoreConnection openConnection(Transaction tx, Map<String, String> hints)
+      public BlobStoreConnection openConnection(Transaction tx, Map<Object, Object> hints)
           throws UnsupportedOperationException, IOException {
         /*
          * The st object is usable for tests till openConnection succeeds.

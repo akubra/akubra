@@ -74,7 +74,7 @@ public class ServerTransactionListener extends UnicastExportable
    * @param exporter exporter for exporting XAResource and Synchronization
    * @throws RemoteException on an error in export
    */
-  public ServerTransactionListener(final BlobStore store, final Map<String, String> hints,
+  public ServerTransactionListener(final BlobStore store, final Map<Object, Object> hints,
                                    Exporter exporter) throws RemoteException {
     super(exporter);
     Executors.newSingleThreadExecutor(new ThreadFactory() {
@@ -96,7 +96,7 @@ public class ServerTransactionListener extends UnicastExportable
       });
   }
 
-  private void openConnection(BlobStore store, Map<String, String> hints) {
+  private void openConnection(BlobStore store, Map<Object, Object> hints) {
     Result<RemoteConnection> result;
 
     ServerConnection         con = null;

@@ -80,7 +80,7 @@ public class TransactionalConnection extends SQLTransactionalConnection {
    * @throws IOException if an error occurs initializing this connection
    */
   TransactionalConnection(BlobStore owner, BlobStore bStore, XAConnection xaCon, Connection con,
-                          Transaction tx, Map<String, String> hints, long version)
+                          Transaction tx, Map<Object, Object> hints, long version)
       throws IOException {
     super(owner, bStore, xaCon, con, tx, hints);
     this.version = version;

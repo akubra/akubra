@@ -79,7 +79,7 @@ public class ClientBlobTest {
     BlobStoreConnection con =
       new AbstractBlobStoreConnection(null) {
         @Override
-        public Blob getBlob(URI blobId, Map<String, String> hints)
+        public Blob getBlob(URI blobId, Map<Object, Object> hints)
                      throws IOException, UnsupportedIdException {
           return null;
         }
